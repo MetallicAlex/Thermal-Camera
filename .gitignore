@@ -1,0 +1,10 @@
+*.img
+.idea/
+test.py
+test2.py
+*.jpg
+Documentation/
+Database/
+*.sql
+__pycache__/
+term/
