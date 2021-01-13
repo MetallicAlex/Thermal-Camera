@@ -1,8 +1,10 @@
 import sys
-from datetime import datetime
+import os
+from datetime import datetime, date
 import base64
 import json
 import paho.mqtt.client as mqtt
+import models
 
 
 class SubscribePlatform:
@@ -89,9 +91,18 @@ class SubscribePlatform:
             file.write(f"\n[{self.data['datas']['time']}] User ID: {self.data['datas']['user_id']}, "
                        f"Name: {self.data['datas']['name']}, Similar: {self.data['datas']['similar']}, "
                        f"Temperature: {self.data['datas']['temperature']}")
+        with models.get_session() as session:
+            statistic = models.Statistic(id_employee=int(self.data['datas']['user_id']),
+                                         time=self.data['datas']['time'],
+                                         temperature=float(self.data['datas']['temperature']),
+                                         similar=float(self.data['datas']['similar']),
+                                         mask='unknow')
+            session.add(statistic)
 
     def __save_image_person(self):
-        with open(f"person/{self.data['datas']['name']}"
+        if not os.path.exists(f'snapsnot/{date.today()}'):
+            os.mkdir(f'snapsnot/{date.today()}')
+        with open(f"snapsnot/{date.today()}/{self.data['datas']['time'].replace(':', '-')}_{self.data['datas']['name']}"
                   f"_{self.data['datas']['temperature']}.jpg", 'wb') as file:
             file.write(base64.standard_b64decode(self.data['datas']['imageFile'].replace('data:image/jpg;base64,', '')))
 

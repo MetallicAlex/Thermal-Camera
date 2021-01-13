@@ -48,3 +48,12 @@
 [2020-11-27 20:32:11.980308] {'code': -1, 'msg': 'mqtt param erro!', 'device_id': '7101384284372', 'dev_cur_pts': 1606509131, 'tag': 'no data', 'datas': 'no data'}
 [2020-11-27 20:32:52.970373] {'code': -1, 'msg': 'mqtt param erro!', 'device_id': '7101384284372', 'dev_cur_pts': 1606509172, 'tag': 'no data', 'datas': 'no data'}
 [2020-11-27 20:59:37.343728] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.2 platfrom:1', 'device_id': '7101384284372', 'dev_cur_pts': 1606510776, 'tag': 'platform define', 'datas': 'no data'}
+[2020-12-14 14:20:42.288821] {'code': -1, 'msg': 'device_token erro!', 'device_id': '7101384284372', 'dev_cur_pts': 1607955641, 'tag': 'platfromdefine', 'datas': 'no data'}
+[2020-12-14 14:53:10.940859] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1607957590, 'tag': 'platform define', 'datas': 'no data'}
+[2020-12-14 14:56:41.217714] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1607957800, 'tag': 'platform define', 'datas': 'no data'}
+[2020-12-16 12:46:14.934655] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1608122775, 'tag': 'platform define', 'datas': 'no data'}
+[2020-12-16 12:57:08.095633] {'code': -1, 'msg': 'device_token erro!', 'device_id': '7101384284372', 'dev_cur_pts': 1608123428, 'tag': 'platform define', 'datas': 'no data'}
+[2020-12-16 13:03:11.138578] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1608123791, 'tag': 'platform define', 'datas': 'no data'}
+[2020-12-16 13:10:22.187470] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1608124222, 'tag': 'platform define', 'datas': 'no data'}
+[2020-12-16 13:21:10.264938] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1608124870, 'tag': 'platform define', 'datas': 'no data'}
+[2020-12-21 15:55:52.202172] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1608566143, 'tag': 'platform define', 'datas': 'no data'}

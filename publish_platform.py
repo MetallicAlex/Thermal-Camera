@@ -1,8 +1,10 @@
 import sys
 import os
 from datetime import datetime
+import time
 import json
 import paho.mqtt.client as mqtt
+import models
 
 
 class PublishPlatform:
@@ -56,6 +58,7 @@ class PublishPlatform:
     def find_token(self):
         while True:
             if os.path.isfile('token.txt'):
+                time.sleep(2)
                 with open('token.txt', 'r') as file:
                     self.device_token = file.readline()
                     print(self.device_token)
@@ -189,8 +192,8 @@ class PublishPlatform:
                      'param': {}}
         self.data['param']['lib_name'] = ""
         self.data['param']['lib_id'] = ""
-        self.data['param']['server_ip'] = input('Server IP: ')
-        self.data['param']['server_port'] = int(input('Server Port: '))
+        self.data['param']['server_ip'] = '192.168.1.2'
+        self.data['param']['server_port'] = 7777
         self.data['param']['pictures'] = []
         while True:
             command = input('Add user face (Y/N): ')
@@ -198,14 +201,14 @@ class PublishPlatform:
                 self.data['param']['pictures'].append({})
                 self.data['param']['pictures'][len(self.data['param']['pictures']) - 1][
                     'active_time'] = f"{datetime.strftime(datetime.now(), '%Y')}/01/1 00:00:01"
-                self.data['param']['pictures'][len(self.data['param']['pictures']) - 1]['user_id'] = input('User ID: ')
-                self.data['param']['pictures'][len(self.data['param']['pictures']) - 1]['user_name'] = input(
-                    'User Name: ')
-                self.data['param']['pictures'][len(self.data['param']['pictures']) - 1][
-                    'end_time'] = f"{datetime.strftime(datetime.now(), '%Y')}/12/30 23:59:59"
-                self.data['param']['pictures'][len(self.data['param']['pictures']) - 1]['p_id'] = 'null'
-                self.data['param']['pictures'][len(self.data['param']['pictures']) - 1]['picture'] = input(
-                    'Picture Source: ')
+                with models.get_session() as session:
+                    employee = session.query(models.Employee).filter_by(id=int(input('User ID: '))).scalar()
+                    self.data['param']['pictures'][len(self.data['param']['pictures']) - 1]['user_id'] = str(employee.id)
+                    self.data['param']['pictures'][len(self.data['param']['pictures']) - 1]['user_name'] = employee.name
+                    self.data['param']['pictures'][len(self.data['param']['pictures']) - 1][
+                        'end_time'] = f"{datetime.strftime(datetime.now(), '%Y')}/12/30 23:59:59"
+                    self.data['param']['pictures'][len(self.data['param']['pictures']) - 1]['p_id'] = 'null'
+                    self.data['param']['pictures'][len(self.data['param']['pictures']) - 1]['picture'] = employee.face
             elif command == 'N' or command == 'n':
                 break
 
