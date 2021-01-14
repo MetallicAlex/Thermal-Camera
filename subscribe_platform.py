@@ -92,11 +92,17 @@ class SubscribePlatform:
                        f"Name: {self.data['datas']['name']}, Similar: {self.data['datas']['similar']}, "
                        f"Temperature: {self.data['datas']['temperature']}")
         with models.get_session() as session:
+            if self.data['datas']['mask'] == 1:
+                    mask = 'true'
+            elif self.data['datas']['mask_excep'] == 0:
+                    mask = 'false'
+            else:
+                mask = 'unknow'
             statistic = models.Statistic(id_employee=int(self.data['datas']['user_id']),
                                          time=self.data['datas']['time'],
                                          temperature=float(self.data['datas']['temperature']),
                                          similar=float(self.data['datas']['similar']),
-                                         mask='unknow')
+                                         mask=mask)
             session.add(statistic)
 
     def __save_image_person(self):

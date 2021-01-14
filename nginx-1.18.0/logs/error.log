@@ -154,3 +154,4 @@
 2021/01/14 13:23:08 [notice] 14672#9328: signal process started
 2021/01/14 13:23:10 [error] 16164#11688: *8 CreateFile() "D:\Work\Projects\LABS\S02T\nginx-1.18.0/html/static/images/Burov.jpg" failed (3: The system cannot find the path specified), client: 127.0.0.1, server: localhost, request: "GET /static/images/Burov.jpg HTTP/1.1", host: "localhost:7777"
 2021/01/14 13:24:55 [notice] 10508#7520: signal process started
+2021/01/14 13:27:34 [error] 14252#13220: *13 CreateFile() "D:\Work\Projects\LABS\S02T\nginx-1.18.0/html/favicon.ico" failed (2: The system cannot find the file specified), client: 192.168.1.2, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "192.168.1.2:7777", referrer: "http://192.168.1.2:7777/static/images/Burov.jpg"

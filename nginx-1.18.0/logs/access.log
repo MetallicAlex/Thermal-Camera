@@ -150,3 +150,7 @@
 192.168.1.2 - - [14/Jan/2021:13:27:37 +0300] "GET /static/images/Burov.jpg HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 OPR/73.0.3856.329"
 192.168.1.2 - - [14/Jan/2021:13:27:57 +0300] "GET /static/images/Nichiporchik.jpg HTTP/1.1" 200 79941 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 OPR/73.0.3856.329"
 192.168.1.88 - - [14/Jan/2021:13:29:05 +0300] "GET /static/images/Nichiporchik.jpg HTTP/1.1" 200 79941 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
+192.168.1.88 - - [14/Jan/2021:13:51:49 +0300] "GET /static/images/Burov.jpg HTTP/1.1" 200 48157 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
+192.168.1.88 - - [14/Jan/2021:13:51:50 +0300] "GET /static/images/Nichiporchik.jpg HTTP/1.1" 200 79941 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
+192.168.1.88 - - [14/Jan/2021:14:00:20 +0300] "GET /static/images/Burov.jpg HTTP/1.1" 200 48157 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
+192.168.1.88 - - [14/Jan/2021:14:00:21 +0300] "GET /static/images/Nichiporchik.jpg HTTP/1.1" 200 79941 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
