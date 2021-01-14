@@ -57,3 +57,4 @@
 [2020-12-16 13:10:22.187470] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1608124222, 'tag': 'platform define', 'datas': 'no data'}
 [2020-12-16 13:21:10.264938] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1608124870, 'tag': 'platform define', 'datas': 'no data'}
 [2020-12-21 15:55:52.202172] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1608566143, 'tag': 'platform define', 'datas': 'no data'}
+[2021-01-14 13:55:06.066703] {'code': -1, 'msg': 'get device datebase param abnomal!', 'device_id': '7101384284372', 'dev_cur_pts': 1610632474, 'tag': 'platform define', 'datas': 'no data'}

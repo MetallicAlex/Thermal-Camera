@@ -165,10 +165,9 @@ class PublishPlatform:
     def __set_personnel_data(self):
         choice = {'0': ['Add User Face'],
                   '1': ['Delete User Face'],
-                  '2': ['Delete Batch User Face'],
-                  '3': ['Delete All User Face'],
-                  '4': ['Query All Face'],
-                  '5': ['Back to Main Menu']
+                  '2': ['Delete All User Face'],
+                  '3': ['Query All Face'],
+                  '4': ['Back to Main Menu']
                   }
         option = int(self.__select_option(f'PERSONNEL DATA', choice))
         if option == 0:
@@ -176,13 +175,11 @@ class PublishPlatform:
         elif option == 1:
             self.__delete_personnel_data()
         elif option == 2:
-            self.__delete_batch_personnel_data()
-        elif option == 3:
             self.data = {"mqtt_cmd": 1, "mqtt_operate_id": 7, 'device_token': self.device_token,
                          'device_id': self.device_id, 'tag': "platform define", 'piclib_manage': 1}
-        elif option == 4:
+        elif option == 3:
             self.__query_personnel_data()
-        elif option == 5:
+        elif option == 4:
             return
 
     def __add_personnel_data(self):
@@ -212,13 +209,8 @@ class PublishPlatform:
             elif command == 'N' or command == 'n':
                 break
 
-    def __delete_all_personnel_data(self):
+    def __delete_personnel_data(self):
         print(f'\n\n[DELETE USER FACE]')
-        self.data = {"mqtt_cmd": 1, "mqtt_operate_id": 7, 'device_token': self.device_token,
-                     'device_id': self.device_id, 'tag': "platform define", 'piclib_manage': 1}
-
-    def __delete_batch_personnel_data(self):
-        print(f'\n\n[DELETE BATCH USER FACE]')
         self.data = {"mqtt_cmd": 1, "mqtt_operate_id": 7, 'device_token': self.device_token,
                      'device_id': self.device_id, 'tag': "platform define", 'piclib_manage': 3,
                      'param': {'users': []}}
@@ -226,7 +218,7 @@ class PublishPlatform:
             command = input('Add user face (Y/N): ')
             if command == 'Y' or command == 'y':
                 self.data['param']['users'].append({})
-                self.data['param']['users']['user_id'] = input('User ID: ')
+                self.data['param']['users'][len(self.data['param']['users']) - 1]['user_id'] = input('User ID: ')
             elif command == 'N' or command == 'n':
                 break
 
