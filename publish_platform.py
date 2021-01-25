@@ -35,8 +35,9 @@ class PublishPlatform:
             self.choice[option][1]()
             print(json.dumps(self.data, indent=4))
             self.__client.publish(self.topic, json.dumps(self.data, indent=4))
-            if option == '8' and self.data['bind_ctrl'] == 1:
-                self.find_token()
+            if option == '8' and 'bind_ctrl' in self.data:
+                if self.data['bind_ctrl'] == 1:
+                    self.find_token()
         self.__client.loop_stop()
 
     def set_device(self, device_id, device_token=None):
