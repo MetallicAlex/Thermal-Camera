@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'form.ui'
+# Form implementation generated from reading ui file 'form_main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.2
 #
@@ -18,6 +18,7 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet("")
         MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setMinimumSize(QtCore.QSize(1280, 720))
         self.centralwidget.setStyleSheet("QMainWindow {background: transparent; }\n"
 "QToolTip {\n"
 "    color: #ffffff;\n"
@@ -336,9 +337,9 @@ class Ui_MainWindow(object):
         self.frame_menu.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_menu.setLineWidth(0)
         self.frame_menu.setObjectName("frame_menu")
-        self.pushButton = QtWidgets.QPushButton(self.frame_menu)
-        self.pushButton.setGeometry(QtCore.QRect(0, 20, 180, 60))
-        self.pushButton.setStyleSheet("QPushButton {\n"
+        self.button_device = QtWidgets.QPushButton(self.frame_menu)
+        self.button_device.setGeometry(QtCore.QRect(0, 20, 180, 60))
+        self.button_device.setStyleSheet("QPushButton {\n"
 "    background-position: center;\n"
 "    background-repeat: no-reperat;\n"
 "    border: none;\n"
@@ -350,8 +351,8 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        self.pushButton.setFlat(True)
-        self.pushButton.setObjectName("pushButton")
+        self.button_device.setFlat(True)
+        self.button_device.setObjectName("button_device")
         self.pushButton_2 = QtWidgets.QPushButton(self.frame_menu)
         self.pushButton_2.setGeometry(QtCore.QRect(0, 80, 180, 60))
         self.pushButton_2.setStyleSheet("QPushButton {\n"
@@ -407,17 +408,37 @@ class Ui_MainWindow(object):
         self.frame_contains.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_contains.setObjectName("frame_contains")
         self.stackedWidget = QtWidgets.QStackedWidget(self.frame_contains)
-        self.stackedWidget.setGeometry(QtCore.QRect(10, 10, 1081, 621))
+        self.stackedWidget.setGeometry(QtCore.QRect(10, 10, 1081, 631))
         self.stackedWidget.setObjectName("stackedWidget")
-        self.page = QtWidgets.QWidget()
-        self.page.setObjectName("page")
-        self.stackedWidget.addWidget(self.page)
-        self.page_2 = QtWidgets.QWidget()
-        self.page_2.setObjectName("page_2")
-        self.stackedWidget.addWidget(self.page_2)
+        self.page_device = QtWidgets.QWidget()
+        self.page_device.setObjectName("page_device")
+        self.stackedWidget.addWidget(self.page_device)
+        self.page_database = QtWidgets.QWidget()
+        self.page_database.setObjectName("page_database")
+        self.stackedWidget.addWidget(self.page_database)
+        self.page_statistic = QtWidgets.QWidget()
+        self.page_statistic.setObjectName("page_statistic")
+        self.stackedWidget.addWidget(self.page_statistic)
+        self.frame_statusbar = QtWidgets.QFrame(self.frame_contains)
+        self.frame_statusbar.setGeometry(QtCore.QRect(0, 653, 1100, 25))
+        self.frame_statusbar.setStyleSheet("background-color: rgb(27, 29, 35);")
+        self.frame_statusbar.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_statusbar.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_statusbar.setObjectName("frame_statusbar")
+        self.frame_size_grip = QtWidgets.QFrame(self.frame_statusbar)
+        self.frame_size_grip.setGeometry(QtCore.QRect(1075, 0, 25, 25))
+        self.frame_size_grip.setStyleSheet("QSizeGrip {\n"
+"    background-image: url(:/16x16/icons/16x16/cil-size-grip.png);\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+"}")
+        self.frame_size_grip.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_size_grip.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_size_grip.setObjectName("frame_size_grip")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -426,17 +447,8 @@ class Ui_MainWindow(object):
         self.button_minimize.setToolTip(_translate("MainWindow", "Minimize"))
         self.button_maximize_restore.setToolTip(_translate("MainWindow", "Maximize"))
         self.button_close.setToolTip(_translate("MainWindow", "Close"))
-        self.pushButton.setText(_translate("MainWindow", "Cameras Manager"))
+        self.button_device.setText(_translate("MainWindow", "Device Manager"))
         self.pushButton_2.setText(_translate("MainWindow", "Database Manager"))
         self.pushButton_3.setText(_translate("MainWindow", "Statistic"))
         self.pushButton_4.setText(_translate("MainWindow", "Plots"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

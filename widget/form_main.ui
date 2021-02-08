@@ -17,6 +17,12 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>1280</width>
+     <height>720</height>
+    </size>
+   </property>
    <property name="styleSheet">
     <string notr="true">QMainWindow {background: transparent; }
 QToolTip {
@@ -350,7 +356,7 @@ QPushButton:pressed {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Others/Simple_PySide_Base-master/files.qrc">
+          <iconset>
            <normaloff>:/16x16/icons/16x16/cil-window-minimize.png</normaloff>:/16x16/icons/16x16/cil-window-minimize.png</iconset>
          </property>
         </widget>
@@ -394,7 +400,7 @@ QPushButton:pressed {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Others/Simple_PySide_Base-master/files.qrc">
+          <iconset>
            <normaloff>:/16x16/icons/16x16/cil-window-maximize.png</normaloff>:/16x16/icons/16x16/cil-window-maximize.png</iconset>
          </property>
         </widget>
@@ -438,7 +444,7 @@ QPushButton:pressed {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Others/Simple_PySide_Base-master/files.qrc">
+          <iconset>
            <normaloff>:/16x16/icons/16x16/cil-x.png</normaloff>:/16x16/icons/16x16/cil-x.png</iconset>
          </property>
         </widget>
@@ -467,7 +473,7 @@ QPushButton:pressed {
      <property name="lineWidth">
       <number>0</number>
      </property>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="button_device">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -491,7 +497,7 @@ QPushButton:pressed {
 }</string>
       </property>
       <property name="text">
-       <string>Cameras Manager</string>
+       <string>Device Manager</string>
       </property>
       <property name="flat">
        <bool>true</bool>
@@ -612,19 +618,62 @@ QPushButton:pressed {
         <x>10</x>
         <y>10</y>
         <width>1081</width>
-        <height>621</height>
+        <height>631</height>
        </rect>
       </property>
-      <widget class="QWidget" name="page"/>
-      <widget class="QWidget" name="page_2"/>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="page_device"/>
+      <widget class="QWidget" name="page_database"/>
+      <widget class="QWidget" name="page_statistic"/>
+     </widget>
+     <widget class="QFrame" name="frame_statusbar">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>653</y>
+        <width>1100</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(27, 29, 35);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QFrame" name="frame_size_grip">
+       <property name="geometry">
+        <rect>
+         <x>1075</x>
+         <y>0</y>
+         <width>25</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QSizeGrip {
+	background-image: url(:/16x16/icons/16x16/cil-size-grip.png);
+	background-position: center;
+	background-repeat: no-reperat;
+}</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
   </widget>
  </widget>
- <resources>
-  <include location="dark_orange/style.qrc"/>
-  <include location="Others/Simple_PySide_Base-master/files.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
