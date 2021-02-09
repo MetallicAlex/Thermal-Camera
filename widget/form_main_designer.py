@@ -412,6 +412,224 @@ class Ui_MainWindow(object):
         self.stackedWidget.setObjectName("stackedWidget")
         self.page_device = QtWidgets.QWidget()
         self.page_device.setObjectName("page_device")
+        self.table_devices = QtWidgets.QTableWidget(self.page_device)
+        self.table_devices.setGeometry(QtCore.QRect(10, 100, 1060, 500))
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(160, 160, 160))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(160, 160, 160))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(160, 160, 160))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(160, 160, 160))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(120, 120, 120))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(120, 120, 120))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        self.table_devices.setPalette(palette)
+        self.table_devices.setStyleSheet("QTableWidget {    \n"
+"    background-color: rgb(39, 44, 54);\n"
+"    padding: 10px;\n"
+"    border-radius: 5px;\n"
+"    gridline-color: rgb(44, 49, 60);\n"
+"    border-bottom: 1px solid rgb(44, 49, 60);\n"
+"}\n"
+"QTableWidget::item{\n"
+"    border-color: rgb(44, 49, 60);\n"
+"    padding-left: 5px;\n"
+"    padding-right: 5px;\n"
+"    gridline-color: rgb(44, 49, 60);\n"
+"}\n"
+"QTableWidget::item:selected{\n"
+"    background-color: rgb(85, 170, 255);\n"
+"}\n"
+"QScrollBar:horizontal {\n"
+"    border: none;\n"
+"    background: rgb(52, 59, 72);\n"
+"    height: 14px;\n"
+"    margin: 0px 21px 0 21px;\n"
+"    border-radius: 0px;\n"
+"}\n"
+" QScrollBar:vertical {\n"
+"    border: none;\n"
+"    background: rgb(52, 59, 72);\n"
+"    width: 14px;\n"
+"    margin: 21px 0 21px 0;\n"
+"    border-radius: 0px;\n"
+" }\n"
+"QHeaderView::section{\n"
+"    Background-color: rgb(39, 44, 54);\n"
+"    max-width: 30px;\n"
+"    border: 1px solid rgb(44, 49, 60);\n"
+"    border-style: none;\n"
+"    border-bottom: 1px solid rgb(44, 49, 60);\n"
+"    border-right: 1px solid rgb(44, 49, 60);\n"
+"}\n"
+"QTableWidget::horizontalHeader {    \n"
+"    background-color: rgb(81, 255, 0);\n"
+"}\n"
+"QHeaderView::section:horizontal\n"
+"{\n"
+"    border: 1px solid rgb(32, 34, 42);\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    color: rgb(255, 255, 255);\n"
+"    padding: 3px;\n"
+"    border-top-left-radius: 7px;\n"
+"    border-top-right-radius: 7px;\n"
+"}\n"
+"QHeaderView::section:vertical\n"
+"{\n"
+"    border: 1px solid rgb(44, 49, 60);\n"
+"}\n"
+"")
+        self.table_devices.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.table_devices.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.table_devices.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.table_devices.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.table_devices.setAlternatingRowColors(False)
+        self.table_devices.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.table_devices.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.table_devices.setTextElideMode(QtCore.Qt.ElideMiddle)
+        self.table_devices.setRowCount(1)
+        self.table_devices.setColumnCount(5)
+        self.table_devices.setObjectName("table_devices")
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setHorizontalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setItem(0, 0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setItem(0, 1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setItem(0, 2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setItem(0, 3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_devices.setItem(0, 4, item)
+        self.table_devices.horizontalHeader().setVisible(True)
+        self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
+        self.table_devices.horizontalHeader().setDefaultSectionSize(200)
+        self.table_devices.horizontalHeader().setStretchLastSection(False)
+        self.table_devices.verticalHeader().setVisible(False)
+        self.table_devices.verticalHeader().setHighlightSections(False)
+        self.table_devices.verticalHeader().setStretchLastSection(True)
+        self.button_add_device = QtWidgets.QPushButton(self.page_device)
+        self.button_add_device.setGeometry(QtCore.QRect(120, 50, 100, 30))
+        self.button_add_device.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_add_device.setObjectName("button_add_device")
+        self.button_search_device = QtWidgets.QPushButton(self.page_device)
+        self.button_search_device.setGeometry(QtCore.QRect(10, 50, 100, 30))
+        self.button_search_device.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_search_device.setObjectName("button_search_device")
+        self.button_edit_device = QtWidgets.QPushButton(self.page_device)
+        self.button_edit_device.setGeometry(QtCore.QRect(230, 50, 100, 30))
+        self.button_edit_device.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_edit_device.setObjectName("button_edit_device")
+        self.button_delete_device = QtWidgets.QPushButton(self.page_device)
+        self.button_delete_device.setGeometry(QtCore.QRect(340, 50, 100, 30))
+        self.button_delete_device.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_delete_device.setObjectName("button_delete_device")
         self.stackedWidget.addWidget(self.page_device)
         self.page_database = QtWidgets.QWidget()
         self.page_database.setObjectName("page_database")
@@ -438,7 +656,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -451,4 +669,28 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Database Manager"))
         self.pushButton_3.setText(_translate("MainWindow", "Statistic"))
         self.pushButton_4.setText(_translate("MainWindow", "Plots"))
-
+        item = self.table_devices.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Device Name"))
+        item = self.table_devices.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Serial Number"))
+        item = self.table_devices.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "IP Address"))
+        item = self.table_devices.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "State"))
+        __sortingEnabled = self.table_devices.isSortingEnabled()
+        self.table_devices.setSortingEnabled(False)
+        item = self.table_devices.item(0, 0)
+        item.setText(_translate("MainWindow", "sfd"))
+        item = self.table_devices.item(0, 1)
+        item.setText(_translate("MainWindow", "sdg"))
+        item = self.table_devices.item(0, 2)
+        item.setText(_translate("MainWindow", "sdf"))
+        item = self.table_devices.item(0, 3)
+        item.setText(_translate("MainWindow", "sfd"))
+        item = self.table_devices.item(0, 4)
+        item.setText(_translate("MainWindow", "sf"))
+        self.table_devices.setSortingEnabled(__sortingEnabled)
+        self.button_add_device.setText(_translate("MainWindow", "Add"))
+        self.button_search_device.setText(_translate("MainWindow", "Search"))
+        self.button_edit_device.setText(_translate("MainWindow", "Edit"))
+        self.button_delete_device.setText(_translate("MainWindow", "Delete"))
