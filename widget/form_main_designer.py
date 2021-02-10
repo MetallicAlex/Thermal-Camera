@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'form_main.ui'
+# Form implementation generated from reading ui file 'widget/form_main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.2
 #
@@ -339,6 +339,12 @@ class Ui_MainWindow(object):
         self.frame_menu.setObjectName("frame_menu")
         self.button_device = QtWidgets.QPushButton(self.frame_menu)
         self.button_device.setGeometry(QtCore.QRect(0, 20, 180, 60))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.button_device.setFont(font)
         self.button_device.setStyleSheet("QPushButton {\n"
 "    background-position: center;\n"
 "    background-repeat: no-reperat;\n"
@@ -353,9 +359,15 @@ class Ui_MainWindow(object):
 "}")
         self.button_device.setFlat(True)
         self.button_device.setObjectName("button_device")
-        self.pushButton_2 = QtWidgets.QPushButton(self.frame_menu)
-        self.pushButton_2.setGeometry(QtCore.QRect(0, 80, 180, 60))
-        self.pushButton_2.setStyleSheet("QPushButton {\n"
+        self.button_database = QtWidgets.QPushButton(self.frame_menu)
+        self.button_database.setGeometry(QtCore.QRect(0, 80, 180, 60))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.button_database.setFont(font)
+        self.button_database.setStyleSheet("QPushButton {\n"
 "    background-position: center;\n"
 "    background-repeat: no-reperat;\n"
 "    border: none;\n"
@@ -367,10 +379,16 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        self.pushButton_2.setFlat(True)
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.button_database.setFlat(True)
+        self.button_database.setObjectName("button_database")
         self.pushButton_3 = QtWidgets.QPushButton(self.frame_menu)
         self.pushButton_3.setGeometry(QtCore.QRect(0, 140, 180, 60))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton_3.setFont(font)
         self.pushButton_3.setStyleSheet("QPushButton {\n"
 "    background-position: center;\n"
 "    background-repeat: no-reperat;\n"
@@ -387,6 +405,12 @@ class Ui_MainWindow(object):
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.frame_menu)
         self.pushButton_4.setGeometry(QtCore.QRect(0, 200, 180, 60))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton_4.setFont(font)
         self.pushButton_4.setStyleSheet("QPushButton {\n"
 "    background-position: center;\n"
 "    background-repeat: no-reperat;\n"
@@ -401,6 +425,28 @@ class Ui_MainWindow(object):
 "}")
         self.pushButton_4.setFlat(True)
         self.pushButton_4.setObjectName("pushButton_4")
+        self.button_settings = QtWidgets.QPushButton(self.frame_menu)
+        self.button_settings.setGeometry(QtCore.QRect(0, 590, 180, 60))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.button_settings.setFont(font)
+        self.button_settings.setStyleSheet("QPushButton {\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+"    border: none;\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(40, 44, 52);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(85, 170, 255);\n"
+"}")
+        self.button_settings.setFlat(True)
+        self.button_settings.setObjectName("button_settings")
         self.frame_contains = QtWidgets.QFrame(self.frame_main)
         self.frame_contains.setGeometry(QtCore.QRect(180, 42, 1100, 678))
         self.frame_contains.setStyleSheet("background-color: rgb(40, 44, 52);")
@@ -547,7 +593,7 @@ class Ui_MainWindow(object):
         self.table_devices.setItem(0, 3, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_devices.setItem(0, 4, item)
-        self.table_devices.horizontalHeader().setVisible(True)
+        self.table_devices.horizontalHeader().setVisible(False)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(False)
@@ -633,6 +679,226 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_device)
         self.page_database = QtWidgets.QWidget()
         self.page_database.setObjectName("page_database")
+        self.table_persons = QtWidgets.QTableWidget(self.page_database)
+        self.table_persons.setGeometry(QtCore.QRect(10, 120, 1060, 500))
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(160, 160, 160))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(160, 160, 160))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(160, 160, 160))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(160, 160, 160))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(120, 120, 120))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(120, 120, 120))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        self.table_persons.setPalette(palette)
+        self.table_persons.setStyleSheet("QTableWidget {    \n"
+"    background-color: rgb(39, 44, 54);\n"
+"    padding: 10px;\n"
+"    border-radius: 5px;\n"
+"    gridline-color: rgb(44, 49, 60);\n"
+"    border-bottom: 1px solid rgb(44, 49, 60);\n"
+"}\n"
+"QTableWidget::item{\n"
+"    border-color: rgb(44, 49, 60);\n"
+"    padding-left: 5px;\n"
+"    padding-right: 5px;\n"
+"    gridline-color: rgb(44, 49, 60);\n"
+"}\n"
+"QTableWidget::item:selected{\n"
+"    background-color: rgb(85, 170, 255);\n"
+"}\n"
+"QScrollBar:horizontal {\n"
+"    border: none;\n"
+"    background: rgb(52, 59, 72);\n"
+"    height: 14px;\n"
+"    margin: 0px 21px 0 21px;\n"
+"    border-radius: 0px;\n"
+"}\n"
+" QScrollBar:vertical {\n"
+"    border: none;\n"
+"    background: rgb(52, 59, 72);\n"
+"    width: 14px;\n"
+"    margin: 21px 0 21px 0;\n"
+"    border-radius: 0px;\n"
+" }\n"
+"QHeaderView::section{\n"
+"    Background-color: rgb(39, 44, 54);\n"
+"    max-width: 30px;\n"
+"    border: 1px solid rgb(44, 49, 60);\n"
+"    border-style: none;\n"
+"    border-bottom: 1px solid rgb(44, 49, 60);\n"
+"    border-right: 1px solid rgb(44, 49, 60);\n"
+"}\n"
+"QTableWidget::horizontalHeader {    \n"
+"    background-color: rgb(81, 255, 0);\n"
+"}\n"
+"QHeaderView::section:horizontal\n"
+"{\n"
+"    border: 1px solid rgb(32, 34, 42);\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    color: rgb(255, 255, 255);\n"
+"    padding: 3px;\n"
+"    border-top-left-radius: 7px;\n"
+"    border-top-right-radius: 7px;\n"
+"}\n"
+"QHeaderView::section:vertical\n"
+"{\n"
+"    border: 1px solid rgb(44, 49, 60);\n"
+"}\n"
+"")
+        self.table_persons.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.table_persons.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.table_persons.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.table_persons.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.table_persons.setAlternatingRowColors(False)
+        self.table_persons.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.table_persons.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.table_persons.setTextElideMode(QtCore.Qt.ElideMiddle)
+        self.table_persons.setRowCount(1)
+        self.table_persons.setColumnCount(6)
+        self.table_persons.setObjectName("table_persons")
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setHorizontalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setItem(0, 0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setItem(0, 2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setItem(0, 3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setItem(0, 4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setItem(0, 5, item)
+        self.table_persons.horizontalHeader().setVisible(True)
+        self.table_persons.horizontalHeader().setCascadingSectionResizes(True)
+        self.table_persons.horizontalHeader().setDefaultSectionSize(200)
+        self.table_persons.horizontalHeader().setStretchLastSection(False)
+        self.table_persons.verticalHeader().setVisible(False)
+        self.table_persons.verticalHeader().setHighlightSections(False)
+        self.table_persons.verticalHeader().setStretchLastSection(True)
+        self.button_delete_person = QtWidgets.QPushButton(self.page_database)
+        self.button_delete_person.setGeometry(QtCore.QRect(340, 70, 100, 30))
+        self.button_delete_person.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_delete_person.setObjectName("button_delete_person")
+        self.button_edit_person = QtWidgets.QPushButton(self.page_database)
+        self.button_edit_person.setGeometry(QtCore.QRect(230, 70, 100, 30))
+        self.button_edit_person.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_edit_person.setObjectName("button_edit_person")
+        self.button_add_person = QtWidgets.QPushButton(self.page_database)
+        self.button_add_person.setGeometry(QtCore.QRect(120, 70, 100, 30))
+        self.button_add_person.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_add_person.setObjectName("button_add_person")
+        self.button_send_device = QtWidgets.QPushButton(self.page_database)
+        self.button_send_device.setGeometry(QtCore.QRect(10, 70, 100, 30))
+        self.button_send_device.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_send_device.setObjectName("button_send_device")
         self.stackedWidget.addWidget(self.page_database)
         self.page_statistic = QtWidgets.QWidget()
         self.page_statistic.setObjectName("page_statistic")
@@ -656,7 +922,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -666,9 +932,10 @@ class Ui_MainWindow(object):
         self.button_maximize_restore.setToolTip(_translate("MainWindow", "Maximize"))
         self.button_close.setToolTip(_translate("MainWindow", "Close"))
         self.button_device.setText(_translate("MainWindow", "Device Manager"))
-        self.pushButton_2.setText(_translate("MainWindow", "Database Manager"))
+        self.button_database.setText(_translate("MainWindow", "Database Manager"))
         self.pushButton_3.setText(_translate("MainWindow", "Statistic"))
         self.pushButton_4.setText(_translate("MainWindow", "Plots"))
+        self.button_settings.setText(_translate("MainWindow", "Settings"))
         item = self.table_devices.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Device Name"))
         item = self.table_devices.horizontalHeaderItem(2)
@@ -694,3 +961,33 @@ class Ui_MainWindow(object):
         self.button_search_device.setText(_translate("MainWindow", "Search"))
         self.button_edit_device.setText(_translate("MainWindow", "Edit"))
         self.button_delete_device.setText(_translate("MainWindow", "Delete"))
+        item = self.table_persons.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "ID"))
+        item = self.table_persons.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Image"))
+        item = self.table_persons.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Name"))
+        item = self.table_persons.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "Department"))
+        item = self.table_persons.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "Gender"))
+        item = self.table_persons.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "Phone Number"))
+        __sortingEnabled = self.table_persons.isSortingEnabled()
+        self.table_persons.setSortingEnabled(False)
+        item = self.table_persons.item(0, 0)
+        item.setText(_translate("MainWindow", "sfd"))
+        item = self.table_persons.item(0, 2)
+        item.setText(_translate("MainWindow", "sdg"))
+        item = self.table_persons.item(0, 3)
+        item.setText(_translate("MainWindow", "sdf"))
+        item = self.table_persons.item(0, 4)
+        item.setText(_translate("MainWindow", "sfd"))
+        item = self.table_persons.item(0, 5)
+        item.setText(_translate("MainWindow", "sf"))
+        self.table_persons.setSortingEnabled(__sortingEnabled)
+        self.button_delete_person.setText(_translate("MainWindow", "Delete"))
+        self.button_edit_person.setText(_translate("MainWindow", "Edit"))
+        self.button_add_person.setText(_translate("MainWindow", "Add"))
+        self.button_send_device.setText(_translate("MainWindow", "Send to Device"))
+

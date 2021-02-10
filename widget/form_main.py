@@ -12,6 +12,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # SETTINGS
+        self.stackedWidget.setCurrentWidget(self.page_device)
         # DATA
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
         self.button_close.clicked.connect(lambda: self.close())
@@ -21,6 +22,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.frame_header.mouseMoveEvent = self.__frame_header_move_window
         self.frame_header.mousePressEvent = self.__frame_header_mouse_press
         # MENU BUTTONS
+        self.button_device.clicked.connect(self.__button_device_clicked)
+        self.button_database.clicked.connect(self.__button_database_clicked)
         # PAGE DEVICE
         # PAGE DATABASE
         # PAGE STATISTIC
@@ -34,3 +37,37 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.move(self.pos() + event.globalPos() - self.dragPos)
             self.dragPos = event.globalPos()
             event.accept()
+
+    def __button_device_clicked(self, event):
+        self.button_device.setStyleSheet("QPushButton {\n"
+                                         "    background-position: center;\n"
+                                         "    background-repeat: no-reperat;\n"
+                                         "    border: none;\n"
+                                         "    border-right: 7px solid rgb(85, 170, 255);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "}\n"
+                                         "QPushButton:hover {\n"
+                                         "    background-color: rgb(40, 44, 52);\n"
+                                         "}\n"
+                                         "QPushButton:pressed {    \n"
+                                         "    background-color: rgb(85, 170, 255);\n"
+                                         "}")
+        self.stackedWidget.setCurrentWidget(self.page_device)
+
+    def __button_database_clicked(self, event):
+        self.button_database.setStyleSheet("QPushButton {\n"
+                                           "    background-position: center;\n"
+                                           "    background-repeat: no-reperat;\n"
+                                           "    border: none;\n"
+                                           "    border-right: 7px solid rgb(85, 170, 255);\n"
+                                           "    color: rgb(255, 255, 255);\n"
+                                           "}\n"
+                                           "QPushButton:hover {\n"
+                                           "    background-color: rgb(40, 44, 52);\n"
+                                           "}\n"
+                                           "QPushButton:pressed {    \n"
+                                           "    background-color: rgb(85, 170, 255);\n"
+                                           "}")
+        self.stackedWidget.setCurrentWidget(self.page_database)
+
+    # OTHERS

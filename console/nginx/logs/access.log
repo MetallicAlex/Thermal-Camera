@@ -209,3 +209,8 @@
 192.168.1.88 - - [01/Feb/2021:13:34:36 +0300] "GET /static/images/Nichiporchik.jpg HTTP/1.1" 200 79941 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
 192.168.1.88 - - [01/Feb/2021:13:34:37 +0300] "GET /static/images/Nikitin.jpg HTTP/1.1" 200 86722 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
 192.168.1.88 - - [01/Feb/2021:13:34:37 +0300] "GET /static/images/Scherba.jpg HTTP/1.1" 200 100094 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
+127.0.0.1 - - [10/Feb/2021:11:28:01 +0300] "GET /static/images/Burov.jpg HTTP/1.1" 404 555 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 OPR/73.0.3856.344"
+127.0.0.1 - - [10/Feb/2021:11:28:01 +0300] "GET /favicon.ico HTTP/1.1" 404 555 "http://localhost:7777/static/images/Burov.jpg" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 OPR/73.0.3856.344"
+127.0.0.1 - - [10/Feb/2021:11:28:04 +0300] "GET /static/images/Burov.jpg HTTP/1.1" 404 555 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 OPR/73.0.3856.344"
+127.0.0.1 - - [10/Feb/2021:11:28:06 +0300] "GET /static/images/Burov.jpg HTTP/1.1" 404 555 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 OPR/73.0.3856.344"
+127.0.0.1 - - [10/Feb/2021:11:28:07 +0300] "GET /static/images/Burov.jpg HTTP/1.1" 404 555 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 OPR/73.0.3856.344"
