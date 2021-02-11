@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'widget/form_main.ui'
+# Form implementation generated from reading ui file 'form_main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.2
 #
@@ -593,7 +593,7 @@ class Ui_MainWindow(object):
         self.table_devices.setItem(0, 3, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_devices.setItem(0, 4, item)
-        self.table_devices.horizontalHeader().setVisible(False)
+        self.table_devices.horizontalHeader().setVisible(True)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(False)
@@ -922,7 +922,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -991,3 +991,12 @@ class Ui_MainWindow(object):
         self.button_add_person.setText(_translate("MainWindow", "Add"))
         self.button_send_device.setText(_translate("MainWindow", "Send to Device"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

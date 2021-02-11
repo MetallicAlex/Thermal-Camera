@@ -1,3 +1,5 @@
+import json
+
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect
 from PyQt5.QtGui import QPixmap, QImage, QIcon, QColor
@@ -12,6 +14,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # SETTINGS
+        self.theme = self.__get_theme('dark theme')
         self.stackedWidget.setCurrentWidget(self.page_device)
         # DATA
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
@@ -39,35 +42,21 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             event.accept()
 
     def __button_device_clicked(self, event):
-        self.button_device.setStyleSheet("QPushButton {\n"
-                                         "    background-position: center;\n"
-                                         "    background-repeat: no-reperat;\n"
-                                         "    border: none;\n"
-                                         "    border-right: 7px solid rgb(85, 170, 255);\n"
-                                         "    color: rgb(255, 255, 255);\n"
-                                         "}\n"
-                                         "QPushButton:hover {\n"
-                                         "    background-color: rgb(40, 44, 52);\n"
-                                         "}\n"
-                                         "QPushButton:pressed {    \n"
-                                         "    background-color: rgb(85, 170, 255);\n"
-                                         "}")
+        self.__update_system_buttons(self.button_device)
         self.stackedWidget.setCurrentWidget(self.page_device)
 
     def __button_database_clicked(self, event):
-        self.button_database.setStyleSheet("QPushButton {\n"
-                                           "    background-position: center;\n"
-                                           "    background-repeat: no-reperat;\n"
-                                           "    border: none;\n"
-                                           "    border-right: 7px solid rgb(85, 170, 255);\n"
-                                           "    color: rgb(255, 255, 255);\n"
-                                           "}\n"
-                                           "QPushButton:hover {\n"
-                                           "    background-color: rgb(40, 44, 52);\n"
-                                           "}\n"
-                                           "QPushButton:pressed {    \n"
-                                           "    background-color: rgb(85, 170, 255);\n"
-                                           "}")
-        self.stackedWidget.setCurrentWidget(self.page_database)
+        self.__update_system_buttons(self.button_database)
+        self.stackedWidget.setCurrentWidget(self.page_device)
+
+    # SETTINGS
+    def __get_theme(self, theme=str):
+        with open('data/themes.json') as file:
+            data = json.load(file, strict=False)
+        return data[theme]
 
     # OTHERS
+    def __update_system_buttons(self, button=QtWidgets.QPushButton):
+        self.button_device.setStyleSheet(self.theme['button_device'])
+        self.button_database.setStyleSheet(self.theme['button_database'])
+        button.setStyleSheet(self.theme[button.objectName()] + "QPushButton{border-right: 7px solid rgb(44, 49, 60);}")
