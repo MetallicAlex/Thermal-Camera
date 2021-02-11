@@ -72,7 +72,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         return employees
 
     def __get_statistics_from_database(self):
-        pass
+        with models.get_session() as session:
+            statistics = session.query(models.Statistic).all()
+        return statistics
 
     def __load_employees_to_table(self):
         self.table_persons.removeRow(0)
