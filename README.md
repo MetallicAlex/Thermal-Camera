@@ -1,1 +1,2 @@
-#S02T
+# S02T
+This is a thermal camera.
