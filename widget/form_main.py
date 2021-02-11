@@ -1,8 +1,9 @@
 import json
+import os
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect, \
-    QTableWidgetItem
+    QTableWidgetItem, QLabel
 from PyQt5.QtGui import QPixmap, QImage, QIcon, QColor
 from PyQt5.QtCore import Qt
 
@@ -79,9 +80,22 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_persons.insertRow(row_position)
             item = QTableWidgetItem()
             item.setData(Qt.EditRole, employee.id)
+            item.setTextAlignment(Qt.AlignCenter)
             self.table_persons.setItem(row_position, 0, item)
-            self.table_persons.setItem(row_position, 1, QTableWidgetItem(employee.face))
+            self.table_persons.setItem(row_position, 1, self.__get_item_image(employee.face))
             self.table_persons.setItem(row_position, 2, QTableWidgetItem(employee.name))
             self.table_persons.setItem(row_position, 3, QTableWidgetItem(employee.name_department))
             self.table_persons.setItem(row_position, 4, QTableWidgetItem(str(employee.gender)))
             self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(employee.phone_number)))
+        self.table_persons.resizeColumnsToContents()
+        self.table_persons.resizeRowsToContents()
+
+    def __get_item_image(self, path_image=str):
+        item = QTableWidgetItem()
+        if os.path.isfile(f'nginx/html{path_image}'):
+            pixmap = QPixmap(QImage(f'nginx/html{path_image}'))
+        else:
+            pixmap = QPixmap(QImage('data/resources/icons/user.png'))
+        pixmap = pixmap.scaled(200, 300, Qt.KeepAspectRatio)
+        item.setData(Qt.DecorationRole, pixmap)
+        return item
