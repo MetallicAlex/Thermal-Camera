@@ -31,6 +31,12 @@ class GenderEnum(enum.Enum):
     male = 1
     female = 2
 
+    def __str__(self):
+        if self.value == 1:
+            return 'male'
+        else:
+            return 'female'
+
 
 class Employee(Base):
     __tablename__ = 'employees'
