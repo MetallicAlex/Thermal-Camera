@@ -1,2 +1,2 @@
 # S02T
-This is a thermal camera. Hurra
+This is a thermal camera. Hurra 1
