@@ -31,6 +31,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # MENU BUTTONS
         self.button_device.clicked.connect(self.__button_device_clicked)
         self.button_database.clicked.connect(self.__button_database_clicked)
+        self.button_statistic.clicked.connect(self.__button_statistic_clicked)
+        self.button_settings.clicked.connect(self.__button_settings_clicked)
         # PAGE DEVICE
         # PAGE DATABASE
         # PAGE STATISTIC
@@ -53,6 +55,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.__update_system_buttons(self.button_database)
         self.stackedWidget.setCurrentWidget(self.page_database)
 
+    def __button_statistic_clicked(self, event):
+        self.__update_system_buttons(self.button_statistic)
+        self.stackedWidget.setCurrentWidget(self.page_statistic)
+
+    def __button_settings_clicked(self, event):
+        self.__update_system_buttons(self.button_settings)
+        self.stackedWidget.setCurrentWidget(self.page_settings)
+
     # SETTINGS
     def __get_theme(self, theme=str):
         with open('data/themes.json') as file:
@@ -63,6 +73,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def __update_system_buttons(self, button=QtWidgets.QPushButton):
         self.button_device.setStyleSheet(self.theme['button_device'])
         self.button_database.setStyleSheet(self.theme['button_database'])
+        self.button_statistic.setStyleSheet(self.theme['button_statistic'])
+        self.button_settings.setStyleSheet(self.theme['button_settings'])
         button.setStyleSheet(self.theme[button.objectName()] +
                              "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
 
@@ -83,12 +95,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             item = QTableWidgetItem()
             item.setData(Qt.EditRole, employee.id)
             item.setTextAlignment(Qt.AlignCenter)
-            self.table_persons.setItem(row_position, 0, item)
-            self.table_persons.setItem(row_position, 1, self.__get_item_image(employee.face))
-            self.table_persons.setItem(row_position, 2, QTableWidgetItem(employee.name))
-            self.table_persons.setItem(row_position, 3, QTableWidgetItem(employee.name_department))
-            self.table_persons.setItem(row_position, 4, QTableWidgetItem(str(employee.gender)))
-            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(employee.phone_number)))
+            self.table_persons.setItem(row_position, 1, item)
+            self.table_persons.setItem(row_position, 2, self.__get_item_image(employee.face))
+            self.table_persons.setItem(row_position, 3, QTableWidgetItem(employee.name))
+            self.table_persons.setItem(row_position, 4, QTableWidgetItem(employee.name_department))
+            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(employee.gender)))
+            self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(employee.phone_number)))
         self.table_persons.resizeColumnsToContents()
         self.table_persons.resizeRowsToContents()
 

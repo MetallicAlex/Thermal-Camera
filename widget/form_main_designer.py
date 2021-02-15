@@ -278,7 +278,7 @@ class Ui_MainWindow(object):
 "}")
         self.button_minimize.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/16x16/icons/16x16/cil-window-minimize.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-window-minimize.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_minimize.setIcon(icon)
         self.button_minimize.setObjectName("button_minimize")
         self.horizontalLayout_5.addWidget(self.button_minimize)
@@ -302,7 +302,7 @@ class Ui_MainWindow(object):
 "}")
         self.button_maximize_restore.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/16x16/icons/16x16/cil-window-maximize.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-window-maximize.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_maximize_restore.setIcon(icon1)
         self.button_maximize_restore.setObjectName("button_maximize_restore")
         self.horizontalLayout_5.addWidget(self.button_maximize_restore)
@@ -326,7 +326,7 @@ class Ui_MainWindow(object):
 "}")
         self.button_close.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/16x16/icons/16x16/cil-x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_close.setIcon(icon2)
         self.button_close.setObjectName("button_close")
         self.horizontalLayout_5.addWidget(self.button_close)
@@ -340,14 +340,20 @@ class Ui_MainWindow(object):
         self.button_device = QtWidgets.QPushButton(self.frame_menu)
         self.button_device.setGeometry(QtCore.QRect(0, 20, 180, 60))
         font = QtGui.QFont()
-        font.setFamily("Ebrima")
-        font.setPointSize(10)
+        font.setFamily("Segoe UI Semibold")
+        font.setPointSize(9)
         font.setBold(True)
         font.setWeight(75)
         self.button_device.setFont(font)
+        self.button_device.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.button_device.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.button_device.setAutoFillBackground(False)
         self.button_device.setStyleSheet("QPushButton {\n"
-"    background-position: center;\n"
+"    background-position: left;\n"
 "    background-repeat: no-reperat;\n"
+"    background-origin: content;\n"
+"    text-align: left;\n"
+"    padding-left: 15px;\n"
 "    border: none;\n"
 "    color: rgb(255, 255, 255);\n"
 "}\n"
@@ -357,19 +363,26 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-screen-desktop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_device.setIcon(icon3)
+        self.button_device.setIconSize(QtCore.QSize(24, 24))
         self.button_device.setFlat(True)
         self.button_device.setObjectName("button_device")
         self.button_database = QtWidgets.QPushButton(self.frame_menu)
         self.button_database.setGeometry(QtCore.QRect(0, 80, 180, 60))
         font = QtGui.QFont()
-        font.setFamily("Ebrima")
-        font.setPointSize(10)
+        font.setFamily("Segoe UI Semibold")
+        font.setPointSize(9)
         font.setBold(True)
         font.setWeight(75)
         self.button_database.setFont(font)
         self.button_database.setStyleSheet("QPushButton {\n"
-"    background-position: center;\n"
+"    background-position: left;\n"
 "    background-repeat: no-reperat;\n"
+"    background-origin: content;\n"
+"    text-align: left;\n"
+"    padding-left: 15px;\n"
 "    border: none;\n"
 "    color: rgb(255, 255, 255);\n"
 "}\n"
@@ -379,19 +392,26 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-people.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_database.setIcon(icon4)
+        self.button_database.setIconSize(QtCore.QSize(24, 24))
         self.button_database.setFlat(True)
         self.button_database.setObjectName("button_database")
-        self.pushButton_3 = QtWidgets.QPushButton(self.frame_menu)
-        self.pushButton_3.setGeometry(QtCore.QRect(0, 140, 180, 60))
+        self.button_statistic = QtWidgets.QPushButton(self.frame_menu)
+        self.button_statistic.setGeometry(QtCore.QRect(0, 140, 180, 60))
         font = QtGui.QFont()
-        font.setFamily("Ebrima")
-        font.setPointSize(10)
+        font.setFamily("Segoe UI Semibold")
+        font.setPointSize(9)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton_3.setFont(font)
-        self.pushButton_3.setStyleSheet("QPushButton {\n"
-"    background-position: center;\n"
+        self.button_statistic.setFont(font)
+        self.button_statistic.setStyleSheet("QPushButton {\n"
+"    background-position: left;\n"
 "    background-repeat: no-reperat;\n"
+"    background-origin: content;\n"
+"    text-align: left;\n"
+"    padding-left: 15px;\n"
 "    border: none;\n"
 "    color: rgb(255, 255, 255);\n"
 "}\n"
@@ -401,13 +421,17 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        self.pushButton_3.setFlat(True)
-        self.pushButton_3.setObjectName("pushButton_3")
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-chart-line.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_statistic.setIcon(icon5)
+        self.button_statistic.setIconSize(QtCore.QSize(24, 24))
+        self.button_statistic.setFlat(True)
+        self.button_statistic.setObjectName("button_statistic")
         self.pushButton_4 = QtWidgets.QPushButton(self.frame_menu)
         self.pushButton_4.setGeometry(QtCore.QRect(0, 200, 180, 60))
         font = QtGui.QFont()
-        font.setFamily("Ebrima")
-        font.setPointSize(10)
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
         font.setBold(True)
         font.setWeight(75)
         self.pushButton_4.setFont(font)
@@ -428,14 +452,17 @@ class Ui_MainWindow(object):
         self.button_settings = QtWidgets.QPushButton(self.frame_menu)
         self.button_settings.setGeometry(QtCore.QRect(0, 590, 180, 60))
         font = QtGui.QFont()
-        font.setFamily("Ebrima")
-        font.setPointSize(10)
+        font.setFamily("Segoe UI Semibold")
+        font.setPointSize(9)
         font.setBold(True)
         font.setWeight(75)
         self.button_settings.setFont(font)
         self.button_settings.setStyleSheet("QPushButton {\n"
-"    background-position: center;\n"
+"    background-position: left;\n"
 "    background-repeat: no-reperat;\n"
+"    background-origin: content;\n"
+"    text-align: left;\n"
+"    padding-left: 15px;\n"
 "    border: none;\n"
 "    color: rgb(255, 255, 255);\n"
 "}\n"
@@ -445,6 +472,10 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_settings.setIcon(icon6)
+        self.button_settings.setIconSize(QtCore.QSize(24, 24))
         self.button_settings.setFlat(True)
         self.button_settings.setObjectName("button_settings")
         self.frame_contains = QtWidgets.QFrame(self.frame_main)
@@ -618,6 +649,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_add_device.setIcon(icon7)
         self.button_add_device.setObjectName("button_add_device")
         self.button_search_device = QtWidgets.QPushButton(self.page_device)
         self.button_search_device.setGeometry(QtCore.QRect(10, 50, 100, 30))
@@ -637,6 +671,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-find-in-page.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_search_device.setIcon(icon8)
         self.button_search_device.setObjectName("button_search_device")
         self.button_edit_device = QtWidgets.QPushButton(self.page_device)
         self.button_edit_device.setGeometry(QtCore.QRect(230, 50, 100, 30))
@@ -656,6 +693,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_edit_device.setIcon(icon9)
         self.button_edit_device.setObjectName("button_edit_device")
         self.button_delete_device = QtWidgets.QPushButton(self.page_device)
         self.button_delete_device.setGeometry(QtCore.QRect(340, 50, 100, 30))
@@ -675,6 +715,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_delete_device.setIcon(icon10)
         self.button_delete_device.setObjectName("button_delete_device")
         self.stackedWidget.addWidget(self.page_device)
         self.page_database = QtWidgets.QWidget()
@@ -792,7 +835,7 @@ class Ui_MainWindow(object):
         self.table_persons.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_persons.setTextElideMode(QtCore.Qt.ElideMiddle)
         self.table_persons.setRowCount(1)
-        self.table_persons.setColumnCount(6)
+        self.table_persons.setColumnCount(7)
         self.table_persons.setObjectName("table_persons")
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setHorizontalHeaderItem(0, item)
@@ -807,15 +850,17 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setHorizontalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
-        self.table_persons.setItem(0, 0, item)
+        self.table_persons.setHorizontalHeaderItem(6, item)
         item = QtWidgets.QTableWidgetItem()
-        self.table_persons.setItem(0, 2, item)
+        self.table_persons.setItem(0, 1, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setItem(0, 3, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setItem(0, 4, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setItem(0, 5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.table_persons.setItem(0, 6, item)
         self.table_persons.horizontalHeader().setVisible(True)
         self.table_persons.horizontalHeader().setCascadingSectionResizes(True)
         self.table_persons.horizontalHeader().setDefaultSectionSize(200)
@@ -824,7 +869,7 @@ class Ui_MainWindow(object):
         self.table_persons.verticalHeader().setHighlightSections(False)
         self.table_persons.verticalHeader().setStretchLastSection(True)
         self.button_delete_person = QtWidgets.QPushButton(self.page_database)
-        self.button_delete_person.setGeometry(QtCore.QRect(340, 70, 100, 30))
+        self.button_delete_person.setGeometry(QtCore.QRect(370, 70, 100, 30))
         self.button_delete_person.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -841,9 +886,10 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
+        self.button_delete_person.setIcon(icon10)
         self.button_delete_person.setObjectName("button_delete_person")
         self.button_edit_person = QtWidgets.QPushButton(self.page_database)
-        self.button_edit_person.setGeometry(QtCore.QRect(230, 70, 100, 30))
+        self.button_edit_person.setGeometry(QtCore.QRect(260, 70, 100, 30))
         self.button_edit_person.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -860,9 +906,10 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
+        self.button_edit_person.setIcon(icon9)
         self.button_edit_person.setObjectName("button_edit_person")
         self.button_add_person = QtWidgets.QPushButton(self.page_database)
-        self.button_add_person.setGeometry(QtCore.QRect(120, 70, 100, 30))
+        self.button_add_person.setGeometry(QtCore.QRect(150, 70, 100, 30))
         self.button_add_person.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -879,9 +926,10 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
+        self.button_add_person.setIcon(icon7)
         self.button_add_person.setObjectName("button_add_person")
         self.button_send_device = QtWidgets.QPushButton(self.page_database)
-        self.button_send_device.setGeometry(QtCore.QRect(10, 70, 100, 30))
+        self.button_send_device.setGeometry(QtCore.QRect(10, 70, 130, 30))
         self.button_send_device.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -898,11 +946,17 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-paper-plane.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_send_device.setIcon(icon11)
         self.button_send_device.setObjectName("button_send_device")
         self.stackedWidget.addWidget(self.page_database)
         self.page_statistic = QtWidgets.QWidget()
         self.page_statistic.setObjectName("page_statistic")
         self.stackedWidget.addWidget(self.page_statistic)
+        self.page_settings = QtWidgets.QWidget()
+        self.page_settings.setObjectName("page_settings")
+        self.stackedWidget.addWidget(self.page_settings)
         self.frame_statusbar = QtWidgets.QFrame(self.frame_contains)
         self.frame_statusbar.setGeometry(QtCore.QRect(0, 653, 1100, 25))
         self.frame_statusbar.setStyleSheet("background-color: rgb(27, 29, 35);")
@@ -911,8 +965,9 @@ class Ui_MainWindow(object):
         self.frame_statusbar.setObjectName("frame_statusbar")
         self.frame_size_grip = QtWidgets.QFrame(self.frame_statusbar)
         self.frame_size_grip.setGeometry(QtCore.QRect(1075, 0, 25, 25))
+        self.frame_size_grip.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.frame_size_grip.setStyleSheet("QSizeGrip {\n"
-"    background-image: url(:/16x16/icons/16x16/cil-size-grip.png);\n"
+"    background-image: url(:/16x16/data/resources/icons/16x16/cil-size-grip.png);\n"
 "    background-position: center;\n"
 "    background-repeat: no-reperat;\n"
 "}")
@@ -922,7 +977,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -933,7 +988,7 @@ class Ui_MainWindow(object):
         self.button_close.setToolTip(_translate("MainWindow", "Close"))
         self.button_device.setText(_translate("MainWindow", "Device Manager"))
         self.button_database.setText(_translate("MainWindow", "Database Manager"))
-        self.pushButton_3.setText(_translate("MainWindow", "Statistic"))
+        self.button_statistic.setText(_translate("MainWindow", "Statistic"))
         self.pushButton_4.setText(_translate("MainWindow", "Plots"))
         self.button_settings.setText(_translate("MainWindow", "Settings"))
         item = self.table_devices.horizontalHeaderItem(1)
@@ -961,42 +1016,33 @@ class Ui_MainWindow(object):
         self.button_search_device.setText(_translate("MainWindow", "Search"))
         self.button_edit_device.setText(_translate("MainWindow", "Edit"))
         self.button_delete_device.setText(_translate("MainWindow", "Delete"))
-        item = self.table_persons.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "ID"))
         item = self.table_persons.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Image"))
+        item.setText(_translate("MainWindow", "ID"))
         item = self.table_persons.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Name"))
+        item.setText(_translate("MainWindow", "Image"))
         item = self.table_persons.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Department"))
+        item.setText(_translate("MainWindow", "Name"))
         item = self.table_persons.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Gender"))
+        item.setText(_translate("MainWindow", "Department"))
         item = self.table_persons.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "Gender"))
+        item = self.table_persons.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "Phone Number"))
         __sortingEnabled = self.table_persons.isSortingEnabled()
         self.table_persons.setSortingEnabled(False)
-        item = self.table_persons.item(0, 0)
+        item = self.table_persons.item(0, 1)
         item.setText(_translate("MainWindow", "sfd"))
-        item = self.table_persons.item(0, 2)
-        item.setText(_translate("MainWindow", "sdg"))
         item = self.table_persons.item(0, 3)
-        item.setText(_translate("MainWindow", "sdf"))
+        item.setText(_translate("MainWindow", "sdg"))
         item = self.table_persons.item(0, 4)
-        item.setText(_translate("MainWindow", "sfd"))
+        item.setText(_translate("MainWindow", "sdf"))
         item = self.table_persons.item(0, 5)
+        item.setText(_translate("MainWindow", "sfd"))
+        item = self.table_persons.item(0, 6)
         item.setText(_translate("MainWindow", "sf"))
         self.table_persons.setSortingEnabled(__sortingEnabled)
         self.button_delete_person.setText(_translate("MainWindow", "Delete"))
         self.button_edit_person.setText(_translate("MainWindow", "Edit"))
         self.button_add_person.setText(_translate("MainWindow", "Add"))
         self.button_send_device.setText(_translate("MainWindow", "Send to Device"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+import files_rc

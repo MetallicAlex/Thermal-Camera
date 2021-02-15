@@ -356,8 +356,8 @@ QPushButton:pressed {
           <string/>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>:/16x16/icons/16x16/cil-window-minimize.png</normaloff>:/16x16/icons/16x16/cil-window-minimize.png</iconset>
+          <iconset resource="files.qrc">
+           <normaloff>:/16x16/data/resources/icons/16x16/cil-window-minimize.png</normaloff>:/16x16/data/resources/icons/16x16/cil-window-minimize.png</iconset>
          </property>
         </widget>
        </item>
@@ -400,8 +400,8 @@ QPushButton:pressed {
           <string/>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>:/16x16/icons/16x16/cil-window-maximize.png</normaloff>:/16x16/icons/16x16/cil-window-maximize.png</iconset>
+          <iconset resource="files.qrc">
+           <normaloff>:/16x16/data/resources/icons/16x16/cil-window-maximize.png</normaloff>:/16x16/data/resources/icons/16x16/cil-window-maximize.png</iconset>
          </property>
         </widget>
        </item>
@@ -444,8 +444,8 @@ QPushButton:pressed {
           <string/>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>:/16x16/icons/16x16/cil-x.png</normaloff>:/16x16/icons/16x16/cil-x.png</iconset>
+          <iconset resource="files.qrc">
+           <normaloff>:/20x20/data/resources/icons/20x20/cil-x.png</normaloff>:/20x20/data/resources/icons/20x20/cil-x.png</iconset>
          </property>
         </widget>
        </item>
@@ -484,16 +484,28 @@ QPushButton:pressed {
       </property>
       <property name="font">
        <font>
-        <family>Ebrima</family>
-        <pointsize>10</pointsize>
+        <family>Segoe UI Semibold</family>
+        <pointsize>9</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background-position: center;
+	background-position: left;
 	background-repeat: no-reperat;
+	background-origin: content;
+    text-align: left;
+	padding-left: 15px;
 	border: none;
 	color: rgb(255, 255, 255);
 }
@@ -506,6 +518,16 @@ QPushButton:pressed {
       </property>
       <property name="text">
        <string>Device Manager</string>
+      </property>
+      <property name="icon">
+       <iconset resource="files.qrc">
+        <normaloff>:/24x24/data/resources/icons/24x24/cil-screen-desktop.png</normaloff>:/24x24/data/resources/icons/24x24/cil-screen-desktop.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
       </property>
       <property name="flat">
        <bool>true</bool>
@@ -522,16 +544,19 @@ QPushButton:pressed {
       </property>
       <property name="font">
        <font>
-        <family>Ebrima</family>
-        <pointsize>10</pointsize>
+        <family>Segoe UI Semibold</family>
+        <pointsize>9</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background-position: center;
+	background-position: left;
 	background-repeat: no-reperat;
+	background-origin: content;
+    text-align: left;
+	padding-left: 15px;
 	border: none;
 	color: rgb(255, 255, 255);
 }
@@ -545,11 +570,21 @@ QPushButton:pressed {
       <property name="text">
        <string>Database Manager</string>
       </property>
+      <property name="icon">
+       <iconset resource="files.qrc">
+        <normaloff>:/24x24/data/resources/icons/24x24/cil-people.png</normaloff>:/24x24/data/resources/icons/24x24/cil-people.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
       <property name="flat">
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="button_statistic">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -560,16 +595,19 @@ QPushButton:pressed {
       </property>
       <property name="font">
        <font>
-        <family>Ebrima</family>
-        <pointsize>10</pointsize>
+        <family>Segoe UI Semibold</family>
+        <pointsize>9</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background-position: center;
+	background-position: left;
 	background-repeat: no-reperat;
+	background-origin: content;
+    text-align: left;
+	padding-left: 15px;
 	border: none;
 	color: rgb(255, 255, 255);
 }
@@ -582,6 +620,16 @@ QPushButton:pressed {
       </property>
       <property name="text">
        <string>Statistic</string>
+      </property>
+      <property name="icon">
+       <iconset resource="files.qrc">
+        <normaloff>:/24x24/data/resources/icons/24x24/cil-chart-line.png</normaloff>:/24x24/data/resources/icons/24x24/cil-chart-line.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
       </property>
       <property name="flat">
        <bool>true</bool>
@@ -598,8 +646,8 @@ QPushButton:pressed {
       </property>
       <property name="font">
        <font>
-        <family>Ebrima</family>
-        <pointsize>10</pointsize>
+        <family>Segoe UI</family>
+        <pointsize>9</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -636,16 +684,19 @@ QPushButton:pressed {
       </property>
       <property name="font">
        <font>
-        <family>Ebrima</family>
-        <pointsize>10</pointsize>
+        <family>Segoe UI Semibold</family>
+        <pointsize>9</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	background-position: center;
+	background-position: left;
 	background-repeat: no-reperat;
+	background-origin: content;
+    text-align: left;
+	padding-left: 15px;
 	border: none;
 	color: rgb(255, 255, 255);
 }
@@ -658,6 +709,16 @@ QPushButton:pressed {
       </property>
       <property name="text">
        <string>Settings</string>
+      </property>
+      <property name="icon">
+       <iconset resource="files.qrc">
+        <normaloff>:/24x24/data/resources/icons/24x24/cil-settings.png</normaloff>:/24x24/data/resources/icons/24x24/cil-settings.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
       </property>
       <property name="flat">
        <bool>true</bool>
@@ -692,7 +753,7 @@ QPushButton:pressed {
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page_device">
        <widget class="QTableWidget" name="table_devices">
@@ -937,7 +998,7 @@ QHeaderView::section:vertical
          <number>5</number>
         </property>
         <attribute name="horizontalHeaderVisible">
-         <bool>true</bool>
+         <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>true</bool>
@@ -1039,6 +1100,10 @@ QPushButton:pressed {
         <property name="text">
          <string>Add</string>
         </property>
+        <property name="icon">
+         <iconset resource="files.qrc">
+          <normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</iconset>
+        </property>
        </widget>
        <widget class="QPushButton" name="button_search_device">
         <property name="geometry">
@@ -1069,6 +1134,10 @@ QPushButton:pressed {
         </property>
         <property name="text">
          <string>Search</string>
+        </property>
+        <property name="icon">
+         <iconset resource="files.qrc">
+          <normaloff>:/16x16/data/resources/icons/16x16/cil-find-in-page.png</normaloff>:/16x16/data/resources/icons/16x16/cil-find-in-page.png</iconset>
         </property>
        </widget>
        <widget class="QPushButton" name="button_edit_device">
@@ -1101,6 +1170,10 @@ QPushButton:pressed {
         <property name="text">
          <string>Edit</string>
         </property>
+        <property name="icon">
+         <iconset resource="files.qrc">
+          <normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</iconset>
+        </property>
        </widget>
        <widget class="QPushButton" name="button_delete_device">
         <property name="geometry">
@@ -1131,6 +1204,10 @@ QPushButton:pressed {
         </property>
         <property name="text">
          <string>Delete</string>
+        </property>
+        <property name="icon">
+         <iconset resource="files.qrc">
+          <normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</iconset>
         </property>
        </widget>
       </widget>
@@ -1374,7 +1451,7 @@ QHeaderView::section:vertical
          <number>1</number>
         </property>
         <property name="columnCount">
-         <number>6</number>
+         <number>7</number>
         </property>
         <attribute name="horizontalHeaderVisible">
          <bool>false</bool>
@@ -1398,6 +1475,11 @@ QHeaderView::section:vertical
          <bool>true</bool>
         </attribute>
         <row/>
+        <column>
+         <property name="text">
+          <string/>
+         </property>
+        </column>
         <column>
          <property name="text">
           <string>ID</string>
@@ -1428,27 +1510,27 @@ QHeaderView::section:vertical
           <string>Phone Number</string>
          </property>
         </column>
-        <item row="0" column="0">
+        <item row="0" column="1">
          <property name="text">
           <string>sfd</string>
-         </property>
-        </item>
-        <item row="0" column="2">
-         <property name="text">
-          <string>sdg</string>
          </property>
         </item>
         <item row="0" column="3">
          <property name="text">
-          <string>sdf</string>
+          <string>sdg</string>
          </property>
         </item>
         <item row="0" column="4">
          <property name="text">
-          <string>sfd</string>
+          <string>sdf</string>
          </property>
         </item>
         <item row="0" column="5">
+         <property name="text">
+          <string>sfd</string>
+         </property>
+        </item>
+        <item row="0" column="6">
          <property name="text">
           <string>sf</string>
          </property>
@@ -1457,7 +1539,7 @@ QHeaderView::section:vertical
        <widget class="QPushButton" name="button_delete_person">
         <property name="geometry">
          <rect>
-          <x>340</x>
+          <x>370</x>
           <y>70</y>
           <width>100</width>
           <height>30</height>
@@ -1484,11 +1566,15 @@ QPushButton:pressed {
         <property name="text">
          <string>Delete</string>
         </property>
+        <property name="icon">
+         <iconset resource="files.qrc">
+          <normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</iconset>
+        </property>
        </widget>
        <widget class="QPushButton" name="button_edit_person">
         <property name="geometry">
          <rect>
-          <x>230</x>
+          <x>260</x>
           <y>70</y>
           <width>100</width>
           <height>30</height>
@@ -1515,11 +1601,15 @@ QPushButton:pressed {
         <property name="text">
          <string>Edit</string>
         </property>
+        <property name="icon">
+         <iconset resource="files.qrc">
+          <normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</iconset>
+        </property>
        </widget>
        <widget class="QPushButton" name="button_add_person">
         <property name="geometry">
          <rect>
-          <x>120</x>
+          <x>150</x>
           <y>70</y>
           <width>100</width>
           <height>30</height>
@@ -1546,13 +1636,17 @@ QPushButton:pressed {
         <property name="text">
          <string>Add</string>
         </property>
+        <property name="icon">
+         <iconset resource="files.qrc">
+          <normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</iconset>
+        </property>
        </widget>
        <widget class="QPushButton" name="button_send_device">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>70</y>
-          <width>100</width>
+          <width>130</width>
           <height>30</height>
          </rect>
         </property>
@@ -1577,9 +1671,14 @@ QPushButton:pressed {
         <property name="text">
          <string>Send to Device</string>
         </property>
+        <property name="icon">
+         <iconset resource="files.qrc">
+          <normaloff>:/16x16/data/resources/icons/16x16/cil-paper-plane.png</normaloff>:/16x16/data/resources/icons/16x16/cil-paper-plane.png</iconset>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="page_statistic"/>
+      <widget class="QWidget" name="page_settings"/>
      </widget>
      <widget class="QFrame" name="frame_statusbar">
       <property name="geometry">
@@ -1608,9 +1707,12 @@ QPushButton:pressed {
          <height>25</height>
         </rect>
        </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::DefaultContextMenu</enum>
+       </property>
        <property name="styleSheet">
         <string notr="true">QSizeGrip {
-	background-image: url(:/16x16/icons/16x16/cil-size-grip.png);
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-size-grip.png);
 	background-position: center;
 	background-repeat: no-reperat;
 }</string>
@@ -1627,6 +1729,8 @@ QPushButton:pressed {
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="files.qrc"/>
+ </resources>
  <connections/>
 </ui>
