@@ -19,6 +19,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # SETTINGS
         self.theme = self.__get_theme('dark theme')
         self.__load_employees_to_table()
+        self.__load_departments_to_table()
         self.stackedWidget.setCurrentWidget(self.page_device)
         # DATA
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
@@ -78,6 +79,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         button.setStyleSheet(self.theme[button.objectName()] +
                              "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
 
+    def __get_departments_from_database(self):
+        with models.get_session() as session:
+            departments = session.query(models.Department).all()
+        return departments
+
     def __get_employees_from_database(self):
         with models.get_session() as session:
             employees = session.query(models.Employee).all()
@@ -113,3 +119,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         pixmap = pixmap.scaled(200, 300, Qt.KeepAspectRatio)
         item.setData(Qt.DecorationRole, pixmap)
         return item
+
+    def __load_departments_to_table(self):
+        self.table_department.removeRow(0)
+        for row_position, department in enumerate(self.__get_departments_from_database()):
+            self.table_department.insertRow(row_position)
+            self.table_department.setItem(row_position, 0, QTableWidgetItem(department.name))
+        self.table_persons.resizeColumnsToContents()
+        self.table_persons.resizeRowsToContents()
