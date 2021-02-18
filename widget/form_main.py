@@ -19,7 +19,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # SETTINGS
         self.theme = self.__get_theme('dark theme')
         self.__load_employees_to_table()
-        self.__load_departments_to_table()
+        #self.__load_departments_to_table()
         self.stackedWidget.setCurrentWidget(self.page_device)
         self.button_device.setStyleSheet(self.theme['system-button'] +
                                          "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")

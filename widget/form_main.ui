@@ -382,9 +382,9 @@ QSlider::handle:vertical:pressed {
                 <colorrole role="WindowText">
                  <brush brushstyle="SolidPattern">
                   <color alpha="255">
-                   <red>255</red>
-                   <green>255</green>
-                   <blue>255</blue>
+                   <red>210</red>
+                   <green>210</green>
+                   <blue>210</blue>
                   </color>
                  </brush>
                 </colorrole>
@@ -400,18 +400,18 @@ QSlider::handle:vertical:pressed {
                 <colorrole role="Text">
                  <brush brushstyle="SolidPattern">
                   <color alpha="255">
-                   <red>255</red>
-                   <green>255</green>
-                   <blue>255</blue>
+                   <red>210</red>
+                   <green>210</green>
+                   <blue>210</blue>
                   </color>
                  </brush>
                 </colorrole>
                 <colorrole role="ButtonText">
                  <brush brushstyle="SolidPattern">
                   <color alpha="255">
-                   <red>255</red>
-                   <green>255</green>
-                   <blue>255</blue>
+                   <red>210</red>
+                   <green>210</green>
+                   <blue>210</blue>
                   </color>
                  </brush>
                 </colorrole>
@@ -438,9 +438,9 @@ QSlider::handle:vertical:pressed {
                 <colorrole role="WindowText">
                  <brush brushstyle="SolidPattern">
                   <color alpha="255">
-                   <red>255</red>
-                   <green>255</green>
-                   <blue>255</blue>
+                   <red>210</red>
+                   <green>210</green>
+                   <blue>210</blue>
                   </color>
                  </brush>
                 </colorrole>
@@ -456,18 +456,18 @@ QSlider::handle:vertical:pressed {
                 <colorrole role="Text">
                  <brush brushstyle="SolidPattern">
                   <color alpha="255">
-                   <red>255</red>
-                   <green>255</green>
-                   <blue>255</blue>
+                   <red>210</red>
+                   <green>210</green>
+                   <blue>210</blue>
                   </color>
                  </brush>
                 </colorrole>
                 <colorrole role="ButtonText">
                  <brush brushstyle="SolidPattern">
                   <color alpha="255">
-                   <red>255</red>
-                   <green>255</green>
-                   <blue>255</blue>
+                   <red>210</red>
+                   <green>210</green>
+                   <blue>210</blue>
                   </color>
                  </brush>
                 </colorrole>
@@ -1048,7 +1048,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>1</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -1537,10 +1537,10 @@ QPushButton:pressed {
               <widget class="QTableWidget" name="table_persons">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>20</x>
                  <y>60</y>
-                 <width>780</width>
-                 <height>560</height>
+                 <width>1060</width>
+                 <height>580</height>
                 </rect>
                </property>
                <property name="palette">
@@ -2025,186 +2025,42 @@ QPushButton:pressed {
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-paper-plane.png</normaloff>:/16x16/data/resources/icons/16x16/cil-paper-plane.png</iconset>
                </property>
               </widget>
-              <widget class="QTableWidget" name="table_department">
+             </widget>
+             <widget class="QWidget" name="page_statistic">
+              <widget class="QLabel" name="label_statistic_day">
                <property name="geometry">
                 <rect>
-                 <x>810</x>
-                 <y>50</y>
-                 <width>251</width>
-                 <height>560</height>
+                 <x>10</x>
+                 <y>20</y>
+                 <width>450</width>
+                 <height>300</height>
                 </rect>
                </property>
-               <property name="palette">
-                <palette>
-                 <active>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="ButtonText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </active>
-                 <inactive>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="ButtonText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </inactive>
-                 <disabled>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="ButtonText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>210</red>
-                     <green>210</green>
-                     <blue>210</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>39</red>
-                     <green>44</green>
-                     <blue>54</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </disabled>
-                </palette>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_statistic_all_days">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>340</y>
+                 <width>450</width>
+                 <height>300</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+              <widget class="QTableWidget" name="tableWidget">
+               <property name="geometry">
+                <rect>
+                 <x>480</x>
+                 <y>20</y>
+                 <width>600</width>
+                 <height>620</height>
+                </rect>
                </property>
                <property name="styleSheet">
                 <string notr="true">QTableWidget {	
@@ -2263,176 +2119,33 @@ QHeaderView::section:vertical
 }
 </string>
                </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="verticalScrollBarPolicy">
-                <enum>Qt::ScrollBarAlwaysOn</enum>
-               </property>
-               <property name="sizeAdjustPolicy">
-                <enum>QAbstractScrollArea::AdjustToContents</enum>
-               </property>
-               <property name="editTriggers">
-                <set>QAbstractItemView::NoEditTriggers</set>
-               </property>
-               <property name="alternatingRowColors">
-                <bool>false</bool>
-               </property>
-               <property name="selectionMode">
-                <enum>QAbstractItemView::SingleSelection</enum>
-               </property>
-               <property name="selectionBehavior">
-                <enum>QAbstractItemView::SelectRows</enum>
-               </property>
-               <property name="textElideMode">
-                <enum>Qt::ElideMiddle</enum>
-               </property>
-               <property name="rowCount">
-                <number>1</number>
-               </property>
-               <property name="columnCount">
-                <number>1</number>
-               </property>
-               <attribute name="horizontalHeaderVisible">
-                <bool>false</bool>
-               </attribute>
-               <attribute name="horizontalHeaderCascadingSectionResizes">
-                <bool>true</bool>
-               </attribute>
-               <attribute name="horizontalHeaderDefaultSectionSize">
-                <number>200</number>
-               </attribute>
-               <attribute name="horizontalHeaderStretchLastSection">
-                <bool>false</bool>
-               </attribute>
-               <attribute name="verticalHeaderVisible">
-                <bool>false</bool>
-               </attribute>
-               <attribute name="verticalHeaderHighlightSections">
-                <bool>false</bool>
-               </attribute>
-               <attribute name="verticalHeaderStretchLastSection">
-                <bool>true</bool>
-               </attribute>
-               <row/>
                <column>
                 <property name="text">
-                 <string>Department</string>
+                 <string>ID</string>
                 </property>
                </column>
-               <item row="0" column="0">
+               <column>
                 <property name="text">
-                 <string>sdg</string>
+                 <string>Name</string>
                 </property>
-               </item>
-              </widget>
-              <widget class="QPushButton" name="button_delete_department">
-               <property name="geometry">
-                <rect>
-                 <x>980</x>
-                 <y>10</y>
-                 <width>100</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: 2px solid rgb(52, 59, 72);
-	border-radius: 10px;	
-	background-color: rgb(52, 59, 72);
-	color: rgb(255, 255, 255);
-}
-QPushButton:hover {
-	background-color: rgb(57, 65, 80);
-	color: rgb(227, 227, 227);
-	border: 2px solid rgb(61, 70, 86);
-}
-QPushButton:pressed {	
-	background-color: rgb(35, 40, 49);
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(43, 50, 61);
-}</string>
-               </property>
-               <property name="text">
-                <string>Delete</string>
-               </property>
-               <property name="icon">
-                <iconset resource="files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</iconset>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="button_edit_department">
-               <property name="geometry">
-                <rect>
-                 <x>870</x>
-                 <y>10</y>
-                 <width>100</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: 2px solid rgb(52, 59, 72);
-	border-radius: 10px;	
-	background-color: rgb(52, 59, 72);
-	color: rgb(255, 255, 255);
-}
-QPushButton:hover {
-	background-color: rgb(57, 65, 80);
-	color: rgb(227, 227, 227);
-	border: 2px solid rgb(61, 70, 86);
-}
-QPushButton:pressed {	
-	background-color: rgb(35, 40, 49);
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(43, 50, 61);
-}</string>
-               </property>
-               <property name="text">
-                <string>Edit</string>
-               </property>
-               <property name="icon">
-                <iconset resource="files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</iconset>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="button_add_department">
-               <property name="geometry">
-                <rect>
-                 <x>760</x>
-                 <y>10</y>
-                 <width>100</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: 2px solid rgb(52, 59, 72);
-	border-radius: 10px;	
-	background-color: rgb(52, 59, 72);
-	color: rgb(255, 255, 255);
-}
-QPushButton:hover {
-	background-color: rgb(57, 65, 80);
-	color: rgb(227, 227, 227);
-	border: 2px solid rgb(61, 70, 86);
-}
-QPushButton:pressed {	
-	background-color: rgb(35, 40, 49);
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(43, 50, 61);
-}</string>
-               </property>
-               <property name="text">
-                <string>Add</string>
-               </property>
-               <property name="icon">
-                <iconset resource="files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</iconset>
-               </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Datetime</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Tempeature</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Similar</string>
+                </property>
+               </column>
               </widget>
              </widget>
-             <widget class="QWidget" name="page_statistic"/>
              <widget class="QWidget" name="page_settings"/>
             </widget>
            </item>

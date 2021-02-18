@@ -17,7 +17,6 @@ class Ui_MainWindow(object):
         MainWindow.resize(1280, 720)
         MainWindow.setMinimumSize(QtCore.QSize(1280, 720))
         MainWindow.setToolTipDuration(-1)
-        MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         MainWindow.setStyleSheet("QMainWindow {background: transparent; }\n"
 "QToolTip {\n"
 "    color: #ffffff;\n"
@@ -274,16 +273,16 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.frame_icon)
         self.label_title = QtWidgets.QLabel(self.frame_title)
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -292,16 +291,16 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -730,7 +729,7 @@ class Ui_MainWindow(object):
         self.table_devices.setItem(0, 3, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_devices.setItem(0, 4, item)
-        self.table_devices.horizontalHeader().setVisible(False)
+        self.table_devices.horizontalHeader().setVisible(True)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(False)
@@ -829,7 +828,7 @@ class Ui_MainWindow(object):
         self.page_database = QtWidgets.QWidget()
         self.page_database.setObjectName("page_database")
         self.table_persons = QtWidgets.QTableWidget(self.page_database)
-        self.table_persons.setGeometry(QtCore.QRect(10, 60, 780, 560))
+        self.table_persons.setGeometry(QtCore.QRect(20, 60, 1060, 580))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -976,7 +975,7 @@ class Ui_MainWindow(object):
         self.table_persons.setItem(0, 5, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setItem(0, 6, item)
-        self.table_persons.horizontalHeader().setVisible(False)
+        self.table_persons.horizontalHeader().setVisible(True)
         self.table_persons.horizontalHeader().setCascadingSectionResizes(True)
         self.table_persons.horizontalHeader().setDefaultSectionSize(200)
         self.table_persons.horizontalHeader().setStretchLastSection(False)
@@ -1065,65 +1064,18 @@ class Ui_MainWindow(object):
         icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-paper-plane.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_send_device.setIcon(icon11)
         self.button_send_device.setObjectName("button_send_device")
-        self.table_department = QtWidgets.QTableWidget(self.page_database)
-        self.table_department.setGeometry(QtCore.QRect(810, 50, 251, 560))
-        palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-        self.table_department.setPalette(palette)
-        self.table_department.setStyleSheet("QTableWidget {    \n"
+        self.stackedWidget.addWidget(self.page_database)
+        self.page_statistic = QtWidgets.QWidget()
+        self.page_statistic.setObjectName("page_statistic")
+        self.label_statistic_day = QtWidgets.QLabel(self.page_statistic)
+        self.label_statistic_day.setGeometry(QtCore.QRect(10, 20, 450, 300))
+        self.label_statistic_day.setObjectName("label_statistic_day")
+        self.label_statistic_all_days = QtWidgets.QLabel(self.page_statistic)
+        self.label_statistic_all_days.setGeometry(QtCore.QRect(10, 340, 450, 300))
+        self.label_statistic_all_days.setObjectName("label_statistic_all_days")
+        self.tableWidget = QtWidgets.QTableWidget(self.page_statistic)
+        self.tableWidget.setGeometry(QtCore.QRect(480, 20, 600, 620))
+        self.tableWidget.setStyleSheet("QTableWidget {    \n"
 "    background-color: rgb(39, 44, 54);\n"
 "    padding: 10px;\n"
 "    border-radius: 5px;\n"
@@ -1178,91 +1130,19 @@ class Ui_MainWindow(object):
 "    border: 1px solid rgb(44, 49, 60);\n"
 "}\n"
 "")
-        self.table_department.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.table_department.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-        self.table_department.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.table_department.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.table_department.setAlternatingRowColors(False)
-        self.table_department.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.table_department.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.table_department.setTextElideMode(QtCore.Qt.ElideMiddle)
-        self.table_department.setRowCount(1)
-        self.table_department.setColumnCount(1)
-        self.table_department.setObjectName("table_department")
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
-        self.table_department.setHorizontalHeaderItem(0, item)
+        self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
-        self.table_department.setItem(0, 0, item)
-        self.table_department.horizontalHeader().setVisible(False)
-        self.table_department.horizontalHeader().setCascadingSectionResizes(True)
-        self.table_department.horizontalHeader().setDefaultSectionSize(200)
-        self.table_department.horizontalHeader().setStretchLastSection(False)
-        self.table_department.verticalHeader().setVisible(False)
-        self.table_department.verticalHeader().setHighlightSections(False)
-        self.table_department.verticalHeader().setStretchLastSection(True)
-        self.button_delete_department = QtWidgets.QPushButton(self.page_database)
-        self.button_delete_department.setGeometry(QtCore.QRect(980, 10, 100, 30))
-        self.button_delete_department.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        self.button_delete_department.setIcon(icon10)
-        self.button_delete_department.setObjectName("button_delete_department")
-        self.button_edit_department = QtWidgets.QPushButton(self.page_database)
-        self.button_edit_department.setGeometry(QtCore.QRect(870, 10, 100, 30))
-        self.button_edit_department.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        self.button_edit_department.setIcon(icon9)
-        self.button_edit_department.setObjectName("button_edit_department")
-        self.button_add_department = QtWidgets.QPushButton(self.page_database)
-        self.button_add_department.setGeometry(QtCore.QRect(760, 10, 100, 30))
-        self.button_add_department.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        self.button_add_department.setIcon(icon7)
-        self.button_add_department.setObjectName("button_add_department")
-        self.stackedWidget.addWidget(self.page_database)
-        self.page_statistic = QtWidgets.QWidget()
-        self.page_statistic.setObjectName("page_statistic")
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(4, item)
         self.stackedWidget.addWidget(self.page_statistic)
         self.page_settings = QtWidgets.QWidget()
         self.page_settings.setObjectName("page_settings")
@@ -1306,7 +1186,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1374,16 +1254,18 @@ class Ui_MainWindow(object):
         self.button_edit_person.setText(_translate("MainWindow", "Edit"))
         self.button_add_person.setText(_translate("MainWindow", "Add"))
         self.button_send_device.setText(_translate("MainWindow", "Send to Device"))
-        item = self.table_department.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Department"))
-        __sortingEnabled = self.table_department.isSortingEnabled()
-        self.table_department.setSortingEnabled(False)
-        item = self.table_department.item(0, 0)
-        item.setText(_translate("MainWindow", "sdg"))
-        self.table_department.setSortingEnabled(__sortingEnabled)
-        self.button_delete_department.setText(_translate("MainWindow", "Delete"))
-        self.button_edit_department.setText(_translate("MainWindow", "Edit"))
-        self.button_add_department.setText(_translate("MainWindow", "Add"))
+        self.label_statistic_day.setText(_translate("MainWindow", "TextLabel"))
+        self.label_statistic_all_days.setText(_translate("MainWindow", "TextLabel"))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "ID"))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Name"))
+        item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Datetime"))
+        item = self.tableWidget.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "Tempeature"))
+        item = self.tableWidget.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "Similar"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
 import files_rc
 
