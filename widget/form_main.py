@@ -21,10 +21,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.__load_employees_to_table()
         self.__load_departments_to_table()
         self.stackedWidget.setCurrentWidget(self.page_device)
+        self.button_device.setStyleSheet(self.theme['system-button'] +
+                                         "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
         # DATA
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
         self.button_close.clicked.connect(lambda: self.close())
         self.button_minimize.clicked.connect(lambda: self.showMinimized())
+        self.button_maximize_restore.clicked.connect(lambda: self.showMaximized())
         self.sizegrip = QSizeGrip(self.frame_size_grip)
         self.sizegrip.setStyleSheet("width: 20px; height: 20px; margin 0px; padding: 0px;")
         self.frame_header.mouseMoveEvent = self.__frame_header_move_window
@@ -72,11 +75,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # OTHERS
     def __update_system_buttons(self, button=QtWidgets.QPushButton):
-        self.button_device.setStyleSheet(self.theme['button_device'])
-        self.button_database.setStyleSheet(self.theme['button_database'])
-        self.button_statistic.setStyleSheet(self.theme['button_statistic'])
-        self.button_settings.setStyleSheet(self.theme['button_settings'])
-        button.setStyleSheet(self.theme[button.objectName()] +
+        self.button_device.setStyleSheet(self.theme['system-button'])
+        self.button_database.setStyleSheet(self.theme['system-button'])
+        self.button_statistic.setStyleSheet(self.theme['system-button'])
+        self.button_settings.setStyleSheet(self.theme['system-button'])
+        button.setStyleSheet(self.theme['system-button'] +
                              "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
 
     def __get_departments_from_database(self):

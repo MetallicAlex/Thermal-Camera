@@ -1,10 +1,7 @@
 {
   "dark theme": {
     "centralWidget": "",
-    "button_device": "QPushButton{\n	background-position: left;\n background-repeat: no-reperat;\n border: none;\n text-align: left;\n padding-left: 15px; color: rgb(255, 255, 255);}\n QPushButton:hover{\nbackground-color: rgb(40, 44, 52);}\nQPushButton:pressed {\n	background-color: rgb(85, 170, 255);}",
-    "button_database": "QPushButton{\n	background-position: left;\n background-repeat: no-reperat;\n border: none;\n text-align: left;\n padding-left: 15px; color: rgb(255, 255, 255);}\n QPushButton:hover{\nbackground-color: rgb(40, 44, 52);}\nQPushButton:pressed {\n	background-color: rgb(85, 170, 255);}",
-    "button_statistic": "QPushButton{\n	background-position: left;\n background-repeat: no-reperat;\n border: none;\n text-align: left;\n padding-left: 15px; color: rgb(255, 255, 255);}\n QPushButton:hover{\nbackground-color: rgb(40, 44, 52);}\nQPushButton:pressed {\n	background-color: rgb(85, 170, 255);}",
-    "button_settings": "QPushButton{\n	background-position: left;\n background-repeat: no-reperat;\n border: none;\n text-align: left;\n padding-left: 15px; color: rgb(255, 255, 255);}\n QPushButton:hover{\nbackground-color: rgb(40, 44, 52);}\nQPushButton:pressed {\n	background-color: rgb(85, 170, 255);}"
+    "system-button": "QPushButton{\n	background-position: left;\n background-repeat: no-reperat;\n border: none;\n text-align: left;\n padding-left: 15px; color: rgb(255, 255, 255);}\n QPushButton:hover{\nbackground-color: rgb(40, 44, 52);}\nQPushButton:pressed {\n	background-color: rgb(85, 170, 255);}"
   },
   "light theme": {}
 }
