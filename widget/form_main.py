@@ -19,7 +19,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # SETTINGS
         self.theme = self.__get_theme('dark theme')
         self.__load_employees_to_table()
-        #self.__load_departments_to_table()
+        # self.__load_departments_to_table()
+        self.__load_statistics_to_table()
         self.stackedWidget.setCurrentWidget(self.page_device)
         self.button_device.setStyleSheet(self.theme['system-button'] +
                                          "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
@@ -73,15 +74,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             data = json.load(file, strict=False)
         return data[theme]
 
-    # OTHERS
-    def __update_system_buttons(self, button=QtWidgets.QPushButton):
-        self.button_device.setStyleSheet(self.theme['system-button'])
-        self.button_database.setStyleSheet(self.theme['system-button'])
-        self.button_statistic.setStyleSheet(self.theme['system-button'])
-        self.button_settings.setStyleSheet(self.theme['system-button'])
-        button.setStyleSheet(self.theme['system-button'] +
-                             "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
-
+    # DATABASE
     def __get_departments_from_database(self):
         with models.get_session() as session:
             departments = session.query(models.Department).all()
@@ -94,17 +87,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __get_statistics_from_database(self):
         with models.get_session() as session:
-            statistics = session.query(models.Statistic).all()
+            statistics = session.query(models.Statistic, models.Employee.name) \
+                .filter(models.Statistic.id_employee == models.Employee.id).all()
         return statistics
 
     def __load_employees_to_table(self):
-        self.table_persons.removeRow(0)
         for row_position, employee in enumerate(self.__get_employees_from_database()):
             self.table_persons.insertRow(row_position)
-            item = QTableWidgetItem()
-            item.setData(Qt.EditRole, employee.id)
-            item.setTextAlignment(Qt.AlignCenter)
-            self.table_persons.setItem(row_position, 1, item)
+            self.table_persons.setItem(row_position, 1, self.__get_item_to_cell(employee.id))
             self.table_persons.setItem(row_position, 2, self.__get_item_image(employee.face))
             self.table_persons.setItem(row_position, 3, QTableWidgetItem(employee.name))
             self.table_persons.setItem(row_position, 4, QTableWidgetItem(employee.name_department))
@@ -112,6 +102,35 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(employee.phone_number)))
         self.table_persons.resizeColumnsToContents()
         self.table_persons.resizeRowsToContents()
+
+    def __load_departments_to_table(self):
+        for row_position, department in enumerate(self.__get_departments_from_database()):
+            self.table_department.insertRow(row_position)
+            self.table_department.setItem(row_position, 0, QTableWidgetItem(department.name))
+        self.table_persons.resizeColumnsToContents()
+        self.table_persons.resizeRowsToContents()
+
+    def __load_statistics_to_table(self):
+        for row_position, statistic in enumerate(self.__get_statistics_from_database()):
+            statistic, employee_name = statistic
+            self.table_statistics.insertRow(row_position)
+            self.table_statistics.setItem(row_position, 0, self.__get_item_to_cell(statistic.id_employee))
+            self.table_statistics.setItem(row_position, 1, QTableWidgetItem(employee_name))
+            self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
+            self.table_statistics.setItem(row_position, 3, self.__get_item_to_cell(float(statistic.temperature)))
+            self.table_statistics.setItem(row_position, 4, self.__get_item_to_cell(float(statistic.similar)))
+        self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
+        self.table_statistics.resizeColumnsToContents()
+        self.table_statistics.resizeRowsToContents()
+
+    # OTHERS
+    def __update_system_buttons(self, button=QtWidgets.QPushButton):
+        self.button_device.setStyleSheet(self.theme['system-button'])
+        self.button_database.setStyleSheet(self.theme['system-button'])
+        self.button_statistic.setStyleSheet(self.theme['system-button'])
+        self.button_settings.setStyleSheet(self.theme['system-button'])
+        button.setStyleSheet(self.theme['system-button'] +
+                             "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
 
     def __get_item_image(self, path_image=str):
         item = QTableWidgetItem()
@@ -123,10 +142,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setData(Qt.DecorationRole, pixmap)
         return item
 
-    def __load_departments_to_table(self):
-        self.table_department.removeRow(0)
-        for row_position, department in enumerate(self.__get_departments_from_database()):
-            self.table_department.insertRow(row_position)
-            self.table_department.setItem(row_position, 0, QTableWidgetItem(department.name))
-        self.table_persons.resizeColumnsToContents()
-        self.table_persons.resizeRowsToContents()
+    def __get_item_to_cell(self, value):
+        item = QTableWidgetItem()
+        item.setData(Qt.EditRole, value)
+        item.setTextAlignment(Qt.AlignCenter)
+        return item

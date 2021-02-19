@@ -1048,7 +1048,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -1314,7 +1314,7 @@ QHeaderView::section:vertical
                 <enum>Qt::ElideMiddle</enum>
                </property>
                <property name="rowCount">
-                <number>1</number>
+                <number>0</number>
                </property>
                <property name="columnCount">
                 <number>5</number>
@@ -1340,7 +1340,6 @@ QHeaderView::section:vertical
                <attribute name="verticalHeaderStretchLastSection">
                 <bool>true</bool>
                </attribute>
-               <row/>
                <column>
                 <property name="text">
                  <string/>
@@ -1366,31 +1365,6 @@ QHeaderView::section:vertical
                  <string>State</string>
                 </property>
                </column>
-               <item row="0" column="0">
-                <property name="text">
-                 <string>sfd</string>
-                </property>
-               </item>
-               <item row="0" column="1">
-                <property name="text">
-                 <string>sdg</string>
-                </property>
-               </item>
-               <item row="0" column="2">
-                <property name="text">
-                 <string>sdf</string>
-                </property>
-               </item>
-               <item row="0" column="3">
-                <property name="text">
-                 <string>sfd</string>
-                </property>
-               </item>
-               <item row="0" column="4">
-                <property name="text">
-                 <string>sf</string>
-                </property>
-               </item>
               </widget>
               <widget class="QPushButton" name="button_add_device">
                <property name="geometry">
@@ -1797,7 +1771,7 @@ QHeaderView::section:vertical
                 <enum>Qt::ElideMiddle</enum>
                </property>
                <property name="rowCount">
-                <number>1</number>
+                <number>0</number>
                </property>
                <property name="columnCount">
                 <number>7</number>
@@ -1823,7 +1797,6 @@ QHeaderView::section:vertical
                <attribute name="verticalHeaderStretchLastSection">
                 <bool>true</bool>
                </attribute>
-               <row/>
                <column>
                 <property name="text">
                  <string/>
@@ -1859,31 +1832,6 @@ QHeaderView::section:vertical
                  <string>Phone Number</string>
                 </property>
                </column>
-               <item row="0" column="1">
-                <property name="text">
-                 <string>sfd</string>
-                </property>
-               </item>
-               <item row="0" column="3">
-                <property name="text">
-                 <string>sdg</string>
-                </property>
-               </item>
-               <item row="0" column="4">
-                <property name="text">
-                 <string>sdf</string>
-                </property>
-               </item>
-               <item row="0" column="5">
-                <property name="text">
-                 <string>sfd</string>
-                </property>
-               </item>
-               <item row="0" column="6">
-                <property name="text">
-                 <string>sf</string>
-                </property>
-               </item>
               </widget>
               <widget class="QPushButton" name="button_delete_person">
                <property name="geometry">
@@ -2053,7 +2001,7 @@ QPushButton:pressed {
                 <string>TextLabel</string>
                </property>
               </widget>
-              <widget class="QTableWidget" name="tableWidget">
+              <widget class="QTableWidget" name="table_statistics">
                <property name="geometry">
                 <rect>
                  <x>480</x>
@@ -2119,6 +2067,15 @@ QHeaderView::section:vertical
 }
 </string>
                </property>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
                <column>
                 <property name="text">
                  <string>ID</string>

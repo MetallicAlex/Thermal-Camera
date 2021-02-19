@@ -67,6 +67,14 @@ class MaskEnum(enum.Enum):
     true = 2
     false = 3
 
+    def __str__(self):
+        if self.value == 3:
+            return 'false'
+        elif self.value == 2:
+            return 'true'
+        else:
+            return 'unknow'
+
 
 class Statistic(Base):
     __tablename__ = 'statistics'
