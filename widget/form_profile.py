@@ -11,14 +11,15 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         super().__init__()
         self.setupUi(self)
         # DATA
+        self.dialog_result = None
         self.employee = employee
         # SETTINGS
         if self.employee is not None:
             self.__set_employee_data()
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())
-        # self.button_accept.clicked.connect()
-        # self.button_cancel.clicked.connect()
+        self.button_accept.clicked.connect(self.__button_accept_clicked)
+        self.button_cancel.clicked.connect(self.__button_cancel_clicked)
         self.frame_header.mouseMoveEvent = self.__frame_header_move_window
         self.frame_header.mousePressEvent = self.__frame_header_mouse_press
 
@@ -31,6 +32,20 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
             self.move(self.pos() + event.globalPos() - self.dragPos)
             self.dragPos = event.globalPos()
             event.accept()
+
+    def __button_accept_clicked(self, event):
+        self.dialog_result = 1
+        self.employee = models.Employee(id=int(self.lineEdit_id.text()),
+                                        name=self.lineEdit_name.text(),
+                                        name_department=self.comboBox_department.currentText(),
+                                        face='',
+                                        gender=self.comboBox_gender.currentText(),
+                                        phone_number=self.lineEdit_phonenumber.text())
+        self.close()
+
+    def __button_cancel_clicked(self, event):
+        self.dialog_result = 0
+        self.close()
 
     # SETTINGS
     def __get_departments(self):

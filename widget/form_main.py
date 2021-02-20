@@ -75,7 +75,24 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # EVENTS-DATABASE
     def __button_add_person_clicked(self, event):
         self.form_profile = FormProfile()
-        self.form_profile.show()
+        self.form_profile.exec_()
+        if self.form_profile.dialog_result == 1:
+            with models.get_session() as session:
+                print(self.form_profile.employee)
+                session.add(self.form_profile.employee)
+            row_position = self.table_persons.rowCount()
+            self.table_persons.insertRow(row_position)
+            item = QCheckBox()
+            item.setCheckState(Qt.Unchecked)
+            self.table_persons.setCellWidget(row_position, 0, item)
+            self.table_persons.setItem(row_position, 1, self.__get_item_to_cell(self.form_profile.employee.id))
+            self.table_persons.setItem(row_position, 2, self.__get_item_image(self.form_profile.employee.face))
+            self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.employee.name))
+            self.table_persons.setItem(row_position, 4, QTableWidgetItem(self.form_profile.employee.name_department))
+            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(self.form_profile.employee.gender)))
+            self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(self.form_profile.employee.phone_number)))
+            self.table_persons.resizeColumnsToContents()
+            self.table_persons.resizeRowsToContents()
 
     def __button_edit_person_clicked(self, event):
         with models.get_session() as session:
@@ -83,7 +100,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 .filter(models.Employee.id == int(self.table_persons.item(self.table_persons.currentRow(), 1).text()))\
                 .scalar()
         self.form_profile = FormProfile(employee)
-        self.form_profile.show()
+        self.form_profile.exec_()
+        print(self.form_profile.dialog_result)
 
     # SETTINGS
     def __get_theme(self, theme=str):
