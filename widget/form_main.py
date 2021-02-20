@@ -44,6 +44,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE DATABASE
         self.button_add_person.clicked.connect(self.__button_add_person_clicked)
         self.button_edit_person.clicked.connect(self.__button_edit_person_clicked)
+        self.button_delete_person.clicked.connect(self.__button_delete_person_clicked)
         # PAGE STATISTIC
 
     # EVENTS
@@ -119,6 +120,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                                            QTableWidgetItem(str(self.form_profile.employee.phone_number)))
                 self.table_persons.resizeColumnsToContents()
                 self.table_persons.resizeRowsToContents()
+
+    def __button_delete_person_clicked(self, event):
+        with models.get_session() as session:
+            employee = session.query(models.Employee) \
+                .filter(models.Employee.id == int(self.table_persons.item(self.table_persons.currentRow(), 1).text())) \
+                .scalar()
+            session.delete(employee)
+            self.table_persons.removeRow(self.table_persons.currentRow())
 
     # SETTINGS
     def __get_theme(self, theme=str):
