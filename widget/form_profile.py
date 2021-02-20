@@ -43,5 +43,5 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         self.comboBox_gender.setCurrentIndex(self.employee.gender.value - 1)
         self.label_photo.setScaledContents(False)
         pixmap = QPixmap(QImage(f'nginx/html{self.employee.face}'))
-        pixmap = pixmap.scaled(200, 300, Qt.KeepAspectRatio)
+        pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
         self.label_photo.setPixmap(pixmap)

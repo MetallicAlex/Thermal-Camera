@@ -3,7 +3,7 @@ import os
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect, \
-    QTableWidgetItem, QLabel
+    QTableWidgetItem, QLabel, QCheckBox, QHeaderView
 from PyQt5.QtGui import QPixmap, QImage, QIcon, QColor
 from PyQt5.QtCore import Qt
 
@@ -42,7 +42,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_settings.clicked.connect(self.__button_settings_clicked)
         # PAGE DEVICE
         # PAGE DATABASE
-        # self.button_add_person.clicked.connect()
+        self.button_add_person.clicked.connect(self.__button_add_person_clicked)
         self.button_edit_person.clicked.connect(self.__button_edit_person_clicked)
         # PAGE STATISTIC
 
@@ -74,7 +74,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-DATABASE
     def __button_add_person_clicked(self, event):
-        pass
+        self.form_profile = FormProfile()
+        self.form_profile.show()
 
     def __button_edit_person_clicked(self, event):
         with models.get_session() as session:
@@ -110,6 +111,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def __load_employees_to_table(self):
         for row_position, employee in enumerate(self.__get_employees_from_database()):
             self.table_persons.insertRow(row_position)
+            item = QCheckBox()
+            item.setCheckState(Qt.Unchecked)
+            self.table_persons.setCellWidget(row_position, 0, item)
             self.table_persons.setItem(row_position, 1, self.__get_item_to_cell(employee.id))
             self.table_persons.setItem(row_position, 2, self.__get_item_image(employee.face))
             self.table_persons.setItem(row_position, 3, QTableWidgetItem(employee.name))
@@ -154,7 +158,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             pixmap = QPixmap(QImage(f'nginx/html{path_image}'))
         else:
             pixmap = QPixmap(QImage('data/resources/icons/user.png'))
-        pixmap = pixmap.scaled(200, 300, Qt.KeepAspectRatio)
+        pixmap = pixmap.scaled(150, 200, Qt.KeepAspectRatio)
         item.setData(Qt.DecorationRole, pixmap)
         return item
 

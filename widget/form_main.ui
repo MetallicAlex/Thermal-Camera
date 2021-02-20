@@ -166,7 +166,7 @@ QCheckBox::indicator:hover {
 QCheckBox::indicator:checked {
     background: 3px solid rgb(52, 59, 72);
 	border: 3px solid rgb(52, 59, 72);	
-	background-image: url(:/16x16/icons/16x16/cil-check-alt.png);
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);
 }
 
 /* RADIO BUTTON */
@@ -205,7 +205,7 @@ QComboBox::drop-down {
 	border-left-style: solid;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;	
-	background-image: url(:/16x16/icons/16x16/cil-arrow-bottom.png);
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);
 	background-position: center;
 	background-repeat: no-reperat;
  }
@@ -1048,7 +1048,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -1743,6 +1743,21 @@ QHeaderView::section:horizontal
 QHeaderView::section:vertical
 {
     border: 1px solid rgb(44, 49, 60);
+}
+QCheckBox::indicator {
+    border: 3px solid rgb(52, 59, 72);
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: rgb(44, 49, 60);
+}
+QCheckBox::indicator:hover {
+    border: 3px solid rgb(58, 66, 81);
+}
+QCheckBox::indicator:checked {
+    background: 3px solid rgb(52, 59, 72);
+	border: 3px solid rgb(52, 59, 72);	
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);
 }
 </string>
                </property>
