@@ -258,6 +258,8 @@
     <file>data/resources/icons/24x24/cil-chart-line.png</file>
     <file>data/resources/icons/24x24/cil-people.png</file>
     <file>data/resources/icons/24x24/cil-settings.png</file>
+    <file>data/resources/icons/24x24/cil-image1.png</file>
+    <file>data/resources/icons/24x24/cil-file.png</file>
   </qresource>
   <qresource prefix="20x20">
     <file>data/resources/icons/20x20/cil-3d.png</file>
