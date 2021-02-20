@@ -131,7 +131,7 @@ class Ui_FormProfile(object):
 "QCheckBox::indicator:checked {\n"
 "    background: 3px solid rgb(52, 59, 72);\n"
 "    border: 3px solid rgb(52, 59, 72);    \n"
-"    background-image: url(:/16x16/icons/16x16/cil-check-alt.png);\n"
+"    background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);\n"
 "}\n"
 "\n"
 "/* RADIO BUTTON */\n"
@@ -170,7 +170,7 @@ class Ui_FormProfile(object):
 "    border-left-style: solid;\n"
 "    border-top-right-radius: 3px;\n"
 "    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/icons/16x16/cil-arrow-bottom.png);\n"
+"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
 "    background-position: center;\n"
 "    background-repeat: no-reperat;\n"
 " }\n"
@@ -256,6 +256,7 @@ class Ui_FormProfile(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_title.setFont(font)
+        self.label_title.setStyleSheet("")
         self.label_title.setObjectName("label_title")
         self.horizontalLayout.addWidget(self.label_title)
         self.frame_system_buttons = QtWidgets.QFrame(self.frame_header)
@@ -476,14 +477,14 @@ class Ui_FormProfile(object):
         self.label_phonenumber.setFont(font)
         self.label_phonenumber.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_phonenumber.setObjectName("label_phonenumber")
-        self.lineEdit_name_2 = QtWidgets.QLineEdit(self.frame_contains)
-        self.lineEdit_name_2.setGeometry(QtCore.QRect(10, 580, 481, 30))
-        self.lineEdit_name_2.setMinimumSize(QtCore.QSize(0, 30))
+        self.lineEdit_phonenumber = QtWidgets.QLineEdit(self.frame_contains)
+        self.lineEdit_phonenumber.setGeometry(QtCore.QRect(10, 580, 481, 30))
+        self.lineEdit_phonenumber.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
-        self.lineEdit_name_2.setFont(font)
-        self.lineEdit_name_2.setStyleSheet("QLineEdit {\n"
+        self.lineEdit_phonenumber.setFont(font)
+        self.lineEdit_phonenumber.setStyleSheet("QLineEdit {\n"
 "    background-color: rgb(27, 29, 35);\n"
 "    border-radius: 5px;\n"
 "    border: 2px solid rgb(27, 29, 35);\n"
@@ -495,7 +496,7 @@ class Ui_FormProfile(object):
 "QLineEdit:focus {\n"
 "    border: 2px solid rgb(91, 101, 124);\n"
 "}")
-        self.lineEdit_name_2.setObjectName("lineEdit_name_2")
+        self.lineEdit_phonenumber.setObjectName("lineEdit_phonenumber")
         self.button_accept = QtWidgets.QPushButton(self.frame_contains)
         self.button_accept.setGeometry(QtCore.QRect(40, 620, 200, 40))
         font = QtGui.QFont()
@@ -565,7 +566,7 @@ class Ui_FormProfile(object):
         self.comboBox_department.setItemText(0, _translate("FormProfile", "No Group"))
         self.button_choose_file.setText(_translate("FormProfile", "Choose File"))
         self.label_phonenumber.setText(_translate("FormProfile", "Phone Number"))
-        self.lineEdit_name_2.setPlaceholderText(_translate("FormProfile", "+3753312345678"))
+        self.lineEdit_phonenumber.setPlaceholderText(_translate("FormProfile", "+3753312345678"))
         self.button_accept.setText(_translate("FormProfile", "Accept"))
         self.button_cancel.setText(_translate("FormProfile", "Cancel"))
 import files_rc

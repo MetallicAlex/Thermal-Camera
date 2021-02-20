@@ -8,6 +8,7 @@ from PyQt5.QtGui import QPixmap, QImage, QIcon, QColor
 from PyQt5.QtCore import Qt
 
 from form_main_designer import Ui_MainWindow
+from form_profile import FormProfile
 import models
 
 
@@ -16,15 +17,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        # SETTINGS
+        # DATA
+        self.form_profile = FormProfile()
         self.theme = self.__get_theme('dark theme')
+        # SETTINGS
         self.__load_employees_to_table()
         # self.__load_departments_to_table()
         self.__load_statistics_to_table()
         self.stackedWidget.setCurrentWidget(self.page_device)
         self.button_device.setStyleSheet(self.theme['system-button'] +
                                          "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
-        # DATA
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
         self.button_close.clicked.connect(lambda: self.close())
         self.button_minimize.clicked.connect(lambda: self.showMinimized())
@@ -40,6 +42,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_settings.clicked.connect(self.__button_settings_clicked)
         # PAGE DEVICE
         # PAGE DATABASE
+        # self.button_add_person.clicked.connect()
+        self.button_edit_person.clicked.connect(self.__button_edit_person_clicked)
         # PAGE STATISTIC
 
     # EVENTS
@@ -67,6 +71,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def __button_settings_clicked(self, event):
         self.__update_system_buttons(self.button_settings)
         self.stackedWidget.setCurrentWidget(self.page_settings)
+
+    # EVENTS-DATABASE
+    def __button_add_person_clicked(self, event):
+        pass
+
+    def __button_edit_person_clicked(self, event):
+        with models.get_session() as session:
+            employee = session.query(models.Employee)\
+                .filter(models.Employee.id == int(self.table_persons.item(self.table_persons.currentRow(), 1).text()))\
+                .scalar()
+        self.form_profile = FormProfile(employee)
+        self.form_profile.show()
 
     # SETTINGS
     def __get_theme(self, theme=str):

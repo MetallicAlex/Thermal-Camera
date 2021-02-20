@@ -155,7 +155,7 @@ QCheckBox::indicator:hover {
 QCheckBox::indicator:checked {
     background: 3px solid rgb(52, 59, 72);
 	border: 3px solid rgb(52, 59, 72);	
-	background-image: url(:/16x16/icons/16x16/cil-check-alt.png);
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);
 }
 
 /* RADIO BUTTON */
@@ -194,7 +194,7 @@ QComboBox::drop-down {
 	border-left-style: solid;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;	
-	background-image: url(:/16x16/icons/16x16/cil-arrow-bottom.png);
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);
 	background-position: center;
 	background-repeat: no-reperat;
  }
@@ -326,6 +326,9 @@ QSlider::handle:vertical:pressed {
            <weight>75</weight>
            <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Profile</string>
@@ -832,7 +835,7 @@ QPushButton:pressed {
         <number>5</number>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_name_2">
+      <widget class="QLineEdit" name="lineEdit_phonenumber">
        <property name="geometry">
         <rect>
          <x>10</x>
