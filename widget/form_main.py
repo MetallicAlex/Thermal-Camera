@@ -78,7 +78,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.form_profile.exec_()
         if self.form_profile.dialog_result == 1:
             with models.get_session() as session:
-                print(self.form_profile.employee)
                 session.add(self.form_profile.employee)
             row_position = self.table_persons.rowCount()
             self.table_persons.insertRow(row_position)
@@ -96,12 +95,30 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __button_edit_person_clicked(self, event):
         with models.get_session() as session:
-            employee = session.query(models.Employee)\
-                .filter(models.Employee.id == int(self.table_persons.item(self.table_persons.currentRow(), 1).text()))\
+            employee = session.query(models.Employee) \
+                .filter(models.Employee.id == int(self.table_persons.item(self.table_persons.currentRow(), 1).text())) \
                 .scalar()
-        self.form_profile = FormProfile(employee)
-        self.form_profile.exec_()
-        print(self.form_profile.dialog_result)
+            self.form_profile = FormProfile(employee)
+            self.form_profile.exec_()
+            if self.form_profile.dialog_result == 1:
+                session.query(models.Employee).filter(models.Employee.id == employee.id) \
+                    .update({models.Employee.name: self.form_profile.employee.name,
+                             models.Employee.id: self.form_profile.employee.id,
+                             models.Employee.name_department: self.form_profile.employee.name_department,
+                             models.Employee.face: self.form_profile.employee.face,
+                             models.Employee.gender: self.form_profile.employee.gender,
+                             models.Employee.phone_number: self.form_profile.employee.phone_number})
+                row_position = self.table_persons.currentRow()
+                self.table_persons.setItem(row_position, 1, self.__get_item_to_cell(self.form_profile.employee.id))
+                self.table_persons.setItem(row_position, 2, self.__get_item_image(self.form_profile.employee.face))
+                self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.employee.name))
+                self.table_persons.setItem(row_position, 4,
+                                           QTableWidgetItem(self.form_profile.employee.name_department))
+                self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(self.form_profile.employee.gender)))
+                self.table_persons.setItem(row_position, 6,
+                                           QTableWidgetItem(str(self.form_profile.employee.phone_number)))
+                self.table_persons.resizeColumnsToContents()
+                self.table_persons.resizeRowsToContents()
 
     # SETTINGS
     def __get_theme(self, theme=str):
