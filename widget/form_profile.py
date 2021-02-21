@@ -20,6 +20,7 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         self.button_close.clicked.connect(lambda: self.close())
         self.button_accept.clicked.connect(self.__button_accept_clicked)
         self.button_cancel.clicked.connect(self.__button_cancel_clicked)
+        self.button_choose_file.clicked.connect(self.__button_choose_file_clicked)
         self.frame_header.mouseMoveEvent = self.__frame_header_move_window
         self.frame_header.mousePressEvent = self.__frame_header_mouse_press
 
@@ -35,10 +36,12 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
 
     def __button_accept_clicked(self, event):
         self.dialog_result = 1
+        pixmap = QPixmap(QImage(self.file_name))
+        pixmap.save(f'nginx/html/static/images/{self.lineEdit_name.text()}.jpg')
         self.employee = models.Employee(id=int(self.lineEdit_id.text()),
                                         name=self.lineEdit_name.text(),
                                         name_department=self.comboBox_department.currentText(),
-                                        face='',
+                                        face=f'/static/images/{self.lineEdit_name.text()}.jpg',
                                         gender=self.comboBox_gender.currentText(),
                                         phone_number=self.lineEdit_phonenumber.text())
         self.close()
@@ -46,6 +49,16 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
     def __button_cancel_clicked(self, event):
         self.dialog_result = 0
         self.close()
+
+    def __button_choose_file_clicked(self, event):
+        self.file_name, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Choose File', '',
+                                                                  'Image File (*.bmp | *.jpg | *.jpeg | *.png);;'
+                                                                  'All Files (*)')
+        if self.file_name:
+            self.label_photo.setScaledContents(False)
+            pixmap = QPixmap(QImage(self.file_name))
+            pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
+            self.label_photo.setPixmap(pixmap)
 
     # SETTINGS
     def __get_departments(self):
