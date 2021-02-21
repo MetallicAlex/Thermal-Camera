@@ -9,6 +9,7 @@ from PyQt5.QtCore import Qt
 
 from form_main_designer import Ui_MainWindow
 from form_profile import FormProfile
+from form_devices import FormDevices
 import models
 
 
@@ -41,6 +42,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_statistic.clicked.connect(self.__button_statistic_clicked)
         self.button_settings.clicked.connect(self.__button_settings_clicked)
         # PAGE DEVICE
+        self.button_search_device.clicked.connect(self.__button_search_device_clicked)
         # PAGE DATABASE
         self.button_add_person.clicked.connect(self.__button_add_person_clicked)
         self.button_edit_person.clicked.connect(self.__button_edit_person_clicked)
@@ -128,6 +130,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 .scalar()
             session.delete(employee)
             self.table_persons.removeRow(self.table_persons.currentRow())
+
+    # EVENTS-DEVICE
+    def __button_search_device_clicked(self, event):
+        self.form_devices = FormDevices()
+        self.form_devices.exec_()
 
     # SETTINGS
     def __get_theme(self, theme=str):

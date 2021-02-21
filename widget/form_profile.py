@@ -11,7 +11,7 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         super().__init__()
         self.setupUi(self)
         # DATA
-        self.dialog_result = None
+        self.dialog_result = 0
         self.employee = employee
         # SETTINGS
         if self.employee is not None:

@@ -463,7 +463,7 @@ class Ui_FormDevices(object):
         self.table_devices.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_devices.setHorizontalHeaderItem(4, item)
-        self.table_devices.horizontalHeader().setVisible(False)
+        self.table_devices.horizontalHeader().setVisible(True)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(False)
