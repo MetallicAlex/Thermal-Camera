@@ -141,7 +141,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __button_edit_device_clicked(self, event):
         wb.open_new_tab(f'http://{self.table_devices.item(self.table_devices.currentRow(), 3).text()}:7080')
-        
+
     # SETTINGS
     def __get_theme(self, theme=str):
         with open('data/themes.json') as file:
