@@ -1,5 +1,6 @@
 import json
 import os
+import webbrowser as wb
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect, \
@@ -44,6 +45,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_settings.clicked.connect(self.__button_settings_clicked)
         # PAGE DEVICE
         self.button_search_device.clicked.connect(self.__button_search_device_clicked)
+        self.button_edit_device.clicked.connect(self.__button_edit_device_clicked)
         # PAGE DATABASE
         self.button_add_person.clicked.connect(self.__button_add_person_clicked)
         self.button_edit_person.clicked.connect(self.__button_edit_person_clicked)
@@ -137,6 +139,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.form_devices = FormDevices()
         self.form_devices.exec_()
 
+    def __button_edit_device_clicked(self, event):
+        wb.open_new_tab(f'http://{self.table_devices.item(self.table_devices.currentRow(), 3).text()}:7080')
+        
     # SETTINGS
     def __get_theme(self, theme=str):
         with open('data/themes.json') as file:
