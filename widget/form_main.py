@@ -22,6 +22,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.form_profile = FormProfile()
         self.theme = self.__get_theme('dark theme')
         # SETTINGS
+        self.__load_devices_info_to_table()
         self.__load_employees_to_table()
         # self.__load_departments_to_table()
         self.__load_statistics_to_table()
@@ -141,6 +142,25 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         with open('data/themes.json') as file:
             data = json.load(file, strict=False)
         return data[theme]
+
+    # DEVICES
+    def __get_devices_info(self):
+        with open('data/devices.json') as file:
+            data = json.load(file, strict=False)
+        return data
+
+    def __load_devices_info_to_table(self):
+        self.devices = self.__get_devices_info()
+        for row_position, device in enumerate(self.devices):
+            self.table_devices.insertRow(row_position)
+            item = QCheckBox()
+            item.setCheckState(Qt.Unchecked)
+            self.table_devices.setCellWidget(row_position, 0, item)
+            self.table_devices.setItem(row_position, 1, QTableWidgetItem(device['name']))
+            self.table_devices.setItem(row_position, 2, QTableWidgetItem(device['serial']))
+            self.table_devices.setItem(row_position, 3, QTableWidgetItem(device['ip']))
+        # self.table_devices.resizeColumnsToContents()
+        # self.table_devices.resizeRowsToContents()
 
     # DATABASE
     def __get_departments_from_database(self):

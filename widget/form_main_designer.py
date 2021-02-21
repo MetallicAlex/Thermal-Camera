@@ -720,7 +720,7 @@ class Ui_MainWindow(object):
         self.table_devices.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_devices.setHorizontalHeaderItem(4, item)
-        self.table_devices.horizontalHeader().setVisible(False)
+        self.table_devices.horizontalHeader().setVisible(True)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(False)
@@ -729,6 +729,10 @@ class Ui_MainWindow(object):
         self.table_devices.verticalHeader().setStretchLastSection(True)
         self.button_add_device = QtWidgets.QPushButton(self.page_device)
         self.button_add_device.setGeometry(QtCore.QRect(120, 50, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.button_add_device.setFont(font)
         self.button_add_device.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -751,6 +755,10 @@ class Ui_MainWindow(object):
         self.button_add_device.setObjectName("button_add_device")
         self.button_search_device = QtWidgets.QPushButton(self.page_device)
         self.button_search_device.setGeometry(QtCore.QRect(10, 50, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.button_search_device.setFont(font)
         self.button_search_device.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -773,6 +781,9 @@ class Ui_MainWindow(object):
         self.button_search_device.setObjectName("button_search_device")
         self.button_edit_device = QtWidgets.QPushButton(self.page_device)
         self.button_edit_device.setGeometry(QtCore.QRect(230, 50, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_edit_device.setFont(font)
         self.button_edit_device.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -795,6 +806,9 @@ class Ui_MainWindow(object):
         self.button_edit_device.setObjectName("button_edit_device")
         self.button_delete_device = QtWidgets.QPushButton(self.page_device)
         self.button_delete_device.setGeometry(QtCore.QRect(340, 50, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_delete_device.setFont(font)
         self.button_delete_device.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -971,7 +985,7 @@ class Ui_MainWindow(object):
         self.table_persons.setHorizontalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setHorizontalHeaderItem(6, item)
-        self.table_persons.horizontalHeader().setVisible(True)
+        self.table_persons.horizontalHeader().setVisible(False)
         self.table_persons.horizontalHeader().setCascadingSectionResizes(True)
         self.table_persons.horizontalHeader().setDefaultSectionSize(200)
         self.table_persons.horizontalHeader().setStretchLastSection(False)
@@ -980,6 +994,9 @@ class Ui_MainWindow(object):
         self.table_persons.verticalHeader().setStretchLastSection(True)
         self.button_delete_person = QtWidgets.QPushButton(self.page_database)
         self.button_delete_person.setGeometry(QtCore.QRect(370, 10, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_delete_person.setFont(font)
         self.button_delete_person.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -1000,6 +1017,9 @@ class Ui_MainWindow(object):
         self.button_delete_person.setObjectName("button_delete_person")
         self.button_edit_person = QtWidgets.QPushButton(self.page_database)
         self.button_edit_person.setGeometry(QtCore.QRect(260, 10, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_edit_person.setFont(font)
         self.button_edit_person.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -1020,6 +1040,9 @@ class Ui_MainWindow(object):
         self.button_edit_person.setObjectName("button_edit_person")
         self.button_add_person = QtWidgets.QPushButton(self.page_database)
         self.button_add_person.setGeometry(QtCore.QRect(150, 10, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_add_person.setFont(font)
         self.button_add_person.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -1040,6 +1063,9 @@ class Ui_MainWindow(object):
         self.button_add_person.setObjectName("button_add_person")
         self.button_send_device = QtWidgets.QPushButton(self.page_database)
         self.button_send_device.setGeometry(QtCore.QRect(10, 10, 130, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_send_device.setFont(font)
         self.button_send_device.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -1184,12 +1210,12 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Thermal Camera\'s Manager"))
         self.label_title.setText(_translate("MainWindow", "Thermal Camera\'s Manager"))
         self.button_minimize.setToolTip(_translate("MainWindow", "Minimize"))
         self.button_maximize_restore.setToolTip(_translate("MainWindow", "Maximize"))

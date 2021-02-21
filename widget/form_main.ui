@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Thermal Camera's Manager</string>
   </property>
   <property name="toolTipDuration">
    <number>-1</number>
@@ -1048,7 +1048,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -1320,7 +1320,7 @@ QHeaderView::section:vertical
                 <number>5</number>
                </property>
                <attribute name="horizontalHeaderVisible">
-                <bool>false</bool>
+                <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderCascadingSectionResizes">
                 <bool>true</bool>
@@ -1375,6 +1375,12 @@ QHeaderView::section:vertical
                  <height>30</height>
                 </rect>
                </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	border: 2px solid rgb(52, 59, 72);
@@ -1409,6 +1415,12 @@ QPushButton:pressed {
                  <width>100</width>
                  <height>30</height>
                 </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>8</pointsize>
+                </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
@@ -1445,6 +1457,11 @@ QPushButton:pressed {
                  <height>30</height>
                 </rect>
                </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	border: 2px solid rgb(52, 59, 72);
@@ -1479,6 +1496,11 @@ QPushButton:pressed {
                  <width>100</width>
                  <height>30</height>
                 </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
@@ -1857,6 +1879,11 @@ QCheckBox::indicator:checked {
                  <height>30</height>
                 </rect>
                </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	border: 2px solid rgb(52, 59, 72);
@@ -1891,6 +1918,11 @@ QPushButton:pressed {
                  <width>100</width>
                  <height>30</height>
                 </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
@@ -1927,6 +1959,11 @@ QPushButton:pressed {
                  <height>30</height>
                 </rect>
                </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	border: 2px solid rgb(52, 59, 72);
@@ -1961,6 +1998,11 @@ QPushButton:pressed {
                  <width>130</width>
                  <height>30</height>
                 </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
