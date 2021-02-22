@@ -62,7 +62,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.subscribe_platform.moveToThread(self.thread)
         self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
         self.thread.started.connect(self.subscribe_platform.run)
-        self.thread.start()
+        # self.thread.start()
 
     # EVENTS
     def _frame_header_mouse_press(self, event):
@@ -212,6 +212,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_persons.setItem(row_position, 4, QTableWidgetItem(employee.name_department))
             self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(employee.gender)))
             self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(employee.phone_number)))
+            self.comboBox_employees.addItem(employee.name)
         self.table_persons.resizeColumnsToContents()
         self.table_persons.resizeRowsToContents()
 

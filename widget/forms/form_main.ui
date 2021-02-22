@@ -265,7 +265,118 @@ QSlider::handle:vertical:pressed {
     background-color: rgb(65, 130, 195);
 }
 
-</string>
+/* DateTimeEdit */
+QDateTimeEdit {
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(27, 29, 35);
+	padding: 5px;
+	padding-left: 10px;
+}
+QDateTimeEdit :hover{
+	border: 2px solid rgb(64, 71, 88);
+}
+QDateTimeEdit::drop-down {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px; 
+	border-left-width: 3px;
+	border-left-color: rgba(39, 44, 54, 150);
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;	
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);
+	background-position: center;
+	background-repeat: no-reperat;
+ }
+QDateTimeEdit QAbstractItemView {
+	color: rgb(85, 170, 255);	
+	background-color: rgb(27, 29, 35);
+	padding: 10px;
+	selection-background-color: rgb(39, 44, 54);
+}
+
+/* DoubleSpinBox */
+QDoubleSpinBox {
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(27, 29, 35);
+	padding: 5px;
+	padding-left: 10px;
+}
+QDoubleSpinBox :hover{
+	border: 2px solid rgb(64, 71, 88);
+}
+QDoubleSpinBox::up-arrow {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px; 
+	border-left-width: 3px;
+	border-left-color: rgba(39, 44, 54, 150);
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;	
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);
+	background-position: center;
+	background-repeat: no-reperat;
+ }
+QDoubleSpinBox::down-arrow {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px; 
+	border-left-width: 3px;
+	border-left-color: rgba(39, 44, 54, 150);
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;	
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);
+	background-position: center;
+	background-repeat: no-reperat;
+ }
+QDoubleSpinBox::up-button {
+	background-color: transparent;
+ }
+QDoubleSpinBox::down-button {
+	background-color: transparent;
+ }
+QDoubleSpinBox QAbstractItemView {
+	color: rgb(85, 170, 255);	
+	background-color: rgb(27, 29, 35);
+	padding: 10px;
+	selection-background-color: rgb(39, 44, 54);
+}
+
+/* Calendar Widget */
+QCalendarWidget QToolButton {
+	height: 40px;
+	width: 120px;
+	color: rgb(180,180,180);
+	font-size: 16px;
+	font: &quot;Segoe UI&quot;;
+	icon-size:20px, 20px;
+	background-color:black;
+}
+
+  /* header row */
+QCalendarWidget  QWidget
+{
+	alternate-background-color: rgb(52, 59, 72);
+}
+  /*normal days */
+QCalendarWidget QAbstractItemView:enabled {
+	font-size:12px;
+	font: &quot;Segoe UI&quot;;
+	color: rgb(180,180,180);
+	background-color: black;
+	selection-background-color: rgb(52, 59, 72); 
+	selection-color:rgb(85, 170, 255);
+}
+#qt_calendar_prevmonth{
+	qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);
+}
+#qt_calendar_nextmonth{
+	qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);
+}</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>
@@ -642,7 +753,7 @@ QPushButton:pressed {
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="files.qrc">
+              <iconset resource="../files.qrc">
                <normaloff>:/16x16/data/resources/icons/16x16/cil-window-minimize.png</normaloff>:/16x16/data/resources/icons/16x16/cil-window-minimize.png</iconset>
              </property>
             </widget>
@@ -686,7 +797,7 @@ QPushButton:pressed {
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="files.qrc">
+              <iconset resource="../files.qrc">
                <normaloff>:/16x16/data/resources/icons/16x16/cil-window-maximize.png</normaloff>:/16x16/data/resources/icons/16x16/cil-window-maximize.png</iconset>
              </property>
             </widget>
@@ -730,7 +841,7 @@ QPushButton:pressed {
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="files.qrc">
+              <iconset resource="../files.qrc">
                <normaloff>:/20x20/data/resources/icons/20x20/cil-x.png</normaloff>:/20x20/data/resources/icons/20x20/cil-x.png</iconset>
              </property>
             </widget>
@@ -841,7 +952,7 @@ QPushButton:pressed {
             <string>Database Manager</string>
            </property>
            <property name="icon">
-            <iconset resource="files.qrc">
+            <iconset resource="../files.qrc">
              <normaloff>:/24x24/data/resources/icons/24x24/cil-people.png</normaloff>:/24x24/data/resources/icons/24x24/cil-people.png</iconset>
            </property>
            <property name="iconSize">
@@ -901,7 +1012,7 @@ QPushButton:pressed {
             <string>Device Manager</string>
            </property>
            <property name="icon">
-            <iconset resource="files.qrc">
+            <iconset resource="../files.qrc">
              <normaloff>:/24x24/data/resources/icons/24x24/cil-screen-desktop.png</normaloff>:/24x24/data/resources/icons/24x24/cil-screen-desktop.png</iconset>
            </property>
            <property name="iconSize">
@@ -952,7 +1063,7 @@ QPushButton:pressed {
             <string>Statistic</string>
            </property>
            <property name="icon">
-            <iconset resource="files.qrc">
+            <iconset resource="../files.qrc">
              <normaloff>:/24x24/data/resources/icons/24x24/cil-chart-line.png</normaloff>:/24x24/data/resources/icons/24x24/cil-chart-line.png</iconset>
            </property>
            <property name="iconSize">
@@ -1003,7 +1114,7 @@ QPushButton:pressed {
             <string>Settings</string>
            </property>
            <property name="icon">
-            <iconset resource="files.qrc">
+            <iconset resource="../files.qrc">
              <normaloff>:/24x24/data/resources/icons/24x24/cil-settings.png</normaloff>:/24x24/data/resources/icons/24x24/cil-settings.png</iconset>
            </property>
            <property name="iconSize">
@@ -1048,7 +1159,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -1320,7 +1431,7 @@ QHeaderView::section:vertical
                 <number>5</number>
                </property>
                <attribute name="horizontalHeaderVisible">
-                <bool>true</bool>
+                <bool>false</bool>
                </attribute>
                <attribute name="horizontalHeaderCascadingSectionResizes">
                 <bool>true</bool>
@@ -1403,7 +1514,7 @@ QPushButton:pressed {
                 <string>Add</string>
                </property>
                <property name="icon">
-                <iconset resource="files.qrc">
+                <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</iconset>
                </property>
               </widget>
@@ -1444,8 +1555,8 @@ QPushButton:pressed {
                 <string>Search</string>
                </property>
                <property name="icon">
-                <iconset resource="files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-find-in-page.png</normaloff>:/16x16/data/resources/icons/16x16/cil-find-in-page.png</iconset>
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</iconset>
                </property>
               </widget>
               <widget class="QPushButton" name="button_edit_device">
@@ -1484,7 +1595,7 @@ QPushButton:pressed {
                 <string>Edit</string>
                </property>
                <property name="icon">
-                <iconset resource="files.qrc">
+                <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</iconset>
                </property>
               </widget>
@@ -1524,7 +1635,7 @@ QPushButton:pressed {
                 <string>Delete</string>
                </property>
                <property name="icon">
-                <iconset resource="files.qrc">
+                <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</iconset>
                </property>
               </widget>
@@ -1906,7 +2017,7 @@ QPushButton:pressed {
                 <string>Delete</string>
                </property>
                <property name="icon">
-                <iconset resource="files.qrc">
+                <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</iconset>
                </property>
               </widget>
@@ -1946,7 +2057,7 @@ QPushButton:pressed {
                 <string>Edit</string>
                </property>
                <property name="icon">
-                <iconset resource="files.qrc">
+                <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</iconset>
                </property>
               </widget>
@@ -1986,7 +2097,7 @@ QPushButton:pressed {
                 <string>Add</string>
                </property>
                <property name="icon">
-                <iconset resource="files.qrc">
+                <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</iconset>
                </property>
               </widget>
@@ -2026,7 +2137,7 @@ QPushButton:pressed {
                 <string>Send to Device</string>
                </property>
                <property name="icon">
-                <iconset resource="files.qrc">
+                <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-paper-plane.png</normaloff>:/16x16/data/resources/icons/16x16/cil-paper-plane.png</iconset>
                </property>
               </widget>
@@ -2062,9 +2173,9 @@ QPushButton:pressed {
                <property name="geometry">
                 <rect>
                  <x>480</x>
-                 <y>20</y>
+                 <y>140</y>
                  <width>600</width>
-                 <height>620</height>
+                 <height>501</height>
                 </rect>
                </property>
                <property name="styleSheet">
@@ -2158,6 +2269,442 @@ QHeaderView::section:vertical
                  <string>Similar</string>
                 </property>
                </column>
+              </widget>
+              <widget class="QDateTimeEdit" name="dateTimeEdit_start">
+               <property name="geometry">
+                <rect>
+                 <x>670</x>
+                 <y>20</y>
+                 <width>170</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QDateTimeEdit{
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(27, 29, 35);
+	padding: 5px;
+	padding-left: 10px;
+}
+QDateTimeEdit:hover{
+	border: 2px solid rgb(64, 71, 88);
+}
+QDateTimeEdit QAbstractItemView {
+	color: rgb(85, 170, 255);	
+	background-color: rgb(27, 29, 35);
+	padding: 10px;
+	selection-background-color: rgb(39, 44, 54);
+}</string>
+               </property>
+               <property name="minimumDate">
+                <date>
+                 <year>2020</year>
+                 <month>1</month>
+                 <day>1</day>
+                </date>
+               </property>
+               <property name="displayFormat">
+                <string>yyyy/MM/dd HH:mm</string>
+               </property>
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QDateTimeEdit" name="dateTimeEdit_end">
+               <property name="geometry">
+                <rect>
+                 <x>910</x>
+                 <y>20</y>
+                 <width>170</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QDateTimeEdit {
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(27, 29, 35);
+	padding-left: 10px;
+}
+QDateTimeEdit:hover {
+	border: 2px solid rgb(64, 71, 88);
+}
+QDateTimeEdit:focus {
+	border: 2px solid rgb(91, 101, 124);
+}</string>
+               </property>
+               <property name="minimumDate">
+                <date>
+                 <year>2020</year>
+                 <month>1</month>
+                 <day>1</day>
+                </date>
+               </property>
+               <property name="displayFormat">
+                <string>yyyy/MM/dd HH:mm</string>
+               </property>
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_start_time">
+               <property name="geometry">
+                <rect>
+                 <x>620</x>
+                 <y>20</y>
+                 <width>40</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_end_time">
+               <property name="geometry">
+                <rect>
+                 <x>860</x>
+                 <y>20</y>
+                 <width>40</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>End</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="radiobutton_time">
+               <property name="geometry">
+                <rect>
+                 <x>480</x>
+                 <y>20</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>Time</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="radiobutton_temperature">
+               <property name="geometry">
+                <rect>
+                 <x>480</x>
+                 <y>60</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Temperature</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_min_temperature">
+               <property name="geometry">
+                <rect>
+                 <x>620</x>
+                 <y>60</y>
+                 <width>40</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Min</string>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_min_temperature">
+               <property name="geometry">
+                <rect>
+                 <x>670</x>
+                 <y>60</y>
+                 <width>90</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QDoubleSpinBox {
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(27, 29, 35);
+	padding-left: 10px;
+}
+QDoubleSpinBox:hover {
+	border: 2px solid rgb(64, 71, 88);
+}
+QDoubleSpinBox:focus {
+	border: 2px solid rgb(91, 101, 124);
+}</string>
+               </property>
+               <property name="minimum">
+                <double>35.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>40.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_max_temperature">
+               <property name="geometry">
+                <rect>
+                 <x>910</x>
+                 <y>60</y>
+                 <width>90</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QDoubleSpinBox {
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(27, 29, 35);
+	padding-left: 10px;
+}
+QDoubleSpinBox:hover {
+	border: 2px solid rgb(64, 71, 88);
+}
+QDoubleSpinBox:focus {
+	border: 2px solid rgb(91, 101, 124);
+}</string>
+               </property>
+               <property name="minimum">
+                <double>35.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>40.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="value">
+                <double>40.000000000000000</double>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_max_temperature">
+               <property name="geometry">
+                <rect>
+                 <x>860</x>
+                 <y>60</y>
+                 <width>40</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Max</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="button_search_statistics">
+               <property name="geometry">
+                <rect>
+                 <x>480</x>
+                 <y>100</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 2px solid rgb(52, 59, 72);
+	border-radius: 10px;	
+	background-color: rgb(52, 59, 72);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(57, 65, 80);
+	color: rgb(227, 227, 227);
+	border: 2px solid rgb(61, 70, 86);
+}
+QPushButton:pressed {	
+	background-color: rgb(35, 40, 49);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(43, 50, 61);
+}</string>
+               </property>
+               <property name="text">
+                <string>Search</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</iconset>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="comboBox_employees">
+               <property name="geometry">
+                <rect>
+                 <x>740</x>
+                 <y>100</y>
+                 <width>220</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QComboBox{
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(27, 29, 35);
+	padding: 5px;
+	padding-left: 10px;
+}
+QComboBox:hover{
+	border: 2px solid rgb(64, 71, 88);
+}
+QComboBox QAbstractItemView {
+	color: rgb(85, 170, 255);	
+	background-color: rgb(27, 29, 35);
+	padding: 10px;
+	selection-background-color: rgb(39, 44, 54);
+}</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="button_person_plot">
+               <property name="geometry">
+                <rect>
+                 <x>970</x>
+                 <y>100</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 2px solid rgb(52, 59, 72);
+	border-radius: 10px;	
+	background-color: rgb(52, 59, 72);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(57, 65, 80);
+	color: rgb(227, 227, 227);
+	border: 2px solid rgb(61, 70, 86);
+}
+QPushButton:pressed {	
+	background-color: rgb(35, 40, 49);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(43, 50, 61);
+}</string>
+               </property>
+               <property name="text">
+                <string>Charts</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-chart.png</normaloff>:/16x16/data/resources/icons/16x16/cil-chart.png</iconset>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="button_all_statistic">
+               <property name="geometry">
+                <rect>
+                 <x>610</x>
+                 <y>100</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 2px solid rgb(52, 59, 72);
+	border-radius: 10px;	
+	background-color: rgb(52, 59, 72);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(57, 65, 80);
+	color: rgb(227, 227, 227);
+	border: 2px solid rgb(61, 70, 86);
+}
+QPushButton:pressed {	
+	background-color: rgb(35, 40, 49);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(43, 50, 61);
+}</string>
+               </property>
+               <property name="text">
+                <string>All Statistic</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</iconset>
+               </property>
               </widget>
              </widget>
              <widget class="QWidget" name="page_settings"/>
@@ -2262,7 +2809,7 @@ QHeaderView::section:vertical
   </widget>
  </widget>
  <resources>
-  <include location="files.qrc"/>
+  <include location="../files.qrc"/>
  </resources>
  <connections/>
 </ui>

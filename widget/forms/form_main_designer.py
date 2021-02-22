@@ -238,7 +238,118 @@ class Ui_MainWindow(object):
 "    background-color: rgb(65, 130, 195);\n"
 "}\n"
 "\n"
-"")
+"/* DateTimeEdit */\n"
+"QDateTimeEdit {\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(27, 29, 35);\n"
+"    padding: 5px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QDateTimeEdit :hover{\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QDateTimeEdit::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 25px; \n"
+"    border-left-width: 3px;\n"
+"    border-left-color: rgba(39, 44, 54, 150);\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;    \n"
+"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+" }\n"
+"QDateTimeEdit QAbstractItemView {\n"
+"    color: rgb(85, 170, 255);    \n"
+"    background-color: rgb(27, 29, 35);\n"
+"    padding: 10px;\n"
+"    selection-background-color: rgb(39, 44, 54);\n"
+"}\n"
+"\n"
+"/* DoubleSpinBox */\n"
+"QDoubleSpinBox {\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(27, 29, 35);\n"
+"    padding: 5px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QDoubleSpinBox :hover{\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QDoubleSpinBox::up-arrow {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 25px; \n"
+"    border-left-width: 3px;\n"
+"    border-left-color: rgba(39, 44, 54, 150);\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;    \n"
+"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+" }\n"
+"QDoubleSpinBox::down-arrow {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 25px; \n"
+"    border-left-width: 3px;\n"
+"    border-left-color: rgba(39, 44, 54, 150);\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;    \n"
+"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+" }\n"
+"QDoubleSpinBox::up-button {\n"
+"    background-color: transparent;\n"
+" }\n"
+"QDoubleSpinBox::down-button {\n"
+"    background-color: transparent;\n"
+" }\n"
+"QDoubleSpinBox QAbstractItemView {\n"
+"    color: rgb(85, 170, 255);    \n"
+"    background-color: rgb(27, 29, 35);\n"
+"    padding: 10px;\n"
+"    selection-background-color: rgb(39, 44, 54);\n"
+"}\n"
+"\n"
+"/* Calendar Widget */\n"
+"QCalendarWidget QToolButton {\n"
+"    height: 40px;\n"
+"    width: 120px;\n"
+"    color: rgb(180,180,180);\n"
+"    font-size: 16px;\n"
+"    font: \"Segoe UI\";\n"
+"    icon-size:20px, 20px;\n"
+"    background-color:black;\n"
+"}\n"
+"\n"
+"  /* header row */\n"
+"QCalendarWidget  QWidget\n"
+"{\n"
+"    alternate-background-color: rgb(52, 59, 72);\n"
+"}\n"
+"  /*normal days */\n"
+"QCalendarWidget QAbstractItemView:enabled {\n"
+"    font-size:12px;\n"
+"    font: \"Segoe UI\";\n"
+"    color: rgb(180,180,180);\n"
+"    background-color: black;\n"
+"    selection-background-color: rgb(52, 59, 72); \n"
+"    selection-color:rgb(85, 170, 255);\n"
+"}\n"
+"#qt_calendar_prevmonth{\n"
+"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);\n"
+"}\n"
+"#qt_calendar_nextmonth{\n"
+"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);\n"
+"}")
         self.frame_main.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_main.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_main.setObjectName("frame_main")
@@ -776,7 +887,7 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-find-in-page.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_search_device.setIcon(icon8)
         self.button_search_device.setObjectName("button_search_device")
         self.button_edit_device = QtWidgets.QPushButton(self.page_device)
@@ -985,7 +1096,7 @@ class Ui_MainWindow(object):
         self.table_persons.setHorizontalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setHorizontalHeaderItem(6, item)
-        self.table_persons.horizontalHeader().setVisible(False)
+        self.table_persons.horizontalHeader().setVisible(True)
         self.table_persons.horizontalHeader().setCascadingSectionResizes(True)
         self.table_persons.horizontalHeader().setDefaultSectionSize(200)
         self.table_persons.horizontalHeader().setStretchLastSection(False)
@@ -1096,7 +1207,7 @@ class Ui_MainWindow(object):
         self.label_statistic_all_days.setGeometry(QtCore.QRect(10, 340, 450, 300))
         self.label_statistic_all_days.setObjectName("label_statistic_all_days")
         self.table_statistics = QtWidgets.QTableWidget(self.page_statistic)
-        self.table_statistics.setGeometry(QtCore.QRect(480, 20, 600, 620))
+        self.table_statistics.setGeometry(QtCore.QRect(480, 140, 600, 501))
         self.table_statistics.setStyleSheet("QTableWidget {    \n"
 "    background-color: rgb(39, 44, 54);\n"
 "    padding: 10px;\n"
@@ -1167,6 +1278,232 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.table_statistics.setHorizontalHeaderItem(4, item)
         self.table_statistics.verticalHeader().setVisible(False)
+        self.dateTimeEdit_start = QtWidgets.QDateTimeEdit(self.page_statistic)
+        self.dateTimeEdit_start.setGeometry(QtCore.QRect(670, 20, 170, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.dateTimeEdit_start.setFont(font)
+        self.dateTimeEdit_start.setStyleSheet("QDateTimeEdit{\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(27, 29, 35);\n"
+"    padding: 5px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QDateTimeEdit:hover{\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QDateTimeEdit QAbstractItemView {\n"
+"    color: rgb(85, 170, 255);    \n"
+"    background-color: rgb(27, 29, 35);\n"
+"    padding: 10px;\n"
+"    selection-background-color: rgb(39, 44, 54);\n"
+"}")
+        self.dateTimeEdit_start.setMinimumDate(QtCore.QDate(2020, 1, 1))
+        self.dateTimeEdit_start.setCalendarPopup(True)
+        self.dateTimeEdit_start.setObjectName("dateTimeEdit_start")
+        self.dateTimeEdit_end = QtWidgets.QDateTimeEdit(self.page_statistic)
+        self.dateTimeEdit_end.setGeometry(QtCore.QRect(910, 20, 170, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.dateTimeEdit_end.setFont(font)
+        self.dateTimeEdit_end.setStyleSheet("QDateTimeEdit {\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(27, 29, 35);\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QDateTimeEdit:hover {\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QDateTimeEdit:focus {\n"
+"    border: 2px solid rgb(91, 101, 124);\n"
+"}")
+        self.dateTimeEdit_end.setMinimumDate(QtCore.QDate(2020, 1, 1))
+        self.dateTimeEdit_end.setCalendarPopup(True)
+        self.dateTimeEdit_end.setObjectName("dateTimeEdit_end")
+        self.label_start_time = QtWidgets.QLabel(self.page_statistic)
+        self.label_start_time.setGeometry(QtCore.QRect(620, 20, 40, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.label_start_time.setFont(font)
+        self.label_start_time.setObjectName("label_start_time")
+        self.label_end_time = QtWidgets.QLabel(self.page_statistic)
+        self.label_end_time.setGeometry(QtCore.QRect(860, 20, 40, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.label_end_time.setFont(font)
+        self.label_end_time.setObjectName("label_end_time")
+        self.radiobutton_time = QtWidgets.QRadioButton(self.page_statistic)
+        self.radiobutton_time.setGeometry(QtCore.QRect(480, 20, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.radiobutton_time.setFont(font)
+        self.radiobutton_time.setStyleSheet("")
+        self.radiobutton_time.setChecked(True)
+        self.radiobutton_time.setObjectName("radiobutton_time")
+        self.radiobutton_temperature = QtWidgets.QRadioButton(self.page_statistic)
+        self.radiobutton_temperature.setGeometry(QtCore.QRect(480, 60, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.radiobutton_temperature.setFont(font)
+        self.radiobutton_temperature.setObjectName("radiobutton_temperature")
+        self.label_min_temperature = QtWidgets.QLabel(self.page_statistic)
+        self.label_min_temperature.setGeometry(QtCore.QRect(620, 60, 40, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.label_min_temperature.setFont(font)
+        self.label_min_temperature.setObjectName("label_min_temperature")
+        self.doubleSpinBox_min_temperature = QtWidgets.QDoubleSpinBox(self.page_statistic)
+        self.doubleSpinBox_min_temperature.setGeometry(QtCore.QRect(670, 60, 90, 30))
+        self.doubleSpinBox_min_temperature.setStyleSheet("QDoubleSpinBox {\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(27, 29, 35);\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QDoubleSpinBox:hover {\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QDoubleSpinBox:focus {\n"
+"    border: 2px solid rgb(91, 101, 124);\n"
+"}")
+        self.doubleSpinBox_min_temperature.setMinimum(35.0)
+        self.doubleSpinBox_min_temperature.setMaximum(40.0)
+        self.doubleSpinBox_min_temperature.setSingleStep(0.1)
+        self.doubleSpinBox_min_temperature.setObjectName("doubleSpinBox_min_temperature")
+        self.doubleSpinBox_max_temperature = QtWidgets.QDoubleSpinBox(self.page_statistic)
+        self.doubleSpinBox_max_temperature.setGeometry(QtCore.QRect(910, 60, 90, 30))
+        self.doubleSpinBox_max_temperature.setStyleSheet("QDoubleSpinBox {\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(27, 29, 35);\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QDoubleSpinBox:hover {\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QDoubleSpinBox:focus {\n"
+"    border: 2px solid rgb(91, 101, 124);\n"
+"}")
+        self.doubleSpinBox_max_temperature.setMinimum(35.0)
+        self.doubleSpinBox_max_temperature.setMaximum(40.0)
+        self.doubleSpinBox_max_temperature.setSingleStep(0.1)
+        self.doubleSpinBox_max_temperature.setProperty("value", 40.0)
+        self.doubleSpinBox_max_temperature.setObjectName("doubleSpinBox_max_temperature")
+        self.label_max_temperature = QtWidgets.QLabel(self.page_statistic)
+        self.label_max_temperature.setGeometry(QtCore.QRect(860, 60, 40, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.label_max_temperature.setFont(font)
+        self.label_max_temperature.setObjectName("label_max_temperature")
+        self.button_search_statistics = QtWidgets.QPushButton(self.page_statistic)
+        self.button_search_statistics.setGeometry(QtCore.QRect(480, 100, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.button_search_statistics.setFont(font)
+        self.button_search_statistics.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_search_statistics.setIcon(icon8)
+        self.button_search_statistics.setObjectName("button_search_statistics")
+        self.comboBox_employees = QtWidgets.QComboBox(self.page_statistic)
+        self.comboBox_employees.setGeometry(QtCore.QRect(740, 100, 220, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.comboBox_employees.setFont(font)
+        self.comboBox_employees.setStyleSheet("QComboBox{\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(27, 29, 35);\n"
+"    padding: 5px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QComboBox:hover{\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QComboBox QAbstractItemView {\n"
+"    color: rgb(85, 170, 255);    \n"
+"    background-color: rgb(27, 29, 35);\n"
+"    padding: 10px;\n"
+"    selection-background-color: rgb(39, 44, 54);\n"
+"}")
+        self.comboBox_employees.setObjectName("comboBox_employees")
+        self.button_person_plot = QtWidgets.QPushButton(self.page_statistic)
+        self.button_person_plot.setGeometry(QtCore.QRect(970, 100, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.button_person_plot.setFont(font)
+        self.button_person_plot.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon12 = QtGui.QIcon()
+        icon12.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_person_plot.setIcon(icon12)
+        self.button_person_plot.setObjectName("button_person_plot")
+        self.button_all_statistic = QtWidgets.QPushButton(self.page_statistic)
+        self.button_all_statistic.setGeometry(QtCore.QRect(610, 100, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.button_all_statistic.setFont(font)
+        self.button_all_statistic.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon13 = QtGui.QIcon()
+        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_all_statistic.setIcon(icon13)
+        self.button_all_statistic.setObjectName("button_all_statistic")
         self.stackedWidget.addWidget(self.page_statistic)
         self.page_settings = QtWidgets.QWidget()
         self.page_settings.setObjectName("page_settings")
@@ -1210,7 +1547,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1265,6 +1602,17 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Tempeature"))
         item = self.table_statistics.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Similar"))
+        self.dateTimeEdit_start.setDisplayFormat(_translate("MainWindow", "yyyy/MM/dd HH:mm"))
+        self.dateTimeEdit_end.setDisplayFormat(_translate("MainWindow", "yyyy/MM/dd HH:mm"))
+        self.label_start_time.setText(_translate("MainWindow", "Start"))
+        self.label_end_time.setText(_translate("MainWindow", "End"))
+        self.radiobutton_time.setText(_translate("MainWindow", "Time"))
+        self.radiobutton_temperature.setText(_translate("MainWindow", "Temperature"))
+        self.label_min_temperature.setText(_translate("MainWindow", "Min"))
+        self.label_max_temperature.setText(_translate("MainWindow", "Max"))
+        self.button_search_statistics.setText(_translate("MainWindow", "Search"))
+        self.button_person_plot.setText(_translate("MainWindow", "Charts"))
+        self.button_all_statistic.setText(_translate("MainWindow", "All Statistic"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
 import files_rc
 

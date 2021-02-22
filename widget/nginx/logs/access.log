@@ -209,3 +209,4 @@
 192.168.1.88 - - [01/Feb/2021:13:34:36 +0300] "GET /static/images/Nichiporchik.jpg HTTP/1.1" 200 79941 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
 192.168.1.88 - - [01/Feb/2021:13:34:37 +0300] "GET /static/images/Nikitin.jpg HTTP/1.1" 200 86722 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
 192.168.1.88 - - [01/Feb/2021:13:34:37 +0300] "GET /static/images/Scherba.jpg HTTP/1.1" 200 100094 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
+192.168.1.88 - - [22/Feb/2021:12:54:24 +0300] "GET /static/images/\xD0\x92\xD0\xBE\xD0\xBB\xD0\xBA \xD0\x98\xD0\xBB\xD1\x8C\xD1\x8F.jpg HTTP/1.1" 200 87391 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
