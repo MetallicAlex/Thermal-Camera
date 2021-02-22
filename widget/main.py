@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from form_main import MainForm
+from forms.form_main import MainForm
 
 if __name__ == "__main__":
     import sys

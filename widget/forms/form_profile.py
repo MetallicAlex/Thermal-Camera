@@ -2,8 +2,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QImage
 
-import models
-from form_profile_designer import Ui_FormProfile
+import widget.models as models
+from widget.forms.form_profile_designer import Ui_FormProfile
 
 
 class FormProfile(QtWidgets.QDialog, Ui_FormProfile):

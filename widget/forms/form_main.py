@@ -8,10 +8,10 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip
 from PyQt5.QtGui import QPixmap, QImage, QIcon, QColor
 from PyQt5.QtCore import Qt
 
-from form_main_designer import Ui_MainWindow
-from form_profile import FormProfile
-from form_devices import FormDevices
-import models
+from widget.forms.form_main_designer import Ui_MainWindow
+from widget.forms.form_profile import FormProfile
+from widget.forms.form_devices import FormDevices
+import widget.models as models
 from widget.platforms.subscribe_platform import SubscribePlatform
 from widget.platforms.publish_platform import PublishPlatform
 

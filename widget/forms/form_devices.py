@@ -2,8 +2,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QImage
 
-import models
-from form_devices_designer import Ui_FormDevices
+import widget.models as models
+from widget.forms.form_devices_designer import Ui_FormDevices
 
 
 class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
