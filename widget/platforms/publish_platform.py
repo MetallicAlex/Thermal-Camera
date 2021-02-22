@@ -22,7 +22,7 @@ class PublishPlatform:
         self.device_id = device_id
         self.device_token = device_token
 
-    def __publish_data(self):
+    def _publish_data(self):
         self.__client.connect(self.host, self.port)
         self.__client.loop_start()
         self.__client.publish(self.topic, json.dumps(self.data, indent=4))
@@ -34,7 +34,7 @@ class PublishPlatform:
                      'device_id': self.device_id,
                      'tag': "platform define",
                      'bind_ctrl': 1}
-        self.__publish_data()
+        self._publish_data()
 
     def unbind_device(self):
         self.data = {"mqtt_cmd": 1,
@@ -43,7 +43,7 @@ class PublishPlatform:
                      'device_id': self.device_id,
                      'tag': "platform define",
                      'bind_ctrl': 0}
-        self.__publish_data()
+        self._publish_data()
 
     def add_personnel_data(self, employees_id=list):
         self.data = {"mqtt_cmd": 1,
@@ -66,14 +66,14 @@ class PublishPlatform:
             self.data['param']['pictures'][index]['active_time'] \
                 = f"{datetime.strftime(datetime.now(), '%Y')}/01/1 00:00:01"
             with models.get_session() as session:
-                employee = session.query(models.Employee).filter_by(id=int(input('User ID: '))).scalar()
+                employee = session.query(models.Employee).filter(models.Employee.id == employee_id).scalar()
                 self.data['param']['pictures'][index]['user_id'] = str(employee.id)
                 self.data['param']['pictures'][index]['user_name'] = employee.name
                 self.data['param']['pictures'][index]['end_time']\
                     = f"{datetime.strftime(datetime.now(), '%Y')}/12/30 23:59:59"
                 self.data['param']['pictures'][index]['p_id'] = 'null'
                 self.data['param']['pictures'][index]['picture'] = employee.face
-        self.__publish_data()
+        self._publish_data()
 
     def remove_all_personnel_data(self):
         self.data = {"mqtt_cmd": 1,
@@ -83,7 +83,7 @@ class PublishPlatform:
                      'tag': "platform define",
                      'piclib_manage': 1
                      }
-        self.__publish_data()
+        self._publish_data()
 
     def remove_personnel_data(self, employees_id=list):
         self.data = {"mqtt_cmd": 1,
@@ -94,4 +94,4 @@ class PublishPlatform:
                      'piclib_manage': 3,
                      'param': {'users': [{'user_id': employee_id} for employee_id in employees_id]}
                      }
-        self.__publish_data()
+        self._publish_data()

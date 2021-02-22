@@ -38,7 +38,7 @@ class PublishPlatform:
             if option == '8' and 'bind_ctrl' in self.data:
                 if self.data['bind_ctrl'] == 1:
                     self.find_token()
-        self.__client.loop_stop()
+        self._client.loop_stop()
 
     def set_device(self, device_id, device_token=None):
         self.device_id = device_id

@@ -23,7 +23,7 @@ class SubscribePlatform(QtCore.QObject):
         self.device_token = '2'
         self.data = {}
         self.params_camera = {}
-        self.__client = mqtt.Client(client_name)
+        self._client = mqtt.Client(client_name)
         self.code_result = 0
 
     def set_device(self, device_id, device_token=None):
@@ -31,51 +31,51 @@ class SubscribePlatform(QtCore.QObject):
         self.device_token = device_token
 
     def run(self):
-        self.__client.connect(self.host, self.port)
-        self.__client.subscribe(self.topic)
-        self.__client.on_message = self.__on_message
-        self.__client.loop_start()
+        self._client.connect(self.host, self.port)
+        self._client.subscribe(self.topic)
+        self._client.on_message = self._on_message
+        self._client.loop_start()
         while True:
             if self.code_result == -1:
                 break
-        self.__client.loop_stop()
+        self._client.loop_stop()
 
-    def __on_message(self, client, userdata, message):
+    def _on_message(self, client, userdata, message):
         self.data = json.loads(message.payload.decode("utf-8"))
         print(self.data)
-        self.__decode_message()
+        self._decode_message()
 
-    def __decode_message(self):
+    def _decode_message(self):
         if self.data['code'] == -1:
-            self.__store_error()
-        elif self.__is_person():
-            self.__upload_person()
-        elif self.__is_bind():
-            self.__write_token()
+            self._store_error()
+        elif self._is_person():
+            self._upload_person()
+        elif self._is_bind():
+            self._write_token()
 
-    def __store_error(self):
+    def _store_error(self):
         with open('logs/error.log', 'a+') as file:
             file.write(f'\n[{datetime.now()}] {self.data}')
 
-    def __is_person(self):
+    def _is_person(self):
         if self.data['msg'] == 'Upload Person Info!':
             return True
         else:
             return False
 
-    def __upload_person(self):
+    def _upload_person(self):
         if self.data['datas']['matched'] == '1':
-            self.__store_information_employee()
+            self._store_information_employee()
         else:
-            self.__store_information_stranger()
+            self._store_information_stranger()
         if 'imageFile' in self.data['datas']:
-            self.__save_image_person()
+            self._save_image_person()
 
-    def __store_information_stranger(self):
+    def _store_information_stranger(self):
         with open('logs/strangers.log', 'a+') as file:
             file.write(f"\n[{self.data['datas']['time']}] Temperature: {self.data['datas']['temperature']}")
 
-    def __store_information_employee(self):
+    def _store_information_employee(self):
         with open('logs/employees.log', 'a+') as file:
             file.write(f"\n[{self.data['datas']['time']}] User ID: {self.data['datas']['user_id']}, "
                        f"Name: {self.data['datas']['name']}, Similar: {self.data['datas']['similar']}, "
@@ -95,19 +95,19 @@ class SubscribePlatform(QtCore.QObject):
             self.statistic.emit(statistic)
             session.add(statistic)
 
-    def __save_image_person(self):
+    def _save_image_person(self):
         if not os.path.exists(f'snapsnot/{date.today()}'):
             os.mkdir(f'snapsnot/{date.today()}')
         with open(f"snapsnot/{date.today()}/{self.data['datas']['time'].replace(':', '-')}_{self.data['datas']['name']}"
                   f"_{self.data['datas']['temperature']}.jpg", 'wb') as file:
             file.write(base64.standard_b64decode(self.data['datas']['imageFile'].replace('data:image/jpg;base64,', '')))
 
-    def __is_bind(self):
+    def _is_bind(self):
         if self.data['msg'] == 'mqtt bind ctrl success':
             return True
         else:
             return False
 
-    def __write_token(self):
+    def _write_token(self):
         with open('token.txt', 'w') as file:
             file.write(self.data['datas']['device_token'])
