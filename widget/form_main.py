@@ -2,7 +2,7 @@ import json
 import os
 import webbrowser as wb
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect, \
     QTableWidgetItem, QLabel, QCheckBox, QHeaderView
 from PyQt5.QtGui import QPixmap, QImage, QIcon, QColor
@@ -12,6 +12,7 @@ from form_main_designer import Ui_MainWindow
 from form_profile import FormProfile
 from form_devices import FormDevices
 import models
+from widget.platforms.subscribe_platform import SubscribePlatform
 
 
 # MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
@@ -22,6 +23,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # DATA
         self.form_profile = FormProfile()
         self.theme = self.__get_theme('dark theme')
+        self.subscribe_platform = SubscribePlatform()
+        self.subscribe_platform.set_host_port('192.168.1.2', client_name='SP')
+        self.thread = QtCore.QThread()
         # SETTINGS
         self.__load_devices_info_to_table()
         self.__load_employees_to_table()
@@ -51,6 +55,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_edit_person.clicked.connect(self.__button_edit_person_clicked)
         self.button_delete_person.clicked.connect(self.__button_delete_person_clicked)
         # PAGE STATISTIC
+        self.subscribe_platform.moveToThread(self.thread)
+        self.subscribe_platform.statistic.connect(self.__add_statistic_to_table)
+        self.thread.started.connect(self.subscribe_platform.run)
+        self.thread.start()
 
     # EVENTS
     def __frame_header_mouse_press(self, event):
@@ -218,6 +226,25 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
         self.table_statistics.resizeColumnsToContents()
         self.table_statistics.resizeRowsToContents()
+
+    # STATISTIC
+    @QtCore.pyqtSlot(object)
+    def __add_statistic_to_table(self, statistic):
+        row_position = self.table_statistics.rowCount() - 1
+        print(statistic)
+        self.table_statistics.insertRow(row_position)
+        with models.get_session() as session:
+            employee_name = session.query(models.Employee.name)\
+                .filter(models.Employee.id == statistic.id_employee).scalar()
+        self.table_statistics.setItem(row_position, 0, self.__get_item_to_cell(statistic.id_employee))
+        self.table_statistics.setItem(row_position, 1, QTableWidgetItem(employee_name))
+        self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
+        self.table_statistics.setItem(row_position, 3, self.__get_item_to_cell(float(statistic.temperature)))
+        self.table_statistics.setItem(row_position, 4, self.__get_item_to_cell(float(statistic.similar)))
+        self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
+        self.table_statistics.resizeColumnsToContents()
+        self.table_statistics.resizeRowsToContents()
+        self.table_statistics.update()
 
     # OTHERS
     def __update_system_buttons(self, button=QtWidgets.QPushButton):
