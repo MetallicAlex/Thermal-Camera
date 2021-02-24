@@ -28,11 +28,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.subscribe_platform.set_host_port('192.168.1.2', client_name='SP')
         self.thread = QtCore.QThread()
         self.publish_platform = PublishPlatform('192.168.1.2', client_name='PP')
-        self.publish_platform.set_device('7101384284372', '724970388')
+        self.publish_platform.set_device('7101239214001', '1899371712')
         # SETTINGS
         self._load_devices_info_to_table()
         self._load_employees_to_table()
-        # self._load_departments_to_table()
+        self._load_departments_to_table()
         self._load_statistics_to_table()
         self.stackedWidget.setCurrentWidget(self.page_device)
         self.button_device.setStyleSheet(self.theme['system-button'] +
@@ -52,13 +52,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_settings.clicked.connect(self._button_settings_clicked)
         # PAGE DEVICE
         self.button_search_device.clicked.connect(self._button_search_device_clicked)
-        self.button_edit_device.clicked.connect(self._button_edit_device_clicked)
+        self.button_configure_device.clicked.connect(self._button_configure_device_clicked)
         # PAGE DATABASE
         self.button_add_person.clicked.connect(self._button_add_person_clicked)
         self.button_edit_person.clicked.connect(self._button_edit_person_clicked)
         self.button_delete_person.clicked.connect(self._button_delete_person_clicked)
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
         # PAGE STATISTIC
+        self.button_search_statistics.clicked.connect(self._button_search_statistics_clicked)
+        self.button_all_statistic.clicked.connect(self._button_all_statistic)
         self.subscribe_platform.moveToThread(self.thread)
         self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
         self.thread.started.connect(self.subscribe_platform.run)
@@ -155,8 +157,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.form_devices = FormDevices()
         self.form_devices.exec_()
 
-    def _button_edit_device_clicked(self, event):
+    def _button_configure_device_clicked(self, event):
         wb.open_new_tab(f'http://{self.table_devices.item(self.table_devices.currentRow(), 3).text()}:7080')
+
+    # EVENTS-STATISTICS
+    def _button_search_statistics_clicked(self, event):
+        print(self.dateTimeEdit_start.dateTime().toString('yyyy-mm-dd hh:MM'))
+        self._load_statistics_to_table(start_time=self.dateTimeEdit_start.text(), end_time=self.dateTimeEdit_end.text())
+
+    def _button_all_statistic(self, event):
+        self._load_statistics_to_table()
 
     # SETTINGS
     def _get_theme(self, theme=str):
@@ -194,10 +204,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             employees = session.query(models.Employee).all()
         return employees
 
-    def _get_statistics_from_database(self):
+    def _get_statistics_from_database(self, start_time=None, end_time=None):
         with models.get_session() as session:
-            statistics = session.query(models.Statistic, models.Employee.name) \
-                .filter(models.Statistic.id_employee == models.Employee.id).all()
+            if start_time and end_time is not None:
+                statistics = session.query(models.Statistic, models.Employee.name) \
+                    .filter(models.Statistic.id_employee == models.Employee.id,
+                            models.Statistic.time >= start_time,
+                            models.Statistic.time <= end_time).all()
+            else:
+                statistics = session.query(models.Statistic, models.Employee.name)\
+                    .filter(models.Statistic.id_employee == models.Employee.id).all()
         return statistics
 
     def _load_employees_to_table(self):
@@ -218,13 +234,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _load_departments_to_table(self):
         for row_position, department in enumerate(self._get_departments_from_database()):
-            self.table_department.insertRow(row_position)
-            self.table_department.setItem(row_position, 0, QTableWidgetItem(department.name))
+            self.table_departments.insertRow(row_position)
+            self.table_departments.setItem(row_position, 0, QTableWidgetItem(department.name))
         self.table_persons.resizeColumnsToContents()
         self.table_persons.resizeRowsToContents()
 
-    def _load_statistics_to_table(self):
-        for row_position, statistic in enumerate(self._get_statistics_from_database()):
+    def _load_statistics_to_table(self, start_time=None, end_time=None):
+        self.table_statistics.setRowCount(0)
+        for row_position, statistic in enumerate(self._get_statistics_from_database(start_time, end_time)):
             statistic, employee_name = statistic
             self.table_statistics.insertRow(row_position)
             self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_employee))
@@ -232,9 +249,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
             self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
             self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
-        self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
+        # self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
         self.table_statistics.resizeColumnsToContents()
         self.table_statistics.resizeRowsToContents()
+        self.table_statistics.viewport().update()
 
     # STATISTIC
     @QtCore.pyqtSlot(object)
