@@ -1159,7 +1159,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -1605,7 +1605,7 @@ QPushButton:pressed {
                 <rect>
                  <x>20</x>
                  <y>100</y>
-                 <width>800</width>
+                 <width>700</width>
                  <height>540</height>
                 </rect>
                </property>
@@ -1884,7 +1884,7 @@ QCheckBox::indicator:checked {
                 <number>7</number>
                </property>
                <attribute name="horizontalHeaderVisible">
-                <bool>false</bool>
+                <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderCascadingSectionResizes">
                 <bool>true</bool>
@@ -2064,7 +2064,7 @@ QPushButton:pressed {
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>10</y>
+                 <y>50</y>
                  <width>130</width>
                  <height>30</height>
                 </rect>
@@ -2103,9 +2103,9 @@ QPushButton:pressed {
               <widget class="QTableWidget" name="table_departments">
                <property name="geometry">
                 <rect>
-                 <x>840</x>
+                 <x>740</x>
                  <y>100</y>
-                 <width>250</width>
+                 <width>350</width>
                  <height>540</height>
                 </rect>
                </property>
@@ -2384,7 +2384,7 @@ QCheckBox::indicator:checked {
                 <number>1</number>
                </property>
                <attribute name="horizontalHeaderVisible">
-                <bool>false</bool>
+                <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderCascadingSectionResizes">
                 <bool>true</bool>
@@ -2408,14 +2408,17 @@ QCheckBox::indicator:checked {
                 <property name="text">
                  <string>Department</string>
                 </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
                </column>
               </widget>
               <widget class="QComboBox" name="comboBox_databases">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>150</x>
                  <y>50</y>
-                 <width>360</width>
+                 <width>320</width>
                  <height>30</height>
                 </rect>
                </property>
@@ -2447,8 +2450,8 @@ QComboBox QAbstractItemView {
               <widget class="QPushButton" name="button_delete_department">
                <property name="geometry">
                 <rect>
-                 <x>980</x>
-                 <y>10</y>
+                 <x>960</x>
+                 <y>50</y>
                  <width>100</width>
                  <height>30</height>
                 </rect>
@@ -2487,8 +2490,8 @@ QPushButton:pressed {
               <widget class="QPushButton" name="button_edit_department">
                <property name="geometry">
                 <rect>
-                 <x>870</x>
-                 <y>10</y>
+                 <x>850</x>
+                 <y>50</y>
                  <width>100</width>
                  <height>30</height>
                 </rect>
@@ -2527,8 +2530,8 @@ QPushButton:pressed {
               <widget class="QPushButton" name="button_add_department">
                <property name="geometry">
                 <rect>
-                 <x>760</x>
-                 <y>10</y>
+                 <x>740</x>
+                 <y>50</y>
                  <width>100</width>
                  <height>30</height>
                 </rect>
@@ -2562,6 +2565,50 @@ QPushButton:pressed {
                <property name="icon">
                 <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</iconset>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>10</y>
+                 <width>121</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Persons DB</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_2">
+               <property name="geometry">
+                <rect>
+                 <x>740</x>
+                 <y>10</y>
+                 <width>121</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Departments DB</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
               </widget>
              </widget>

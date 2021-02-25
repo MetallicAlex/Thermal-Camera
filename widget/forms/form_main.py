@@ -1,5 +1,6 @@
 import json
 import os
+import datetime
 import webbrowser as wb
 
 from PyQt5 import QtWidgets, QtCore
@@ -61,6 +62,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE STATISTIC
         self.button_search_statistics.clicked.connect(self._button_search_statistics_clicked)
         self.button_all_statistic.clicked.connect(self._button_all_statistic)
+        self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
+        self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
         self.subscribe_platform.moveToThread(self.thread)
         self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
         self.thread.started.connect(self.subscribe_platform.run)
@@ -162,8 +165,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-STATISTICS
     def _button_search_statistics_clicked(self, event):
-        print(self.dateTimeEdit_start.dateTime().toString('yyyy-mm-dd hh:MM'))
-        self._load_statistics_to_table(start_time=self.dateTimeEdit_start.text(), end_time=self.dateTimeEdit_end.text())
+        if self.radiobutton_time.isChecked():
+            self._load_statistics_to_table(start_time=self.dateTimeEdit_start.text(),
+                                           end_time=self.dateTimeEdit_end.text())
+        elif self.radiobutton_temperature.isChecked():
+            self._load_statistics_to_table(min_temperature=self.doubleSpinBox_min_temperature.value(),
+                                           max_temperature=self.doubleSpinBox_max_temperature.value())
 
     def _button_all_statistic(self, event):
         self._load_statistics_to_table()
@@ -204,13 +211,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             employees = session.query(models.Employee).all()
         return employees
 
-    def _get_statistics_from_database(self, start_time=None, end_time=None):
+    def _get_statistics_from_database(self, start_time=None, end_time=None, min_temperature=None, max_temperature=None):
         with models.get_session() as session:
             if start_time and end_time is not None:
                 statistics = session.query(models.Statistic, models.Employee.name) \
                     .filter(models.Statistic.id_employee == models.Employee.id,
                             models.Statistic.time >= start_time,
                             models.Statistic.time <= end_time).all()
+            elif min_temperature and max_temperature is not None:
+                statistics = session.query(models.Statistic, models.Employee.name) \
+                    .filter(models.Statistic.id_employee == models.Employee.id,
+                            models.Statistic.temperature >= min_temperature,
+                            models.Statistic.temperature <= max_temperature).all()
             else:
                 statistics = session.query(models.Statistic, models.Employee.name)\
                     .filter(models.Statistic.id_employee == models.Employee.id).all()
@@ -239,9 +251,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_persons.resizeColumnsToContents()
         self.table_persons.resizeRowsToContents()
 
-    def _load_statistics_to_table(self, start_time=None, end_time=None):
+    def _load_statistics_to_table(self, start_time=None, end_time=None, min_temperature=None, max_temperature=None):
         self.table_statistics.setRowCount(0)
-        for row_position, statistic in enumerate(self._get_statistics_from_database(start_time, end_time)):
+        for row_position, statistic in enumerate(self._get_statistics_from_database(start_time, end_time,
+                                                                                    min_temperature, max_temperature)):
             statistic, employee_name = statistic
             self.table_statistics.insertRow(row_position)
             self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_employee))
@@ -288,7 +301,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             pixmap = QPixmap(QImage(f'nginx/html{path_image}'))
         else:
             pixmap = QPixmap(QImage('data/resources/icons/user.png'))
-        pixmap = pixmap.scaled(150, 200, Qt.KeepAspectRatio)
+        pixmap = pixmap.scaled(100, 100, Qt.KeepAspectRatio)
         item.setData(Qt.DecorationRole, pixmap)
         return item
 
