@@ -34,7 +34,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self._load_devices_info_to_table()
         self._load_employees_to_table()
         self._load_departments_to_table()
-        self._load_statistics_to_table()
+        self._load_statistics_to_table(start_time=datetime.datetime.now().replace(hour=0, minute=0),
+                                       end_time=datetime.datetime.now().replace(hour=23, minute=59))
         self.stackedWidget.setCurrentWidget(self.page_device)
         self.button_device.setStyleSheet(self.theme['system-button'] +
                                          "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")

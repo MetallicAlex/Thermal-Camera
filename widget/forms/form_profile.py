@@ -14,6 +14,7 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         self.dialog_result = 0
         self.employee = employee
         # SETTINGS
+        self._set_departments()
         if self.employee is not None:
             self._set_employee_data()
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
@@ -61,14 +62,17 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
             self.label_photo.setPixmap(pixmap)
 
     # SETTINGS
-    def _get_departments(self):
-        pass
+    def _set_departments(self):
+        with models.get_session() as session:
+            departments = [department.name for department in session.query(models.Department).all()]
+        self.comboBox_department.addItems(departments)
 
     def _set_employee_data(self):
         self.lineEdit_id.setText(str(self.employee.id))
         self.lineEdit_name.setText(self.employee.name)
         self.lineEdit_phonenumber.setText(self.employee.phone_number)
         self.comboBox_gender.setCurrentIndex(self.employee.gender.value - 1)
+        self.comboBox_department.setCurrentText(self.employee.name_department)
         self.label_photo.setScaledContents(False)
         pixmap = QPixmap(QImage(f'nginx/html{self.employee.face}'))
         pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
