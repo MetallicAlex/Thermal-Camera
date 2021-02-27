@@ -23,6 +23,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        # APPLICATIONS
+        # self.start_nginx()
         # DATA
         self.form_profile = FormProfile()
         self.theme = self._get_theme('dark theme')
@@ -56,12 +58,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE DEVICE
         self.button_search_device.clicked.connect(self._button_search_device_clicked)
         self.button_configure_device.clicked.connect(self._button_configure_device_clicked)
+        self.table_devices.horizontalHeader().sectionPressed.connect(self._checkbox_header_devices_pressed)
         # PAGE DATABASE
         self.button_add_person.clicked.connect(self._button_add_person_clicked)
         self.button_edit_person.clicked.connect(self._button_edit_person_clicked)
         self.button_delete_person.clicked.connect(self._button_delete_person_clicked)
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
-        self.table_persons.horizontalHeader().sectionPressed.connect(self._checkbox_column_pressed)
+        self.table_persons.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
+        self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         # PAGE STATISTIC
         self.button_search_statistics.clicked.connect(self._button_search_statistics_clicked)
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
@@ -178,7 +182,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _button_all_statistic_clicked(self, event):
         self._load_statistics_to_table()
 
-    def _checkbox_column_pressed(self, index):
+    def _checkbox_header_persons_pressed(self, index):
         if index == 0:
             list_checked_buttons = np.array([self.table_persons.cellWidget(row_position, 0).isChecked()
                                              for row_position in range(self.table_persons.rowCount())])
@@ -190,6 +194,32 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 for row_position in range(self.table_persons.rowCount()):
                     self.table_persons.cellWidget(row_position, 0).setCheckState(Qt.Checked)
                 self._set_header_column_icon(self.table_persons, True)
+
+    def _checkbox_header_devices_pressed(self, index):
+        if index == 0:
+            list_checked_buttons = np.array([self.table_devices.cellWidget(row_position, 0).isChecked()
+                                             for row_position in range(self.table_devices.rowCount())])
+            if np.all(list_checked_buttons):
+                for row_position in range(self.table_devices.rowCount()):
+                    self.table_devices.cellWidget(row_position, 0).setCheckState(Qt.Unchecked)
+                self._set_header_column_icon(self.table_devices, False)
+            else:
+                for row_position in range(self.table_devices.rowCount()):
+                    self.table_devices.cellWidget(row_position, 0).setCheckState(Qt.Checked)
+                self._set_header_column_icon(self.table_devices, True)
+
+    def _checkbox_header_departments_pressed(self, index):
+        if index == 0:
+            list_checked_buttons = np.array([self.table_departments.cellWidget(row_position, 0).isChecked()
+                                             for row_position in range(self.table_departments.rowCount())])
+            if np.all(list_checked_buttons):
+                for row_position in range(self.table_departments.rowCount()):
+                    self.table_departments.cellWidget(row_position, 0).setCheckState(Qt.Unchecked)
+                self._set_header_column_icon(self.table_departments, False)
+            else:
+                for row_position in range(self.table_departments.rowCount()):
+                    self.table_departments.cellWidget(row_position, 0).setCheckState(Qt.Checked)
+                self._set_header_column_icon(self.table_departments, True)
 
     # SETTINGS
     def _get_theme(self, theme=str):
@@ -213,6 +243,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_devices.setItem(row_position, 1, QTableWidgetItem(device['name']))
             self.table_devices.setItem(row_position, 2, QTableWidgetItem(device['serial']))
             self.table_devices.setItem(row_position, 3, QTableWidgetItem(device['ip']))
+        self.table_devices.resizeColumnToContents(0)
         # self.table_devices.resizeColumnsToContents()
         # self.table_devices.resizeRowsToContents()
 
@@ -263,9 +294,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _load_departments_to_table(self):
         for row_position, department in enumerate(self._get_departments_from_database()):
             self.table_departments.insertRow(row_position)
-            self.table_departments.setItem(row_position, 0, QTableWidgetItem(department.name))
-        self.table_persons.resizeColumnsToContents()
-        self.table_persons.resizeRowsToContents()
+            item = QCheckBox()
+            item.setCheckState(Qt.Unchecked)
+            self.table_departments.setCellWidget(row_position, 0, item)
+            self.table_departments.setItem(row_position, 1, QTableWidgetItem(department.name))
+        self.table_departments.resizeColumnToContents(0)
+        self.table_departments.resizeRowsToContents()
 
     def _load_statistics_to_table(self, start_time=None, end_time=None, min_temperature=None, max_temperature=None):
         self.table_statistics.setRowCount(0)
@@ -338,3 +372,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                              QtGui.QIcon.Normal, QtGui.QIcon.Off)
         item.setIcon(icon10)
         table.setHorizontalHeaderItem(0, item)
+
+    # NGINX
+    def start_nginx(self):
+        os.system('nginx\\nginx.exe')
+
+    def quit_nginx(self):
+        os.system('nginx\\nginx.exe -s quit')
