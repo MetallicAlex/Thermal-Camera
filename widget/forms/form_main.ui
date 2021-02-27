@@ -1781,6 +1781,9 @@ QPushButton:pressed {
                  </disabled>
                 </palette>
                </property>
+               <property name="focusPolicy">
+                <enum>Qt::StrongFocus</enum>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QTableWidget {	
 	background-color: rgb(39, 44, 54);
@@ -1869,13 +1872,16 @@ QCheckBox::indicator:checked {
                 <bool>false</bool>
                </property>
                <property name="selectionMode">
-                <enum>QAbstractItemView::SingleSelection</enum>
+                <enum>QAbstractItemView::NoSelection</enum>
                </property>
                <property name="selectionBehavior">
                 <enum>QAbstractItemView::SelectRows</enum>
                </property>
                <property name="textElideMode">
                 <enum>Qt::ElideMiddle</enum>
+               </property>
+               <property name="sortingEnabled">
+                <bool>false</bool>
                </property>
                <property name="rowCount">
                 <number>0</number>
@@ -1907,6 +1913,10 @@ QCheckBox::indicator:checked {
                <column>
                 <property name="text">
                  <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../files.qrc">
+                  <normaloff>:/24x24/data/resources/icons/24x24/cil-uncheck-circle.png</normaloff>:/24x24/data/resources/icons/24x24/cil-uncheck-circle.png</iconset>
                 </property>
                </column>
                <column>
@@ -1993,6 +2003,9 @@ QPushButton:pressed {
                 <font>
                  <family>Segoe UI</family>
                 </font>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::DefaultContextMenu</enum>
                </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
@@ -2580,6 +2593,8 @@ QPushButton:pressed {
                 <font>
                  <family>Segoe UI</family>
                  <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="text">
@@ -2602,7 +2617,12 @@ QPushButton:pressed {
                 <font>
                  <family>Segoe UI</family>
                  <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
                 </font>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::ClickFocus</enum>
                </property>
                <property name="text">
                 <string>Departments DB</string>

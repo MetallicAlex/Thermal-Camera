@@ -975,6 +975,7 @@ class Ui_MainWindow(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         self.table_persons.setPalette(palette)
+        self.table_persons.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.table_persons.setStyleSheet("QTableWidget {    \n"
 "    background-color: rgb(39, 44, 54);\n"
 "    padding: 10px;\n"
@@ -1050,13 +1051,16 @@ class Ui_MainWindow(object):
         self.table_persons.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.table_persons.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.table_persons.setAlternatingRowColors(False)
-        self.table_persons.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.table_persons.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.table_persons.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_persons.setTextElideMode(QtCore.Qt.ElideMiddle)
         self.table_persons.setRowCount(0)
         self.table_persons.setColumnCount(7)
         self.table_persons.setObjectName("table_persons")
         item = QtWidgets.QTableWidgetItem()
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        item.setIcon(icon10)
         self.table_persons.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         self.table_persons.setHorizontalHeaderItem(1, item)
@@ -1105,6 +1109,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         self.button_edit_person.setFont(font)
+        self.button_edit_person.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.button_edit_person.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
@@ -1121,9 +1126,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_edit_person.setIcon(icon10)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_edit_person.setIcon(icon11)
         self.button_edit_person.setObjectName("button_edit_person")
         self.button_add_person = QtWidgets.QPushButton(self.page_database)
         self.button_add_person.setGeometry(QtCore.QRect(150, 10, 100, 30))
@@ -1146,9 +1151,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_add_person.setIcon(icon11)
+        icon12 = QtGui.QIcon()
+        icon12.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_add_person.setIcon(icon12)
         self.button_add_person.setObjectName("button_add_person")
         self.button_send_device = QtWidgets.QPushButton(self.page_database)
         self.button_send_device.setGeometry(QtCore.QRect(10, 50, 130, 30))
@@ -1171,9 +1176,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-paper-plane.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_send_device.setIcon(icon12)
+        icon13 = QtGui.QIcon()
+        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-paper-plane.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_send_device.setIcon(icon13)
         self.button_send_device.setObjectName("button_send_device")
         self.table_departments = QtWidgets.QTableWidget(self.page_database)
         self.table_departments.setGeometry(QtCore.QRect(740, 100, 350, 540))
@@ -1391,7 +1396,7 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        self.button_edit_department.setIcon(icon10)
+        self.button_edit_department.setIcon(icon11)
         self.button_edit_department.setObjectName("button_edit_department")
         self.button_add_department = QtWidgets.QPushButton(self.page_database)
         self.button_add_department.setGeometry(QtCore.QRect(740, 50, 100, 30))
@@ -1414,13 +1419,15 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        self.button_add_department.setIcon(icon11)
+        self.button_add_department.setIcon(icon12)
         self.button_add_department.setObjectName("button_add_department")
         self.label = QtWidgets.QLabel(self.page_database)
         self.label.setGeometry(QtCore.QRect(20, 10, 121, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
         self.label.setFont(font)
         self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label.setObjectName("label")
@@ -1429,7 +1436,10 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_2.setFont(font)
+        self.label_2.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.label_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_2.setObjectName("label_2")
         self.stackedWidget.addWidget(self.page_database)
@@ -1709,9 +1719,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_person_plot.setIcon(icon13)
+        icon14 = QtGui.QIcon()
+        icon14.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_person_plot.setIcon(icon14)
         self.button_person_plot.setObjectName("button_person_plot")
         self.button_all_statistic = QtWidgets.QPushButton(self.page_statistic)
         self.button_all_statistic.setGeometry(QtCore.QRect(610, 100, 120, 30))
@@ -1735,9 +1745,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_all_statistic.setIcon(icon14)
+        icon15 = QtGui.QIcon()
+        icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_all_statistic.setIcon(icon15)
         self.button_all_statistic.setObjectName("button_all_statistic")
         self.stackedWidget.addWidget(self.page_statistic)
         self.page_settings = QtWidgets.QWidget()
@@ -1807,6 +1817,7 @@ class Ui_MainWindow(object):
         self.button_search_device.setText(_translate("MainWindow", "Search"))
         self.button_configure_device.setText(_translate("MainWindow", "Configure"))
         self.button_delete_device.setText(_translate("MainWindow", "Delete"))
+        self.table_persons.setSortingEnabled(False)
         item = self.table_persons.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "ID"))
         item = self.table_persons.horizontalHeaderItem(2)
@@ -1857,12 +1868,3 @@ class Ui_MainWindow(object):
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
 import files_rc
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

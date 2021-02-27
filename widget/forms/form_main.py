@@ -1,9 +1,10 @@
 import json
 import os
 import datetime
+import numpy as np
 import webbrowser as wb
 
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect, \
     QTableWidgetItem, QLabel, QCheckBox, QHeaderView
 from PyQt5.QtGui import QPixmap, QImage, QIcon, QColor
@@ -60,9 +61,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_edit_person.clicked.connect(self._button_edit_person_clicked)
         self.button_delete_person.clicked.connect(self._button_delete_person_clicked)
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
+        self.table_persons.horizontalHeader().sectionPressed.connect(self._checkbox_column_pressed)
         # PAGE STATISTIC
         self.button_search_statistics.clicked.connect(self._button_search_statistics_clicked)
-        self.button_all_statistic.clicked.connect(self._button_all_statistic)
+        self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
         self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
         self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
         self.subscribe_platform.moveToThread(self.thread)
@@ -173,8 +175,21 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self._load_statistics_to_table(min_temperature=self.doubleSpinBox_min_temperature.value(),
                                            max_temperature=self.doubleSpinBox_max_temperature.value())
 
-    def _button_all_statistic(self, event):
+    def _button_all_statistic_clicked(self, event):
         self._load_statistics_to_table()
+
+    def _checkbox_column_pressed(self, index):
+        if index == 0:
+            list_checked_buttons = np.array([self.table_persons.cellWidget(row_position, 0).isChecked()
+                                             for row_position in range(self.table_persons.rowCount())])
+            if np.all(list_checked_buttons):
+                for row_position in range(self.table_persons.rowCount()):
+                    self.table_persons.cellWidget(row_position, 0).setCheckState(Qt.Unchecked)
+                self._set_header_column_icon(self.table_persons, False)
+            else:
+                for row_position in range(self.table_persons.rowCount()):
+                    self.table_persons.cellWidget(row_position, 0).setCheckState(Qt.Checked)
+                self._set_header_column_icon(self.table_persons, True)
 
     # SETTINGS
     def _get_theme(self, theme=str):
@@ -225,7 +240,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                             models.Statistic.temperature >= min_temperature,
                             models.Statistic.temperature <= max_temperature).all()
             else:
-                statistics = session.query(models.Statistic, models.Employee.name)\
+                statistics = session.query(models.Statistic, models.Employee.name) \
                     .filter(models.Statistic.id_employee == models.Employee.id).all()
         return statistics
 
@@ -311,3 +326,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setData(Qt.EditRole, value)
         item.setTextAlignment(Qt.AlignCenter)
         return item
+
+    def _set_header_column_icon(self, table=QtWidgets.QTableWidget, checked=bool):
+        item = QtWidgets.QTableWidgetItem()
+        icon10 = QtGui.QIcon()
+        if checked:
+            icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-check-circle.png"),
+                             QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        else:
+            icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"),
+                             QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        item.setIcon(icon10)
+        table.setHorizontalHeaderItem(0, item)

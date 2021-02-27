@@ -577,14 +577,3 @@ class Ui_FormProfile(object):
         self.lineEdit_phonenumber.setPlaceholderText(_translate("FormProfile", "+3753312345678"))
         self.button_accept.setText(_translate("FormProfile", "Accept"))
         self.button_cancel.setText(_translate("FormProfile", "Cancel"))
-import files_rc
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    FormProfile = QtWidgets.QWidget()
-    ui = Ui_FormProfile()
-    ui.setupUi(FormProfile)
-    FormProfile.show()
-    sys.exit(app.exec_())

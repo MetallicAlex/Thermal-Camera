@@ -538,14 +538,3 @@ class Ui_FormDevices(object):
         item.setText(_translate("FormDevices", "State"))
         self.button_accept.setText(_translate("FormDevices", "Accept"))
         self.button_cancel.setText(_translate("FormDevices", "Cancel"))
-import files_rc
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    FormDevices = QtWidgets.QWidget()
-    ui = Ui_FormDevices()
-    ui.setupUi(FormDevices)
-    FormDevices.show()
-    sys.exit(app.exec_())
