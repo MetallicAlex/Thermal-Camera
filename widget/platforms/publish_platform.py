@@ -71,7 +71,7 @@ class PublishPlatform:
                 employee = session.query(models.Employee).filter(models.Employee.id == employee_id).scalar()
                 self.data['param']['pictures'][index]['user_id'] = str(employee.id)
                 self.data['param']['pictures'][index]['user_name'] = employee.name
-                self.data['param']['pictures'][index]['end_time']\
+                self.data['param']['pictures'][index]['end_time'] \
                     = f"{datetime.strftime(datetime.now(), '%Y')}/12/30 23:59:59"
                 self.data['param']['pictures'][index]['p_id'] = 'null'
                 self.data['param']['pictures'][index]['picture'] = employee.face
@@ -108,3 +108,10 @@ class PublishPlatform:
                      'page': page
                      }
         self._publish_data()
+
+    def get_device_info(self):
+        self.data = {"mqtt_cmd": 2,
+                     'device_id': self.device_id,
+                     'tag': "platform define",
+                     'device_token': self.device_token
+                     }

@@ -124,45 +124,55 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_persons.resizeRowsToContents()
 
     def _button_edit_person_clicked(self, event):
+        id_employees = [int(self.table_persons.item(row_position, 1).text())
+                        for row_position in range(self.table_persons.rowCount())
+                        if self.table_persons.cellWidget(row_position, 0).isChecked()]
+        indexes = [row_position for row_position in range(self.table_persons.rowCount())
+                   if self.table_persons.cellWidget(row_position, 0).isChecked()]
         with models.get_session() as session:
-            employee = session.query(models.Employee) \
-                .filter(models.Employee.id == int(self.table_persons.item(self.table_persons.currentRow(), 1).text())) \
-                .scalar()
-            self.form_profile = FormProfile(employee)
-            self.form_profile.exec_()
-            if self.form_profile.dialog_result == 1:
-                session.query(models.Employee).filter(models.Employee.id == employee.id) \
-                    .update({models.Employee.name: self.form_profile.employee.name,
-                             models.Employee.id: self.form_profile.employee.id,
-                             models.Employee.name_department: self.form_profile.employee.name_department,
-                             models.Employee.face: self.form_profile.employee.face,
-                             models.Employee.gender: self.form_profile.employee.gender,
-                             models.Employee.phone_number: self.form_profile.employee.phone_number})
-                row_position = self.table_persons.currentRow()
-                self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.employee.id))
-                self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.employee.face))
-                self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.employee.name))
-                self.table_persons.setItem(row_position, 4,
-                                           QTableWidgetItem(self.form_profile.employee.name_department))
-                self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(self.form_profile.employee.gender)))
-                self.table_persons.setItem(row_position, 6,
-                                           QTableWidgetItem(str(self.form_profile.employee.phone_number)))
-                self.table_persons.resizeColumnsToContents()
-                self.table_persons.resizeRowsToContents()
+            employees = session.query(models.Employee).filter(models.Employee.id.in_(id_employees)).all()
+            for employee, row_position in zip(employees, indexes):
+                self.form_profile = FormProfile(employee)
+                self.form_profile.exec_()
+                if self.form_profile.dialog_result == 1:
+                    session.query(models.Employee).filter(models.Employee.id == employee.id) \
+                        .update({models.Employee.name: self.form_profile.employee.name,
+                                 models.Employee.id: self.form_profile.employee.id,
+                                 models.Employee.name_department: self.form_profile.employee.name_department,
+                                 models.Employee.face: self.form_profile.employee.face,
+                                 models.Employee.gender: self.form_profile.employee.gender,
+                                 models.Employee.phone_number: self.form_profile.employee.phone_number})
+                    self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.employee.id))
+                    self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.employee.face))
+                    self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.employee.name))
+                    self.table_persons.setItem(row_position, 4,
+                                               QTableWidgetItem(self.form_profile.employee.name_department))
+                    self.table_persons.setItem(row_position, 5,
+                                               QTableWidgetItem(str(self.form_profile.employee.gender)))
+                    self.table_persons.setItem(row_position, 6,
+                                               QTableWidgetItem(str(self.form_profile.employee.phone_number)))
+            self.table_persons.resizeColumnsToContents()
+            self.table_persons.resizeRowsToContents()
 
     def _button_delete_person_clicked(self, event):
-        with models.get_session() as session:
-            employee = session.query(models.Employee) \
-                .filter(models.Employee.id == int(self.table_persons.item(self.table_persons.currentRow(), 1).text())) \
-                .scalar()
-            session.delete(employee)
-            self.table_persons.removeRow(self.table_persons.currentRow())
+        button_reply = QMessageBox.question(self, 'Database Manager', 'Are you sure you want to delete persons?',
+                                            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if button_reply == QMessageBox.Yes:
+            id_employees = [int(self.table_persons.item(row_position, 1).text())
+                            for row_position in range(self.table_persons.rowCount())
+                            if self.table_persons.cellWidget(row_position, 0).isChecked()]
+            with models.get_session() as session:
+                session.query(models.Employee).filter(models.Employee.id.in_(id_employees)) \
+                    .delete(synchronize_session=False)
+            for row_position in range(self.table_persons.rowCount() - 1, 0, -1):
+                if self.table_persons.cellWidget(row_position, 0).isChecked():
+                    self.table_persons.removeRow(row_position)
 
     def _button_send_device_clicked(self, event):
-        # for _ in self.table_persons.ite
-        self.publish_platform.query_personnel_data()
-        row_position = self.table_persons.currentRow()
-        self.publish_platform.add_personnel_data([int(self.table_persons.item(row_position, 1).text())])
+        id_employees = [int(self.table_persons.item(row_position, 1).text())
+                        for row_position in range(self.table_persons.rowCount())
+                        if self.table_persons.cellWidget(row_position, 0).isChecked()]
+        self.publish_platform.add_personnel_data(id_employees)
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
