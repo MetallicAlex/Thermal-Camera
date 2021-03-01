@@ -127,11 +127,11 @@ class Visualization:
 
 
 if __name__ == '__main__':
-    Visualization.show_plot_employee(3)
+    Visualization.show_plot_employee(8)
     Visualization.show_plot_employees(employees_id=[1, 3, 4, 5], start_date='2021-01-17 00:00:00',
                                       end_date='2021-01-20 23:59:59')
-    Visualization.show_temperature_map_employee(1)
-    Visualization.show_temperature_map_employee(3)
+    Visualization.show_temperature_map_employee(8)
+    Visualization.show_temperature_map_employee(2)
     Visualization.show_similar_map_employee(3)
-    Visualization.show_similar_map_employee(1)
+    Visualization.show_similar_map_employee(8)
     Visualization.show_similar_map_employee(2)

@@ -29,10 +29,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.form_profile = FormProfile()
         self.theme = self._get_theme('dark theme')
         self.subscribe_platform = SubscribePlatform()
-        self.subscribe_platform.set_host_port('192.168.1.2', client_name='SP')
+        self.subscribe_platform.set_host_port('192.168.1.2', client_name='SP1')
         self.thread = QtCore.QThread()
-        self.publish_platform = PublishPlatform('192.168.1.2', client_name='PP')
-        self.publish_platform.set_device('7101239214001', '1899371712')
+        self.publish_platform = PublishPlatform('192.168.1.2', client_name='PP1')
+        self.publish_platform.set_device('7101384284372', '724970388')
         # SETTINGS
         self._load_devices_info_to_table()
         self._load_employees_to_table()
@@ -74,7 +74,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.subscribe_platform.moveToThread(self.thread)
         self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
         self.thread.started.connect(self.subscribe_platform.run)
-        # self.thread.start()
+        self.thread.start()
 
     # EVENTS
     def _frame_header_mouse_press(self, event):
@@ -159,6 +159,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_persons.removeRow(self.table_persons.currentRow())
 
     def _button_send_device_clicked(self, event):
+        # for _ in self.table_persons.ite
+        self.publish_platform.query_personnel_data()
         row_position = self.table_persons.currentRow()
         self.publish_platform.add_personnel_data([int(self.table_persons.item(row_position, 1).text())])
 

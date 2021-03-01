@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QImage
 
@@ -37,8 +38,11 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
 
     def _button_accept_clicked(self, event):
         self.dialog_result = 1
-        pixmap = QPixmap(QImage(self.file_name))
-        pixmap.save(f'nginx/html/static/images/{self.lineEdit_name.text()}.jpg')
+        if self.file_name is not None:
+            pixmap = QPixmap(QImage(self.file_name))
+            pixmap.save(f'nginx/html/static/images/{self.lineEdit_name.text()}.jpg')
+        else:
+            QMessageBox.about(self, 'Face Photo', 'Load photo')
         self.employee = models.Employee(id=int(self.lineEdit_id.text()),
                                         name=self.lineEdit_name.text(),
                                         name_department=self.comboBox_department.currentText(),

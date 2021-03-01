@@ -62,3 +62,5 @@
 [2021-02-01 12:14:32.939311] {'code': -1, 'msg': 'mqtt param erro!', 'device_id': '7101384284372', 'dev_cur_pts': 1612181672, 'tag': 'platform define', 'datas': 'no data'}
 [2021-02-01 12:16:26.988549] {'code': -1, 'msg': 'mqtt param erro!', 'device_id': '7101384284372', 'dev_cur_pts': 1612181786, 'tag': 'platform define', 'datas': 'no data'}
 [2021-02-01 12:26:10.114987] {'code': -1, 'msg': 'The device has been bound! ip:192.168.1.88 platfrom:2', 'device_id': '7101384284372', 'dev_cur_pts': 1612182369, 'tag': 'platform define', 'datas': 'no data'}
+[2021-03-01 09:24:08.084918] {'code': -1, 'msg': 'device_token erro!', 'device_id': '7101384284372', 'dev_cur_pts': 1614590621, 'tag': 'platform define', 'datas': 'no data'}
+[2021-03-01 10:05:58.009557] {'code': -1, 'msg': 'mqtt param erro!', 'device_id': '7101384284372', 'dev_cur_pts': 1614593131, 'tag': 'platform define', 'datas': 'no data'}

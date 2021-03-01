@@ -26,7 +26,9 @@ class PublishPlatform:
         self.__client.connect(self.host, self.port)
         self.__client.loop_start()
         self.__client.publish(self.topic, json.dumps(self.data, indent=4))
+        # time.sleep(1)
         self.__client.loop_stop()
+        self.__client.disconnect()
 
     def bind_device(self):
         self.data = {"mqtt_cmd": 1,
@@ -93,5 +95,16 @@ class PublishPlatform:
                      'tag': "platform define",
                      'piclib_manage': 3,
                      'param': {'users': [{'user_id': employee_id} for employee_id in employees_id]}
+                     }
+        self._publish_data()
+
+    def query_personnel_data(self, page=-1):
+        self.data = {"mqtt_cmd": 1,
+                     "mqtt_operate_id": 7,
+                     'device_token': self.device_token,
+                     'device_id': self.device_id,
+                     'tag': "platform define",
+                     'piclib_manage': 4,
+                     'page': page
                      }
         self._publish_data()
