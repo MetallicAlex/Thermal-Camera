@@ -1159,7 +1159,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -1428,7 +1428,7 @@ QHeaderView::section:vertical
                 <number>0</number>
                </property>
                <property name="columnCount">
-                <number>5</number>
+                <number>7</number>
                </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
@@ -1467,6 +1467,26 @@ QHeaderView::section:vertical
                 <property name="text">
                  <string>Device Name</string>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>9</pointsize>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Model</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>9</pointsize>
+                 </font>
+                </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
                 </property>
@@ -1474,6 +1494,26 @@ QHeaderView::section:vertical
                <column>
                 <property name="text">
                  <string>Serial Number</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>9</pointsize>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>MAC-Address</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>9</pointsize>
+                 </font>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -1483,6 +1523,12 @@ QHeaderView::section:vertical
                 <property name="text">
                  <string>IP Address</string>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>9</pointsize>
+                 </font>
+                </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
                 </property>
@@ -1490,6 +1536,12 @@ QHeaderView::section:vertical
                <column>
                 <property name="text">
                  <string>State</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>9</pointsize>
+                 </font>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -1909,7 +1961,7 @@ QCheckBox::indicator:checked {
                 <number>7</number>
                </property>
                <attribute name="horizontalHeaderVisible">
-                <bool>true</bool>
+                <bool>false</bool>
                </attribute>
                <attribute name="horizontalHeaderCascadingSectionResizes">
                 <bool>true</bool>
@@ -2434,7 +2486,7 @@ QCheckBox::indicator:checked {
                 <number>2</number>
                </property>
                <attribute name="horizontalHeaderVisible">
-                <bool>true</bool>
+                <bool>false</bool>
                </attribute>
                <attribute name="horizontalHeaderCascadingSectionResizes">
                 <bool>true</bool>

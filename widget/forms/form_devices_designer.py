@@ -329,8 +329,56 @@ class Ui_FormDevices(object):
         self.frame_contains.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_contains.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_contains.setObjectName("frame_contains")
+        self.button_accept = QtWidgets.QPushButton(self.frame_contains)
+        self.button_accept.setGeometry(QtCore.QRect(300, 400, 200, 40))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.button_accept.setFont(font)
+        self.button_accept.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_accept.setIconSize(QtCore.QSize(40, 40))
+        self.button_accept.setObjectName("button_accept")
+        self.button_cancel = QtWidgets.QPushButton(self.frame_contains)
+        self.button_cancel.setGeometry(QtCore.QRect(530, 400, 200, 40))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.button_cancel.setFont(font)
+        self.button_cancel.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_cancel.setIconSize(QtCore.QSize(40, 40))
+        self.button_cancel.setObjectName("button_cancel")
         self.table_devices = QtWidgets.QTableWidget(self.frame_contains)
-        self.table_devices.setGeometry(QtCore.QRect(0, 0, 1040, 400))
+        self.table_devices.setGeometry(QtCore.QRect(5, 0, 1040, 400))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -451,18 +499,56 @@ class Ui_FormDevices(object):
         self.table_devices.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_devices.setTextElideMode(QtCore.Qt.ElideMiddle)
         self.table_devices.setRowCount(0)
-        self.table_devices.setColumnCount(5)
+        self.table_devices.setColumnCount(7)
         self.table_devices.setObjectName("table_devices")
         item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignVCenter)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        item.setIcon(icon1)
         self.table_devices.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        item.setFont(font)
+        self.table_devices.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        item.setFont(font)
+        self.table_devices.setHorizontalHeaderItem(6, item)
         self.table_devices.horizontalHeader().setVisible(True)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
@@ -470,54 +556,6 @@ class Ui_FormDevices(object):
         self.table_devices.verticalHeader().setVisible(False)
         self.table_devices.verticalHeader().setHighlightSections(False)
         self.table_devices.verticalHeader().setStretchLastSection(True)
-        self.button_accept = QtWidgets.QPushButton(self.frame_contains)
-        self.button_accept.setGeometry(QtCore.QRect(300, 400, 200, 40))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(9)
-        self.button_accept.setFont(font)
-        self.button_accept.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        self.button_accept.setIconSize(QtCore.QSize(40, 40))
-        self.button_accept.setObjectName("button_accept")
-        self.button_cancel = QtWidgets.QPushButton(self.frame_contains)
-        self.button_cancel.setGeometry(QtCore.QRect(530, 400, 200, 40))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(9)
-        self.button_cancel.setFont(font)
-        self.button_cancel.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        self.button_cancel.setIconSize(QtCore.QSize(40, 40))
-        self.button_cancel.setObjectName("button_cancel")
         self.verticalLayout.addWidget(self.frame_contains)
 
         self.retranslateUi(FormDevices)
@@ -528,13 +566,28 @@ class Ui_FormDevices(object):
         FormDevices.setWindowTitle(_translate("FormDevices", "Found Devices"))
         self.label_title.setText(_translate("FormDevices", "Found Devices"))
         self.button_close.setToolTip(_translate("FormDevices", "Close"))
+        self.button_accept.setText(_translate("FormDevices", "Accept"))
+        self.button_cancel.setText(_translate("FormDevices", "Cancel"))
         item = self.table_devices.horizontalHeaderItem(1)
         item.setText(_translate("FormDevices", "Device Name"))
         item = self.table_devices.horizontalHeaderItem(2)
-        item.setText(_translate("FormDevices", "Serial Number"))
+        item.setText(_translate("FormDevices", "Model"))
         item = self.table_devices.horizontalHeaderItem(3)
-        item.setText(_translate("FormDevices", "IP Address"))
+        item.setText(_translate("FormDevices", "Serial Number"))
         item = self.table_devices.horizontalHeaderItem(4)
+        item.setText(_translate("FormDevices", "MAC-Address"))
+        item = self.table_devices.horizontalHeaderItem(5)
+        item.setText(_translate("FormDevices", "IP Address"))
+        item = self.table_devices.horizontalHeaderItem(6)
         item.setText(_translate("FormDevices", "State"))
-        self.button_accept.setText(_translate("FormDevices", "Accept"))
-        self.button_cancel.setText(_translate("FormDevices", "Cancel"))
+import files_rc
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    FormDevices = QtWidgets.QWidget()
+    ui = Ui_FormDevices()
+    ui.setupUi(FormDevices)
+    FormDevices.show()
+    sys.exit(app.exec_())

@@ -1,5 +1,6 @@
 import json
 import os
+import socket
 import datetime
 import numpy as np
 import webbrowser as wb
@@ -252,9 +253,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
             self.table_devices.setCellWidget(row_position, 0, item)
-            self.table_devices.setItem(row_position, 1, QTableWidgetItem(device['name']))
-            self.table_devices.setItem(row_position, 2, QTableWidgetItem(device['serial']))
-            self.table_devices.setItem(row_position, 3, QTableWidgetItem(device['ip']))
+            item = QTableWidgetItem(device['name'])
+            item.setTextAlignment(Qt.AlignCenter)
+            self.table_devices.setItem(row_position, 1, item)
+            item = QTableWidgetItem(device['serial'])
+            item.setTextAlignment(Qt.AlignCenter)
+            self.table_devices.setItem(row_position, 2, item)
+            item = QTableWidgetItem(device['ip'])
+            item.setTextAlignment(Qt.AlignCenter)
+            self.table_devices.setItem(row_position, 3, item)
         self.table_devices.resizeColumnToContents(0)
         # self.table_devices.resizeColumnsToContents()
         # self.table_devices.resizeRowsToContents()

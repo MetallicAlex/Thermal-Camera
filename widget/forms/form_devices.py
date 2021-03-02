@@ -1,9 +1,17 @@
-from PyQt5 import QtWidgets
+import re
+import os
+import socket
+import numpy as np
+
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtWidgets import QCheckBox, QTableWidgetItem
 
 import widget.models as models
 from widget.forms.form_devices_designer import Ui_FormDevices
+
+DEVICE_TOKEN_DEBUG = '1057628122'
 
 
 class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
@@ -13,12 +21,15 @@ class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
         # DATA
         self.dialog_result = 0
         # SETTINGS
+        self._load_devices_info_to_table()
         # SYSTEM BUTTONS, FRAME HEADER
         self.button_close.clicked.connect(lambda: self.close())
         self.button_accept.clicked.connect(self._button_accept_clicked)
         self.button_cancel.clicked.connect(self._button_cancel_clicked)
         self.frame_header.mouseMoveEvent = self._frame_header_move_window
         self.frame_header.mousePressEvent = self._frame_header_mouse_press
+        # TABLE
+        self.table_devices.horizontalHeader().sectionPressed.connect(self._checkbox_header_devices_pressed)
 
     # EVENTS
     def _frame_header_mouse_press(self, event):
@@ -37,3 +48,61 @@ class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
     def _button_cancel_clicked(self, event):
         self.dialog_result = 0
         self.close()
+
+    def _checkbox_header_devices_pressed(self, index):
+        if index == 0:
+            list_checked_buttons = np.array([self.table_devices.cellWidget(row_position, 0).isChecked()
+                                             for row_position in range(self.table_devices.rowCount())])
+            if np.all(list_checked_buttons):
+                for row_position in range(self.table_devices.rowCount()):
+                    self.table_devices.cellWidget(row_position, 0).setCheckState(Qt.Unchecked)
+                self._set_header_column_icon(self.table_devices, False)
+            else:
+                for row_position in range(self.table_devices.rowCount()):
+                    self.table_devices.cellWidget(row_position, 0).setCheckState(Qt.Checked)
+                self._set_header_column_icon(self.table_devices, True)
+
+    # OTHERS
+    def _get_host_name_ip(self):
+        try:
+            self.host_name = socket.gethostname()
+            self.host_ip = socket.gethostbyname(self.host_name)
+        except:
+            print("Unable to get Hostname and IP")
+
+    def _get_devices_info(self):
+        self._get_host_name_ip()
+        os.system('chcp 437')
+        with os.popen(f'arp -a -N {self.host_ip}') as file:
+            data = file.read()
+        devices = []
+        for line in re.findall('([-.0-9]+)\s+([-0-9a-f]{17})\s+(\w+)', data):
+            if 'dynamic' in line:
+                devices.append(line[:2])
+        return devices
+
+    def _load_devices_info_to_table(self):
+        devices = self._get_devices_info()
+        print(devices)
+        for row_position, device in enumerate(devices):
+            device_ip, device_mac = device
+            self.table_devices.insertRow(row_position)
+            item = QCheckBox()
+            item.setCheckState(Qt.Unchecked)
+            self.table_devices.setCellWidget(row_position, 0, item)
+            self.table_devices.setItem(row_position, 4, QTableWidgetItem(device_mac))
+            self.table_devices.setItem(row_position, 5, QTableWidgetItem(device_ip))
+        self.table_devices.resizeColumnsToContents()
+        self.table_devices.resizeRowsToContents()
+
+    def _set_header_column_icon(self, table=QtWidgets.QTableWidget, checked=bool):
+        item = QtWidgets.QTableWidgetItem()
+        icon10 = QtGui.QIcon()
+        if checked:
+            icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-check-circle.png"),
+                             QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        else:
+            icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"),
+                             QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        item.setIcon(icon10)
+        table.setHorizontalHeaderItem(0, item)
