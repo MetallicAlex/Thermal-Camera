@@ -2,6 +2,7 @@ import json
 import os
 import socket
 import datetime
+import time
 import numpy as np
 import webbrowser as wb
 
@@ -29,11 +30,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # DATA
         self.form_profile = FormProfile()
         self.theme = self._get_theme('dark theme')
-        self.subscribe_platform = SubscribePlatform()
-        self.subscribe_platform.set_host_port('192.168.1.2', client_name='SP1')
-        self.thread = QtCore.QThread()
-        self.publish_platform = PublishPlatform('192.168.1.2', client_name='PP1')
-        self.publish_platform.set_device('7101384284372', '724970388')
+        self.host_name, self.host_ip = self._get_host_name_ip()
+        if self.host_ip is not None:
+            self.subscribe_platform = SubscribePlatform()
+            self.subscribe_platform.set_host_port(self.host_ip, client_name='SP1')
+            self.thread = QtCore.QThread()
+            self.subscribe_platform.moveToThread(self.thread)
+            self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
+            self.subscribe_platform.device.connect(self._update_device_info)
+            self.thread.started.connect(self.subscribe_platform.run)
+            self.thread.start()
+            self.publish_platform = PublishPlatform(self.host_ip, client_name='PP1')
+            # self.publish_platform.set_device('7101384284372', '724970388')
         # SETTINGS
         self._load_devices_info_to_table()
         self._load_employees_to_table()
@@ -72,10 +80,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
         self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
         self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
-        self.subscribe_platform.moveToThread(self.thread)
-        self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
-        self.thread.started.connect(self.subscribe_platform.run)
-        self.thread.start()
 
     # EVENTS
     def _frame_header_mouse_press(self, event):
@@ -246,8 +250,39 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             data = json.load(file, strict=False)
         return data
 
+    @QtCore.pyqtSlot(dict)
+    def _update_device_info(self, data):
+        for row_position in range(self.table_devices.rowCount()):
+            if self.table_devices.item(row_position, 3).text() == data['device_id']:
+                item = QTableWidgetItem(data['datas']['basic_parameters']['dev_name'])
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_devices.setItem(row_position, 1, item)
+                item = QTableWidgetItem(data['datas']['version_info']['dev_model'])
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_devices.setItem(row_position, 2, item)
+                item = QTableWidgetItem(data['device_id'])
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_devices.setItem(row_position, 3, item)
+                item = QTableWidgetItem(data['datas']['network_cofnig']['ip_addr'])
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_devices.setItem(row_position, 5, item)
+                item = QTableWidgetItem('online')
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_devices.setItem(row_position, 6, item)
+                break
+
+    def _get_host_name_ip(self):
+        try:
+            host_name = socket.gethostname()
+            host_ip = socket.gethostbyname(host_name)
+            return host_name, host_ip
+        except:
+            QMessageBox.information('Unable to get Hostname and IP')
+            return None
+
     def _load_devices_info_to_table(self):
         self.devices = self._get_devices_info()
+        state = 'not online'
         for row_position, device in enumerate(self.devices):
             self.table_devices.insertRow(row_position)
             item = QCheckBox()
@@ -255,16 +290,23 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_devices.setCellWidget(row_position, 0, item)
             item = QTableWidgetItem(device['name'])
             item.setTextAlignment(Qt.AlignCenter)
-            self.table_devices.setItem(row_position, 1, item)
+            self.table_devices.setItem(row_position, 2, item)
             item = QTableWidgetItem(device['serial'])
             item.setTextAlignment(Qt.AlignCenter)
-            self.table_devices.setItem(row_position, 2, item)
+            self.table_devices.setItem(row_position, 3, item)
+            item = QTableWidgetItem(device['mac'])
+            item.setTextAlignment(Qt.AlignCenter)
+            self.table_devices.setItem(row_position, 4, item)
             item = QTableWidgetItem(device['ip'])
             item.setTextAlignment(Qt.AlignCenter)
-            self.table_devices.setItem(row_position, 3, item)
-        self.table_devices.resizeColumnToContents(0)
-        # self.table_devices.resizeColumnsToContents()
-        # self.table_devices.resizeRowsToContents()
+            self.table_devices.setItem(row_position, 5, item)
+            item = QTableWidgetItem(state)
+            item.setTextAlignment(Qt.AlignCenter)
+            self.table_devices.setItem(row_position, 6, item)
+            self.publish_platform.set_device(device['serial'], device['token'])
+            self.publish_platform.get_device_info()
+        self.table_devices.resizeColumnsToContents()
+        self.table_devices.resizeRowsToContents()
 
     # DATABASE
     def _get_departments_from_database(self):
@@ -340,7 +382,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot(object)
     def _add_statistic_to_table(self, statistic):
         row_position = self.table_statistics.rowCount() - 1
-        print(statistic)
         self.table_statistics.insertRow(row_position)
         with models.get_session() as session:
             employee_name = session.query(models.Employee.name) \

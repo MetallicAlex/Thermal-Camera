@@ -12,6 +12,7 @@ import widget.models as models
 
 class SubscribePlatform(QtCore.QObject):
     statistic = QtCore.pyqtSignal(object)
+    device = QtCore.pyqtSignal(dict)
     running = False
 
     def set_host_port(self, host, port=1883, client_name='PC'):
@@ -52,6 +53,8 @@ class SubscribePlatform(QtCore.QObject):
             self._upload_person()
         elif self._is_bind():
             self._write_token()
+        elif self._is_param_device():
+            self.device.emit(self.data)
 
     def _store_error(self):
         with open('logs/error.log', 'a+') as file:
@@ -111,3 +114,9 @@ class SubscribePlatform(QtCore.QObject):
     def _write_token(self):
         with open('token.txt', 'w') as file:
             file.write(self.data['datas']['device_token'])
+
+    def _is_param_device(self):
+        if self.data['msg'] == 'get param success':
+            return True
+        else:
+            return False

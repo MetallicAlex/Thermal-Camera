@@ -115,3 +115,21 @@ class PublishPlatform:
                      'tag': "platform define",
                      'device_token': self.device_token
                      }
+        self._publish_data()
+
+    def _get_answer_device_info(self):
+        client = mqtt.Client('SubscribePublishPlatform')
+        client.connect(self.host, self.port)
+        client.subscribe('PublishTest')
+        client.on_message = self._on_message
+        client.loop_start()
+        while True:
+            if self.code_result == -1:
+                break
+        client.loop_stop()
+        client.disconnect()
+
+    def _on_message(self, client, userdata, message):
+        self.data = json.loads(message.payload.decode("utf-8"))
+        print(self.data)
+        self._decode_message()
