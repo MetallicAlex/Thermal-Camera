@@ -177,15 +177,26 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         id_employees = [int(self.table_persons.item(row_position, 1).text())
                         for row_position in range(self.table_persons.rowCount())
                         if self.table_persons.cellWidget(row_position, 0).isChecked()]
-        self.publish_platform.add_personnel_data(id_employees)
+        for device in self.devices:
+            if device['state'] == 'online':
+                print('online!')
+                self.publish_platform.set_device(device['serial'], device['token'])
+                self.publish_platform.add_personnel_data(id_employees)
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
-        self.form_devices = FormDevices()
+        devices_ip = [device['ip'] for device in self.devices]
+        self.form_devices = FormDevices(devices_ip)
         self.form_devices.exec_()
 
     def _button_configure_device_clicked(self, event):
-        wb.open_new_tab(f'http://{self.table_devices.item(self.table_devices.currentRow(), 3).text()}:7080')
+        devices_ip = [self.table_devices.item(row_position, 5).text()
+                      for row_position in range(self.table_devices.rowCount())
+                      if self.table_devices.cellWidget(row_position, 0).isChecked()
+                      and self.table_devices.item(row_position, 6).text() == 'online']
+        print(devices_ip)
+        for device_ip in devices_ip:
+            wb.open_new_tab(f'http://{device_ip}:7080')
 
     # EVENTS-STATISTICS
     def _button_search_statistics_clicked(self, event):
@@ -252,23 +263,28 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot(dict)
     def _update_device_info(self, data):
+        print('RUN BASIC')
         for row_position in range(self.table_devices.rowCount()):
             if self.table_devices.item(row_position, 3).text() == data['device_id']:
+                self.devices[row_position]['name'] = data['datas']['basic_parameters']['dev_name']
                 item = QTableWidgetItem(data['datas']['basic_parameters']['dev_name'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 1, item)
+                self.devices[row_position]['model'] = data['datas']['version_info']['dev_model']
                 item = QTableWidgetItem(data['datas']['version_info']['dev_model'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 2, item)
                 item = QTableWidgetItem(data['device_id'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 3, item)
+                self.devices[row_position]['ip'] = data['datas']['network_cofnig']['ip_addr']
                 item = QTableWidgetItem(data['datas']['network_cofnig']['ip_addr'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 5, item)
                 item = QTableWidgetItem('online')
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 6, item)
+                self.devices[row_position]['state'] = 'online'
                 break
 
     def _get_host_name_ip(self):
@@ -300,12 +316,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             item = QTableWidgetItem(device['ip'])
             item.setTextAlignment(Qt.AlignCenter)
             self.table_devices.setItem(row_position, 5, item)
+            self.devices[row_position]['state'] = state
             item = QTableWidgetItem(state)
             item.setTextAlignment(Qt.AlignCenter)
             self.table_devices.setItem(row_position, 6, item)
             self.publish_platform.set_device(device['serial'], device['token'])
             self.publish_platform.get_device_info()
-        self.table_devices.resizeColumnsToContents()
+        self.table_devices.resizeColumnToContents(0)
+        self.table_devices.resizeColumnToContents(2)
+        self.table_devices.resizeColumnToContents(6)
         self.table_devices.resizeRowsToContents()
 
     # DATABASE

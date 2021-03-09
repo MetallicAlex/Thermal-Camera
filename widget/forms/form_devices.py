@@ -1,25 +1,39 @@
 import re
 import os
 import socket
+import requests
 import numpy as np
 
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QImage
-from PyQt5.QtWidgets import QCheckBox, QTableWidgetItem
+from PyQt5.QtWidgets import QCheckBox, QTableWidgetItem, QMessageBox
 
 import widget.models as models
+from widget.platforms.subscribe_platform import SubscribePlatform
+from widget.platforms.publish_platform import PublishPlatform
 from widget.forms.form_devices_designer import Ui_FormDevices
 
 DEVICE_TOKEN_DEBUG = '1057628122'
 
 
 class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
-    def __init__(self):
+    def __init__(self, devices_ip=list):
         super().__init__()
         self.setupUi(self)
         # DATA
         self.dialog_result = 0
+        self.devices = devices_ip
+        self.host_name, self.host_ip = self._get_host_name_ip()
+        if self.host_ip is not None:
+            self.subscribe_platform = SubscribePlatform()
+            self.subscribe_platform.set_host_port(self.host_ip, client_name='SP2')
+            self.thread = QtCore.QThread()
+            self.subscribe_platform.moveToThread(self.thread)
+            self.subscribe_platform.device.connect(self._add_device_info)
+            self.thread.started.connect(self.subscribe_platform.run)
+            self.thread.start()
+            self.publish_platform = PublishPlatform(self.host_ip, client_name='PP2')
         # SETTINGS
         self._load_devices_info_to_table()
         # SYSTEM BUTTONS, FRAME HEADER
@@ -62,16 +76,42 @@ class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
                     self.table_devices.cellWidget(row_position, 0).setCheckState(Qt.Checked)
                 self._set_header_column_icon(self.table_devices, True)
 
+    @QtCore.pyqtSlot(dict)
+    def _add_device_info(self, data):
+        print('RUN NEW')
+        row_position = self.table_devices.rowCount()
+        self.table_devices.insertRow(row_position)
+        self.devices[row_position]['name'] = data['datas']['basic_parameters']['dev_name']
+        item = QTableWidgetItem(data['datas']['basic_parameters']['dev_name'])
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 1, item)
+        self.devices[row_position]['model'] = data['datas']['version_info']['dev_model']
+        item = QTableWidgetItem(data['datas']['version_info']['dev_model'])
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 2, item)
+        item = QTableWidgetItem(data['device_id'])
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 3, item)
+        self.devices[row_position]['ip'] = data['datas']['network_cofnig']['ip_addr']
+        item = QTableWidgetItem(data['datas']['network_cofnig']['ip_addr'])
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 5, item)
+        item = QTableWidgetItem('not added')
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 6, item)
+        #self.devices[row_position]['state'] = 'online'
+
     # OTHERS
     def _get_host_name_ip(self):
         try:
-            self.host_name = socket.gethostname()
-            self.host_ip = socket.gethostbyname(self.host_name)
+            host_name = socket.gethostname()
+            host_ip = socket.gethostbyname(host_name)
+            return host_name, host_ip
         except:
-            print("Unable to get Hostname and IP")
+            QMessageBox.information('Unable to get Hostname and IP')
+            return None
 
     def _get_devices_info(self):
-        self._get_host_name_ip()
         os.system('chcp 437')
         with os.popen(f'arp -a -N {self.host_ip}') as file:
             data = file.read()
@@ -83,16 +123,22 @@ class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
 
     def _load_devices_info_to_table(self):
         devices = self._get_devices_info()
-        print(devices)
+        devices = [(ip, mac_address) for ip, mac_address in devices if ip in self.devices]
         for row_position, device in enumerate(devices):
             device_ip, device_mac = device
+            request = requests.get(f'http://{device_ip}:7080/ini.htm',
+                                   headers={'Authorization': 'Basic YWRtaW46MTIzNDU='})
+            if request.status_code == '200':
+                pass
             self.table_devices.insertRow(row_position)
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
             self.table_devices.setCellWidget(row_position, 0, item)
             self.table_devices.setItem(row_position, 4, QTableWidgetItem(device_mac))
             self.table_devices.setItem(row_position, 5, QTableWidgetItem(device_ip))
-        self.table_devices.resizeColumnsToContents()
+        self.table_devices.resizeColumnToContents(0)
+        self.table_devices.resizeColumnToContents(2)
+        self.table_devices.resizeColumnToContents(6)
         self.table_devices.resizeRowsToContents()
 
     def _set_header_column_icon(self, table=QtWidgets.QTableWidget, checked=bool):
