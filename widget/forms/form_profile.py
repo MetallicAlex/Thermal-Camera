@@ -43,12 +43,12 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
             pixmap.save(f'nginx/html/static/images/{self.lineEdit_name.text()}.jpg')
         else:
             QMessageBox.about(self, 'Face Photo', 'Load photo')
-        self.employee = models.Employee(id=int(self.lineEdit_id.text()),
-                                        name=self.lineEdit_name.text(),
-                                        name_department=self.comboBox_department.currentText(),
-                                        face=f'/static/images/{self.lineEdit_name.text()}.jpg',
-                                        gender=self.comboBox_gender.currentText(),
-                                        phone_number=self.lineEdit_phonenumber.text())
+        self.employee = models.Profile(id=int(self.lineEdit_id.text()),
+                                       name=self.lineEdit_name.text(),
+                                       name_department=self.comboBox_department.currentText(),
+                                       face=f'/static/images/{self.lineEdit_name.text()}.jpg',
+                                       gender=self.comboBox_gender.currentText(),
+                                       phone_number=self.lineEdit_phonenumber.text())
         self.close()
 
     def _button_cancel_clicked(self, event):

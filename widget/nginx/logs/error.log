@@ -169,3 +169,4 @@
 2021/02/01 12:51:06 [error] 7104#3452: *9 CreateFile() "D:\Work\Projects\LABS\S02T\nginx-1.18.0/html/static/images/Nikitin.jpg" failed (2: The system cannot find the file specified), client: 192.168.1.88, server: localhost, request: "GET /static/images/Nikitin.jpg HTTP/1.1", host: "192.168.1.2"
 2021/02/01 12:51:06 [error] 7104#3452: *10 CreateFile() "D:\Work\Projects\LABS\S02T\nginx-1.18.0/html/static/images/Scherba.jpg" failed (2: The system cannot find the file specified), client: 192.168.1.88, server: localhost, request: "GET /static/images/Scherba.jpg HTTP/1.1", host: "192.168.1.2"
 2021/02/27 16:47:30 [notice] 10732#3360: signal process started
+2021/03/10 10:09:06 [error] 11328#1692: *1 CreateFile() "D:\Work\Projects\LABS\S02T\widget\nginx/html/favicon.ico" failed (2: The system cannot find the file specified), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:7777", referrer: "http://localhost:7777/"

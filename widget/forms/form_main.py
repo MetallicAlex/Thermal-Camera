@@ -135,18 +135,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         indexes = [row_position for row_position in range(self.table_persons.rowCount())
                    if self.table_persons.cellWidget(row_position, 0).isChecked()]
         with models.get_session() as session:
-            employees = session.query(models.Employee).filter(models.Employee.id.in_(id_employees)).all()
+            employees = session.query(models.Profile).filter(models.Profile.id.in_(id_employees)).all()
             for employee, row_position in zip(employees, indexes):
                 self.form_profile = FormProfile(employee)
                 self.form_profile.exec_()
                 if self.form_profile.dialog_result == 1:
-                    session.query(models.Employee).filter(models.Employee.id == employee.id) \
-                        .update({models.Employee.name: self.form_profile.employee.name,
-                                 models.Employee.id: self.form_profile.employee.id,
-                                 models.Employee.name_department: self.form_profile.employee.name_department,
-                                 models.Employee.face: self.form_profile.employee.face,
-                                 models.Employee.gender: self.form_profile.employee.gender,
-                                 models.Employee.phone_number: self.form_profile.employee.phone_number})
+                    session.query(models.Profile).filter(models.Profile.id == employee.id) \
+                        .update({models.Profile.name: self.form_profile.employee.name,
+                                 models.Profile.id: self.form_profile.employee.id,
+                                 models.Profile.name_department: self.form_profile.employee.name_department,
+                                 models.Profile.face: self.form_profile.employee.face,
+                                 models.Profile.gender: self.form_profile.employee.gender,
+                                 models.Profile.phone_number: self.form_profile.employee.phone_number})
                     self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.employee.id))
                     self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.employee.face))
                     self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.employee.name))
@@ -167,7 +167,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                             for row_position in range(self.table_persons.rowCount())
                             if self.table_persons.cellWidget(row_position, 0).isChecked()]
             with models.get_session() as session:
-                session.query(models.Employee).filter(models.Employee.id.in_(id_employees)) \
+                session.query(models.Profile).filter(models.Profile.id.in_(id_employees)) \
                     .delete(synchronize_session=False)
             for row_position in range(self.table_persons.rowCount() - 1, 0, -1):
                 if self.table_persons.cellWidget(row_position, 0).isChecked():
@@ -335,24 +335,24 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _get_employees_from_database(self):
         with models.get_session() as session:
-            employees = session.query(models.Employee).all()
+            employees = session.query(models.Profile).all()
         return employees
 
     def _get_statistics_from_database(self, start_time=None, end_time=None, min_temperature=None, max_temperature=None):
         with models.get_session() as session:
             if start_time and end_time is not None:
-                statistics = session.query(models.Statistic, models.Employee.name) \
-                    .filter(models.Statistic.id_employee == models.Employee.id,
+                statistics = session.query(models.Statistic, models.Profile.name) \
+                    .filter(models.Statistic.id_profile == models.Profile.id,
                             models.Statistic.time >= start_time,
                             models.Statistic.time <= end_time).all()
             elif min_temperature and max_temperature is not None:
-                statistics = session.query(models.Statistic, models.Employee.name) \
-                    .filter(models.Statistic.id_employee == models.Employee.id,
+                statistics = session.query(models.Statistic, models.Profile.name) \
+                    .filter(models.Statistic.id_profile == models.Profile.id,
                             models.Statistic.temperature >= min_temperature,
                             models.Statistic.temperature <= max_temperature).all()
             else:
-                statistics = session.query(models.Statistic, models.Employee.name) \
-                    .filter(models.Statistic.id_employee == models.Employee.id).all()
+                statistics = session.query(models.Statistic, models.Profile.name) \
+                    .filter(models.Statistic.id_profile == models.Profile.id).all()
         return statistics
 
     def _load_employees_to_table(self):
@@ -387,7 +387,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                                                                                     min_temperature, max_temperature)):
             statistic, employee_name = statistic
             self.table_statistics.insertRow(row_position)
-            self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_employee))
+            self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
             self.table_statistics.setItem(row_position, 1, QTableWidgetItem(employee_name))
             self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
             self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
@@ -403,9 +403,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         row_position = self.table_statistics.rowCount() - 1
         self.table_statistics.insertRow(row_position)
         with models.get_session() as session:
-            employee_name = session.query(models.Employee.name) \
-                .filter(models.Employee.id == statistic.id_employee).scalar()
-        self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_employee))
+            employee_name = session.query(models.Profile.name) \
+                .filter(models.Profile.id == statistic.id_profile).scalar()
+        self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
         self.table_statistics.setItem(row_position, 1, QTableWidgetItem(employee_name))
         self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
         self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))

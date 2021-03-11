@@ -1,18 +1,14 @@
 from contextlib import contextmanager
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
-from sqlalchemy import MetaData
+from sqlalchemy.orm import sessionmaker
 import enum
-from sqlalchemy import Table, Column, Integer, String, DECIMAL, ForeignKey, DateTime, Enum
+from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Enum
 
 engine = sqlalchemy.create_engine('mysql+pymysql://root:admin@localhost/thermalcamera')
 Base = declarative_base()
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
-
-
-# session = Session()
 
 
 class Department(Base):
@@ -38,8 +34,8 @@ class GenderEnum(enum.Enum):
             return 'female'
 
 
-class Employee(Base):
-    __tablename__ = 'employees'
+class Profile(Base):
+    __tablename__ = 'profiles'
 
     id = Column('ID', Integer, primary_key=True, unique=True)
     name = Column('Name', String(32), primary_key=True)
@@ -79,22 +75,22 @@ class MaskEnum(enum.Enum):
 class Statistic(Base):
     __tablename__ = 'statistics'
 
-    id_employee = Column('IdEmployee', Integer,
-                         ForeignKey('employees.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
+    id_profile = Column('IdProfile', Integer,
+                        ForeignKey('employees.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
     mask = Column('Mask', Enum(MaskEnum))
     similar = Column('Similar', DECIMAL(4, 2))
 
     def __init__(self, id_employee, time, temperature, mask, similar):
-        self.id_employee = id_employee
+        self.id_profile = id_employee
         self.time = time
         self.temperature = temperature
         self.mask = mask
         self.similar = similar
 
     def __repr__(self):
-        return f'[{self.time}] ID: {self.id_employee}, Similar: {self.similar}, Temperature: {self.temperature}, ' \
+        return f'[{self.time}] ID: {self.id_profile}, Similar: {self.similar}, Temperature: {self.temperature}, ' \
                f'Mask: {self.mask}\n'
 
 

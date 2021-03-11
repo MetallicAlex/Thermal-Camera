@@ -57,7 +57,7 @@ class PublishPlatform:
                      'param':
                          {'lib_name': '',
                           'lib_id': '',
-                          'server_ip': '192.168.1.2',
+                          'server_ip': self.host,
                           'server_port': 7777,
                           'pictures': []
                           }
@@ -68,7 +68,7 @@ class PublishPlatform:
             self.data['param']['pictures'][index]['active_time'] \
                 = f"{datetime.strftime(datetime.now(), '%Y')}/01/1 00:00:01"
             with models.get_session() as session:
-                employee = session.query(models.Employee).filter(models.Employee.id == employee_id).scalar()
+                employee = session.query(models.Profile).filter(models.Profile.id == employee_id).scalar()
                 self.data['param']['pictures'][index]['user_id'] = str(employee.id)
                 self.data['param']['pictures'][index]['user_name'] = employee.name
                 self.data['param']['pictures'][index]['end_time'] \

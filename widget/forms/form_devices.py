@@ -14,8 +14,6 @@ from widget.platforms.subscribe_platform import SubscribePlatform
 from widget.platforms.publish_platform import PublishPlatform
 from widget.forms.form_devices_designer import Ui_FormDevices
 
-DEVICE_TOKEN_DEBUG = '1057628122'
-
 
 class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
     def __init__(self, devices_ip=list):
