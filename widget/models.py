@@ -3,7 +3,7 @@ import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import enum
-from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Enum
+from sqlalchemy import Column, String, DECIMAL, ForeignKey, DateTime, Enum
 
 engine = sqlalchemy.create_engine('mysql+pymysql://root:admin@localhost/thermalcamera')
 Base = declarative_base()
@@ -37,7 +37,7 @@ class GenderEnum(enum.Enum):
 class Profile(Base):
     __tablename__ = 'profiles'
 
-    id = Column('ID', Integer, primary_key=True, unique=True)
+    id = Column('ID', String(32), primary_key=True, unique=True)
     name = Column('Name', String(32), primary_key=True)
     face = Column('Face', String(64))
     name_department = Column('NameDepartment', String(32),
@@ -45,8 +45,8 @@ class Profile(Base):
     gender = Column('Gender', Enum(GenderEnum))
     phone_number = Column('PhoneNumber', String(32))
 
-    def __init__(self, id, name, name_department, face, gender, phone_number):
-        self.id = id
+    def __init__(self, identifier, name, name_department, face, gender, phone_number):
+        self.id = identifier
         self.name = name
         self.name_department = name_department
         self.face = face
@@ -54,7 +54,7 @@ class Profile(Base):
         self.phone_number = phone_number
 
     def __repr__(self):
-        return f'[EMPLOYEE] ID: {self.id}, Name: {self.name}, Face: {self.face}, Department: {self.name_department}, ' \
+        return f'[PROFILE] ID: {self.id}, Name: {self.name}, Face: {self.face}, Department: {self.name_department}, ' \
                f'Gender: {self.gender}, Phone Number: {self.phone_number}\n'
 
 
@@ -75,8 +75,8 @@ class MaskEnum(enum.Enum):
 class Statistic(Base):
     __tablename__ = 'statistics'
 
-    id_profile = Column('IdProfile', Integer,
-                        ForeignKey('employees.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
+    id_profile = Column('IdProfile', String(32),
+                        ForeignKey('profiles.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
     mask = Column('Mask', Enum(MaskEnum))

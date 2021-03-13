@@ -1,41 +1,137 @@
+from typing import Union
+
 import widget.models as models
 
 
 class DBManagement:
     def __init__(self):
-        pass
+        self._departments = models.Department
+        self._profiles = models.Profile
+        self._statistics = models.Statistic
 
     # DEPARTMENTS
-    def add_department(self):
-        pass
+    def get_departments(self):
+        with models.get_session() as session:
+            self._departments = session.query(models.Department) \
+                .all()
+            return self._departments
 
-    def edit_department(self):
-        pass
+    def add_departments(self, *departments: models.Department):
+        with models.get_session() as session:
+            session.add_all(departments)
+        self._departments = departments
 
-    def remove_department(self):
-        pass
+    def edit_department(self, old_name: str, new_name: str):
+        with models.get_session() as session:
+            session.query(models.Department) \
+                .filter(models.Department.name == old_name) \
+                .update({models.Department.name: new_name})
+        self._departments = None
+
+    def remove_departments(self, *names: str):
+        with models.get_session() as session:
+            session.query(models.Department) \
+                .filter(models.Department.name.in_(names)) \
+                .delete(synchronize_session=False)
+        self._departments = None
 
     # PROFILES
-    def add_profile(self):
-        pass
+    def get_profiles(self, *identifiers: str):
+        with models.get_session() as session:
+            if not identifiers:
+                self._profiles = session.query(models.Profile) \
+                    .all()
+            else:
+                self._profiles = session.query(models.Profile) \
+                    .filter(models.Profile.id.in_(identifiers)) \
+                    .all()
+        return self._profiles
 
-    def edit_profile(self):
-        pass
+    def add_profiles(self, *profiles: models.Profile):
+        with models.get_session() as session:
+            session.add_all(profiles)
+        self._profiles = profiles
 
-    def remove_profile(self):
-        pass
+    def edit_profile(self, identifier: str, new_profile: models.Profile):
+        with models.get_session() as session:
+            session.query(models.Profile) \
+                .filter(models.Profile.id == identifier) \
+                .update(
+                {
+                    models.Profile.id: new_profile.id,
+                    models.Profile.name: new_profile.name,
+                    models.Profile.face: new_profile.face,
+                    models.Profile.name_department: new_profile.name_department,
+                    models.Profile.gender: new_profile.gender,
+                    models.Profile.phone_number: new_profile.phone_number
+                }
+            )
+        self._profiles = None
+
+    def remove_profiles(self, *identifiers: str):
+        with models.get_session() as session:
+            session.query(models.Profile) \
+                .filter(models.Profile.id == identifiers) \
+                .delete(synchronize_session=False)
+        self._profiles = None
 
     # STATISTICS
-    def add_statistic(self):
-        pass
+    def get_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None, identifiers: list = None):
+        with models.get_session() as session:
+            if isinstance(low, str) and isinstance(high, str):
+                if not identifiers:
+                    self._statistics = session.query(models.Statistic)\
+                        .filter(models.Statistic.time >= low,
+                                models.Statistic.time <= high)\
+                        .all()
+                else:
+                    self._statistics = session.query(models.Statistic)\
+                        .filter(models.Statistic.id_profile.in_(identifiers) == models.Profile.id,
+                                models.Statistic.time >= low,
+                                models.Statistic.time <= high)\
+                        .all()
+            elif isinstance(low, float) and isinstance(high, float):
+                if not identifiers:
+                    self._statistics = session.query(models.Statistic)\
+                        .filter(models.Statistic.temperature >= low,
+                                models.Statistic.temperature <= high)\
+                        .all()
+                else:
+                    self._statistics = session.query(models.Statistic) \
+                        .filter(models.Statistic.id_profile.in_(identifiers) == models.Profile.id,
+                                models.Statistic.temperature >= low,
+                                models.Statistic.temperature <= high) \
+                        .all()
+            else:
+                if not identifiers:
+                    self._statistics = session.query(models.Statistic)\
+                        .all()
+                else:
+                    self._statistics = session.query(models.Statistic)\
+                        .filter(models.Statistic.id_profile.in_(identifiers))\
+                        .all()
+        return self._statistics
 
-    def edit_statistic(self):
-        pass
+    def add_statistics(self, *statistics: models.Statistic):
+        with models.get_session() as session:
+            session.add(statistics)
+        self._statistics = statistics
 
-    def remove_statistic(self):
-        pass
+    def remove_statistics(self, *times: str):
+        with models.get_session() as session:
+            session.query(models.Statistic) \
+                .filter(models.Statistic.time == times) \
+                .delete(synchronize_session=False)
+        self._statistics = None
 
 
 class DeviceManagement:
     def __init__(self):
         self.DEVICE_TOKEN_DEBUG = '1057628122'
+        self.devices = None
+
+    def add_device(self):
+        pass
+
+    def remove_device(self):
+        pass
