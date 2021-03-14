@@ -8,15 +8,15 @@ from widget.forms.form_profile_designer import Ui_FormProfile
 
 
 class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
-    def __init__(self, employee=None):
+    def __init__(self, profile=None):
         super().__init__()
         self.setupUi(self)
         # DATA
         self.dialog_result = 0
-        self.employee = employee
+        self.profile = profile
         # SETTINGS
         self._set_departments()
-        if self.employee is not None:
+        if self.profile is not None:
             self._set_employee_data()
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())
@@ -43,12 +43,12 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
             pixmap.save(f'nginx/html/static/images/{self.lineEdit_name.text()}.jpg')
         else:
             QMessageBox.about(self, 'Face Photo', 'Load photo')
-        self.employee = models.Profile(id=int(self.lineEdit_id.text()),
-                                       name=self.lineEdit_name.text(),
-                                       name_department=self.comboBox_department.currentText(),
-                                       face=f'/static/images/{self.lineEdit_name.text()}.jpg',
-                                       gender=self.comboBox_gender.currentText(),
-                                       phone_number=self.lineEdit_phonenumber.text())
+        self.profile = models.Profile(id=int(self.lineEdit_id.text()),
+                                      name=self.lineEdit_name.text(),
+                                      name_department=self.comboBox_department.currentText(),
+                                      face=f'/static/images/{self.lineEdit_name.text()}.jpg',
+                                      gender=self.comboBox_gender.currentText(),
+                                      phone_number=self.lineEdit_phonenumber.text())
         self.close()
 
     def _button_cancel_clicked(self, event):
@@ -72,12 +72,12 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         self.comboBox_department.addItems(departments)
 
     def _set_employee_data(self):
-        self.lineEdit_id.setText(str(self.employee.id))
-        self.lineEdit_name.setText(self.employee.name)
-        self.lineEdit_phonenumber.setText(self.employee.phone_number)
-        self.comboBox_gender.setCurrentIndex(self.employee.gender.value - 1)
-        self.comboBox_department.setCurrentText(self.employee.name_department)
+        self.lineEdit_id.setText(str(self.profile.id))
+        self.lineEdit_name.setText(self.profile.name)
+        self.lineEdit_phonenumber.setText(self.profile.phone_number)
+        self.comboBox_gender.setCurrentIndex(self.profile.gender.value - 1)
+        self.comboBox_department.setCurrentText(self.profile.name_department)
         self.label_photo.setScaledContents(False)
-        pixmap = QPixmap(QImage(f'nginx/html{self.employee.face}'))
+        pixmap = QPixmap(QImage(f'nginx/html{self.profile.face}'))
         pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
         self.label_photo.setPixmap(pixmap)

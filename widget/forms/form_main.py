@@ -3,6 +3,8 @@ import os
 import socket
 import datetime
 import time
+from typing import Union
+
 import numpy as np
 import webbrowser as wb
 
@@ -16,6 +18,7 @@ from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_profile import FormProfile
 from widget.forms.form_devices import FormDevices
 import widget.models as models
+from widget.management import DBManagement, DeviceManagement
 from widget.platforms.subscribe_platform import SubscribePlatform
 from widget.platforms.publish_platform import PublishPlatform
 
@@ -28,6 +31,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # APPLICATIONS
         # self.start_nginx()
         # DATA
+        self.database_management = DBManagement()
         self.form_profile = FormProfile()
         self.theme = self._get_theme('dark theme')
         self.host_name, self.host_ip = self._get_host_name_ip()
@@ -44,7 +48,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             # self.publish_platform.set_device('7101384284372', '724970388')
         # SETTINGS
         self._load_devices_info_to_table()
-        self._load_employees_to_table()
+        self._load_profiles_to_table()
         self._load_departments_to_table()
         self._load_statistics_to_table(start_time=datetime.datetime.now().replace(hour=0, minute=0),
                                        end_time=datetime.datetime.now().replace(hour=23, minute=59))
@@ -112,50 +116,42 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.form_profile = FormProfile()
         self.form_profile.exec_()
         if self.form_profile.dialog_result == 1:
-            with models.get_session() as session:
-                session.add(self.form_profile.employee)
+            self.database_management.add_profiles(self.form_profile.profile)
             row_position = self.table_persons.rowCount()
             self.table_persons.insertRow(row_position)
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
             self.table_persons.setCellWidget(row_position, 0, item)
-            self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.employee.id))
-            self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.employee.face))
-            self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.employee.name))
-            self.table_persons.setItem(row_position, 4, QTableWidgetItem(self.form_profile.employee.name_department))
-            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(self.form_profile.employee.gender)))
-            self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(self.form_profile.employee.phone_number)))
+            self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.profile.id))
+            self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
+            self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
+            self.table_persons.setItem(row_position, 4, QTableWidgetItem(self.form_profile.profile.name_department))
+            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(self.form_profile.profile.gender)))
+            self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(self.form_profile.profile.phone_number)))
             self.table_persons.resizeColumnsToContents()
             self.table_persons.resizeRowsToContents()
 
     def _button_edit_person_clicked(self, event):
-        id_employees = [int(self.table_persons.item(row_position, 1).text())
-                        for row_position in range(self.table_persons.rowCount())
-                        if self.table_persons.cellWidget(row_position, 0).isChecked()]
+        id_profiles = [self.table_persons.item(row_position, 1).text()
+                       for row_position in range(self.table_persons.rowCount())
+                       if self.table_persons.cellWidget(row_position, 0).isChecked()]
         indexes = [row_position for row_position in range(self.table_persons.rowCount())
                    if self.table_persons.cellWidget(row_position, 0).isChecked()]
-        with models.get_session() as session:
-            employees = session.query(models.Profile).filter(models.Profile.id.in_(id_employees)).all()
-            for employee, row_position in zip(employees, indexes):
-                self.form_profile = FormProfile(employee)
-                self.form_profile.exec_()
-                if self.form_profile.dialog_result == 1:
-                    session.query(models.Profile).filter(models.Profile.id == employee.id) \
-                        .update({models.Profile.name: self.form_profile.employee.name,
-                                 models.Profile.id: self.form_profile.employee.id,
-                                 models.Profile.name_department: self.form_profile.employee.name_department,
-                                 models.Profile.face: self.form_profile.employee.face,
-                                 models.Profile.gender: self.form_profile.employee.gender,
-                                 models.Profile.phone_number: self.form_profile.employee.phone_number})
-                    self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.employee.id))
-                    self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.employee.face))
-                    self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.employee.name))
-                    self.table_persons.setItem(row_position, 4,
-                                               QTableWidgetItem(self.form_profile.employee.name_department))
-                    self.table_persons.setItem(row_position, 5,
-                                               QTableWidgetItem(str(self.form_profile.employee.gender)))
-                    self.table_persons.setItem(row_position, 6,
-                                               QTableWidgetItem(str(self.form_profile.employee.phone_number)))
+        profiles = self.database_management.get_profiles(*id_profiles)
+        for profile, profile_id, row_position in zip(profiles, id_profiles, indexes):
+            self.form_profile = FormProfile(profile)
+            self.form_profile.exec_()
+            if self.form_profile.dialog_result == 1:
+                self.database_management.edit_profile(profile_id, profile)
+                self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.profile.id))
+                self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
+                self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
+                self.table_persons.setItem(row_position, 4,
+                                           QTableWidgetItem(self.form_profile.profile.name_department))
+                self.table_persons.setItem(row_position, 5,
+                                           QTableWidgetItem(str(self.form_profile.profile.gender)))
+                self.table_persons.setItem(row_position, 6,
+                                           QTableWidgetItem(str(self.form_profile.profile.phone_number)))
             self.table_persons.resizeColumnsToContents()
             self.table_persons.resizeRowsToContents()
 
@@ -163,12 +159,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         button_reply = QMessageBox.question(self, 'Database Manager', 'Are you sure you want to delete persons?',
                                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if button_reply == QMessageBox.Yes:
-            id_employees = [int(self.table_persons.item(row_position, 1).text())
-                            for row_position in range(self.table_persons.rowCount())
-                            if self.table_persons.cellWidget(row_position, 0).isChecked()]
-            with models.get_session() as session:
-                session.query(models.Profile).filter(models.Profile.id.in_(id_employees)) \
-                    .delete(synchronize_session=False)
+            id_profiles = [int(self.table_persons.item(row_position, 1).text())
+                           for row_position in range(self.table_persons.rowCount())
+                           if self.table_persons.cellWidget(row_position, 0).isChecked()]
+            self.database_management.remove_profiles(*id_profiles)
             for row_position in range(self.table_persons.rowCount() - 1, 0, -1):
                 if self.table_persons.cellWidget(row_position, 0).isChecked():
                     self.table_persons.removeRow(row_position)
@@ -333,11 +327,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             departments = session.query(models.Department).all()
         return departments
 
-    def _get_employees_from_database(self):
-        with models.get_session() as session:
-            employees = session.query(models.Profile).all()
-        return employees
-
     def _get_statistics_from_database(self, start_time=None, end_time=None, min_temperature=None, max_temperature=None):
         with models.get_session() as session:
             if start_time and end_time is not None:
@@ -355,24 +344,24 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     .filter(models.Statistic.id_profile == models.Profile.id).all()
         return statistics
 
-    def _load_employees_to_table(self):
-        for row_position, employee in enumerate(self._get_employees_from_database()):
+    def _load_profiles_to_table(self):
+        for row_position, profile in enumerate(self.database_management.get_profiles()):
             self.table_persons.insertRow(row_position)
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
             self.table_persons.setCellWidget(row_position, 0, item)
-            self.table_persons.setItem(row_position, 1, self._get_item_to_cell(employee.id))
-            self.table_persons.setItem(row_position, 2, self._get_item_image(employee.face))
-            self.table_persons.setItem(row_position, 3, QTableWidgetItem(employee.name))
-            self.table_persons.setItem(row_position, 4, QTableWidgetItem(employee.name_department))
-            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(employee.gender)))
-            self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(employee.phone_number)))
-            self.comboBox_employees.addItem(employee.name)
+            self.table_persons.setItem(row_position, 1, self._get_item_to_cell(profile.id))
+            self.table_persons.setItem(row_position, 2, self._get_item_image(profile.face))
+            self.table_persons.setItem(row_position, 3, QTableWidgetItem(profile.name))
+            self.table_persons.setItem(row_position, 4, QTableWidgetItem(profile.name_department))
+            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
+            self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
+            self.comboBox_employees.addItem(profile.name)
         self.table_persons.resizeColumnsToContents()
         self.table_persons.resizeRowsToContents()
 
     def _load_departments_to_table(self):
-        for row_position, department in enumerate(self._get_departments_from_database()):
+        for row_position, department in enumerate(self.database_management.get_departments()):
             self.table_departments.insertRow(row_position)
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
@@ -381,10 +370,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_departments.resizeColumnToContents(0)
         self.table_departments.resizeRowsToContents()
 
-    def _load_statistics_to_table(self, start_time=None, end_time=None, min_temperature=None, max_temperature=None):
+    def _load_statistics_to_table(self, low: Union[str, float] = None,
+                                  high: Union[str, float] = None,
+                                  identifiers: list = None):
         self.table_statistics.setRowCount(0)
-        for row_position, statistic in enumerate(self._get_statistics_from_database(start_time, end_time,
-                                                                                    min_temperature, max_temperature)):
+        for row_position, statistic in enumerate(self.database_management.get_statistics(low=low,
+                                                                                         high=high,
+                                                                                         identifiers=identifiers)):
             statistic, employee_name = statistic
             self.table_statistics.insertRow(row_position)
             self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))

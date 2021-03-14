@@ -38,7 +38,7 @@ class Profile(Base):
     __tablename__ = 'profiles'
 
     id = Column('ID', String(32), primary_key=True, unique=True)
-    name = Column('Name', String(32), primary_key=True)
+    name = Column('Name', String(32), primary_key=True, unique=True)
     face = Column('Face', String(64))
     name_department = Column('NameDepartment', String(32),
                              ForeignKey('departments.Name', onupdate='CASCADE', ondelete='CASCADE'))
@@ -77,6 +77,8 @@ class Statistic(Base):
 
     id_profile = Column('IdProfile', String(32),
                         ForeignKey('profiles.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
+    name_profile = Column('NameProfile', String(32),
+                          ForeignKey('profiles.Name', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
     mask = Column('Mask', Enum(MaskEnum))
@@ -90,8 +92,8 @@ class Statistic(Base):
         self.similar = similar
 
     def __repr__(self):
-        return f'[{self.time}] ID: {self.id_profile}, Similar: {self.similar}, Temperature: {self.temperature}, ' \
-               f'Mask: {self.mask}\n'
+        return f'[{self.time}] ID: {self.id_profile}, Name: {self.name_profile}, Similar: {self.similar},' \
+               f' Temperature: {self.temperature}, Mask: {self.mask}\n'
 
 
 @contextmanager
