@@ -177,7 +177,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             if device['state'] == 'online':
                 print('online!')
                 self.publish_platform.set_device(device['serial'], device['token'])
-                self.publish_platform.add_personnel_data(id_employees)
+                self.publish_platform.add_profiles_data(id_employees)
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):

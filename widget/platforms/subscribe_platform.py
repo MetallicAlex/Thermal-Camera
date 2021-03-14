@@ -14,18 +14,21 @@ class SubscribePlatform(QtCore.QObject):
     statistic = QtCore.pyqtSignal(object)
     device = QtCore.pyqtSignal(dict)
     running = False
+    host = None
+    port = None
+    device_id = None
+    device_token = None
+    topic = 'PublishTest'
+    client_name = 'PC'
+    _client = mqtt.Client
+    code_result = 0
+    data = dict
 
     def set_host_port(self, host, port=1883, client_name='PC'):
         self.host = host
         self.port = port
         self.client_name = client_name
-        self.topic = 'PublishTest'
-        self.device_id = '1'
-        self.device_token = '2'
-        self.data = {}
-        self.params_camera = {}
         self._client = mqtt.Client(client_name)
-        self.code_result = 0
 
     def set_device(self, device_id, device_token=None):
         self.device_id = device_id
