@@ -90,7 +90,7 @@ class SubscribePlatform(QtCore.QObject):
                 mask = 'false'
             else:
                 mask = 'unknow'
-            statistic = models.Statistic(id_employee=int(self.data['datas']['user_id']),
+            statistic = models.Statistic(identifier=int(self.data['datas']['user_id']),
                                          time=self.data['datas']['time'],
                                          temperature=float(self.data['datas']['temperature']),
                                          similar=float(self.data['datas']['similar']),

@@ -84,8 +84,9 @@ class Statistic(Base):
     mask = Column('Mask', Enum(MaskEnum))
     similar = Column('Similar', DECIMAL(4, 2))
 
-    def __init__(self, id_employee, time, temperature, mask, similar):
-        self.id_profile = id_employee
+    def __init__(self, identifier, name_profile, time, temperature, mask, similar):
+        self.id_profile = identifier
+        self.name_profile = name_profile
         self.time = time
         self.temperature = temperature
         self.mask = mask

@@ -3,12 +3,14 @@ import re
 import json
 import socket
 from typing import Union
+import pandas as pd
 
 import widget.models as models
 
 
 class DBManagement:
     def __init__(self):
+        self._pattern = None
         self._departments = models.Department
         self._profiles = models.Profile
         self._statistics = models.Statistic
@@ -51,6 +53,31 @@ class DBManagement:
                     .all()
         return self._profiles
 
+    def create_profiles_pattern(self, filename):
+        data = [['xxx', 'Ivanov Ivan', 'No Group', 'male', ''],
+                ['yyy', 'Ivanov Ilia', '', '', '+375(33)9999999']]
+        self._pattern = pd.DataFrame(data=data, columns=['ID', 'Name', 'Department', 'Gender', 'Phone Number'])
+        self._pattern.to_csv(filename, sep=';', index=False)
+
+    def add_profiles_from_pattern(self, filename):
+        self._pattern = pd.read_csv(filename, sep=';')
+        self._pattern = self._pattern.where(pd.notnull(self._pattern), None)
+        profiles = [
+            models.Profile(
+                identifier=row[1]['ID'],
+                name=row[1]['Name'],
+                face=None,
+                name_department=row[1]['Department'],
+                gender=row[1]['Gender'],
+                phone_number=row[1]['Phone Number']
+            )
+            for row in self._pattern.iterrows()
+        ]
+        self.add_profiles(*profiles)
+
+    def add_profiles_from_images(self):
+        pass
+
     def add_profiles(self, *profiles: models.Profile):
         with models.get_session() as session:
             session.add_all(profiles)
@@ -75,7 +102,7 @@ class DBManagement:
     def remove_profiles(self, *identifiers: str):
         with models.get_session() as session:
             session.query(models.Profile) \
-                .filter(models.Profile.id == identifiers) \
+                .filter(models.Profile.id.in_(identifiers)) \
                 .delete(synchronize_session=False)
         self._profiles = None
 

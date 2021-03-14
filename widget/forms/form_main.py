@@ -26,6 +26,7 @@ from widget.platforms.publish_platform import PublishPlatform
 # MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
 class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
+        start = time.time()
         super().__init__()
         self.setupUi(self)
         # APPLICATIONS
@@ -50,8 +51,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self._load_devices_info_to_table()
         self._load_profiles_to_table()
         self._load_departments_to_table()
-        self._load_statistics_to_table(start_time=datetime.datetime.now().replace(hour=0, minute=0),
-                                       end_time=datetime.datetime.now().replace(hour=23, minute=59))
+        self._load_statistics_to_table(low=str(datetime.datetime.now().replace(hour=0, minute=0, second=0)),
+                                       high=str(datetime.datetime.now().replace(hour=23, minute=59, second=59)))
         self.stackedWidget.setCurrentWidget(self.page_device)
         self.button_device.setStyleSheet(self.theme['system-button'] +
                                          "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
@@ -84,6 +85,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
         self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
         self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
+        print(time.time() - start)
 
     # EVENTS
     def _frame_header_mouse_press(self, event):
@@ -195,11 +197,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # EVENTS-STATISTICS
     def _button_search_statistics_clicked(self, event):
         if self.radiobutton_time.isChecked():
-            self._load_statistics_to_table(start_time=self.dateTimeEdit_start.text(),
-                                           end_time=self.dateTimeEdit_end.text())
+            self._load_statistics_to_table(low=self.dateTimeEdit_start.text(),
+                                           high=self.dateTimeEdit_end.text())
         elif self.radiobutton_temperature.isChecked():
-            self._load_statistics_to_table(min_temperature=self.doubleSpinBox_min_temperature.value(),
-                                           max_temperature=self.doubleSpinBox_max_temperature.value())
+            self._load_statistics_to_table(low=self.doubleSpinBox_min_temperature.value(),
+                                           high=self.doubleSpinBox_max_temperature.value())
 
     def _button_all_statistic_clicked(self, event):
         self._load_statistics_to_table()
@@ -322,28 +324,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_devices.resizeRowsToContents()
 
     # DATABASE
-    def _get_departments_from_database(self):
-        with models.get_session() as session:
-            departments = session.query(models.Department).all()
-        return departments
-
-    def _get_statistics_from_database(self, start_time=None, end_time=None, min_temperature=None, max_temperature=None):
-        with models.get_session() as session:
-            if start_time and end_time is not None:
-                statistics = session.query(models.Statistic, models.Profile.name) \
-                    .filter(models.Statistic.id_profile == models.Profile.id,
-                            models.Statistic.time >= start_time,
-                            models.Statistic.time <= end_time).all()
-            elif min_temperature and max_temperature is not None:
-                statistics = session.query(models.Statistic, models.Profile.name) \
-                    .filter(models.Statistic.id_profile == models.Profile.id,
-                            models.Statistic.temperature >= min_temperature,
-                            models.Statistic.temperature <= max_temperature).all()
-            else:
-                statistics = session.query(models.Statistic, models.Profile.name) \
-                    .filter(models.Statistic.id_profile == models.Profile.id).all()
-        return statistics
-
     def _load_profiles_to_table(self):
         for row_position, profile in enumerate(self.database_management.get_profiles()):
             self.table_persons.insertRow(row_position)
@@ -374,20 +354,24 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                                   high: Union[str, float] = None,
                                   identifiers: list = None):
         self.table_statistics.setRowCount(0)
-        for row_position, statistic in enumerate(self.database_management.get_statistics(low=low,
-                                                                                         high=high,
-                                                                                         identifiers=identifiers)):
-            statistic, employee_name = statistic
+        print(isinstance(low, str))
+        print(isinstance(high, str))
+        print()
+        for row_position, statistic in enumerate(self.database_management.get_statistics(
+            low=low,
+            high=high,
+            identifiers=identifiers)
+        ):
             self.table_statistics.insertRow(row_position)
             self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
-            self.table_statistics.setItem(row_position, 1, QTableWidgetItem(employee_name))
+            self.table_statistics.setItem(row_position, 1, QTableWidgetItem(statistic.name_profile))
             self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
             self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
             self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
         # self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
         self.table_statistics.resizeColumnsToContents()
         self.table_statistics.resizeRowsToContents()
-        self.table_statistics.viewport().update()
+        # self.table_statistics.viewport().update()
 
     # STATISTIC
     @QtCore.pyqtSlot(object)
