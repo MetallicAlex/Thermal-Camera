@@ -46,6 +46,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
             self.publish_platform = PublishPlatform(self.host_ip, client_name='PP1')
+            # self.publish_platform.set_device(self.devices[0]['serial'], self.devices[0]['token'])
+            # self.publish_platform.query_profiles_data()
             # self.publish_platform.set_device('7101384284372', '724970388')
         # SETTINGS
         self._load_devices_info_to_table()
@@ -317,6 +319,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             item.setTextAlignment(Qt.AlignCenter)
             self.table_devices.setItem(row_position, 6, item)
             self.publish_platform.set_device(device['serial'], device['token'])
+            self.publish_platform.update_network_configuration('192.168.1.77', '192.168.1.1')
             self.publish_platform.get_device_info()
         self.table_devices.resizeColumnToContents(0)
         self.table_devices.resizeColumnToContents(2)

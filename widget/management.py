@@ -2,6 +2,7 @@ import os
 import re
 import json
 import socket
+import zipfile
 from typing import Union
 import pandas as pd
 
@@ -75,8 +76,11 @@ class DBManagement:
         ]
         self.add_profiles(*profiles)
 
-    def add_profiles_from_images(self):
-        pass
+    def add_profiles_from_images(self, filename):
+        if zipfile.is_zipfile(filename):
+            file = zipfile.ZipFile(filename)
+            for x in file.filelist:
+                print(x.filename)
 
     def add_profiles(self, *profiles: models.Profile):
         with models.get_session() as session:

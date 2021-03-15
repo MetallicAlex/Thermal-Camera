@@ -14,23 +14,48 @@ class SubscribePlatform(QtCore.QObject):
     statistic = QtCore.pyqtSignal(object)
     device = QtCore.pyqtSignal(dict)
     running = False
-    host = None
-    port = None
+    _host = None
+    _port = 1883
     device_id = None
     device_token = None
     topic = 'PublishTest'
-    client_name = 'PC'
-    _client = mqtt.Client
+    client_name = 'SP'
+    _client = mqtt.Client(client_name)
     code_result = 0
-    data = dict
+    _data = dict
 
-    def set_host_port(self, host, port=1883, client_name='PC'):
+    @property
+    def host(self):
+        return self._host
+
+    @host.setter
+    def host(self, value):
+        self._host = value
+
+    @property
+    def port(self):
+        return self._port
+
+    @port.setter
+    def port(self, value):
+        self._port = value
+
+    @property
+    def data(self):
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        if isinstance(value, dict):
+            self._data = value
+
+    def set_host_port(self, host: str, port: int = 1883, client_name: str = 'SP'):
         self.host = host
         self.port = port
         self.client_name = client_name
         self._client = mqtt.Client(client_name)
 
-    def set_device(self, device_id, device_token=None):
+    def set_device(self, device_id: str, device_token: str = None):
         self.device_id = device_id
         self.device_token = device_token
 

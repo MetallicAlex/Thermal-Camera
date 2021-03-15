@@ -162,35 +162,44 @@ class PublishPlatform:
                 "mqtt_operate_id": 7,
                 'device_token': self.device_token,
                 'device_id': self.device_id,
-                'tag': "platform define",
+                'tag': "query",
                 'piclib_manage': 4,
                 'page': page
             }
         self._publish_data()
 
     def get_device_info(self):
-        self.data = \
-            {
-                "mqtt_cmd": 2,
-                'device_id': self.device_id,
-                'tag': "platform define",
-                'device_token': self.device_token
-            }
+        self.data = {
+            'mqtt_cmd': 2,
+            'device_id': self.device_id,
+            'tag': 'device info',
+            'device_token': self.device_token
+        }
         self._publish_data()
 
-    def _get_answer_device_info(self):
-        client = mqtt.Client('SubscribePublishPlatform')
-        client.connect(self.host, self.port)
-        client.subscribe('PublishTest')
-        client.on_message = self._on_message
-        client.loop_start()
-        while True:
-            if self.code_result == -1:
-                break
-        client.loop_stop()
-        client.disconnect()
-
-    def _on_message(self, client, userdata, message):
-        self.data = json.loads(message.payload.decode("utf-8"))
+    def update_network_configuration(self, ip_address: str,
+                                     gateway: str,
+                                     net_mask: str = '255.255.255.0',
+                                     DDNS1: str = None,
+                                     DDNS2: str = '8.8.8.8',
+                                     DHCP: bool = False
+                                     ):
+        if not DDNS1:
+            DDNS1 = gateway
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 2,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'network_config',
+            'network_cofnig': {
+                'id_addr': ip_address,
+                'net_mask': net_mask,
+                'gateway': gateway,
+                'DDNS1': DDNS1,
+                'DDNS2': DDNS2,
+                'DHCP': DHCP
+            }
+        }
         print(self.data)
-        self._decode_message()
+        self._publish_data()
