@@ -201,5 +201,34 @@ class PublishPlatform:
                 'DHCP': DHCP
             }
         }
+        self._publish_data()
+
+    def update_face_recognition_configuration(self, dec_face_num: int = 1, dec_interval: int = 1):
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 3,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'face_recognition_config',
+            'face_config': {
+                'dec_face_num': dec_face_num,
+                'dec_interval': dec_interval
+            }
+        }
+        self._publish_data()
+
+    def update_remote_configuration(self, volume: int = 0, screen_brightness: int = 45, light_supplementary: bool = False):
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 4,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'remote_config',
+            'remote_config': {
+                'volume': volume,
+                'screen_brightness': screen_brightness,
+                'light_supplementary': light_supplementary
+            }
+        }
         print(self.data)
         self._publish_data()
