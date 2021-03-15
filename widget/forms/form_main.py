@@ -320,7 +320,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_devices.setItem(row_position, 6, item)
             self.publish_platform.set_device(device['serial'], device['token'])
             # self.publish_platform.update_network_configuration('192.168.1.77', '192.168.1.1')
-            self.publish_platform.update_remote_configuration(12, 80, True)
+            self.publish_platform.update_basic_configuration('d', '12345')
             self.publish_platform.get_device_info()
         self.table_devices.resizeColumnToContents(0)
         self.table_devices.resizeColumnToContents(2)

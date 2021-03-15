@@ -1,5 +1,6 @@
 import sys
 import os
+import base64
 from datetime import datetime
 import time
 import json
@@ -231,4 +232,32 @@ class PublishPlatform:
             }
         }
         print(self.data)
+        self._publish_data()
+
+    def reboot_device(self):
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 9,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'system_maintenance',
+            'sys_maintain': {
+                'reboot': 1,
+                'reset': 0
+            }
+        }
+        self._publish_data()
+
+    def reset_device(self):
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 9,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'system_maintenance',
+            'sys_maintain': {
+                'reboot': 0,
+                'reset': 1
+            }
+        }
         self._publish_data()
