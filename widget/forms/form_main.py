@@ -172,14 +172,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.table_persons.removeRow(row_position)
 
     def _button_send_device_clicked(self, event):
-        id_employees = [int(self.table_persons.item(row_position, 1).text())
-                        for row_position in range(self.table_persons.rowCount())
-                        if self.table_persons.cellWidget(row_position, 0).isChecked()]
+        if not self.table_persons.horizontalHeaderItem(0).checkState():
+            profile_ids = [int(self.table_persons.item(row_position, 1).text())
+                           for row_position in range(self.table_persons.rowCount())
+                           if self.table_persons.cellWidget(row_position, 0).isChecked()]
         for device in self.devices:
             if device['state'] == 'online':
                 print('online!')
                 self.publish_platform.set_device(device['serial'], device['token'])
-                self.publish_platform.add_profiles_data(id_employees)
+                if not self.table_persons.horizontalHeaderItem(0).checkState():
+                    self.publish_platform.add_profiles_data(profile_ids)
+                else:
+                    self.publish_platform.add_profiles_data()
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
@@ -319,8 +323,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             item.setTextAlignment(Qt.AlignCenter)
             self.table_devices.setItem(row_position, 6, item)
             self.publish_platform.set_device(device['serial'], device['token'])
-            # self.publish_platform.update_network_configuration('192.168.1.77', '192.168.1.1')
-            self.publish_platform.update_basic_configuration('d', '12345')
             self.publish_platform.get_device_info()
         self.table_devices.resizeColumnToContents(0)
         self.table_devices.resizeColumnToContents(2)
@@ -362,9 +364,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         print(isinstance(high, str))
         print()
         for row_position, statistic in enumerate(self.database_management.get_statistics(
-            low=low,
-            high=high,
-            identifiers=identifiers)
+                low=low,
+                high=high,
+                identifiers=identifiers)
         ):
             self.table_statistics.insertRow(row_position)
             self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
@@ -379,14 +381,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # STATISTIC
     @QtCore.pyqtSlot(object)
-    def _add_statistic_to_table(self, statistic):
+    def _add_statistic_to_table(self, statistic: models.Statistic):
         row_position = self.table_statistics.rowCount() - 1
         self.table_statistics.insertRow(row_position)
-        with models.get_session() as session:
-            employee_name = session.query(models.Profile.name) \
-                .filter(models.Profile.id == statistic.id_profile).scalar()
         self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
-        self.table_statistics.setItem(row_position, 1, QTableWidgetItem(employee_name))
+        self.table_statistics.setItem(row_position, 1, QTableWidgetItem(statistic.name_profile))
         self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
         self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
         self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
@@ -420,15 +419,17 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setTextAlignment(Qt.AlignCenter)
         return item
 
-    def _set_header_column_icon(self, table=QtWidgets.QTableWidget, checked=bool):
+    def _set_header_column_icon(self, table: QtWidgets.QTableWidget, checked: bool):
         item = QtWidgets.QTableWidgetItem()
         icon10 = QtGui.QIcon()
         if checked:
             icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-check-circle.png"),
                              QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            item.setCheckState(Qt.Checked)
         else:
             icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"),
                              QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            item.setCheckState(Qt.Unchecked)
         item.setIcon(icon10)
         table.setHorizontalHeaderItem(0, item)
 

@@ -11,6 +11,7 @@ import widget.models as models
 
 class DBManagement:
     def __init__(self):
+        self._name_profile = str
         self._pattern = None
         self._departments = models.Department
         self._profiles = models.Profile
@@ -43,6 +44,14 @@ class DBManagement:
         self._departments = None
 
     # PROFILES
+    def get_name_profile(self, identifier):
+        with models.get_session() as session:
+            name_profile = session.query(models.Profile.name)\
+                .filter(models.Profile.id == identifier)\
+                .scalar()
+        self._name_profile = name_profile
+        return name_profile
+
     def get_profiles(self, *identifiers: str):
         with models.get_session() as session:
             if not identifiers:
@@ -165,7 +174,6 @@ class DBManagement:
 
 class DeviceManagement:
     def __init__(self):
-        self.DEVICE_TOKEN_DEBUG = '1057628122'
         self._path_file = os.path.dirname(os.path.abspath(__file__))
         with open(f'{self._path_file}/data/devices.json') as file:
             self._devices = json.load(file, strict=False)

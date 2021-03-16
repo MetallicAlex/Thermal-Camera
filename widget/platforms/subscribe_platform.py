@@ -7,6 +7,7 @@ import paho.mqtt.client as mqtt
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QColor
 
+from widget.management import DBManagement
 import widget.models as models
 
 
@@ -23,6 +24,7 @@ class SubscribePlatform(QtCore.QObject):
     _client = mqtt.Client(client_name)
     code_result = 0
     _data = dict
+    _database_management = DBManagement()
 
     @property
     def host(self):
@@ -77,12 +79,13 @@ class SubscribePlatform(QtCore.QObject):
     def _decode_message(self):
         if self.data['code'] == -1:
             self._store_error()
-        elif self._is_person():
-            self._upload_person()
-        elif self._is_bind():
-            self._write_token()
-        elif self._is_param_device():
-            self.device.emit(self.data)
+        else:
+            if self.data['tag'] == 'bind_control':
+                self._write_token()
+            elif self.data['tag'] == 'UploadPersonInfo':
+                self._upload_person()
+            elif self._is_param_device():
+                self.device.emit(self.data)
 
     def _store_error(self):
         with open('logs/error.log', 'a+') as file:
@@ -118,11 +121,15 @@ class SubscribePlatform(QtCore.QObject):
                 mask = 'false'
             else:
                 mask = 'unknow'
-            statistic = models.Statistic(identifier=int(self.data['datas']['user_id']),
-                                         time=self.data['datas']['time'],
-                                         temperature=float(self.data['datas']['temperature']),
-                                         similar=float(self.data['datas']['similar']),
-                                         mask=mask)
+            statistic = models.Statistic(
+                identifier=self.data['datas']['user_id'],
+                name_profile=self._database_management.get_name_profile(self.data['datas']['user_id']),
+                time=self.data['datas']['time'],
+                temperature=float(self.data['datas']['temperature']),
+                similar=float(self.data['datas']['similar']),
+                mask=mask
+            )
+            print(statistic)
             self.statistic.emit(statistic)
             session.add(statistic)
 

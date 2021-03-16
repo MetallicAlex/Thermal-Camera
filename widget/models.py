@@ -1,4 +1,6 @@
 from contextlib import contextmanager
+from typing import Union
+
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -16,7 +18,7 @@ class Department(Base):
 
     name = Column('Name', String(32), primary_key=True)
 
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
 
     def __repr__(self):
@@ -45,7 +47,13 @@ class Profile(Base):
     gender = Column('Gender', Enum(GenderEnum))
     phone_number = Column('PhoneNumber', String(32))
 
-    def __init__(self, identifier, name, name_department, face, gender, phone_number):
+    def __init__(self, identifier: str,
+                 name: str,
+                 name_department: str,
+                 face: str,
+                 gender: Union[str, GenderEnum],
+                 phone_number: str
+                 ):
         self.id = identifier
         self.name = name
         self.name_department = name_department
@@ -83,18 +91,45 @@ class Statistic(Base):
     temperature = Column('Temperature', DECIMAL(4, 2))
     mask = Column('Mask', Enum(MaskEnum))
     similar = Column('Similar', DECIMAL(4, 2))
+    face = Column('Face', String(64))
 
-    def __init__(self, identifier, name_profile, time, temperature, mask, similar):
+    def __init__(self, identifier: str,
+                 name_profile: str,
+                 time: str,
+                 temperature: float,
+                 mask: Union[str, MaskEnum],
+                 similar: float,
+                 face: str = None
+                 ):
         self.id_profile = identifier
         self.name_profile = name_profile
         self.time = time
         self.temperature = temperature
         self.mask = mask
         self.similar = similar
+        self.face = face
 
     def __repr__(self):
         return f'[{self.time}] ID: {self.id_profile}, Name: {self.name_profile}, Similar: {self.similar},' \
-               f' Temperature: {self.temperature}, Mask: {self.mask}\n'
+               f' Temperature: {self.temperature}, Mask: {self.mask}, Face: {self.face}\n'
+
+
+class StrangerStatistic(Base):
+    __tablename__ = 'stranger_statistics'
+
+    time = Column('Time', DateTime, primary_key=True)
+    temperature = Column('Temperature', DECIMAL(4, 2))
+    mask = Column('Mask', Enum(MaskEnum))
+    face = Column('Face', String(64))
+
+    def __init__(self, time: str, temperature: float, mask: Union[str, MaskEnum], face: str):
+        self.time = time
+        self.temperature = temperature
+        self.mask = mask
+        self.face = face
+
+    def __repr__(self):
+        return f'[{self.time}] Temperature: {self.temperature}, Mask: {self.mask}, Face: {self.face}\n'
 
 
 @contextmanager

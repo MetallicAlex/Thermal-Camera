@@ -75,44 +75,47 @@ class PublishPlatform:
         self._client.disconnect()
 
     def bind_device(self):
-        self.data = {"mqtt_cmd": 1,
-                     "mqtt_operate_id": 10,
-                     'device_id': self.device_id,
-                     'tag': "platform define",
-                     'bind_ctrl': 1}
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 10,
+            'device_id': self.device_id,
+            'tag': 'bind_control',
+            'bind_ctrl': 1
+        }
         self._publish_data()
 
     def unbind_device(self):
-        self.data = \
-            {
-                "mqtt_cmd": 1,
-                "mqtt_operate_id": 10,
-                'device_token': self.device_token,
-                'device_id': self.device_id,
-                'tag': "platform define",
-                'bind_ctrl': 0
-            }
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 10,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'bind_control',
+            'bind_ctrl': 0
+        }
         self._publish_data()
 
     def add_profiles_data(self, *identifiers):
-        self.data = \
-            {
-                "mqtt_cmd": 1,
-                "mqtt_operate_id": 7,
-                'device_token': self.device_token,
-                'device_id': self.device_id,
-                'tag': "platform define",
-                'piclib_manage': 0,
-                'param':
-                    {
-                        'lib_name': '',
-                        'lib_id': '',
-                        'server_ip': self.host,
-                        'server_port': 7777,
-                        'pictures': []
-                    }
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 7,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'add_profiles',
+            'piclib_manage': 0,
+            'param': {
+                'lib_name': '',
+                'lib_id': '',
+                'server_ip': self.host,
+                'server_port': 7777,
+                'pictures': []
             }
-        for profile in self._database_management.get_profiles(identifiers):
+        }
+        if identifiers:
+            profiles = self._database_management.get_profiles(identifiers)
+        else:
+            profiles = self._database_management.get_profiles()
+        for profile in profiles:
             self.data['param']['pictures'].append({})
             index = len(self.data['param']['pictures']) - 1
             self.data['param']['pictures'][index]['active_time'] \
@@ -126,54 +129,51 @@ class PublishPlatform:
         self._publish_data()
 
     def remove_all_profiles_data(self):
-        self.data = \
-            {
-                "mqtt_cmd": 1,
-                "mqtt_operate_id": 7,
-                'device_token': self.device_token,
-                'device_id': self.device_id,
-                'tag': "platform define",
-                'piclib_manage': 1
-            }
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 7,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'remove_all_profiles',
+            'piclib_manage': 1
+        }
         self._publish_data()
 
     def remove_profiles_data(self, *identifiers):
-        self.data = \
-            {
-                "mqtt_cmd": 1,
-                "mqtt_operate_id": 7,
-                'device_token': self.device_token,
-                'device_id': self.device_id,
-                'tag': "platform define",
-                'piclib_manage': 3,
-                'param': {
-                    'users': [
-                        {
-                            'user_id': identifier
-                        } for identifier in identifiers
-                    ]
-                }
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 7,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'remove_profiles',
+            'piclib_manage': 3,
+            'param': {
+                'users': [
+                    {
+                        'user_id': identifier
+                    } for identifier in identifiers
+                ]
             }
+        }
         self._publish_data()
 
     def query_profiles_data(self, page: int = -1):
-        self.data = \
-            {
-                "mqtt_cmd": 1,
-                "mqtt_operate_id": 7,
-                'device_token': self.device_token,
-                'device_id': self.device_id,
-                'tag': "query",
-                'piclib_manage': 4,
-                'page': page
-            }
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 7,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'query_profiles',
+            'piclib_manage': 4,
+            'page': page
+        }
         self._publish_data()
 
     def get_device_info(self):
         self.data = {
             'mqtt_cmd': 2,
             'device_id': self.device_id,
-            'tag': 'device info',
+            'tag': 'device_info',
             'device_token': self.device_token
         }
         self._publish_data()
@@ -218,7 +218,8 @@ class PublishPlatform:
         }
         self._publish_data()
 
-    def update_remote_configuration(self, volume: int = 0, screen_brightness: int = 45, light_supplementary: bool = False):
+    def update_remote_configuration(self, volume: int = 0, screen_brightness: int = 45,
+                                    light_supplementary: bool = False):
         self.data = {
             'mqtt_cmd': 1,
             'mqtt_operate_id': 4,
@@ -260,4 +261,33 @@ class PublishPlatform:
                 'reset': 1
             }
         }
+        self._publish_data()
+
+    def update_temperature_configuration(self, temperature_check: bool = True,
+                                         stranger_passage: bool = False,
+                                         mask_detection: bool = False,
+                                         alarm_temperature: float = 37.5,
+                                         temperature_compensation: float = 0,
+                                         record_save_time: int = -1,
+                                         save_record: bool = True,
+                                         save_jpeg: bool = True,
+                                         ):
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 6,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'temperature_config',
+            'temperature_fun': {
+                'temp_dec_en': temperature_check,
+                'stranger_pass_en': stranger_passage,
+                'make_check_en': mask_detection,
+                'alarm_temp': alarm_temperature,
+                'temp_comp': temperature_compensation,
+                'record_save_time': record_save_time,
+                'save_record': save_record,
+                'save_jpeg': save_jpeg
+            }
+        }
+        print(self.data)
         self._publish_data()
