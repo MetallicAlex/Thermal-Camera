@@ -16,6 +16,7 @@ class DBManagement:
         self._departments = models.Department
         self._profiles = models.Profile
         self._statistics = models.Statistic
+        self._stranger_statistics = models.StrangerStatistic
 
     # DEPARTMENTS
     def get_departments(self):
@@ -46,8 +47,8 @@ class DBManagement:
     # PROFILES
     def get_name_profile(self, identifier):
         with models.get_session() as session:
-            name_profile = session.query(models.Profile.name)\
-                .filter(models.Profile.id == identifier)\
+            name_profile = session.query(models.Profile.name) \
+                .filter(models.Profile.id == identifier) \
                 .scalar()
         self._name_profile = name_profile
         return name_profile
@@ -171,7 +172,38 @@ class DBManagement:
     def remove_statistics_duplicates(self):
         pass
 
+    # STRANGER STATISTICS
+    def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
+        with models.get_session() as session:
+            if isinstance(low, str) and isinstance(high, str):
+                self._stranger_statistics = session.query(models.StrangerStatistic)\
+                    .filter(
+                    models.StrangerStatistic.time >= low,
+                    models.StrangerStatistic.time <= high)\
+                    .all()
+            elif isinstance(low, float) and isinstance(high, float):
+                self._stranger_statistics = session.query(models.StrangerStatistic)\
+                    .filter(models.StrangerStatistic.temperature >= low,
+                            models.StrangerStatistic.temperature <= high)\
+                    .all()
+            else:
+                self._stranger_statistics = session.query(models.StrangerStatistic)\
+                    .all()
+        return self._stranger_statistics
 
+    def add_stranger_statistics(self, *statistics: models.StrangerStatistic):
+        with models.get_session() as session:
+            session.add(statistics)
+        self._stranger_statistics = statistics
+
+    def remove_stranger_statistics(self, *times: str):
+        with models.get_session() as session:
+            session.query(models.StrangerStatistic) \
+                .filter(models.StrangerStatistic.time == times) \
+                .delete(synchronize_session=False)
+        self._stranger_statistics = None
+
+        
 class DeviceManagement:
     def __init__(self):
         self._path_file = os.path.dirname(os.path.abspath(__file__))
