@@ -45,6 +45,16 @@ class DBManagement:
         self._departments = None
 
     # PROFILES
+    def exists_profile(self, identifier: str):
+        with models.get_session() as session:
+            profile = session.query(models.Profile)\
+                .filter(models.Profile.id == identifier)\
+                .first()
+        if profile:
+            self._profiles = profile
+            return True
+        return False
+
     def get_name_profile(self, identifier):
         with models.get_session() as session:
             name_profile = session.query(models.Profile.name) \
@@ -75,43 +85,74 @@ class DBManagement:
         self._pattern = self._pattern.where(pd.notnull(self._pattern), None)
         profiles = [
             models.Profile(
-                identifier=row[1]['ID'],
-                name=row[1]['Name'],
-                face=None,
-                name_department=row[1]['Department'],
-                gender=row[1]['Gender'],
-                phone_number=row[1]['Phone Number']
+                identifier=row['ID'],
+                name=row['Name'],
+                name_department=row['Department'],
+                gender=row['Gender'],
+                phone_number=row['Phone Number']
             )
-            for row in self._pattern.iterrows()
+            for index, row in self._pattern.iterrows()
         ]
-        self.add_profiles(*profiles)
+        profiles = set(profiles)
+        identifiers = [identifier for index, identifier in enumerate(self._pattern['ID'])]
+        current_profiles = set(self.get_profiles(*identifiers))
+        insert_profiles = list(profiles - current_profiles)
+        update_profiles = list(profiles & current_profiles)
+        self.add_profiles(*insert_profiles)
+        for profile in update_profiles:
+            self.update_profile(profile.id, profile)
 
     def add_profiles_from_images(self, filename):
         if zipfile.is_zipfile(filename):
             file = zipfile.ZipFile(filename)
-            for x in file.filelist:
-                print(x.filename)
+            application_path = f'{os.path.dirname(os.path.abspath(__file__))}/nginx/html/static/images'
+            identifiers = []
+            profiles = []
+            for name in file.namelist():
+                file.extract(name, application_path)
+                data = name.split(sep='_')
+                identifiers.append(data[0])
+                profiles.append(
+                    models.Profile(
+                        identifier=data[0],
+                        name=data[1].replace('.jpg', ''),
+                        face=f'/static/images/{name}'
+                    )
+                )
+            profiles = set(profiles)
+            current_profiles = set(self.get_profiles(*identifiers))
+            insert_profiles = list(profiles - current_profiles)
+            update_profiles = list(current_profiles & profiles)
+            self.add_profiles(*insert_profiles)
+            for profile in update_profiles:
+                values = profile.to_dict()
+                self.update_profile(profile.id, values)
 
     def add_profiles(self, *profiles: models.Profile):
         with models.get_session() as session:
             session.add_all(profiles)
         self._profiles = profiles
 
-    def edit_profile(self, identifier: str, new_profile: models.Profile):
+    def update_profile(self, identifier:str, new_profile: Union[models.Profile, dict]):
         with models.get_session() as session:
-            session.query(models.Profile) \
-                .filter(models.Profile.id == identifier) \
-                .update(
-                {
-                    models.Profile.id: new_profile.id,
-                    models.Profile.name: new_profile.name,
-                    models.Profile.face: new_profile.face,
-                    models.Profile.name_department: new_profile.name_department,
-                    models.Profile.gender: new_profile.gender,
-                    models.Profile.phone_number: new_profile.phone_number
-                }
-            )
-        self._profiles = None
+            if isinstance(new_profile, models.Profile):
+                session.query(models.Profile)\
+                    .filter(models.Profile.id == identifier)\
+                    .update(
+                    {
+                        models.Profile.id: new_profile.id,
+                        models.Profile.name: new_profile.name,
+                        models.Profile.face: new_profile.face,
+                        models.Profile.name_department: new_profile.name_department,
+                        models.Profile.gender: new_profile.gender,
+                        models.Profile.phone_number: new_profile.phone_number
+                    }
+                )
+            elif isinstance(new_profile, dict):
+                session.query(models.Profile)\
+                    .filter(models.Profile.id == identifier)\
+                    .update(new_profile)
+        self._profiles = new_profile
 
     def remove_profiles(self, *identifiers: str):
         with models.get_session() as session:
@@ -176,18 +217,18 @@ class DBManagement:
     def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
         with models.get_session() as session:
             if isinstance(low, str) and isinstance(high, str):
-                self._stranger_statistics = session.query(models.StrangerStatistic)\
+                self._stranger_statistics = session.query(models.StrangerStatistic) \
                     .filter(
                     models.StrangerStatistic.time >= low,
-                    models.StrangerStatistic.time <= high)\
+                    models.StrangerStatistic.time <= high) \
                     .all()
             elif isinstance(low, float) and isinstance(high, float):
-                self._stranger_statistics = session.query(models.StrangerStatistic)\
+                self._stranger_statistics = session.query(models.StrangerStatistic) \
                     .filter(models.StrangerStatistic.temperature >= low,
-                            models.StrangerStatistic.temperature <= high)\
+                            models.StrangerStatistic.temperature <= high) \
                     .all()
             else:
-                self._stranger_statistics = session.query(models.StrangerStatistic)\
+                self._stranger_statistics = session.query(models.StrangerStatistic) \
                     .all()
         return self._stranger_statistics
 
@@ -203,7 +244,7 @@ class DBManagement:
                 .delete(synchronize_session=False)
         self._stranger_statistics = None
 
-        
+
 class DeviceManagement:
     def __init__(self):
         self._path_file = os.path.dirname(os.path.abspath(__file__))

@@ -3,7 +3,9 @@ from typing import Union
 
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import null
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.attributes import InstrumentedAttribute
 import enum
 from sqlalchemy import Column, String, DECIMAL, ForeignKey, DateTime, Enum
 
@@ -41,18 +43,19 @@ class Profile(Base):
 
     id = Column('ID', String(32), primary_key=True, unique=True)
     name = Column('Name', String(32), primary_key=True, unique=True)
-    face = Column('Face', String(64))
+    face = Column('Face', String(64), nullable=True)
     name_department = Column('NameDepartment', String(32),
-                             ForeignKey('departments.Name', onupdate='CASCADE', ondelete='CASCADE'))
-    gender = Column('Gender', Enum(GenderEnum))
-    phone_number = Column('PhoneNumber', String(32))
+                             ForeignKey('departments.Name', onupdate='CASCADE', ondelete='CASCADE'),
+                             nullable=True)
+    gender = Column('Gender', Enum(GenderEnum), nullable=True)
+    phone_number = Column('PhoneNumber', String(32), nullable=True)
 
     def __init__(self, identifier: str,
                  name: str,
-                 name_department: str,
-                 face: str,
-                 gender: Union[str, GenderEnum],
-                 phone_number: str
+                 name_department: str = null(),
+                 face: str = null(),
+                 gender: Union[str, GenderEnum] = null(),
+                 phone_number: str = null()
                  ):
         self.id = identifier
         self.name = name
@@ -64,6 +67,24 @@ class Profile(Base):
     def __repr__(self):
         return f'[PROFILE] ID: {self.id}, Name: {self.name}, Face: {self.face}, Department: {self.name_department}, ' \
                f'Gender: {self.gender}, Phone Number: {self.phone_number}\n'
+
+    def __eq__(self, other):
+        if not isinstance(other, Profile):
+            return NotImplemented
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)
+
+    def to_dict(self):
+        values = {}
+        for item in Profile.__dict__.items():
+            field_name = item[0]
+            field_type = item[1]
+            is_column = isinstance(field_type, InstrumentedAttribute)
+            if is_column:
+                values[field_name] = getattr(self, field_name)
+        return values
 
 
 class MaskEnum(enum.Enum):
