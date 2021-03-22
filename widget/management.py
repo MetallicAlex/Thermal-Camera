@@ -11,7 +11,7 @@ import widget.models as models
 
 class DBManagement:
     def __init__(self):
-        self._name_profile = str
+        self._profile_name = str
         self._pattern = None
         self._departments = models.Department
         self._profiles = models.Profile
@@ -55,13 +55,13 @@ class DBManagement:
             return True
         return False
 
-    def get_name_profile(self, identifier):
+    def get_profile_name(self, identifier):
         with models.get_session() as session:
-            name_profile = session.query(models.Profile.name) \
+            profile_name = session.query(models.Profile.name) \
                 .filter(models.Profile.id == identifier) \
                 .scalar()
-        self._name_profile = name_profile
-        return name_profile
+        self._profile_name = profile_name
+        return profile_name
 
     def get_profiles(self, *identifiers: str):
         with models.get_session() as session:

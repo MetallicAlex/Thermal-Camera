@@ -4,8 +4,7 @@ from datetime import datetime, date
 import base64
 import json
 import paho.mqtt.client as mqtt
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtGui import QColor
+from PyQt5 import QtCore
 
 from widget.management import DBManagement
 import widget.models as models
@@ -123,7 +122,7 @@ class SubscribePlatform(QtCore.QObject):
                 mask = 'unknow'
             statistic = models.Statistic(
                 identifier=self.data['datas']['user_id'],
-                name_profile=self._database_management.get_name_profile(self.data['datas']['user_id']),
+                name_profile=self._database_management.get_profile_name(self.data['datas']['user_id']),
                 time=self.data['datas']['time'],
                 temperature=float(self.data['datas']['temperature']),
                 similar=float(self.data['datas']['similar']),
