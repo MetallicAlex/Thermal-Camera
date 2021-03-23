@@ -7,12 +7,52 @@ from sqlalchemy import null
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 import enum
-from sqlalchemy import Column, String, DECIMAL, ForeignKey, DateTime, Enum
+from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Enum
 
 engine = sqlalchemy.create_engine('mysql+pymysql://root:admin@localhost/thermalcamera')
 Base = declarative_base()
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
+
+
+class Device(Base):
+    __tablename__ = 'devices'
+
+    id = Column('ID', Integer, primary_key=True, unique=True)
+    name = Column('Name', String(32), nullable=True)
+    model = Column('Model', String(32), nullable=True)
+    version = Column('Version', String(32), nullable=True)
+    mac_address = Column('MAC-Address', String(32), nullable=True)
+    ip_address = Column('IP-Address', String(32), nullable=True)
+    token = Column('Token', String(32), nullable=True)
+
+    def __init__(self, identifier: int,
+                 name: str = null(),
+                 model: str = null(),
+                 version: str = null(),
+                 mac_address: str = null(),
+                 ip_address: str = null(),
+                 token: str = null()
+                 ):
+        self.id = identifier
+        self.name = name
+        self.model = model
+        self.version = version
+        self.mac_address = mac_address
+        self.ip_address = ip_address
+        self.token = token
+
+    def __repr__(self):
+        return f'[ID: {self.id}, Name: {self.name}, Model: {self.model}, Version: {self.version},' \
+               f' MAC-Address: {self.mac_address}, IP-Address: {self.ip_address}, Token: {self.token}]'
+
+    def __eq__(self, other):
+        if not isinstance(other, Device):
+            return NotImplemented
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)
 
 
 class Department(Base):

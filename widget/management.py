@@ -162,40 +162,41 @@ class DBManagement:
         self._profiles = None
 
     # STATISTICS
-    def get_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None, identifiers: list = None):
+    def get_statistics(self,
+                       low: Union[str, float] = None,
+                       high: Union[str, float] = None,
+                       identifiers: list = None,
+                       profile_name: bool = False):
         with models.get_session() as session:
             if isinstance(low, str) and isinstance(high, str):
                 if not identifiers:
-                    self._statistics = session.query(models.Statistic) \
+                    query = session.query(models.Statistic) \
                         .filter(models.Statistic.time >= low,
-                                models.Statistic.time <= high) \
-                        .all()
+                                models.Statistic.time <= high)
                 else:
-                    self._statistics = session.query(models.Statistic) \
+                    query = session.query(models.Statistic)\
                         .filter(models.Statistic.id_profile.in_(identifiers) == models.Profile.id,
                                 models.Statistic.time >= low,
-                                models.Statistic.time <= high) \
-                        .all()
+                                models.Statistic.time <= high)
             elif isinstance(low, float) and isinstance(high, float):
                 if not identifiers:
-                    self._statistics = session.query(models.Statistic) \
+                    query = session.query(models.Statistic) \
                         .filter(models.Statistic.temperature >= low,
-                                models.Statistic.temperature <= high) \
-                        .all()
+                                models.Statistic.temperature <= high)
                 else:
-                    self._statistics = session.query(models.Statistic) \
+                    query = session.query(models.Statistic) \
                         .filter(models.Statistic.id_profile.in_(identifiers) == models.Profile.id,
                                 models.Statistic.temperature >= low,
-                                models.Statistic.temperature <= high) \
-                        .all()
+                                models.Statistic.temperature <= high)
             else:
                 if not identifiers:
-                    self._statistics = session.query(models.Statistic) \
-                        .all()
+                    query = session.query(models.Statistic)
                 else:
-                    self._statistics = session.query(models.Statistic) \
-                        .filter(models.Statistic.id_profile.in_(identifiers)) \
-                        .all()
+                    query = session.query(models.Statistic) \
+                        .filter(models.Statistic.id_profile.in_(identifiers))
+            if profile_name:
+                query = query.join(models.Profile).filter(models.Profile.id == models.Statistic.id_profile)
+            self._statistics = query.all()
         return self._statistics
 
     def add_statistics(self, *statistics: models.Statistic):
@@ -210,7 +211,7 @@ class DBManagement:
                 .delete(synchronize_session=False)
         self._statistics = None
 
-    def remove_statistics_duplicates(self):
+    def remove_statistic_duplicates(self):
         pass
 
     # STRANGER STATISTICS

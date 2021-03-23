@@ -154,3 +154,57 @@ class SubscribePlatform(QtCore.QObject):
             return True
         else:
             return False
+
+    def define_message(self):
+        if self.data['code'] == -1:
+            pass
+        else:
+            if self.data['tag'] == 'UploadPersonInfo':
+                self.record_person_information()
+            elif self.data['tag'] == 'bind_control':
+                pass
+            elif self.data['tag'] == 'device_info':
+                pass
+
+    def record_person_information(self):
+        if self.data['datas']['matched'] == 1:
+            self.record_profile_information()
+        elif self.data['datas']['matched'] == 0:
+            self.record_stranger_information()
+
+    def record_profile_information(self):
+        mask = self.is_mask_on()
+        face = None
+        if 'imageFile' in self.data['datas']:
+            face = self.record_face_person()
+        statistic = models.Statistic(
+
+        )
+        self._database_management.add_statistics()
+        self.statistic.emit(statistic)
+
+    def record_stranger_information(self):
+        mask = self.is_mask_on()
+
+    def record_face_person(self):
+        file_path = f"snapshot/{self.data['datas']['time'].split(' ')[0]}"
+        if not os.path.exists(file_path):
+            os.mkdir(file_path)
+        filename = f"{file_path}/{self.data['datas']['time'].replace(':', '-')}" \
+                   f"_{self.data['datas']['name']}" \
+                   f"_{self.data['datas']['temperature']}.jpg"
+        with open(filename) as file:
+            file.write(base64.standard_b64decode(self.data['datas']['imageFile'].replace('data:image/jpg;base64,', '')))
+        return filename
+
+    def log(self):
+        pass
+
+    def is_mask_on(self):
+        if self.data['datas']['mask'] == 1:
+            mask = 'true'
+        elif self.data['datas']['mask_excep'] == 0:
+            mask = 'false'
+        else:
+            mask = 'unknow'
+        return mask
