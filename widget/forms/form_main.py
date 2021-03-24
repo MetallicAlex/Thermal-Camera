@@ -366,11 +366,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         for row_position, statistic in enumerate(self.database_management.get_statistics(
                 low=low,
                 high=high,
-                identifiers=identifiers)
+                identifiers=identifiers,
+                profile_name=True)
         ):
+            statistic, name = statistic
             self.table_statistics.insertRow(row_position)
             self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
-            self.table_statistics.setItem(row_position, 1, QTableWidgetItem(statistic.name_profile))
+            self.table_statistics.setItem(row_position, 1, QTableWidgetItem(name))
             self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
             self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
             self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
@@ -385,11 +387,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         row_position = self.table_statistics.rowCount() - 1
         self.table_statistics.insertRow(row_position)
         self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
-        self.table_statistics.setItem(row_position, 1, QTableWidgetItem(statistic.name_profile))
+        self.table_statistics.setItem(row_position, 1,
+                                      QTableWidgetItem(self.database_management.get_profile_name(statistic.id_profile)))
         self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
         self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
         self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
-        self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
+        # self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
         self.table_statistics.resizeColumnsToContents()
         self.table_statistics.resizeRowsToContents()
         self.table_statistics.update()

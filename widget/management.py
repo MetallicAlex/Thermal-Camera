@@ -221,7 +221,10 @@ class DBManagement:
         pass
 
     def create_passage_report(self, filename: str):
-        pass
+        report = {}
+        for statistic in self.get_statistics():
+            pass
+
 
     # STRANGER STATISTICS
     def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
