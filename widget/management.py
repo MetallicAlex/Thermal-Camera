@@ -223,8 +223,29 @@ class DBManagement:
     def create_passage_report(self, filename: str):
         report = {}
         for statistic in self.get_statistics():
-            pass
-
+            name = self.get_profile_name(statistic.id_profile)
+            statistic_datetime = str(statistic.time).split(' ')
+            if name in report:
+                if statistic_datetime[0] in report[name]:
+                    new_time = datetime.strptime(statistic_datetime[1], '%H:%M:%S')
+                    if new_time < datetime.strptime(report[name][statistic_datetime[0]]['came'], '%H:%M:%S'):
+                        report[name][statistic_datetime[0]]['came'] = statistic_datetime[1]
+                    elif new_time > datetime.strptime(report[name][statistic_datetime[0]]['gone'], '%H:%M:%S'):
+                        report[name][statistic_datetime[0]]['gone'] = statistic_datetime[1]
+                else:
+                    report[name][statistic_datetime[0]] = {
+                        'came': statistic_datetime[1],
+                        'gone': statistic_datetime[1]
+                    }
+            else:
+                report[name] = {
+                    statistic_datetime[0]: {
+                        'came': statistic_datetime[1],
+                        'gone': statistic_datetime[1]
+                    }
+                }
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(report, file, ensure_ascii=False, indent=4)
 
     # STRANGER STATISTICS
     def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
