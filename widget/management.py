@@ -169,34 +169,21 @@ class DBManagement:
                        identifiers: list = None,
                        profile_name: bool = False):
         with models.get_session() as session:
-            if isinstance(low, str) and isinstance(high, str):
-                if not identifiers:
-                    query = session.query(models.Statistic) \
-                        .filter(models.Statistic.time >= low,
-                                models.Statistic.time <= high)
-                else:
-                    query = session.query(models.Statistic) \
-                        .filter(models.Statistic.id_profile.in_(identifiers) == models.Profile.id,
-                                models.Statistic.time >= low,
-                                models.Statistic.time <= high)
-            elif isinstance(low, float) and isinstance(high, float):
-                if not identifiers:
-                    query = session.query(models.Statistic) \
-                        .filter(models.Statistic.temperature >= low,
-                                models.Statistic.temperature <= high)
-                else:
-                    query = session.query(models.Statistic) \
-                        .filter(models.Statistic.id_profile.in_(identifiers) == models.Profile.id,
-                                models.Statistic.temperature >= low,
-                                models.Statistic.temperature <= high)
-            else:
-                if not identifiers:
-                    query = session.query(models.Statistic)
-                else:
-                    query = session.query(models.Statistic) \
-                        .filter(models.Statistic.id_profile.in_(identifiers))
             if profile_name:
-                query = query.join(models.Profile).filter(models.Profile.id == models.Statistic.id_profile)
+                query = session.query(models.Statistic, models.Profile.name)\
+                    .join(models.Profile,
+                          models.Profile.id == models.Statistic.id_profile,
+                          isouter=True)
+            else:
+                query = session.query(models.Statistic)
+            if isinstance(low, str) and isinstance(high, str):
+                query = query.filter(models.Statistic.time >= low,
+                                     models.Statistic.time <= high)
+            elif isinstance(low, float) and isinstance(high, float):
+                query = query.filter(models.Statistic.temperature >= low,
+                                     models.Statistic.temperature <= high)
+            if identifiers:
+                query = query.filter(models.Statistic.id_profile.in_(identifiers))
             self._statistics = query.all()
         return self._statistics
 
@@ -206,6 +193,10 @@ class DBManagement:
         self._statistics = statistics
 
     def remove_statistics(self, *times: tuple):
+        """
+        :param times: tuple[identifier, datetime]
+        :return: None
+        """
         with models.get_session() as session:
             for time in times:
                 session.query(models.Statistic) \
@@ -225,6 +216,12 @@ class DBManagement:
                     if 0 < time_difference <= 60:
                         removable_statistics.add((statistic.id_profile, str(statistic.time)))
         self.remove_statistics(*list(removable_statistics))
+
+    def create_temperatures_report(self, filename: str):
+        pass
+
+    def create_passage_report(self, filename: str):
+        pass
 
     # STRANGER STATISTICS
     def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
@@ -253,7 +250,7 @@ class DBManagement:
     def remove_stranger_statistics(self, *times: str):
         with models.get_session() as session:
             session.query(models.StrangerStatistic) \
-                .filter(models.StrangerStatistic.time == times) \
+                .filter(models.StrangerStatistic.time.in_(times)) \
                 .delete(synchronize_session=False)
         self._stranger_statistics = None
 

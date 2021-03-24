@@ -156,8 +156,6 @@ class Statistic(Base):
 
     id_profile = Column('IdProfile', String(32),
                         ForeignKey('profiles.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
-    name_profile = Column('NameProfile', String(32),
-                          ForeignKey('profiles.Name', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
     mask = Column('Mask', Enum(MaskEnum))
@@ -165,7 +163,6 @@ class Statistic(Base):
     face = Column('Face', String(64))
 
     def __init__(self, identifier: str,
-                 name_profile: str,
                  time: str,
                  temperature: float,
                  mask: Union[str, MaskEnum],
@@ -173,7 +170,6 @@ class Statistic(Base):
                  face: str = None
                  ):
         self.id_profile = identifier
-        self.name_profile = name_profile
         self.time = time
         self.temperature = temperature
         self.mask = mask
@@ -181,7 +177,7 @@ class Statistic(Base):
         self.face = face
 
     def __repr__(self):
-        return f'[{self.time}] ID: {self.id_profile}, Name: {self.name_profile}, Similar: {self.similar},' \
+        return f'[{self.time}] ID: {self.id_profile}, Similar: {self.similar},' \
                f' Temperature: {self.temperature}, Mask: {self.mask}, Face: {self.face}\n'
 
 

@@ -122,7 +122,6 @@ class SubscribePlatform(QtCore.QObject):
                 mask = 'unknow'
             statistic = models.Statistic(
                 identifier=self.data['datas']['user_id'],
-                name_profile=self._database_management.get_profile_name(self.data['datas']['user_id']),
                 time=self.data['datas']['time'],
                 temperature=float(self.data['datas']['temperature']),
                 similar=float(self.data['datas']['similar']),
