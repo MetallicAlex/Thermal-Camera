@@ -25,6 +25,7 @@ class Device(Base):
     mac_address = Column('MAC-Address', String(32), nullable=True)
     ip_address = Column('IP-Address', String(32), nullable=True)
     token = Column('Token', String(32), nullable=True)
+    _online = False
 
     def __init__(self, identifier: int,
                  name: str = null(),
@@ -41,6 +42,15 @@ class Device(Base):
         self.mac_address = mac_address
         self.ip_address = ip_address
         self.token = token
+
+    @property
+    def online(self):
+        return self._online
+
+    @online.setter
+    def online(self, value):
+        if isinstance(value, bool):
+            self._online = value
 
     def __repr__(self):
         return f'[ID: {self.id}, Name: {self.name}, Model: {self.model}, Version: {self.version},' \
