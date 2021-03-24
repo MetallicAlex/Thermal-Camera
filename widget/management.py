@@ -189,7 +189,7 @@ class DBManagement:
 
     def add_statistics(self, *statistics: models.Statistic):
         with models.get_session() as session:
-            session.add(statistics)
+            session.add_all(statistics)
         self._statistics = statistics
 
     def remove_statistics(self, *times: tuple):
