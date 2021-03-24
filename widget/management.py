@@ -2,6 +2,7 @@ import os
 import re
 import json
 import socket
+from datetime import datetime
 import zipfile
 from typing import Union
 import pandas as pd
@@ -47,8 +48,8 @@ class DBManagement:
     # PROFILES
     def exists_profile(self, identifier: str):
         with models.get_session() as session:
-            profile = session.query(models.Profile)\
-                .filter(models.Profile.id == identifier)\
+            profile = session.query(models.Profile) \
+                .filter(models.Profile.id == identifier) \
                 .first()
         if profile:
             self._profiles = profile
@@ -133,11 +134,11 @@ class DBManagement:
             session.add_all(profiles)
         self._profiles = profiles
 
-    def update_profile(self, identifier:str, new_profile: Union[models.Profile, dict]):
+    def update_profile(self, identifier: str, new_profile: Union[models.Profile, dict]):
         with models.get_session() as session:
             if isinstance(new_profile, models.Profile):
-                session.query(models.Profile)\
-                    .filter(models.Profile.id == identifier)\
+                session.query(models.Profile) \
+                    .filter(models.Profile.id == identifier) \
                     .update(
                     {
                         models.Profile.id: new_profile.id,
@@ -149,8 +150,8 @@ class DBManagement:
                     }
                 )
             elif isinstance(new_profile, dict):
-                session.query(models.Profile)\
-                    .filter(models.Profile.id == identifier)\
+                session.query(models.Profile) \
+                    .filter(models.Profile.id == identifier) \
                     .update(new_profile)
         self._profiles = new_profile
 
@@ -174,7 +175,7 @@ class DBManagement:
                         .filter(models.Statistic.time >= low,
                                 models.Statistic.time <= high)
                 else:
-                    query = session.query(models.Statistic)\
+                    query = session.query(models.Statistic) \
                         .filter(models.Statistic.id_profile.in_(identifiers) == models.Profile.id,
                                 models.Statistic.time >= low,
                                 models.Statistic.time <= high)
@@ -204,15 +205,26 @@ class DBManagement:
             session.add(statistics)
         self._statistics = statistics
 
-    def remove_statistics(self, *times: str):
+    def remove_statistics(self, *times: tuple):
         with models.get_session() as session:
-            session.query(models.Statistic) \
-                .filter(models.Statistic.time == times) \
-                .delete(synchronize_session=False)
+            for time in times:
+                session.query(models.Statistic) \
+                    .filter(models.Statistic.time == time[1],
+                            models.Statistic.id_profile == time[0]
+                            ) \
+                    .delete(synchronize_session=False)
         self._statistics = None
 
     def remove_statistic_duplicates(self):
-        pass
+        statistics = self.get_statistics()
+        removable_statistics = set()
+        for row_position, comparable_statistic in enumerate(statistics):
+            for statistic in statistics[row_position:]:
+                if comparable_statistic.id_profile == statistic.id_profile:
+                    time_difference = (abs(statistic.time - comparable_statistic.time)).total_seconds()
+                    if 0 < time_difference <= 60:
+                        removable_statistics.add((statistic.id_profile, str(statistic.time)))
+        self.remove_statistics(*list(removable_statistics))
 
     # STRANGER STATISTICS
     def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
