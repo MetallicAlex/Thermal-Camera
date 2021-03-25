@@ -177,13 +177,28 @@ class SubscribePlatform(QtCore.QObject):
         if 'imageFile' in self.data['datas']:
             face = self.record_face_person()
         statistic = models.Statistic(
-
+            identifier=self.data['datas']['user_id'],
+            time=self.data['datas']['time'],
+            temperature=self.data['datas']['temperature'],
+            similar=self.data['datas']['similar'],
+            mask=mask,
+            face=face
         )
-        self._database_management.add_statistics()
+        self._database_management.add_statistics(statistic)
         self.statistic.emit(statistic)
 
     def record_stranger_information(self):
         mask = self.is_mask_on()
+        face = None
+        if 'imageFile' in self.data['datas']:
+            face = self.record_face_person()
+        statistic = models.StrangerStatistic(
+            time=self.data['datas']['time'],
+            temperature=self.data['datas']['temperature'],
+            mask=mask,
+            face=face
+        )
+        self._database_management.add_stranger_statistics(statistic)
 
     def record_face_person(self):
         file_path = f"snapshot/{self.data['datas']['time'].split(' ')[0]}"
