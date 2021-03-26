@@ -192,7 +192,7 @@ class PublishPlatform:
             'mqtt_operate_id': 2,
             'device_token': self.device_token,
             'device_id': self.device_id,
-            'tag': 'network_config',
+            'tag': 'platform define',
             'network_cofnig': {
                 'id_addr': ip_address,
                 'net_mask': net_mask,
@@ -218,8 +218,12 @@ class PublishPlatform:
         }
         self._publish_data()
 
-    def update_remote_configuration(self, volume: int = 0, screen_brightness: int = 45,
-                                    light_supplementary: bool = False):
+    def update_remote_configuration(self, volume: int = 0,
+                                    screen_brightness: int = 45,
+                                    light_supplementary: bool = False,
+                                    wiegand_dir: int = 0,
+                                    wiegand_write_bit: int =26
+                                    ):
         self.data = {
             'mqtt_cmd': 1,
             'mqtt_operate_id': 4,
@@ -229,10 +233,11 @@ class PublishPlatform:
             'remote_config': {
                 'volume': volume,
                 'screen_brightness': screen_brightness,
-                'light_supplementary': light_supplementary
+                'light_supplementary': light_supplementary,
+                'wiegand_dir': wiegand_dir,
+                'wiegand_write_bit': wiegand_write_bit
             }
         }
-        print(self.data)
         self._publish_data()
 
     def reboot_device(self):
@@ -289,5 +294,4 @@ class PublishPlatform:
                 'save_jpeg': save_jpeg
             }
         }
-        print(self.data)
         self._publish_data()
