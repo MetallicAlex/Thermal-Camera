@@ -26,7 +26,9 @@ class DBManagement:
                 .all()
             return self._departments
 
-    def add_departments(self, *departments: models.Department):
+    def add_departments(self, *departments: Union[models.Department, str]):
+        if isinstance(departments[0], str):
+            departments = [models.Department(department) for department in departments]
         with models.get_session() as session:
             session.add_all(departments)
         self._departments = departments
