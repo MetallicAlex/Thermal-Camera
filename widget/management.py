@@ -170,7 +170,7 @@ class DBManagement:
                        profile_name: bool = False):
         with models.get_session() as session:
             if profile_name:
-                query = session.query(models.Statistic, models.Profile.name)\
+                query = session.query(models.Statistic, models.Profile.name) \
                     .join(models.Profile,
                           models.Profile.id == models.Statistic.id_profile,
                           isouter=True)
@@ -218,7 +218,9 @@ class DBManagement:
         self.remove_statistics(*list(removable_statistics))
 
     def create_temperatures_report(self, filename: str):
-        pass
+        report = {}
+        for statistic in self.get_statistics():
+            pass
 
     def create_passage_report(self, filename: str):
         report = {}
@@ -244,31 +246,27 @@ class DBManagement:
                         'gone': statistic_datetime[1]
                     }
                 }
-        with open(filename, 'w', encoding='utf-8') as file:
-            json.dump(report, file, ensure_ascii=False, indent=4)
+        file_format = filename.split('.')[-1]
+        if file_format == 'json':
+            with open(filename, 'w', encoding='utf-8') as file:
+                json.dump(report, file, ensure_ascii=False, indent=4)
 
     # STRANGER STATISTICS
     def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
         with models.get_session() as session:
+            query = session.query(models.StrangerStatistic)
             if isinstance(low, str) and isinstance(high, str):
-                self._stranger_statistics = session.query(models.StrangerStatistic) \
-                    .filter(
-                    models.StrangerStatistic.time >= low,
-                    models.StrangerStatistic.time <= high) \
-                    .all()
+                query = query.filter(models.StrangerStatistic.time >= low,
+                                     models.StrangerStatistic.time <= high)
             elif isinstance(low, float) and isinstance(high, float):
-                self._stranger_statistics = session.query(models.StrangerStatistic) \
-                    .filter(models.StrangerStatistic.temperature >= low,
-                            models.StrangerStatistic.temperature <= high) \
-                    .all()
-            else:
-                self._stranger_statistics = session.query(models.StrangerStatistic) \
-                    .all()
+                query = query.filter(models.StrangerStatistic.temperature >= low,
+                                     models.StrangerStatistic.temperature <= high)
+            self._stranger_statistics = query.all()
         return self._stranger_statistics
 
     def add_stranger_statistics(self, *statistics: models.StrangerStatistic):
         with models.get_session() as session:
-            session.add(statistics)
+            session.add_all(statistics)
         self._stranger_statistics = statistics
 
     def remove_stranger_statistics(self, *times: str):

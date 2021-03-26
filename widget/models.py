@@ -165,9 +165,9 @@ class Statistic(Base):
     def __init__(self, identifier: str,
                  time: str,
                  temperature: float,
-                 mask: Union[str, MaskEnum],
                  similar: float,
-                 face: str = None
+                 mask: Union[str, MaskEnum] = MaskEnum.unknow,
+                 face: str = null()
                  ):
         self.id_profile = identifier
         self.time = time
@@ -189,7 +189,7 @@ class StrangerStatistic(Base):
     mask = Column('Mask', Enum(MaskEnum))
     face = Column('Face', String(64))
 
-    def __init__(self, time: str, temperature: float, mask: Union[str, MaskEnum], face: str):
+    def __init__(self, time: str, temperature: float, mask: Union[str, MaskEnum] = MaskEnum.unknow, face: str = null()):
         self.time = time
         self.temperature = temperature
         self.mask = mask
