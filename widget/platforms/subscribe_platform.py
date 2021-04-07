@@ -73,7 +73,8 @@ class SubscribePlatform(QtCore.QObject):
     def _on_message(self, client, userdata, message):
         self.data = json.loads(message.payload.decode("utf-8"))
         print(self.data)
-        self._decode_message()
+        self.define_message()
+        # self._decode_message()
 
     def _decode_message(self):
         if self.data['code'] == -1:
@@ -163,16 +164,16 @@ class SubscribePlatform(QtCore.QObject):
             elif self.data['tag'] == 'bind_control':
                 pass
             elif self.data['tag'] == 'device_info':
-                pass
+                self.device.emit(self.data)
 
     def record_person_information(self):
-        if self.data['datas']['matched'] == 1:
+        if self.data['datas']['matched'] == '1':
             self.record_profile_information()
-        elif self.data['datas']['matched'] == 0:
+        elif self.data['datas']['matched'] == '0':
             self.record_stranger_information()
 
     def record_profile_information(self):
-        mask = self.is_mask_on()
+        print('Profile')
         face = None
         if 'imageFile' in self.data['datas']:
             face = self.record_face_person()
@@ -181,35 +182,35 @@ class SubscribePlatform(QtCore.QObject):
             time=self.data['datas']['time'],
             temperature=self.data['datas']['temperature'],
             similar=self.data['datas']['similar'],
-            mask=mask,
+            mask=self.is_mask_on(),
             face=face
         )
         self._database_management.add_statistics(statistic)
         self.statistic.emit(statistic)
 
     def record_stranger_information(self):
-        mask = self.is_mask_on()
         face = None
         if 'imageFile' in self.data['datas']:
             face = self.record_face_person()
         statistic = models.StrangerStatistic(
             time=self.data['datas']['time'],
             temperature=self.data['datas']['temperature'],
-            mask=mask,
+            mask=self.is_mask_on(),
             face=face
         )
         self._database_management.add_stranger_statistics(statistic)
 
     def record_face_person(self):
-        file_path = f"snapshot/{self.data['datas']['time'].split(' ')[0]}"
+        snapshot_path = os.path.abspath('snapshot')
+        file_path = f"{snapshot_path}/{self.data['datas']['time'].split(' ')[0]}"
         if not os.path.exists(file_path):
             os.mkdir(file_path)
         filename = f"{file_path}/{self.data['datas']['time'].replace(':', '-')}" \
                    f"_{self.data['datas']['name']}" \
                    f"_{self.data['datas']['temperature']}.jpg"
-        with open(filename) as file:
+        with open(filename, 'wb') as file:
             file.write(base64.standard_b64decode(self.data['datas']['imageFile'].replace('data:image/jpg;base64,', '')))
-        return filename
+        return filename.replace(snapshot_path, '')
 
     def log(self):
         pass
