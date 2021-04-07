@@ -85,6 +85,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE STATISTIC
         self.button_search_statistics.clicked.connect(self._button_search_statistics_clicked)
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
+        self.button_report.clicked.connect(self._button_report_clicked)
         self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
         self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
         print(time.time() - start)
@@ -211,6 +212,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_all_statistic_clicked(self, event):
         self._load_statistics_to_table()
+
+    def _button_report_clicked(self, event):
+        filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File', '', 'JSON File (*.json);')
+        if filename:
+            self.database_management.create_passage_report(filename)
 
     def _checkbox_header_persons_pressed(self, index):
         if index == 0:

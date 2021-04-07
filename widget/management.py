@@ -14,10 +14,27 @@ class DBManagement:
     def __init__(self):
         self._profile_name = str
         self._pattern = None
+        self._devices = models.Device
         self._departments = models.Department
         self._profiles = models.Profile
         self._statistics = models.Statistic
         self._stranger_statistics = models.StrangerStatistic
+
+    # DEVICES
+    def get_devices(self):
+        with models.get_session() as session:
+            self._devices = session.query(models.Device)\
+                .all()
+            return self._devices
+
+    def add_devices(self, *devices: models.Device):
+        pass
+
+    def update_device(self, identifier: str, new_device: Union[models.Device, dict]):
+        pass
+
+    def remove_devices(self, *identifiers: str):
+        pass
 
     # DEPARTMENTS
     def get_departments(self):

@@ -1794,6 +1794,32 @@ class Ui_MainWindow(object):
         icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_all_statistic.setIcon(icon15)
         self.button_all_statistic.setObjectName("button_all_statistic")
+        self.button_report = QtWidgets.QPushButton(self.page_statistic)
+        self.button_report.setGeometry(QtCore.QRect(10, 0, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.button_report.setFont(font)
+        self.button_report.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon16 = QtGui.QIcon()
+        icon16.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-notes.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_report.setIcon(icon16)
+        self.button_report.setObjectName("button_report")
         self.stackedWidget.addWidget(self.page_statistic)
         self.page_settings = QtWidgets.QWidget()
         self.page_settings.setObjectName("page_settings")
@@ -1837,7 +1863,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1914,6 +1940,7 @@ class Ui_MainWindow(object):
         self.button_search_statistics.setText(_translate("MainWindow", "Search"))
         self.button_person_plot.setText(_translate("MainWindow", "Charts"))
         self.button_all_statistic.setText(_translate("MainWindow", "All Statistic"))
+        self.button_report.setText(_translate("MainWindow", "Report"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
 import files_rc
 

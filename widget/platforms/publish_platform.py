@@ -222,7 +222,7 @@ class PublishPlatform:
                                     screen_brightness: int = 45,
                                     light_supplementary: bool = False,
                                     wiegand_dir: int = 0,
-                                    wiegand_write_bit: int =26
+                                    wiegand_write_bit: int = 26
                                     ):
         self.data = {
             'mqtt_cmd': 1,

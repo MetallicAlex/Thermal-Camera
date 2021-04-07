@@ -302,3 +302,4 @@
 192.168.1.88 - - [16/Mar/2021:13:07:44 +0300] "GET /static/images/Hristoluybova.jpg HTTP/1.1" 200 134218 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
 192.168.1.88 - - [16/Mar/2021:13:07:45 +0300] "GET /static/images/Allakaev.jpg HTTP/1.1" 200 88698 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
 192.168.1.88 - - [16/Mar/2021:13:16:42 +0300] "GET /static/images/Hristoluybova.jpg HTTP/1.1" 200 134218 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"
+192.168.1.88 - - [30/Mar/2021:11:25:54 +0300] "GET /static/images/Burov.jpg HTTP/1.1" 200 48157 "-" "Dalvik/2.1.0 (Linux; U; Android 8.1.0; X1600 Build/OPM1.171019.028)"

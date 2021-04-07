@@ -1159,7 +1159,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -3292,6 +3292,47 @@ QPushButton:pressed {
                <property name="icon">
                 <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</iconset>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="button_report">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>0</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 2px solid rgb(52, 59, 72);
+	border-radius: 10px;	
+	background-color: rgb(52, 59, 72);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(57, 65, 80);
+	color: rgb(227, 227, 227);
+	border: 2px solid rgb(61, 70, 86);
+}
+QPushButton:pressed {	
+	background-color: rgb(35, 40, 49);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(43, 50, 61);
+}</string>
+               </property>
+               <property name="text">
+                <string>Report</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</iconset>
                </property>
               </widget>
              </widget>
