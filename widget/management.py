@@ -6,6 +6,7 @@ from datetime import datetime
 import zipfile
 from typing import Union
 import pandas as pd
+from sqlalchemy import func
 
 import widget.models as models
 
@@ -85,13 +86,10 @@ class DBManagement:
 
     def get_profiles(self, *identifiers: str):
         with models.get_session() as session:
-            if not identifiers:
-                self._profiles = session.query(models.Profile) \
-                    .all()
-            else:
-                self._profiles = session.query(models.Profile) \
-                    .filter(models.Profile.id.in_(identifiers)) \
-                    .all()
+            query = session.query(models.Profile)
+            if identifiers:
+                query = query.filter(models.Profile.id.in_(identifiers))
+            self._profiles = query.order_by(func.abs(models.Profile.id)).all()
         return self._profiles
 
     def create_profiles_pattern(self, filename):
