@@ -296,8 +296,8 @@ class DBManagement:
 
 class DeviceManagement:
     def __init__(self):
-        self._path_file = os.path.dirname(os.path.abspath(__file__))
-        with open(f'{self._path_file}/data/devices.json') as file:
+        self._filepath = os.path.dirname(os.path.abspath(__file__))
+        with open(f'{self._filepath}/data/devices.json') as file:
             self._devices = json.load(file, strict=False)
         self._host_name = None
         self._host = None
@@ -338,7 +338,7 @@ class DeviceManagement:
         pass
 
     def save_devices(self):
-        with open(f'{self._path_file}/data/devices.json', 'w') as file:
+        with open(f'{self._filepath}/data/devices.json', 'w') as file:
             json.dump(self.devices, file)
 
     def find_devices(self):
