@@ -14,10 +14,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1280, 720)
-        MainWindow.setMinimumSize(QtCore.QSize(1280, 720))
-        MainWindow.setToolTipDuration(-1)
+        MainWindow.resize(1366, 768)
+        MainWindow.setMinimumSize(QtCore.QSize(1366, 768))
         MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        MainWindow.setToolTipDuration(-1)
         MainWindow.setStyleSheet("QMainWindow {background: transparent; }\n"
 "QToolTip {\n"
 "    color: #ffffff;\n"
@@ -26,14 +26,14 @@ class Ui_MainWindow(object):
 "    border-radius: 2px;\n"
 "}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setMinimumSize(QtCore.QSize(1280, 720))
+        self.centralwidget.setMinimumSize(QtCore.QSize(1366, 768))
         self.centralwidget.setToolTipDuration(-1)
         self.centralwidget.setStyleSheet("background: transparent;\n"
 "color: rgb(210, 210, 210);")
         self.centralwidget.setObjectName("centralwidget")
         self.frame_main = QtWidgets.QFrame(self.centralwidget)
-        self.frame_main.setGeometry(QtCore.QRect(0, 0, 1280, 720))
-        self.frame_main.setMinimumSize(QtCore.QSize(1280, 720))
+        self.frame_main.setGeometry(QtCore.QRect(0, 0, 1366, 768))
+        self.frame_main.setMinimumSize(QtCore.QSize(1366, 768))
         self.frame_main.setStyleSheet("/* LINE EDIT */\n"
 "QLineEdit {\n"
 "    background-color: rgb(27, 29, 35);\n"
@@ -371,6 +371,7 @@ class Ui_MainWindow(object):
         self.frame_title = QtWidgets.QFrame(self.frame_header)
         self.frame_title.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_title.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_title.setLineWidth(0)
         self.frame_title.setObjectName("frame_title")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_title)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -381,6 +382,7 @@ class Ui_MainWindow(object):
         self.frame_icon.setMaximumSize(QtCore.QSize(42, 42))
         self.frame_icon.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_icon.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_icon.setLineWidth(0)
         self.frame_icon.setObjectName("frame_icon")
         self.horizontalLayout_3.addWidget(self.frame_icon)
         self.label_title = QtWidgets.QLabel(self.frame_title)
@@ -456,7 +458,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_system_buttons.sizePolicy().hasHeightForWidth())
         self.frame_system_buttons.setSizePolicy(sizePolicy)
-        self.frame_system_buttons.setMaximumSize(QtCore.QSize(120, 16777215))
+        self.frame_system_buttons.setMaximumSize(QtCore.QSize(80, 16777215))
         self.frame_system_buttons.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_system_buttons.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_system_buttons.setObjectName("frame_system_buttons")
@@ -488,30 +490,6 @@ class Ui_MainWindow(object):
         self.button_minimize.setIcon(icon)
         self.button_minimize.setObjectName("button_minimize")
         self.horizontalLayout_5.addWidget(self.button_minimize)
-        self.button_maximize_restore = QtWidgets.QPushButton(self.frame_system_buttons)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.button_maximize_restore.sizePolicy().hasHeightForWidth())
-        self.button_maximize_restore.setSizePolicy(sizePolicy)
-        self.button_maximize_restore.setMinimumSize(QtCore.QSize(40, 0))
-        self.button_maximize_restore.setMaximumSize(QtCore.QSize(40, 16777215))
-        self.button_maximize_restore.setStyleSheet("QPushButton {    \n"
-"    border: none;\n"
-"    background-color: transparent;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(85, 170, 255);\n"
-"}")
-        self.button_maximize_restore.setText("")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-window-maximize.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_maximize_restore.setIcon(icon1)
-        self.button_maximize_restore.setObjectName("button_maximize_restore")
-        self.horizontalLayout_5.addWidget(self.button_maximize_restore)
         self.button_close = QtWidgets.QPushButton(self.frame_system_buttons)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -531,9 +509,9 @@ class Ui_MainWindow(object):
 "    background-color: rgb(85, 170, 255);\n"
 "}")
         self.button_close.setText("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_close.setIcon(icon2)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_close.setIcon(icon1)
         self.button_close.setObjectName("button_close")
         self.horizontalLayout_5.addWidget(self.button_close)
         self.horizontalLayout_2.addWidget(self.frame_system_buttons)
@@ -558,14 +536,14 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_left_menu.sizePolicy().hasHeightForWidth())
         self.frame_left_menu.setSizePolicy(sizePolicy)
-        self.frame_left_menu.setMinimumSize(QtCore.QSize(180, 0))
-        self.frame_left_menu.setMaximumSize(QtCore.QSize(180, 16777215))
+        self.frame_left_menu.setMinimumSize(QtCore.QSize(210, 0))
+        self.frame_left_menu.setMaximumSize(QtCore.QSize(210, 16777215))
         self.frame_left_menu.setStyleSheet("background-color: rgb(27, 29, 35);")
         self.frame_left_menu.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_left_menu.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_left_menu.setObjectName("frame_left_menu")
         self.button_database = QtWidgets.QPushButton(self.frame_left_menu)
-        self.button_database.setGeometry(QtCore.QRect(0, 70, 180, 60))
+        self.button_database.setGeometry(QtCore.QRect(0, 70, 210, 60))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(9)
@@ -587,14 +565,14 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-people.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_database.setIcon(icon3)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-people.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_database.setIcon(icon2)
         self.button_database.setIconSize(QtCore.QSize(24, 24))
         self.button_database.setFlat(True)
         self.button_database.setObjectName("button_database")
         self.button_device = QtWidgets.QPushButton(self.frame_left_menu)
-        self.button_device.setGeometry(QtCore.QRect(0, 10, 180, 60))
+        self.button_device.setGeometry(QtCore.QRect(0, 10, 210, 60))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(9)
@@ -619,14 +597,14 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-screen-desktop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_device.setIcon(icon4)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-screen-desktop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_device.setIcon(icon3)
         self.button_device.setIconSize(QtCore.QSize(24, 24))
         self.button_device.setFlat(True)
         self.button_device.setObjectName("button_device")
         self.button_statistic = QtWidgets.QPushButton(self.frame_left_menu)
-        self.button_statistic.setGeometry(QtCore.QRect(0, 130, 180, 60))
+        self.button_statistic.setGeometry(QtCore.QRect(0, 130, 210, 60))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(9)
@@ -648,14 +626,14 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-chart-line.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_statistic.setIcon(icon5)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-chart-line.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_statistic.setIcon(icon4)
         self.button_statistic.setIconSize(QtCore.QSize(24, 24))
         self.button_statistic.setFlat(True)
         self.button_statistic.setObjectName("button_statistic")
         self.button_settings = QtWidgets.QPushButton(self.frame_left_menu)
-        self.button_settings.setGeometry(QtCore.QRect(0, 590, 180, 60))
+        self.button_settings.setGeometry(QtCore.QRect(0, 640, 210, 60))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
         font.setPointSize(9)
@@ -677,9 +655,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {    \n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_settings.setIcon(icon6)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_settings.setIcon(icon5)
         self.button_settings.setIconSize(QtCore.QSize(24, 24))
         self.button_settings.setFlat(True)
         self.button_settings.setObjectName("button_settings")
@@ -698,7 +676,7 @@ class Ui_MainWindow(object):
         self.page_device = QtWidgets.QWidget()
         self.page_device.setObjectName("page_device")
         self.table_devices = QtWidgets.QTableWidget(self.page_device)
-        self.table_devices.setGeometry(QtCore.QRect(20, 60, 1060, 580))
+        self.table_devices.setGeometry(QtCore.QRect(20, 60, 1100, 620))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -823,9 +801,9 @@ class Ui_MainWindow(object):
         self.table_devices.setObjectName("table_devices")
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignVCenter)
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon7)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        item.setIcon(icon6)
         self.table_devices.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -877,7 +855,7 @@ class Ui_MainWindow(object):
         self.table_devices.verticalHeader().setHighlightSections(False)
         self.table_devices.verticalHeader().setStretchLastSection(True)
         self.button_search_device = QtWidgets.QPushButton(self.page_device)
-        self.button_search_device.setGeometry(QtCore.QRect(10, 10, 100, 30))
+        self.button_search_device.setGeometry(QtCore.QRect(20, 10, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(8)
@@ -898,12 +876,12 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_search_device.setIcon(icon8)
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_search_device.setIcon(icon7)
         self.button_search_device.setObjectName("button_search_device")
         self.button_configure_device = QtWidgets.QPushButton(self.page_device)
-        self.button_configure_device.setGeometry(QtCore.QRect(120, 10, 100, 30))
+        self.button_configure_device.setGeometry(QtCore.QRect(130, 10, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         self.button_configure_device.setFont(font)
@@ -923,12 +901,12 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-equalizer.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_configure_device.setIcon(icon9)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-equalizer.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_configure_device.setIcon(icon8)
         self.button_configure_device.setObjectName("button_configure_device")
         self.button_delete_device = QtWidgets.QPushButton(self.page_device)
-        self.button_delete_device.setGeometry(QtCore.QRect(230, 10, 100, 30))
+        self.button_delete_device.setGeometry(QtCore.QRect(240, 10, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         self.button_delete_device.setFont(font)
@@ -948,15 +926,15 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_delete_device.setIcon(icon10)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_delete_device.setIcon(icon9)
         self.button_delete_device.setObjectName("button_delete_device")
         self.stackedWidget.addWidget(self.page_device)
         self.page_database = QtWidgets.QWidget()
         self.page_database.setObjectName("page_database")
-        self.table_persons = QtWidgets.QTableWidget(self.page_database)
-        self.table_persons.setGeometry(QtCore.QRect(10, 100, 700, 540))
+        self.table_profiles = QtWidgets.QTableWidget(self.page_database)
+        self.table_profiles.setGeometry(QtCore.QRect(330, 100, 800, 580))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1012,9 +990,9 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-        self.table_persons.setPalette(palette)
-        self.table_persons.setFocusPolicy(QtCore.Qt.StrongFocus)
-        self.table_persons.setStyleSheet("QTableWidget {    \n"
+        self.table_profiles.setPalette(palette)
+        self.table_profiles.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.table_profiles.setStyleSheet("QTableWidget {    \n"
 "    background-color: rgb(39, 44, 54);\n"
 "    padding: 10px;\n"
 "    border-radius: 5px;\n"
@@ -1084,51 +1062,51 @@ class Ui_MainWindow(object):
 "    background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);\n"
 "}\n"
 "")
-        self.table_persons.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.table_persons.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-        self.table_persons.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.table_persons.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.table_persons.setAlternatingRowColors(False)
-        self.table_persons.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
-        self.table_persons.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.table_persons.setTextElideMode(QtCore.Qt.ElideMiddle)
-        self.table_persons.setRowCount(0)
-        self.table_persons.setColumnCount(7)
-        self.table_persons.setObjectName("table_persons")
+        self.table_profiles.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.table_profiles.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.table_profiles.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.table_profiles.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.table_profiles.setAlternatingRowColors(False)
+        self.table_profiles.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.table_profiles.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.table_profiles.setTextElideMode(QtCore.Qt.ElideMiddle)
+        self.table_profiles.setRowCount(0)
+        self.table_profiles.setColumnCount(7)
+        self.table_profiles.setObjectName("table_profiles")
         item = QtWidgets.QTableWidgetItem()
-        item.setIcon(icon7)
-        self.table_persons.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignCenter)
-        self.table_persons.setHorizontalHeaderItem(1, item)
+        item.setIcon(icon6)
+        self.table_profiles.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
-        self.table_persons.setHorizontalHeaderItem(2, item)
+        self.table_profiles.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
-        self.table_persons.setHorizontalHeaderItem(3, item)
+        self.table_profiles.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
-        self.table_persons.setHorizontalHeaderItem(4, item)
+        self.table_profiles.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
-        self.table_persons.setHorizontalHeaderItem(5, item)
+        self.table_profiles.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
-        self.table_persons.setHorizontalHeaderItem(6, item)
-        self.table_persons.horizontalHeader().setVisible(True)
-        self.table_persons.horizontalHeader().setCascadingSectionResizes(True)
-        self.table_persons.horizontalHeader().setDefaultSectionSize(200)
-        self.table_persons.horizontalHeader().setStretchLastSection(False)
-        self.table_persons.verticalHeader().setVisible(False)
-        self.table_persons.verticalHeader().setHighlightSections(False)
-        self.table_persons.verticalHeader().setStretchLastSection(True)
-        self.button_delete_person = QtWidgets.QPushButton(self.page_database)
-        self.button_delete_person.setGeometry(QtCore.QRect(370, 10, 100, 30))
+        self.table_profiles.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.table_profiles.setHorizontalHeaderItem(6, item)
+        self.table_profiles.horizontalHeader().setVisible(True)
+        self.table_profiles.horizontalHeader().setCascadingSectionResizes(True)
+        self.table_profiles.horizontalHeader().setDefaultSectionSize(200)
+        self.table_profiles.horizontalHeader().setStretchLastSection(False)
+        self.table_profiles.verticalHeader().setVisible(False)
+        self.table_profiles.verticalHeader().setHighlightSections(False)
+        self.table_profiles.verticalHeader().setStretchLastSection(True)
+        self.button_delete_profile = QtWidgets.QPushButton(self.page_database)
+        self.button_delete_profile.setGeometry(QtCore.QRect(690, 10, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        self.button_delete_person.setFont(font)
-        self.button_delete_person.setStyleSheet("QPushButton {\n"
+        self.button_delete_profile.setFont(font)
+        self.button_delete_profile.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
@@ -1144,15 +1122,40 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        self.button_delete_person.setIcon(icon10)
-        self.button_delete_person.setObjectName("button_delete_person")
-        self.button_edit_person = QtWidgets.QPushButton(self.page_database)
-        self.button_edit_person.setGeometry(QtCore.QRect(260, 10, 100, 30))
+        self.button_delete_profile.setIcon(icon9)
+        self.button_delete_profile.setObjectName("button_delete_profile")
+        self.button_edit_profile = QtWidgets.QPushButton(self.page_database)
+        self.button_edit_profile.setGeometry(QtCore.QRect(580, 10, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        self.button_edit_person.setFont(font)
-        self.button_edit_person.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        self.button_edit_person.setStyleSheet("QPushButton {\n"
+        self.button_edit_profile.setFont(font)
+        self.button_edit_profile.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.button_edit_profile.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_edit_profile.setIcon(icon10)
+        self.button_edit_profile.setObjectName("button_edit_profile")
+        self.button_add_profile = QtWidgets.QPushButton(self.page_database)
+        self.button_add_profile.setGeometry(QtCore.QRect(470, 10, 100, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_add_profile.setFont(font)
+        self.button_add_profile.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
@@ -1169,36 +1172,11 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_edit_person.setIcon(icon11)
-        self.button_edit_person.setObjectName("button_edit_person")
-        self.button_add_person = QtWidgets.QPushButton(self.page_database)
-        self.button_add_person.setGeometry(QtCore.QRect(150, 10, 100, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        self.button_add_person.setFont(font)
-        self.button_add_person.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_add_person.setIcon(icon12)
-        self.button_add_person.setObjectName("button_add_person")
+        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_add_profile.setIcon(icon11)
+        self.button_add_profile.setObjectName("button_add_profile")
         self.button_send_device = QtWidgets.QPushButton(self.page_database)
-        self.button_send_device.setGeometry(QtCore.QRect(10, 50, 130, 30))
+        self.button_send_device.setGeometry(QtCore.QRect(330, 50, 130, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         self.button_send_device.setFont(font)
@@ -1218,12 +1196,12 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-paper-plane.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_send_device.setIcon(icon13)
+        icon12 = QtGui.QIcon()
+        icon12.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-paper-plane.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_send_device.setIcon(icon12)
         self.button_send_device.setObjectName("button_send_device")
         self.table_departments = QtWidgets.QTableWidget(self.page_database)
-        self.table_departments.setGeometry(QtCore.QRect(740, 100, 350, 540))
+        self.table_departments.setGeometry(QtCore.QRect(10, 100, 300, 580))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1362,7 +1340,7 @@ class Ui_MainWindow(object):
         self.table_departments.setColumnCount(2)
         self.table_departments.setObjectName("table_departments")
         item = QtWidgets.QTableWidgetItem()
-        item.setIcon(icon7)
+        item.setIcon(icon6)
         self.table_departments.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -1375,7 +1353,7 @@ class Ui_MainWindow(object):
         self.table_departments.verticalHeader().setHighlightSections(False)
         self.table_departments.verticalHeader().setStretchLastSection(True)
         self.comboBox_databases = QtWidgets.QComboBox(self.page_database)
-        self.comboBox_databases.setGeometry(QtCore.QRect(150, 50, 320, 30))
+        self.comboBox_databases.setGeometry(QtCore.QRect(470, 50, 320, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
@@ -1398,7 +1376,7 @@ class Ui_MainWindow(object):
 "}")
         self.comboBox_databases.setObjectName("comboBox_databases")
         self.button_delete_department = QtWidgets.QPushButton(self.page_database)
-        self.button_delete_department.setGeometry(QtCore.QRect(960, 50, 100, 30))
+        self.button_delete_department.setGeometry(QtCore.QRect(120, 50, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         self.button_delete_department.setFont(font)
@@ -1418,33 +1396,10 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        self.button_delete_department.setIcon(icon10)
+        self.button_delete_department.setIcon(icon9)
         self.button_delete_department.setObjectName("button_delete_department")
-        self.button_edit_department = QtWidgets.QPushButton(self.page_database)
-        self.button_edit_department.setGeometry(QtCore.QRect(850, 50, 100, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        self.button_edit_department.setFont(font)
-        self.button_edit_department.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        self.button_edit_department.setIcon(icon11)
-        self.button_edit_department.setObjectName("button_edit_department")
         self.button_add_department = QtWidgets.QPushButton(self.page_database)
-        self.button_add_department.setGeometry(QtCore.QRect(740, 50, 100, 30))
+        self.button_add_department.setGeometry(QtCore.QRect(10, 50, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         self.button_add_department.setFont(font)
@@ -1464,10 +1419,10 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        self.button_add_department.setIcon(icon12)
+        self.button_add_department.setIcon(icon11)
         self.button_add_department.setObjectName("button_add_department")
         self.label = QtWidgets.QLabel(self.page_database)
-        self.label.setGeometry(QtCore.QRect(10, 10, 121, 30))
+        self.label.setGeometry(QtCore.QRect(330, 10, 121, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
@@ -1477,7 +1432,7 @@ class Ui_MainWindow(object):
         self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.page_database)
-        self.label_2.setGeometry(QtCore.QRect(740, 10, 121, 30))
+        self.label_2.setGeometry(QtCore.QRect(10, 10, 121, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
@@ -1487,17 +1442,67 @@ class Ui_MainWindow(object):
         self.label_2.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.label_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_2.setObjectName("label_2")
+        self.button_add_profiles_group = QtWidgets.QPushButton(self.page_database)
+        self.button_add_profiles_group.setGeometry(QtCore.QRect(800, 10, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_add_profiles_group.setFont(font)
+        self.button_add_profiles_group.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon13 = QtGui.QIcon()
+        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-notes.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_add_profiles_group.setIcon(icon13)
+        self.button_add_profiles_group.setObjectName("button_add_profiles_group")
+        self.button_add_profile_images = QtWidgets.QPushButton(self.page_database)
+        self.button_add_profile_images.setGeometry(QtCore.QRect(800, 50, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_add_profile_images.setFont(font)
+        self.button_add_profile_images.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon14 = QtGui.QIcon()
+        icon14.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_add_profile_images.setIcon(icon14)
+        self.button_add_profile_images.setObjectName("button_add_profile_images")
         self.stackedWidget.addWidget(self.page_database)
         self.page_statistic = QtWidgets.QWidget()
         self.page_statistic.setObjectName("page_statistic")
         self.label_statistic_day = QtWidgets.QLabel(self.page_statistic)
-        self.label_statistic_day.setGeometry(QtCore.QRect(10, 20, 450, 300))
+        self.label_statistic_day.setGeometry(QtCore.QRect(650, 10, 500, 320))
         self.label_statistic_day.setObjectName("label_statistic_day")
         self.label_statistic_all_days = QtWidgets.QLabel(self.page_statistic)
-        self.label_statistic_all_days.setGeometry(QtCore.QRect(10, 340, 450, 300))
+        self.label_statistic_all_days.setGeometry(QtCore.QRect(650, 340, 500, 320))
         self.label_statistic_all_days.setObjectName("label_statistic_all_days")
         self.table_statistics = QtWidgets.QTableWidget(self.page_statistic)
-        self.table_statistics.setGeometry(QtCore.QRect(480, 140, 600, 501))
+        self.table_statistics.setGeometry(QtCore.QRect(10, 170, 630, 520))
         self.table_statistics.setStyleSheet("QTableWidget {    \n"
 "    background-color: rgb(39, 44, 54);\n"
 "    padding: 10px;\n"
@@ -1569,7 +1574,7 @@ class Ui_MainWindow(object):
         self.table_statistics.setHorizontalHeaderItem(4, item)
         self.table_statistics.verticalHeader().setVisible(False)
         self.dateTimeEdit_start = QtWidgets.QDateTimeEdit(self.page_statistic)
-        self.dateTimeEdit_start.setGeometry(QtCore.QRect(670, 20, 170, 30))
+        self.dateTimeEdit_start.setGeometry(QtCore.QRect(200, 50, 170, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
@@ -1594,7 +1599,7 @@ class Ui_MainWindow(object):
         self.dateTimeEdit_start.setCalendarPopup(True)
         self.dateTimeEdit_start.setObjectName("dateTimeEdit_start")
         self.dateTimeEdit_end = QtWidgets.QDateTimeEdit(self.page_statistic)
-        self.dateTimeEdit_end.setGeometry(QtCore.QRect(910, 20, 170, 30))
+        self.dateTimeEdit_end.setGeometry(QtCore.QRect(440, 50, 170, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
@@ -1615,44 +1620,44 @@ class Ui_MainWindow(object):
         self.dateTimeEdit_end.setCalendarPopup(True)
         self.dateTimeEdit_end.setObjectName("dateTimeEdit_end")
         self.label_start_time = QtWidgets.QLabel(self.page_statistic)
-        self.label_start_time.setGeometry(QtCore.QRect(620, 20, 40, 30))
+        self.label_start_time.setGeometry(QtCore.QRect(150, 50, 40, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.label_start_time.setFont(font)
         self.label_start_time.setObjectName("label_start_time")
         self.label_end_time = QtWidgets.QLabel(self.page_statistic)
-        self.label_end_time.setGeometry(QtCore.QRect(860, 20, 40, 30))
+        self.label_end_time.setGeometry(QtCore.QRect(390, 50, 40, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.label_end_time.setFont(font)
         self.label_end_time.setObjectName("label_end_time")
         self.radiobutton_time = QtWidgets.QRadioButton(self.page_statistic)
-        self.radiobutton_time.setGeometry(QtCore.QRect(480, 20, 120, 30))
+        self.radiobutton_time.setGeometry(QtCore.QRect(10, 50, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.radiobutton_time.setFont(font)
         self.radiobutton_time.setStyleSheet("")
-        self.radiobutton_time.setChecked(True)
+        self.radiobutton_time.setChecked(False)
         self.radiobutton_time.setObjectName("radiobutton_time")
         self.radiobutton_temperature = QtWidgets.QRadioButton(self.page_statistic)
-        self.radiobutton_temperature.setGeometry(QtCore.QRect(480, 60, 120, 30))
+        self.radiobutton_temperature.setGeometry(QtCore.QRect(10, 90, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.radiobutton_temperature.setFont(font)
         self.radiobutton_temperature.setObjectName("radiobutton_temperature")
         self.label_min_temperature = QtWidgets.QLabel(self.page_statistic)
-        self.label_min_temperature.setGeometry(QtCore.QRect(620, 60, 40, 30))
+        self.label_min_temperature.setGeometry(QtCore.QRect(150, 90, 40, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.label_min_temperature.setFont(font)
         self.label_min_temperature.setObjectName("label_min_temperature")
         self.doubleSpinBox_min_temperature = QtWidgets.QDoubleSpinBox(self.page_statistic)
-        self.doubleSpinBox_min_temperature.setGeometry(QtCore.QRect(670, 60, 90, 30))
+        self.doubleSpinBox_min_temperature.setGeometry(QtCore.QRect(200, 90, 90, 30))
         self.doubleSpinBox_min_temperature.setStyleSheet("QDoubleSpinBox {\n"
 "    background-color: rgb(27, 29, 35);\n"
 "    border-radius: 5px;\n"
@@ -1670,7 +1675,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_min_temperature.setSingleStep(0.1)
         self.doubleSpinBox_min_temperature.setObjectName("doubleSpinBox_min_temperature")
         self.doubleSpinBox_max_temperature = QtWidgets.QDoubleSpinBox(self.page_statistic)
-        self.doubleSpinBox_max_temperature.setGeometry(QtCore.QRect(910, 60, 90, 30))
+        self.doubleSpinBox_max_temperature.setGeometry(QtCore.QRect(440, 90, 90, 30))
         self.doubleSpinBox_max_temperature.setStyleSheet("QDoubleSpinBox {\n"
 "    background-color: rgb(27, 29, 35);\n"
 "    border-radius: 5px;\n"
@@ -1689,14 +1694,14 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_max_temperature.setProperty("value", 40.0)
         self.doubleSpinBox_max_temperature.setObjectName("doubleSpinBox_max_temperature")
         self.label_max_temperature = QtWidgets.QLabel(self.page_statistic)
-        self.label_max_temperature.setGeometry(QtCore.QRect(860, 60, 40, 30))
+        self.label_max_temperature.setGeometry(QtCore.QRect(390, 90, 40, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.label_max_temperature.setFont(font)
         self.label_max_temperature.setObjectName("label_max_temperature")
         self.button_search_statistics = QtWidgets.QPushButton(self.page_statistic)
-        self.button_search_statistics.setGeometry(QtCore.QRect(480, 100, 120, 30))
+        self.button_search_statistics.setGeometry(QtCore.QRect(10, 130, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(8)
@@ -1717,15 +1722,15 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        self.button_search_statistics.setIcon(icon8)
+        self.button_search_statistics.setIcon(icon7)
         self.button_search_statistics.setObjectName("button_search_statistics")
-        self.comboBox_employees = QtWidgets.QComboBox(self.page_statistic)
-        self.comboBox_employees.setGeometry(QtCore.QRect(740, 100, 220, 30))
+        self.comboBox_profiles = QtWidgets.QComboBox(self.page_statistic)
+        self.comboBox_profiles.setGeometry(QtCore.QRect(10, 10, 360, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
-        self.comboBox_employees.setFont(font)
-        self.comboBox_employees.setStyleSheet("QComboBox{\n"
+        self.comboBox_profiles.setFont(font)
+        self.comboBox_profiles.setStyleSheet("QComboBox{\n"
 "    background-color: rgb(27, 29, 35);\n"
 "    border-radius: 5px;\n"
 "    border: 2px solid rgb(27, 29, 35);\n"
@@ -1741,9 +1746,9 @@ class Ui_MainWindow(object):
 "    padding: 10px;\n"
 "    selection-background-color: rgb(39, 44, 54);\n"
 "}")
-        self.comboBox_employees.setObjectName("comboBox_employees")
+        self.comboBox_profiles.setObjectName("comboBox_profiles")
         self.button_person_plot = QtWidgets.QPushButton(self.page_statistic)
-        self.button_person_plot.setGeometry(QtCore.QRect(970, 100, 120, 30))
+        self.button_person_plot.setGeometry(QtCore.QRect(380, 10, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(8)
@@ -1764,12 +1769,12 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_person_plot.setIcon(icon14)
+        icon15 = QtGui.QIcon()
+        icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_person_plot.setIcon(icon15)
         self.button_person_plot.setObjectName("button_person_plot")
         self.button_all_statistic = QtWidgets.QPushButton(self.page_statistic)
-        self.button_all_statistic.setGeometry(QtCore.QRect(610, 100, 120, 30))
+        self.button_all_statistic.setGeometry(QtCore.QRect(140, 130, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(8)
@@ -1790,12 +1795,12 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon15 = QtGui.QIcon()
-        icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_all_statistic.setIcon(icon15)
+        icon16 = QtGui.QIcon()
+        icon16.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_all_statistic.setIcon(icon16)
         self.button_all_statistic.setObjectName("button_all_statistic")
         self.button_report = QtWidgets.QPushButton(self.page_statistic)
-        self.button_report.setGeometry(QtCore.QRect(10, 0, 120, 30))
+        self.button_report.setGeometry(QtCore.QRect(510, 10, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(8)
@@ -1816,10 +1821,34 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon16 = QtGui.QIcon()
-        icon16.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-notes.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_report.setIcon(icon16)
+        self.button_report.setIcon(icon13)
         self.button_report.setObjectName("button_report")
+        self.button_strangers_statistic = QtWidgets.QPushButton(self.page_statistic)
+        self.button_strangers_statistic.setGeometry(QtCore.QRect(270, 130, 140, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.button_strangers_statistic.setFont(font)
+        self.button_strangers_statistic.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon17 = QtGui.QIcon()
+        icon17.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart-pie.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_strangers_statistic.setIcon(icon17)
+        self.button_strangers_statistic.setObjectName("button_strangers_statistic")
         self.stackedWidget.addWidget(self.page_statistic)
         self.page_settings = QtWidgets.QWidget()
         self.page_settings.setObjectName("page_settings")
@@ -1871,7 +1900,6 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Thermal Camera\'s Manager"))
         self.label_title.setText(_translate("MainWindow", "Thermal Camera\'s Manager"))
         self.button_minimize.setToolTip(_translate("MainWindow", "Minimize"))
-        self.button_maximize_restore.setToolTip(_translate("MainWindow", "Maximize"))
         self.button_close.setToolTip(_translate("MainWindow", "Close"))
         self.button_database.setText(_translate("MainWindow", "Database Manager"))
         self.button_device.setText(_translate("MainWindow", "Device Manager"))
@@ -1892,30 +1920,31 @@ class Ui_MainWindow(object):
         self.button_search_device.setText(_translate("MainWindow", "Search"))
         self.button_configure_device.setText(_translate("MainWindow", "Configure"))
         self.button_delete_device.setText(_translate("MainWindow", "Delete"))
-        self.table_persons.setSortingEnabled(False)
-        item = self.table_persons.horizontalHeaderItem(1)
+        self.table_profiles.setSortingEnabled(False)
+        item = self.table_profiles.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "ID"))
-        item = self.table_persons.horizontalHeaderItem(2)
+        item = self.table_profiles.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "Image"))
-        item = self.table_persons.horizontalHeaderItem(3)
+        item = self.table_profiles.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Name"))
-        item = self.table_persons.horizontalHeaderItem(4)
+        item = self.table_profiles.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Department"))
-        item = self.table_persons.horizontalHeaderItem(5)
+        item = self.table_profiles.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "Gender"))
-        item = self.table_persons.horizontalHeaderItem(6)
+        item = self.table_profiles.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "Phone Number"))
-        self.button_delete_person.setText(_translate("MainWindow", "Delete"))
-        self.button_edit_person.setText(_translate("MainWindow", "Edit"))
-        self.button_add_person.setText(_translate("MainWindow", "Add"))
+        self.button_delete_profile.setText(_translate("MainWindow", "Delete"))
+        self.button_edit_profile.setText(_translate("MainWindow", "Edit"))
+        self.button_add_profile.setText(_translate("MainWindow", "Add"))
         self.button_send_device.setText(_translate("MainWindow", "Send to Device"))
         item = self.table_departments.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Department"))
         self.button_delete_department.setText(_translate("MainWindow", "Delete"))
-        self.button_edit_department.setText(_translate("MainWindow", "Edit"))
         self.button_add_department.setText(_translate("MainWindow", "Add"))
-        self.label.setText(_translate("MainWindow", "Persons DB"))
+        self.label.setText(_translate("MainWindow", "Profiles DB"))
         self.label_2.setText(_translate("MainWindow", "Departments DB"))
+        self.button_add_profiles_group.setText(_translate("MainWindow", "Add Profiles Group"))
+        self.button_add_profile_images.setText(_translate("MainWindow", "Add Profile Images"))
         self.label_statistic_day.setText(_translate("MainWindow", "TextLabel"))
         self.label_statistic_all_days.setText(_translate("MainWindow", "TextLabel"))
         self.table_statistics.setSortingEnabled(True)
@@ -1941,6 +1970,7 @@ class Ui_MainWindow(object):
         self.button_person_plot.setText(_translate("MainWindow", "Charts"))
         self.button_all_statistic.setText(_translate("MainWindow", "All Statistic"))
         self.button_report.setText(_translate("MainWindow", "Report"))
+        self.button_strangers_statistic.setText(_translate("MainWindow", "Strangers Statistic"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
 import files_rc
 

@@ -61,7 +61,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
         self.button_close.clicked.connect(lambda: self.close())
         self.button_minimize.clicked.connect(lambda: self.showMinimized())
-        self.button_maximize_restore.clicked.connect(lambda: self.showMaximized())
         self.sizegrip = QSizeGrip(self.frame_size_grip)
         self.sizegrip.setStyleSheet("width: 20px; height: 20px; margin 0px; padding: 0px;")
         self.frame_header.mouseMoveEvent = self._frame_header_move_window
@@ -76,11 +75,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_configure_device.clicked.connect(self._button_configure_device_clicked)
         self.table_devices.horizontalHeader().sectionPressed.connect(self._checkbox_header_devices_pressed)
         # PAGE DATABASE
-        self.button_add_person.clicked.connect(self._button_add_person_clicked)
-        self.button_edit_person.clicked.connect(self._button_edit_person_clicked)
-        self.button_delete_person.clicked.connect(self._button_delete_person_clicked)
+        self.button_add_profile.clicked.connect(self._button_add_profile_clicked)
+        self.button_edit_profile.clicked.connect(self._button_edit_profile_clicked)
+        self.button_delete_profile.clicked.connect(self._button_delete_profile_clicked)
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
-        self.table_persons.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
+        self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         # PAGE STATISTIC
         self.button_search_statistics.clicked.connect(self._button_search_statistics_clicked)
@@ -117,71 +116,71 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentWidget(self.page_settings)
 
     # EVENTS-DATABASE
-    def _button_add_person_clicked(self, event):
+    def _button_add_profile_clicked(self, event):
         self.form_profile = FormProfile()
         self.form_profile.exec_()
         if self.form_profile.dialog_result == 1:
             self.database_management.add_profiles(self.form_profile.profile)
-            row_position = self.table_persons.rowCount()
-            self.table_persons.insertRow(row_position)
+            row_position = self.table_profiles.rowCount()
+            self.table_profiles.insertRow(row_position)
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
-            self.table_persons.setCellWidget(row_position, 0, item)
-            self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.profile.id))
-            self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
-            self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
-            self.table_persons.setItem(row_position, 4, QTableWidgetItem(self.form_profile.profile.name_department))
-            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(self.form_profile.profile.gender)))
-            self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(self.form_profile.profile.phone_number)))
-            self.table_persons.resizeColumnsToContents()
-            self.table_persons.resizeRowsToContents()
+            self.table_profiles.setCellWidget(row_position, 0, item)
+            self.table_profiles.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.profile.id))
+            self.table_profiles.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
+            self.table_profiles.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
+            self.table_profiles.setItem(row_position, 4, QTableWidgetItem(self.form_profile.profile.name_department))
+            self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(self.form_profile.profile.gender)))
+            self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(self.form_profile.profile.phone_number)))
+            self.table_profiles.resizeColumnsToContents()
+            self.table_profiles.resizeRowsToContents()
 
-    def _button_edit_person_clicked(self, event):
-        id_profiles = [self.table_persons.item(row_position, 1).text()
-                       for row_position in range(self.table_persons.rowCount())
-                       if self.table_persons.cellWidget(row_position, 0).isChecked()]
-        indexes = [row_position for row_position in range(self.table_persons.rowCount())
-                   if self.table_persons.cellWidget(row_position, 0).isChecked()]
+    def _button_edit_profile_clicked(self, event):
+        id_profiles = [self.table_profiles.item(row_position, 1).text()
+                       for row_position in range(self.table_profiles.rowCount())
+                       if self.table_profiles.cellWidget(row_position, 0).isChecked()]
+        indexes = [row_position for row_position in range(self.table_profiles.rowCount())
+                   if self.table_profiles.cellWidget(row_position, 0).isChecked()]
         profiles = self.database_management.get_profiles(*id_profiles)
         for profile, profile_id, row_position in zip(profiles, id_profiles, indexes):
             self.form_profile = FormProfile(profile)
             self.form_profile.exec_()
             if self.form_profile.dialog_result == 1:
                 self.database_management.edit_profile(profile_id, profile)
-                self.table_persons.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.profile.id))
-                self.table_persons.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
-                self.table_persons.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
-                self.table_persons.setItem(row_position, 4,
+                self.table_profiles.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.profile.id))
+                self.table_profiles.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
+                self.table_profiles.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
+                self.table_profiles.setItem(row_position, 4,
                                            QTableWidgetItem(self.form_profile.profile.name_department))
-                self.table_persons.setItem(row_position, 5,
+                self.table_profiles.setItem(row_position, 5,
                                            QTableWidgetItem(str(self.form_profile.profile.gender)))
-                self.table_persons.setItem(row_position, 6,
+                self.table_profiles.setItem(row_position, 6,
                                            QTableWidgetItem(str(self.form_profile.profile.phone_number)))
-            self.table_persons.resizeColumnsToContents()
-            self.table_persons.resizeRowsToContents()
+            self.table_profiles.resizeColumnsToContents()
+            self.table_profiles.resizeRowsToContents()
 
-    def _button_delete_person_clicked(self, event):
+    def _button_delete_profile_clicked(self, event):
         button_reply = QMessageBox.question(self, 'Database Manager', 'Are you sure you want to delete persons?',
                                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if button_reply == QMessageBox.Yes:
-            id_profiles = [int(self.table_persons.item(row_position, 1).text())
-                           for row_position in range(self.table_persons.rowCount())
-                           if self.table_persons.cellWidget(row_position, 0).isChecked()]
+            id_profiles = [int(self.table_profiles.item(row_position, 1).text())
+                           for row_position in range(self.table_profiles.rowCount())
+                           if self.table_profiles.cellWidget(row_position, 0).isChecked()]
             self.database_management.remove_profiles(*id_profiles)
-            for row_position in range(self.table_persons.rowCount() - 1, 0, -1):
-                if self.table_persons.cellWidget(row_position, 0).isChecked():
-                    self.table_persons.removeRow(row_position)
+            for row_position in range(self.table_profiles.rowCount() - 1, 0, -1):
+                if self.table_profiles.cellWidget(row_position, 0).isChecked():
+                    self.table_profiles.removeRow(row_position)
 
     def _button_send_device_clicked(self, event):
-        if not self.table_persons.horizontalHeaderItem(0).checkState():
-            profile_ids = [int(self.table_persons.item(row_position, 1).text())
-                           for row_position in range(self.table_persons.rowCount())
-                           if self.table_persons.cellWidget(row_position, 0).isChecked()]
+        if not self.table_profiles.horizontalHeaderItem(0).checkState():
+            profile_ids = [int(self.table_profiles.item(row_position, 1).text())
+                           for row_position in range(self.table_profiles.rowCount())
+                           if self.table_profiles.cellWidget(row_position, 0).isChecked()]
         for device in self.devices:
             if device['state'] == 'online':
                 print('online!')
                 self.publish_platform.set_device(device['serial'], device['token'])
-                if not self.table_persons.horizontalHeaderItem(0).checkState():
+                if not self.table_profiles.horizontalHeaderItem(0).checkState():
                     self.publish_platform.add_profiles_data(profile_ids)
                 else:
                     self.publish_platform.add_profiles_data()
@@ -220,16 +219,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _checkbox_header_persons_pressed(self, index):
         if index == 0:
-            list_checked_buttons = np.array([self.table_persons.cellWidget(row_position, 0).isChecked()
-                                             for row_position in range(self.table_persons.rowCount())])
+            list_checked_buttons = np.array([self.table_profiles.cellWidget(row_position, 0).isChecked()
+                                             for row_position in range(self.table_profiles.rowCount())])
             if np.all(list_checked_buttons):
-                for row_position in range(self.table_persons.rowCount()):
-                    self.table_persons.cellWidget(row_position, 0).setCheckState(Qt.Unchecked)
-                self._set_header_column_icon(self.table_persons, False)
+                for row_position in range(self.table_profiles.rowCount()):
+                    self.table_profiles.cellWidget(row_position, 0).setCheckState(Qt.Unchecked)
+                self._set_header_column_icon(self.table_profiles, False)
             else:
-                for row_position in range(self.table_persons.rowCount()):
-                    self.table_persons.cellWidget(row_position, 0).setCheckState(Qt.Checked)
-                self._set_header_column_icon(self.table_persons, True)
+                for row_position in range(self.table_profiles.rowCount()):
+                    self.table_profiles.cellWidget(row_position, 0).setCheckState(Qt.Checked)
+                self._set_header_column_icon(self.table_profiles, True)
 
     def _checkbox_header_devices_pressed(self, index):
         if index == 0:
@@ -338,19 +337,19 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # DATABASE
     def _load_profiles_to_table(self):
         for row_position, profile in enumerate(self.database_management.get_profiles()):
-            self.table_persons.insertRow(row_position)
+            self.table_profiles.insertRow(row_position)
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
-            self.table_persons.setCellWidget(row_position, 0, item)
-            self.table_persons.setItem(row_position, 1, self._get_item_to_cell(profile.id))
-            self.table_persons.setItem(row_position, 2, self._get_item_image(profile.face))
-            self.table_persons.setItem(row_position, 3, QTableWidgetItem(profile.name))
-            self.table_persons.setItem(row_position, 4, QTableWidgetItem(profile.name_department))
-            self.table_persons.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
-            self.table_persons.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
-            self.comboBox_employees.addItem(profile.name)
-        self.table_persons.resizeColumnsToContents()
-        self.table_persons.resizeRowsToContents()
+            self.table_profiles.setCellWidget(row_position, 0, item)
+            self.table_profiles.setItem(row_position, 1, self._get_item_to_cell(profile.id))
+            self.table_profiles.setItem(row_position, 2, self._get_item_image(profile.face))
+            self.table_profiles.setItem(row_position, 3, QTableWidgetItem(profile.name))
+            self.table_profiles.setItem(row_position, 4, QTableWidgetItem(profile.name_department))
+            self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
+            self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
+            self.comboBox_profiles.addItem(profile.name)
+        self.table_profiles.resizeColumnsToContents()
+        self.table_profiles.resizeRowsToContents()
 
     def _load_departments_to_table(self):
         for row_position, department in enumerate(self.database_management.get_departments()):

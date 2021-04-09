@@ -202,7 +202,6 @@ class StrangerStatistic(Base):
 @contextmanager
 def get_session():
     session = Session()
-
     try:
         yield session
     except:

@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>768</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1366</width>
-    <height>768</height>
+    <width>1280</width>
+    <height>720</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,8 +34,8 @@ QToolTip {
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
     <size>
-     <width>1366</width>
-     <height>768</height>
+     <width>1280</width>
+     <height>720</height>
     </size>
    </property>
    <property name="toolTipDuration">
@@ -50,14 +50,14 @@ color: rgb(210, 210, 210);</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1366</width>
-      <height>768</height>
+      <width>1280</width>
+      <height>720</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>1366</width>
-      <height>768</height>
+      <width>1280</width>
+      <height>720</height>
      </size>
     </property>
     <property name="styleSheet">
@@ -447,9 +447,6 @@ QCalendarWidget QAbstractItemView:enabled {
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <property name="lineWidth">
-           <number>0</number>
-          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <property name="spacing">
             <number>0</number>
@@ -485,9 +482,6 @@ QCalendarWidget QAbstractItemView:enabled {
              </property>
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
-             </property>
-             <property name="lineWidth">
-              <number>0</number>
              </property>
             </widget>
            </item>
@@ -694,7 +688,7 @@ QCalendarWidget QAbstractItemView:enabled {
           </property>
           <property name="maximumSize">
            <size>
-            <width>80</width>
+            <width>120</width>
             <height>16777215</height>
            </size>
           </property>
@@ -761,6 +755,50 @@ QPushButton:pressed {
              <property name="icon">
               <iconset resource="../files.qrc">
                <normaloff>:/16x16/data/resources/icons/16x16/cil-window-minimize.png</normaloff>:/16x16/data/resources/icons/16x16/cil-window-minimize.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="button_maximize_restore">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Maximize</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {	
+	border: none;
+	background-color: transparent;
+}
+QPushButton:hover {
+	background-color: rgb(52, 59, 72);
+}
+QPushButton:pressed {	
+	background-color: rgb(85, 170, 255);
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../files.qrc">
+               <normaloff>:/16x16/data/resources/icons/16x16/cil-window-maximize.png</normaloff>:/16x16/data/resources/icons/16x16/cil-window-maximize.png</iconset>
              </property>
             </widget>
            </item>
@@ -857,13 +895,13 @@ QPushButton:pressed {
           </property>
           <property name="minimumSize">
            <size>
-            <width>210</width>
+            <width>180</width>
             <height>0</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>210</width>
+            <width>180</width>
             <height>16777215</height>
            </size>
           </property>
@@ -881,7 +919,7 @@ QPushButton:pressed {
             <rect>
              <x>0</x>
              <y>70</y>
-             <width>210</width>
+             <width>180</width>
              <height>60</height>
             </rect>
            </property>
@@ -932,7 +970,7 @@ QPushButton:pressed {
             <rect>
              <x>0</x>
              <y>10</y>
-             <width>210</width>
+             <width>180</width>
              <height>60</height>
             </rect>
            </property>
@@ -992,7 +1030,7 @@ QPushButton:pressed {
             <rect>
              <x>0</x>
              <y>130</y>
-             <width>210</width>
+             <width>180</width>
              <height>60</height>
             </rect>
            </property>
@@ -1042,8 +1080,8 @@ QPushButton:pressed {
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>640</y>
-             <width>210</width>
+             <y>590</y>
+             <width>180</width>
              <height>60</height>
             </rect>
            </property>
@@ -1129,8 +1167,8 @@ QPushButton:pressed {
                 <rect>
                  <x>20</x>
                  <y>60</y>
-                 <width>1100</width>
-                 <height>620</height>
+                 <width>1060</width>
+                 <height>580</height>
                 </rect>
                </property>
                <property name="palette">
@@ -1513,7 +1551,7 @@ QHeaderView::section:vertical
               <widget class="QPushButton" name="button_search_device">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>10</x>
                  <y>10</y>
                  <width>100</width>
                  <height>30</height>
@@ -1554,7 +1592,7 @@ QPushButton:pressed {
               <widget class="QPushButton" name="button_configure_device">
                <property name="geometry">
                 <rect>
-                 <x>130</x>
+                 <x>120</x>
                  <y>10</y>
                  <width>100</width>
                  <height>30</height>
@@ -1594,7 +1632,7 @@ QPushButton:pressed {
               <widget class="QPushButton" name="button_delete_device">
                <property name="geometry">
                 <rect>
-                 <x>240</x>
+                 <x>230</x>
                  <y>10</y>
                  <width>100</width>
                  <height>30</height>
@@ -1633,13 +1671,13 @@ QPushButton:pressed {
               </widget>
              </widget>
              <widget class="QWidget" name="page_database">
-              <widget class="QTableWidget" name="table_profiles">
+              <widget class="QTableWidget" name="table_persons">
                <property name="geometry">
                 <rect>
-                 <x>330</x>
+                 <x>10</x>
                  <y>100</y>
-                 <width>800</width>
-                 <height>580</height>
+                 <width>700</width>
+                 <height>540</height>
                 </rect>
                </property>
                <property name="palette">
@@ -2001,10 +2039,10 @@ QCheckBox::indicator:checked {
                 </property>
                </column>
               </widget>
-              <widget class="QPushButton" name="button_delete_profile">
+              <widget class="QPushButton" name="button_delete_person">
                <property name="geometry">
                 <rect>
-                 <x>690</x>
+                 <x>370</x>
                  <y>10</y>
                  <width>100</width>
                  <height>30</height>
@@ -2041,10 +2079,10 @@ QPushButton:pressed {
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</iconset>
                </property>
               </widget>
-              <widget class="QPushButton" name="button_edit_profile">
+              <widget class="QPushButton" name="button_edit_person">
                <property name="geometry">
                 <rect>
-                 <x>580</x>
+                 <x>260</x>
                  <y>10</y>
                  <width>100</width>
                  <height>30</height>
@@ -2084,10 +2122,10 @@ QPushButton:pressed {
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</iconset>
                </property>
               </widget>
-              <widget class="QPushButton" name="button_add_profile">
+              <widget class="QPushButton" name="button_add_person">
                <property name="geometry">
                 <rect>
-                 <x>470</x>
+                 <x>150</x>
                  <y>10</y>
                  <width>100</width>
                  <height>30</height>
@@ -2127,7 +2165,7 @@ QPushButton:pressed {
               <widget class="QPushButton" name="button_send_device">
                <property name="geometry">
                 <rect>
-                 <x>330</x>
+                 <x>10</x>
                  <y>50</y>
                  <width>130</width>
                  <height>30</height>
@@ -2167,10 +2205,10 @@ QPushButton:pressed {
               <widget class="QTableWidget" name="table_departments">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>740</x>
                  <y>100</y>
-                 <width>300</width>
-                 <height>580</height>
+                 <width>350</width>
+                 <height>540</height>
                 </rect>
                </property>
                <property name="palette">
@@ -2489,7 +2527,7 @@ QCheckBox::indicator:checked {
               <widget class="QComboBox" name="comboBox_databases">
                <property name="geometry">
                 <rect>
-                 <x>470</x>
+                 <x>150</x>
                  <y>50</y>
                  <width>320</width>
                  <height>30</height>
@@ -2523,7 +2561,7 @@ QComboBox QAbstractItemView {
               <widget class="QPushButton" name="button_delete_department">
                <property name="geometry">
                 <rect>
-                 <x>120</x>
+                 <x>960</x>
                  <y>50</y>
                  <width>100</width>
                  <height>30</height>
@@ -2560,10 +2598,50 @@ QPushButton:pressed {
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</normaloff>:/16x16/data/resources/icons/16x16/cil-remove.png</iconset>
                </property>
               </widget>
+              <widget class="QPushButton" name="button_edit_department">
+               <property name="geometry">
+                <rect>
+                 <x>850</x>
+                 <y>50</y>
+                 <width>100</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 2px solid rgb(52, 59, 72);
+	border-radius: 10px;	
+	background-color: rgb(52, 59, 72);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(57, 65, 80);
+	color: rgb(227, 227, 227);
+	border: 2px solid rgb(61, 70, 86);
+}
+QPushButton:pressed {	
+	background-color: rgb(35, 40, 49);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(43, 50, 61);
+}</string>
+               </property>
+               <property name="text">
+                <string>Edit</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</iconset>
+               </property>
+              </widget>
               <widget class="QPushButton" name="button_add_department">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>740</x>
                  <y>50</y>
                  <width>100</width>
                  <height>30</height>
@@ -2603,7 +2681,7 @@ QPushButton:pressed {
               <widget class="QLabel" name="label">
                <property name="geometry">
                 <rect>
-                 <x>330</x>
+                 <x>10</x>
                  <y>10</y>
                  <width>121</width>
                  <height>30</height>
@@ -2618,7 +2696,7 @@ QPushButton:pressed {
                 </font>
                </property>
                <property name="text">
-                <string>Profiles DB</string>
+                <string>Persons DB</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2627,7 +2705,7 @@ QPushButton:pressed {
               <widget class="QLabel" name="label_2">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>740</x>
                  <y>10</y>
                  <width>121</width>
                  <height>30</height>
@@ -2651,95 +2729,15 @@ QPushButton:pressed {
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
               </widget>
-              <widget class="QPushButton" name="button_add_profiles_group">
-               <property name="geometry">
-                <rect>
-                 <x>800</x>
-                 <y>10</y>
-                 <width>150</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: 2px solid rgb(52, 59, 72);
-	border-radius: 10px;	
-	background-color: rgb(52, 59, 72);
-	color: rgb(255, 255, 255);
-}
-QPushButton:hover {
-	background-color: rgb(57, 65, 80);
-	color: rgb(227, 227, 227);
-	border: 2px solid rgb(61, 70, 86);
-}
-QPushButton:pressed {	
-	background-color: rgb(35, 40, 49);
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(43, 50, 61);
-}</string>
-               </property>
-               <property name="text">
-                <string>Add Profiles Group</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</iconset>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="button_add_profile_images">
-               <property name="geometry">
-                <rect>
-                 <x>800</x>
-                 <y>50</y>
-                 <width>150</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: 2px solid rgb(52, 59, 72);
-	border-radius: 10px;	
-	background-color: rgb(52, 59, 72);
-	color: rgb(255, 255, 255);
-}
-QPushButton:hover {
-	background-color: rgb(57, 65, 80);
-	color: rgb(227, 227, 227);
-	border: 2px solid rgb(61, 70, 86);
-}
-QPushButton:pressed {	
-	background-color: rgb(35, 40, 49);
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(43, 50, 61);
-}</string>
-               </property>
-               <property name="text">
-                <string>Add Profile Images</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-image-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-image-plus.png</iconset>
-               </property>
-              </widget>
              </widget>
              <widget class="QWidget" name="page_statistic">
               <widget class="QLabel" name="label_statistic_day">
                <property name="geometry">
                 <rect>
-                 <x>650</x>
-                 <y>10</y>
-                 <width>500</width>
-                 <height>320</height>
+                 <x>10</x>
+                 <y>20</y>
+                 <width>450</width>
+                 <height>300</height>
                 </rect>
                </property>
                <property name="text">
@@ -2749,10 +2747,10 @@ QPushButton:pressed {
               <widget class="QLabel" name="label_statistic_all_days">
                <property name="geometry">
                 <rect>
-                 <x>650</x>
+                 <x>10</x>
                  <y>340</y>
-                 <width>500</width>
-                 <height>320</height>
+                 <width>450</width>
+                 <height>300</height>
                 </rect>
                </property>
                <property name="text">
@@ -2762,10 +2760,10 @@ QPushButton:pressed {
               <widget class="QTableWidget" name="table_statistics">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>170</y>
-                 <width>630</width>
-                 <height>520</height>
+                 <x>480</x>
+                 <y>140</y>
+                 <width>600</width>
+                 <height>501</height>
                 </rect>
                </property>
                <property name="styleSheet">
@@ -2863,8 +2861,8 @@ QHeaderView::section:vertical
               <widget class="QDateTimeEdit" name="dateTimeEdit_start">
                <property name="geometry">
                 <rect>
-                 <x>200</x>
-                 <y>50</y>
+                 <x>670</x>
+                 <y>20</y>
                  <width>170</width>
                  <height>30</height>
                 </rect>
@@ -2910,8 +2908,8 @@ QDateTimeEdit QAbstractItemView {
               <widget class="QDateTimeEdit" name="dateTimeEdit_end">
                <property name="geometry">
                 <rect>
-                 <x>440</x>
-                 <y>50</y>
+                 <x>910</x>
+                 <y>20</y>
                  <width>170</width>
                  <height>30</height>
                 </rect>
@@ -2953,8 +2951,8 @@ QDateTimeEdit:focus {
               <widget class="QLabel" name="label_start_time">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>50</y>
+                 <x>620</x>
+                 <y>20</y>
                  <width>40</width>
                  <height>30</height>
                 </rect>
@@ -2972,8 +2970,8 @@ QDateTimeEdit:focus {
               <widget class="QLabel" name="label_end_time">
                <property name="geometry">
                 <rect>
-                 <x>390</x>
-                 <y>50</y>
+                 <x>860</x>
+                 <y>20</y>
                  <width>40</width>
                  <height>30</height>
                 </rect>
@@ -2991,8 +2989,8 @@ QDateTimeEdit:focus {
               <widget class="QRadioButton" name="radiobutton_time">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>50</y>
+                 <x>480</x>
+                 <y>20</y>
                  <width>120</width>
                  <height>30</height>
                 </rect>
@@ -3010,14 +3008,14 @@ QDateTimeEdit:focus {
                 <string>Time</string>
                </property>
                <property name="checked">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
               <widget class="QRadioButton" name="radiobutton_temperature">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>90</y>
+                 <x>480</x>
+                 <y>60</y>
                  <width>120</width>
                  <height>30</height>
                 </rect>
@@ -3035,8 +3033,8 @@ QDateTimeEdit:focus {
               <widget class="QLabel" name="label_min_temperature">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>90</y>
+                 <x>620</x>
+                 <y>60</y>
                  <width>40</width>
                  <height>30</height>
                 </rect>
@@ -3054,8 +3052,8 @@ QDateTimeEdit:focus {
               <widget class="QDoubleSpinBox" name="doubleSpinBox_min_temperature">
                <property name="geometry">
                 <rect>
-                 <x>200</x>
-                 <y>90</y>
+                 <x>670</x>
+                 <y>60</y>
                  <width>90</width>
                  <height>30</height>
                 </rect>
@@ -3087,8 +3085,8 @@ QDoubleSpinBox:focus {
               <widget class="QDoubleSpinBox" name="doubleSpinBox_max_temperature">
                <property name="geometry">
                 <rect>
-                 <x>440</x>
-                 <y>90</y>
+                 <x>910</x>
+                 <y>60</y>
                  <width>90</width>
                  <height>30</height>
                 </rect>
@@ -3123,8 +3121,8 @@ QDoubleSpinBox:focus {
               <widget class="QLabel" name="label_max_temperature">
                <property name="geometry">
                 <rect>
-                 <x>390</x>
-                 <y>90</y>
+                 <x>860</x>
+                 <y>60</y>
                  <width>40</width>
                  <height>30</height>
                 </rect>
@@ -3142,8 +3140,8 @@ QDoubleSpinBox:focus {
               <widget class="QPushButton" name="button_search_statistics">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>130</y>
+                 <x>480</x>
+                 <y>100</y>
                  <width>120</width>
                  <height>30</height>
                 </rect>
@@ -3180,12 +3178,12 @@ QPushButton:pressed {
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</iconset>
                </property>
               </widget>
-              <widget class="QComboBox" name="comboBox_profiles">
+              <widget class="QComboBox" name="comboBox_employees">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>10</y>
-                 <width>360</width>
+                 <x>740</x>
+                 <y>100</y>
+                 <width>220</width>
                  <height>30</height>
                 </rect>
                </property>
@@ -3217,8 +3215,8 @@ QComboBox QAbstractItemView {
               <widget class="QPushButton" name="button_person_plot">
                <property name="geometry">
                 <rect>
-                 <x>380</x>
-                 <y>10</y>
+                 <x>970</x>
+                 <y>100</y>
                  <width>120</width>
                  <height>30</height>
                 </rect>
@@ -3258,8 +3256,8 @@ QPushButton:pressed {
               <widget class="QPushButton" name="button_all_statistic">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>130</y>
+                 <x>610</x>
+                 <y>100</y>
                  <width>120</width>
                  <height>30</height>
                 </rect>
@@ -3299,8 +3297,8 @@ QPushButton:pressed {
               <widget class="QPushButton" name="button_report">
                <property name="geometry">
                 <rect>
-                 <x>510</x>
-                 <y>10</y>
+                 <x>10</x>
+                 <y>0</y>
                  <width>120</width>
                  <height>30</height>
                 </rect>
@@ -3335,47 +3333,6 @@ QPushButton:pressed {
                <property name="icon">
                 <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</iconset>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="button_strangers_statistic">
-               <property name="geometry">
-                <rect>
-                 <x>270</x>
-                 <y>130</y>
-                 <width>140</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                 <pointsize>8</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: 2px solid rgb(52, 59, 72);
-	border-radius: 10px;	
-	background-color: rgb(52, 59, 72);
-	color: rgb(255, 255, 255);
-}
-QPushButton:hover {
-	background-color: rgb(57, 65, 80);
-	color: rgb(227, 227, 227);
-	border: 2px solid rgb(61, 70, 86);
-}
-QPushButton:pressed {	
-	background-color: rgb(35, 40, 49);
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(43, 50, 61);
-}</string>
-               </property>
-               <property name="text">
-                <string>Strangers Statistic</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-chart-pie.png</normaloff>:/16x16/data/resources/icons/16x16/cil-chart-pie.png</iconset>
                </property>
               </widget>
              </widget>
