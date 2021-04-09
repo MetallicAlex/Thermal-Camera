@@ -29,13 +29,38 @@ class DBManagement:
             return self._devices
 
     def add_devices(self, *devices: models.Device):
-        pass
+        with models.get_session() as session:
+            session.add_all(devices)
+        self._devices = devices
 
-    def update_device(self, identifier: str, new_device: Union[models.Device, dict]):
-        pass
+    def update_device(self, identifier: int, new_device: Union[models.Device, dict]):
+        with models.get_session() as session:
+            if isinstance(new_device, models.Device):
+                session.query(models.Device) \
+                    .filter(models.Device.id == identifier) \
+                    .update(
+                    {
+                        models.Device.id: new_device.id,
+                        models.Device.name: new_device.name,
+                        models.Device.model: new_device.model,
+                        models.Device.mac_address: new_device.mac_address,
+                        models.Device.ip_address: new_device.ip_address,
+                        models.Device.version: new_device.version,
+                        models.Device.token: new_device.token
+                    }
+                )
+            elif isinstance(new_device, dict):
+                session.query(models.Device) \
+                    .filter(models.Device.id == identifier) \
+                    .update(new_device)
+        self._devices = new_device
 
-    def remove_devices(self, *identifiers: str):
-        pass
+    def remove_devices(self, *identifiers: int):
+        with models.get_session() as session:
+            session.query(models.Device) \
+                .filter(models.Device.id.in_(identifiers)) \
+                .delete(synchronize_session=False)
+        self._devices = None
 
     # DEPARTMENTS
     def get_departments(self):
