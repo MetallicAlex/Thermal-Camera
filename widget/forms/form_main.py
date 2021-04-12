@@ -17,7 +17,7 @@ from PyQt5.QtCore import Qt
 from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_profile import FormProfile
 from widget.forms.form_devices import FormDevices
-from widget.forms.messagebox import DepartmentMessageBox
+from widget.forms.messagebox import DepartmentMessageBox, WarningMessageBox, InformationMessageBox
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
 from widget.platforms.subscribe_platform import SubscribePlatform
@@ -191,6 +191,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_add_department_clicked(self, event):
         dmsb = DepartmentMessageBox()
+        dmsb.exec_()
+        dmsb = InformationMessageBox()
+        dmsb.exec_()
+        dmsb = WarningMessageBox()
         dmsb.exec_()
 
     def _button_delete_department_clicked(self, event):

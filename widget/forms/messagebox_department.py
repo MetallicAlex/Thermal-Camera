@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'department_messagebox.ui'
+# Form implementation generated from reading ui file 'messagebox_department.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.2
 #
