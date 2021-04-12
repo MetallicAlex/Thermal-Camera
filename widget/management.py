@@ -364,18 +364,16 @@ class DeviceManagement:
     def remove_device(self):
         pass
 
-    def save_devices(self):
-        with open(f'{self._filepath}/data/devices.json', 'w') as file:
-            json.dump(self.devices, file)
-
     def find_devices(self, binding_devices: list = None):
-        os.system('chcp 437')
+        os.popen('chcp 437')
+        # os.system('chcp 437')
         with os.popen(f'arp -a -N {self.host}') as file:
             data = file.read()
-        devices = []
         for device in re.findall('([-.0-9]+)\s+([-0-9a-f]{17})\s+(\w+)', data):
             if 'dynamic' in device:
-                devices.append(device[:2])
+                mac_address = device[1].upper()
+                if binding_devices is None or mac_address not in binding_devices:
+                    self.get_info(device_ip=device[0])
 
     def get_info(self, device_ip: str):
         request = requests.get(f'http://{device_ip}:7080/ini.htm',

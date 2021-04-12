@@ -57,9 +57,12 @@ class Device(Base):
                f' MAC-Address: {self.mac_address}, IP-Address: {self.ip_address}, Token: {self.token}]'
 
     def __eq__(self, other):
-        if not isinstance(other, Device):
-            return NotImplemented
-        return self.id == other.id
+        if isinstance(other, Device):
+            return self.id == other.id
+        elif isinstance(other, str):
+            return self.mac_address == other
+        return NotImplemented
+
 
     def __hash__(self):
         return hash(self.id)
