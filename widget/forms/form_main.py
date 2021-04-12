@@ -32,6 +32,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # APPLICATIONS
         # self.start_nginx()
         # DATA
+        self.device_management = DeviceManagement()
+        self.device_management.find_host_info()
         self.database_management = DBManagement()
         self.form_profile = FormProfile()
         self.theme = self._get_theme('dark theme')
@@ -79,6 +81,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_edit_profile.clicked.connect(self._button_edit_profile_clicked)
         self.button_delete_profile.clicked.connect(self._button_delete_profile_clicked)
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
+        self.button_add_department.clicked.connect(self._button_add_department_clicked)
+        self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
+        self.button_add_profiles_group.clicked.connect(self._button_add_profiles_group_clicked)
+        self.button_add_profile_images.clicked.connect(self._button_add_profile_images_clicked)
         self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         # PAGE STATISTIC
@@ -151,11 +157,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.table_profiles.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
                 self.table_profiles.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
                 self.table_profiles.setItem(row_position, 4,
-                                           QTableWidgetItem(self.form_profile.profile.name_department))
+                                            QTableWidgetItem(self.form_profile.profile.name_department))
                 self.table_profiles.setItem(row_position, 5,
-                                           QTableWidgetItem(str(self.form_profile.profile.gender)))
+                                            QTableWidgetItem(str(self.form_profile.profile.gender)))
                 self.table_profiles.setItem(row_position, 6,
-                                           QTableWidgetItem(str(self.form_profile.profile.phone_number)))
+                                            QTableWidgetItem(str(self.form_profile.profile.phone_number)))
             self.table_profiles.resizeColumnsToContents()
             self.table_profiles.resizeRowsToContents()
 
@@ -184,6 +190,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.publish_platform.add_profiles_data(profile_ids)
                 else:
                     self.publish_platform.add_profiles_data()
+
+    def _button_add_department_clicked(self, event):
+        pass
+
+    def _button_delete_department_clicked(self, event):
+        pass
+
+    def _button_add_profiles_group_clicked(self, event):
+        pass
+
+    def _button_add_profile_images_clicked(self, event):
+        pass
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
@@ -365,9 +383,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                                   high: Union[str, float] = None,
                                   identifiers: list = None):
         self.table_statistics.setRowCount(0)
-        print(isinstance(low, str))
-        print(isinstance(high, str))
-        print()
         for row_position, statistic in enumerate(self.database_management.get_statistics(
                 low=low,
                 high=high,

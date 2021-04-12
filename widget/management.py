@@ -2,6 +2,7 @@ import os
 import re
 import json
 import socket
+import requests
 from datetime import datetime
 import zipfile
 from typing import Union
@@ -33,7 +34,7 @@ class DBManagement:
             session.add_all(devices)
         self._devices = devices
 
-    def update_device(self, identifier: int, new_device: Union[models.Device, dict]):
+    def update_device(self, identifier: str, new_device: Union[models.Device, dict]):
         with models.get_session() as session:
             if isinstance(new_device, models.Device):
                 session.query(models.Device) \
@@ -55,7 +56,7 @@ class DBManagement:
                     .update(new_device)
         self._devices = new_device
 
-    def remove_devices(self, *identifiers: int):
+    def remove_devices(self, *identifiers: str):
         with models.get_session() as session:
             session.query(models.Device) \
                 .filter(models.Device.id.in_(identifiers)) \
@@ -322,8 +323,9 @@ class DBManagement:
 class DeviceManagement:
     def __init__(self):
         self._filepath = os.path.dirname(os.path.abspath(__file__))
-        with open(f'{self._filepath}/data/devices.json') as file:
-            self._devices = json.load(file, strict=False)
+        # with open(f'{self._filepath}/data/devices.json') as file:
+        #     self._devices = json.load(file, strict=False)
+        self._devices = []
         self._host_name = None
         self._host = None
         self._port = None
@@ -356,8 +358,8 @@ class DeviceManagement:
     def devices(self):
         return self._devices
 
-    def add_device(self):
-        pass
+    def add_device(self, device: models.Device):
+        self.devices.append(device)
 
     def remove_device(self):
         pass
@@ -366,14 +368,42 @@ class DeviceManagement:
         with open(f'{self._filepath}/data/devices.json', 'w') as file:
             json.dump(self.devices, file)
 
-    def find_devices(self):
+    def find_devices(self, binding_devices: list = None):
         os.system('chcp 437')
-        with os.popen(f'arp -a -N {self.host_ip}') as file:
+        with os.popen(f'arp -a -N {self.host}') as file:
             data = file.read()
         devices = []
         for device in re.findall('([-.0-9]+)\s+([-0-9a-f]{17})\s+(\w+)', data):
             if 'dynamic' in device:
                 devices.append(device[:2])
+
+    def get_info(self, device_ip: str):
+        request = requests.get(f'http://{device_ip}:7080/ini.htm',
+                               headers={'Authorization': 'Basic YWRtaW46MTIzNDU='})
+        if request.status_code == 200:
+            for information in request.text.split('<br>'):
+                information = information.split('=')
+                if information[0] == 'getdeviceserial':
+                    identifier = information[1]
+                elif information[0] == 'getdevname':
+                    name = information[1]
+                elif information[0] == 'getdevicetype':
+                    model = information[1]
+                elif information[0] == 'getsoftwareversion':
+                    version = information[1]
+                elif information[0] == 'mac':
+                    mac_address = information[1].replace(':', '-')
+                elif information[0] == 'netip':
+                    ip_address = information[1]
+            device = models.Device(
+                identifier=identifier,
+                name=name,
+                model=model,
+                version=version,
+                mac_address=mac_address,
+                ip_address=ip_address
+            )
+            self.add_device(device)
 
     def find_host_info(self):
         self.host_name = socket.gethostname()

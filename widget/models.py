@@ -18,7 +18,7 @@ Session = sessionmaker(bind=engine)
 class Device(Base):
     __tablename__ = 'devices'
 
-    id = Column('ID', Integer, primary_key=True, unique=True)
+    id = Column('ID', String(32), primary_key=True, unique=True)
     name = Column('Name', String(32), nullable=True)
     model = Column('Model', String(32), nullable=True)
     version = Column('Version', String(32), nullable=True)
@@ -27,7 +27,7 @@ class Device(Base):
     token = Column('Token', String(32), nullable=True)
     _online = False
 
-    def __init__(self, identifier: int,
+    def __init__(self, identifier: str,
                  name: str = null(),
                  model: str = null(),
                  version: str = null(),

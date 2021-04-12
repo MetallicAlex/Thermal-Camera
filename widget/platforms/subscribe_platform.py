@@ -1,6 +1,5 @@
-import sys
 import os
-from datetime import datetime, date
+from datetime import datetime
 import base64
 import json
 import paho.mqtt.client as mqtt
@@ -99,7 +98,6 @@ class SubscribePlatform(QtCore.QObject):
             self.record_stranger_information()
 
     def record_profile_information(self):
-        print('Profile')
         face = None
         if 'imageFile' in self.data['datas']:
             face = self.record_face_person()
