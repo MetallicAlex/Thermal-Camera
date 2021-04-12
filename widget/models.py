@@ -63,7 +63,6 @@ class Device(Base):
             return self.mac_address == other
         return NotImplemented
 
-
     def __hash__(self):
         return hash(self.id)
 

@@ -17,6 +17,7 @@ from PyQt5.QtCore import Qt
 from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_profile import FormProfile
 from widget.forms.form_devices import FormDevices
+from widget.forms.messagebox import DepartmentMessageBox
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
 from widget.platforms.subscribe_platform import SubscribePlatform
@@ -34,23 +35,20 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # DATA
         self.device_management = DeviceManagement()
         self.device_management.find_host_info()
+        self.device_management.port = 7777
         self.database_management = DBManagement()
         self.form_profile = FormProfile()
         self.theme = self._get_theme('dark theme')
-        self.host_name, self.host_ip = self._get_host_name_ip()
-        if self.host_ip is not None:
+        if self.device_management.host is not None:
             self.subscribe_platform = SubscribePlatform()
-            self.subscribe_platform.set_host_port(self.host_ip, client_name='SP1')
+            self.subscribe_platform.set_host_port(self.device_management.host, client_name='SP1')
             self.thread = QtCore.QThread()
             self.subscribe_platform.moveToThread(self.thread)
             self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
             self.subscribe_platform.device.connect(self._update_device_info)
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
-            self.publish_platform = PublishPlatform(self.host_ip, client_name='PP1')
-            # self.publish_platform.set_device(self.devices[0]['serial'], self.devices[0]['token'])
-            # self.publish_platform.query_profiles_data()
-            # self.publish_platform.set_device('7101384284372', '724970388')
+            self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
         self._load_devices_info_to_table()
         self._load_profiles_to_table()
@@ -192,7 +190,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.publish_platform.add_profiles_data()
 
     def _button_add_department_clicked(self, event):
-        pass
+        dmsb = DepartmentMessageBox()
+        dmsb.exec_()
 
     def _button_delete_department_clicked(self, event):
         pass
@@ -444,16 +443,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _set_header_column_icon(self, table: QtWidgets.QTableWidget, checked: bool):
         item = QtWidgets.QTableWidgetItem()
-        icon10 = QtGui.QIcon()
+        icon = QtGui.QIcon()
         if checked:
-            icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-check-circle.png"),
+            icon.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-check-circle.png"),
                              QtGui.QIcon.Normal, QtGui.QIcon.Off)
             item.setCheckState(Qt.Checked)
         else:
-            icon10.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"),
+            icon.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"),
                              QtGui.QIcon.Normal, QtGui.QIcon.Off)
             item.setCheckState(Qt.Unchecked)
-        item.setIcon(icon10)
+        item.setIcon(icon)
         table.setHorizontalHeaderItem(0, item)
 
     # NGINX

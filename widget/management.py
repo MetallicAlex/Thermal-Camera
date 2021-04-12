@@ -323,11 +323,10 @@ class DBManagement:
 class DeviceManagement:
     def __init__(self):
         self._filepath = os.path.dirname(os.path.abspath(__file__))
-        # with open(f'{self._filepath}/data/devices.json') as file:
-        #     self._devices = json.load(file, strict=False)
         self._devices = []
         self._host_name = None
         self._host = None
+        self._subnet = None
         self._port = None
 
     @property
@@ -345,6 +344,14 @@ class DeviceManagement:
     @host.setter
     def host(self, value):
         self._host = value
+
+    @property
+    def subnet(self):
+        return self._subnet
+
+    @subnet.setter
+    def subnet(self, value):
+        self._subnet = value
 
     @property
     def port(self):
@@ -370,7 +377,7 @@ class DeviceManagement:
         with os.popen(f'arp -a -N {self.host}') as file:
             data = file.read()
         for device in re.findall('([-.0-9]+)\s+([-0-9a-f]{17})\s+(\w+)', data):
-            if 'dynamic' in device:
+            if 'dynamic' in device and self.subnet == device[0][:self.host.rfind('.')]:
                 mac_address = device[1].upper()
                 if binding_devices is None or mac_address not in binding_devices:
                     self.get_info(device_ip=device[0])
@@ -406,3 +413,4 @@ class DeviceManagement:
     def find_host_info(self):
         self.host_name = socket.gethostname()
         self.host = socket.gethostbyname(self.host_name)
+        self.subnet = self.host[:self.host.rfind('.')]
