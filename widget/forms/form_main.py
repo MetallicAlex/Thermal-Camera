@@ -37,6 +37,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.device_management.find_host_info()
         self.device_management.port = 7777
         self.database_management = DBManagement()
+        self.devices = self.database_management.get_devices()
         self.form_profile = FormProfile()
         self.theme = self._get_theme('dark theme')
         if self.device_management.host is not None:
@@ -73,6 +74,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE DEVICE
         self.button_search_device.clicked.connect(self._button_search_device_clicked)
         self.button_configure_device.clicked.connect(self._button_configure_device_clicked)
+        self.button_delete_device.clicked.connect(self._button_delete_device_clicked)
         self.table_devices.horizontalHeader().sectionPressed.connect(self._checkbox_header_devices_pressed)
         # PAGE DATABASE
         self.button_add_profile.clicked.connect(self._button_add_profile_clicked)
@@ -208,9 +210,23 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
-        devices_ip = [device['ip'] for device in self.devices]
-        self.form_devices = FormDevices(devices_ip)
-        self.form_devices.exec_()
+        devices = self.database_management.get_devices()
+        result = self.device_management.find_devices(binding_devices=devices)
+        if result == -1:
+            messagebox = InformationMessageBox()
+            messagebox.label_info.setText('Ethernet is not connected')
+            messagebox.setWindowTitle('Information')
+            messagebox.exec_()
+        elif result == 0 and len(self.device_management.devices) == 0:
+            messagebox = InformationMessageBox()
+            messagebox.label_info.setText('Device is not found')
+            messagebox.setWindowTitle('Information')
+            messagebox.exec_()
+        else:
+            self.form_devices = FormDevices(self.device_management.devices)
+            self.form_devices.exec_()
+            if self.form_devices.dialog_result == 0:
+                self.device_management.devices = self.form_devices.devices
 
     def _button_configure_device_clicked(self, event):
         devices_ip = [self.table_devices.item(row_position, 5).text()
@@ -220,6 +236,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         print(devices_ip)
         for device_ip in devices_ip:
             wb.open_new_tab(f'http://{device_ip}:7080')
+
+    def _button_delete_device_clicked(self, event):
+        pass
 
     # EVENTS-STATISTICS
     def _button_search_statistics_clicked(self, event):
@@ -314,15 +333,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.table_devices.setItem(row_position, 6, item)
                 self.devices[row_position]['state'] = 'online'
                 break
-
-    def _get_host_name_ip(self):
-        try:
-            host_name = socket.gethostname()
-            host_ip = socket.gethostbyname(host_name)
-            return host_name, host_ip
-        except:
-            QMessageBox.information('Unable to get Hostname and IP')
-            return None
 
     def _load_devices_info_to_table(self):
         self.devices = self._get_devices_info()

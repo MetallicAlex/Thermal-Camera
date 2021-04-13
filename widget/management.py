@@ -25,7 +25,7 @@ class DBManagement:
     # DEVICES
     def get_devices(self):
         with models.get_session() as session:
-            self._devices = session.query(models.Device)\
+            self._devices = session.query(models.Device) \
                 .all()
             return self._devices
 
@@ -364,6 +364,9 @@ class DeviceManagement:
     @property
     def devices(self):
         return self._devices
+    @devices.setter
+    def devices(self, value):
+        self._devices = value
 
     def add_device(self, device: models.Device):
         self.devices.append(device)
@@ -373,42 +376,50 @@ class DeviceManagement:
 
     def find_devices(self, binding_devices: list = None):
         os.popen('chcp 437')
-        # os.system('chcp 437')
         with os.popen(f'arp -a -N {self.host}') as file:
             data = file.read()
-        for device in re.findall('([-.0-9]+)\s+([-0-9a-f]{17})\s+(\w+)', data):
-            if 'dynamic' in device and self.subnet == device[0][:self.host.rfind('.')]:
-                mac_address = device[1].upper()
-                if binding_devices is None or mac_address not in binding_devices:
-                    self.get_info(device_ip=device[0])
+        interface = re.search('0x[a-f0-9]+', data).group()
+        interface = socket.if_indextoname(int(interface, 16)).split('_')[0]
+        if interface == 'ethernet':
+            for device in re.findall('([-.0-9]+)\s+([-0-9a-f]{17})\s+(\w+)', data):
+                if 'dynamic' in device and self.subnet == device[0][:self.host.rfind('.')]:
+                    mac_address = device[1].upper()
+                    if binding_devices is None or mac_address not in binding_devices:
+                        self.get_info(device_ip=device[0])
+            return 0
+        else:
+            return -1
 
     def get_info(self, device_ip: str):
-        request = requests.get(f'http://{device_ip}:7080/ini.htm',
-                               headers={'Authorization': 'Basic YWRtaW46MTIzNDU='})
-        if request.status_code == 200:
-            for information in request.text.split('<br>'):
-                information = information.split('=')
-                if information[0] == 'getdeviceserial':
-                    identifier = information[1]
-                elif information[0] == 'getdevname':
-                    name = information[1]
-                elif information[0] == 'getdevicetype':
-                    model = information[1]
-                elif information[0] == 'getsoftwareversion':
-                    version = information[1]
-                elif information[0] == 'mac':
-                    mac_address = information[1].replace(':', '-')
-                elif information[0] == 'netip':
-                    ip_address = information[1]
-            device = models.Device(
-                identifier=identifier,
-                name=name,
-                model=model,
-                version=version,
-                mac_address=mac_address,
-                ip_address=ip_address
-            )
-            self.add_device(device)
+        try:
+            request = requests.get(f'http://{device_ip}:7080/ini.htm',
+                                   headers={'Authorization': 'Basic YWRtaW46MTIzNDU='})
+            if request.status_code == 200:
+                for information in request.text.split('<br>'):
+                    information = information.split('=')
+                    if information[0] == 'getdeviceserial':
+                        identifier = information[1]
+                    elif information[0] == 'getdevname':
+                        name = information[1]
+                    elif information[0] == 'getdevicetype':
+                        model = information[1]
+                    elif information[0] == 'getsoftwareversion':
+                        version = information[1]
+                    elif information[0] == 'mac':
+                        mac_address = information[1].replace(':', '-')
+                    elif information[0] == 'netip':
+                        ip_address = information[1]
+                device = models.Device(
+                    identifier=identifier,
+                    name=name,
+                    model=model,
+                    version=version,
+                    mac_address=mac_address,
+                    ip_address=ip_address
+                )
+                self.add_device(device)
+        except requests.exceptions.ConnectionError as e:
+            pass
 
     def find_host_info(self):
         self.host_name = socket.gethostname()

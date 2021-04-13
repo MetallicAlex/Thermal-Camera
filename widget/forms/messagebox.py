@@ -31,10 +31,12 @@ class DepartmentMessageBox(QtWidgets.QDialog, Ui_DepartmentMessageBox):
     def _button_accept_clicked(self, event):
         self.dialog_result = 1
         self.department = self.lineEdit_department.text()
+        self.close()
 
     def _button_cancel_clicked(self, event):
         self.dialog_result = 0
         self.department = None
+        self.close()
 
 
 class WarningMessageBox(QtWidgets.QDialog, Ui_WarningMessageBox):
@@ -62,11 +64,11 @@ class WarningMessageBox(QtWidgets.QDialog, Ui_WarningMessageBox):
 
     def _button_yes_clicked(self, event):
         self.dialog_result = 1
-        self.department = self.lineEdit_department.text()
+        self.close()
 
     def _button_no_clicked(self, event):
         self.dialog_result = 0
-        self.department = None
+        self.close()
 
 
 class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
@@ -93,4 +95,4 @@ class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
 
     def _button_ok_clicked(self, event):
         self.dialog_result = 1
-        self.department = self.lineEdit_department.text()
+        self.close()
