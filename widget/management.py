@@ -364,6 +364,7 @@ class DeviceManagement:
     @property
     def devices(self):
         return self._devices
+
     @devices.setter
     def devices(self, value):
         self._devices = value
@@ -371,8 +372,8 @@ class DeviceManagement:
     def add_device(self, device: models.Device):
         self.devices.append(device)
 
-    def remove_device(self):
-        pass
+    def remove_device(self, device: models.Device):
+        self.devices.remove(device)
 
     def find_devices(self, binding_devices: list = None):
         os.popen('chcp 437')

@@ -85,9 +85,7 @@ class SubscribePlatform(QtCore.QObject):
                 self.record_person_information()
             elif self.data['tag'] == 'bind_control':
                 if 'device_token' in self.data['datas']:
-                    self.token.emit(self.data['datas']['device_token'])
-                else:
-                    self.token.emit('-1')
+                    self.token.emit(f"{self.data['device_id']}_{self.data['datas']['device_token']}")
             elif self.data['tag'] == 'device_info':
                 self.device.emit(self.data)
 

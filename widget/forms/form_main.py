@@ -47,6 +47,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.subscribe_platform.moveToThread(self.thread)
             self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
             self.subscribe_platform.device.connect(self._update_device_info)
+            self.subscribe_platform.token.connect(self._get_token)
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
             self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
@@ -227,6 +228,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.form_devices.exec_()
             if self.form_devices.dialog_result == 0:
                 self.device_management.devices = self.form_devices.devices
+                for device in self.device_management.devices:
+                    self.publish_platform.set_device(device.id)
+                    self.publish_platform.bind_device()
 
     def _button_configure_device_clicked(self, event):
         devices_ip = [self.table_devices.item(row_position, 5).text()
@@ -238,7 +242,32 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             wb.open_new_tab(f'http://{device_ip}:7080')
 
     def _button_delete_device_clicked(self, event):
-        pass
+        devices = [
+            device for row_position, device in enumerate(self.devices)
+            if self.table_devices.item(row_position, 0).checkState()
+        ]
+        for device in devices:
+            if device.online:
+                messagebox = WarningMessageBox()
+                messagebox.setWindowTitle(device.id)
+                messagebox.label_title.setText(device.id)
+                messagebox.label_info.setText('Are you sure want to delete this device?')
+                messagebox.exec_()
+                if messagebox.dialog_result == 0:
+                    self.publish_platform.set_device(device.id, device.token)
+                    self.publish_platform.unbind_device()
+                    self.database_management.remove_devices(device)
+            else:
+                messagebox = WarningMessageBox()
+                messagebox.setWindowTitle(device.id)
+                messagebox.label_title.setText(device.id)
+                messagebox.label_info.setText('This device is not connected.\n'
+                                              'If you delete device now, then you need'
+                                              ' to reset it to factory settings later\n'
+                                              'Are you sure want to delete this device?')
+                messagebox.exec_()
+                if messagebox.dialog_result == 0:
+                    self.database_management.remove_devices(device)
 
     # EVENTS-STATISTICS
     def _button_search_statistics_clicked(self, event):
@@ -303,76 +332,93 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         return data[theme]
 
     # DEVICES
-    def _get_devices_info(self):
-        with open('data/devices.json') as file:
-            data = json.load(file, strict=False)
-        return data
-
     @QtCore.pyqtSlot(dict)
     def _update_device_info(self, data):
-        print('RUN BASIC')
         for row_position in range(self.table_devices.rowCount()):
             if self.table_devices.item(row_position, 3).text() == data['device_id']:
-                self.devices[row_position]['name'] = data['datas']['basic_parameters']['dev_name']
+                self.devices[row_position].name = data['datas']['basic_parameters']['dev_name']
                 item = QTableWidgetItem(data['datas']['basic_parameters']['dev_name'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 1, item)
-                self.devices[row_position]['model'] = data['datas']['version_info']['dev_model']
+                self.devices[row_position].model = data['datas']['version_info']['dev_model']
                 item = QTableWidgetItem(data['datas']['version_info']['dev_model'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 2, item)
                 item = QTableWidgetItem(data['device_id'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 3, item)
-                self.devices[row_position]['ip'] = data['datas']['network_cofnig']['ip_addr']
+                self.devices[row_position].ip_address = data['datas']['network_cofnig']['ip_addr']
                 item = QTableWidgetItem(data['datas']['network_cofnig']['ip_addr'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 5, item)
                 item = QTableWidgetItem('online')
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 6, item)
-                self.devices[row_position]['state'] = 'online'
+                self.devices[row_position].online = True
+                self.database_management.update_device(self.devices[row_position].id, self.devices[row_position])
                 break
 
+    @QtCore.pyqtSlot(str)
+    def _get_token(self, token: str):
+        token = token.split('_')
+        token = token[1]
+        device_id = token[0]
+        for device in self.device_management.devices:
+            if device_id == device.id:
+                device.token = token
+                device.online = True
+                self.database_management.add_devices(device)
+                self.devices.append(device)
+                self.device_management.remove_device(device)
+
     def _load_devices_info_to_table(self):
-        self.devices = self._get_devices_info()
-        state = 'not online'
-        for row_position, device in enumerate(self.devices):
-            self.table_devices.insertRow(row_position)
-            item = QCheckBox()
-            item.setCheckState(Qt.Unchecked)
-            self.table_devices.setCellWidget(row_position, 0, item)
-            item = QTableWidgetItem(device['name'])
-            item.setTextAlignment(Qt.AlignCenter)
-            self.table_devices.setItem(row_position, 2, item)
-            item = QTableWidgetItem(device['serial'])
-            item.setTextAlignment(Qt.AlignCenter)
-            self.table_devices.setItem(row_position, 3, item)
-            item = QTableWidgetItem(device['mac'])
-            item.setTextAlignment(Qt.AlignCenter)
-            self.table_devices.setItem(row_position, 4, item)
-            item = QTableWidgetItem(device['ip'])
-            item.setTextAlignment(Qt.AlignCenter)
-            self.table_devices.setItem(row_position, 5, item)
-            self.devices[row_position]['state'] = state
-            item = QTableWidgetItem(state)
-            item.setTextAlignment(Qt.AlignCenter)
-            self.table_devices.setItem(row_position, 6, item)
-            self.publish_platform.set_device(device['serial'], device['token'])
-            self.publish_platform.get_device_info()
+        for device in self.devices:
+            self._add_device_row(device)
         self.table_devices.resizeColumnToContents(0)
         self.table_devices.resizeColumnToContents(2)
         self.table_devices.resizeColumnToContents(6)
         self.table_devices.resizeRowsToContents()
 
+    def _add_device_row(self, device: models.Device):
+        row_position = self.table_devices.rowCount()
+        print(row_position)
+        self.table_devices.insertRow(row_position)
+        item = QCheckBox()
+        item.setCheckState(Qt.Unchecked)
+        self.table_devices.setCellWidget(row_position, 0, item)
+        item = QTableWidgetItem(device.name)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 1, item)
+        item = QTableWidgetItem(device.model)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 2, item)
+        item = QTableWidgetItem(device.id)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 3, item)
+        item = QTableWidgetItem(device.mac_address)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 4, item)
+        item = QTableWidgetItem(device.ip_address)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 5, item)
+        if device.online:
+            state = 'online'
+        else:
+            state = 'not online'
+        item = QTableWidgetItem(state)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 6, item)
+
     # DATABASE
     def _load_profiles_to_table(self):
-        for row_position, profile in enumerate(self.database_management.get_profiles()):
+        profiles = self.database_management.get_profiles()
+        print(profiles)
+        for row_position, profile in enumerate(profiles):
             self.table_profiles.insertRow(row_position)
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
             self.table_profiles.setCellWidget(row_position, 0, item)
-            self.table_profiles.setItem(row_position, 1, self._get_item_to_cell(profile.id))
+            self.table_profiles.setItem(row_position, 1, QTableWidgetItem(profile.id))
             self.table_profiles.setItem(row_position, 2, self._get_item_image(profile.face))
             self.table_profiles.setItem(row_position, 3, QTableWidgetItem(profile.name))
             self.table_profiles.setItem(row_position, 4, QTableWidgetItem(profile.name_department))

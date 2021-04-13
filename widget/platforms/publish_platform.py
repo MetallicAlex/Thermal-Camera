@@ -90,7 +90,7 @@ class PublishPlatform:
             'mqtt_operate_id': 10,
             'device_token': self.device_token,
             'device_id': self.device_id,
-            'tag': 'bind_control',
+            'tag': 'unbind_control',
             'bind_ctrl': 0
         }
         self._publish_data()
