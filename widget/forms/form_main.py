@@ -259,32 +259,40 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     )
 
     def _button_delete_device_clicked(self, event):
-        devices = [
-            device for row_position, device in enumerate(self.devices)
-            if self.table_devices.cellWidget(row_position, 0).isChecked()
-        ]
-        for device in devices:
-            if device.online:
-                messagebox = WarningMessageBox()
-                messagebox.setWindowTitle(device.id)
-                messagebox.label_title.setText(device.id)
-                messagebox.label_info.setText('Are you sure want to delete this device?')
-                messagebox.exec_()
-                if messagebox.dialog_result == 0:
-                    self.publish_platform.set_device(device.id, device.token)
-                    self.publish_platform.unbind_device()
-                    self.database_management.remove_devices(device)
-            else:
-                messagebox = WarningMessageBox()
-                messagebox.setWindowTitle(device.id)
-                messagebox.label_title.setText(device.id)
-                messagebox.label_info.setText('This device is not connected.\n'
-                                              'If you delete device now, then you need'
-                                              ' to reset it to factory settings later\n'
-                                              'Are you sure want to delete this device?')
-                messagebox.exec_()
-                if messagebox.dialog_result == 0:
-                    self.database_management.remove_devices(device)
+        remove_devices = []
+        remove_rows = []
+        for row_position, device in enumerate(self.devices):
+            if self.table_devices.cellWidget(row_position, 0).isChecked():
+                if device.online:
+                    messagebox = WarningMessageBox()
+                    messagebox.setWindowTitle(device.id)
+                    messagebox.label_title.setText(device.id)
+                    messagebox.label_info.setText('Are you sure want to delete this device?')
+                    messagebox.exec_()
+                    if messagebox.dialog_result == 0:
+                        self.publish_platform.set_device(device.id, device.token)
+                        self.publish_platform.unbind_device()
+                        remove_devices.append(device)
+                        remove_rows.append(row_position)
+                        self.database_management.remove_devices(device.id)
+                else:
+                    messagebox = WarningMessageBox()
+                    messagebox.setWindowTitle(device.id)
+                    messagebox.label_title.setText(device.id)
+                    messagebox.label_info.setText('This device is not connected.\n'
+                                                  'If you delete device now, then you need'
+                                                  ' to reset it to factory settings later\n'
+                                                  'Are you sure want to delete this device?')
+                    messagebox.exec_()
+                    if messagebox.dialog_result == 0:
+                        remove_devices.append(device)
+                        remove_rows.append(row_position)
+                        self.database_management.remove_devices(device.id)
+        for device in remove_devices:
+            self.devices.remove(device)
+        print(sorted(remove_rows, reverse=True))
+        for remove_row in sorted(remove_rows, reverse=True):
+            self.table_devices.removeRow(remove_row)
 
     # EVENTS-STATISTICS
     def _button_search_statistics_clicked(self, event):
@@ -391,15 +399,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot(str)
     def _get_token(self, token: str):
         token = token.split('_')
-        token = token[1]
+        print(token)
         device_id = token[0]
+        token = token[1]
         for device in self.device_management.devices:
             if device_id == device.id:
                 device.token = token
                 device.online = True
+                print(device)
                 self.database_management.add_devices(device)
                 self.devices.append(device)
                 self.device_management.remove_device(device)
+                self._add_device_row(device)
 
     def _load_devices_info_to_table(self):
         for device in self.devices:

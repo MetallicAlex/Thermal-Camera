@@ -10,7 +10,7 @@ class DepartmentMessageBox(QtWidgets.QDialog, Ui_DepartmentMessageBox):
         super().__init__()
         self.setupUi(self)
         # DATA
-        self.dialog_result = 0
+        self.dialog_result = -1
         self.department = None
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())
@@ -29,12 +29,12 @@ class DepartmentMessageBox(QtWidgets.QDialog, Ui_DepartmentMessageBox):
             event.accept()
 
     def _button_accept_clicked(self, event):
-        self.dialog_result = 1
+        self.dialog_result = 0
         self.department = self.lineEdit_department.text()
         self.close()
 
     def _button_cancel_clicked(self, event):
-        self.dialog_result = 0
+        self.dialog_result = -1
         self.department = None
         self.close()
 
@@ -44,7 +44,7 @@ class WarningMessageBox(QtWidgets.QDialog, Ui_WarningMessageBox):
         super().__init__()
         self.setupUi(self)
         # DATA
-        self.dialog_result = 0
+        self.dialog_result = -1
         self.department = None
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())
@@ -63,11 +63,11 @@ class WarningMessageBox(QtWidgets.QDialog, Ui_WarningMessageBox):
             event.accept()
 
     def _button_yes_clicked(self, event):
-        self.dialog_result = 1
+        self.dialog_result = 0
         self.close()
 
     def _button_no_clicked(self, event):
-        self.dialog_result = 0
+        self.dialog_result = -1
         self.close()
 
 
@@ -76,7 +76,7 @@ class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
         super().__init__()
         self.setupUi(self)
         # DATA
-        self.dialog_result = 0
+        self.dialog_result = -1
         self.department = None
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())

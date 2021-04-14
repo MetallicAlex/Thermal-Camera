@@ -42,8 +42,8 @@ class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
     def _button_accept_clicked(self, event):
         self.dialog_result = 0
         self.devices = [
-            device for index, device in enumerate(self.devices)
-            if self.table_devices.item(index, 0).checkState()
+            device for row_position, device in enumerate(self.devices)
+            if self.table_devices.cellWidget(row_position, 0).isChecked()
         ]
         self.close()
 
@@ -70,9 +70,9 @@ class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
             item = QCheckBox()
             item.setCheckState(Qt.Unchecked)
             self.table_devices.setCellWidget(row_position, 0, item)
-            self.table_devices.setItem(row_position, 1, QTableWidgetItem(device.id))
-            self.table_devices.setItem(row_position, 2, QTableWidgetItem(device.name))
-            self.table_devices.setItem(row_position, 3, QTableWidgetItem(device.model))
+            self.table_devices.setItem(row_position, 1, QTableWidgetItem(device.name))
+            self.table_devices.setItem(row_position, 2, QTableWidgetItem(device.model))
+            self.table_devices.setItem(row_position, 3, QTableWidgetItem(device.id))
             self.table_devices.setItem(row_position, 4, QTableWidgetItem(device.mac_address))
             self.table_devices.setItem(row_position, 5, QTableWidgetItem(device.ip_address))
         self.table_devices.resizeColumnToContents(0)
