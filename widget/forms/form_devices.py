@@ -75,6 +75,7 @@ class FormDevices(QtWidgets.QDialog, Ui_FormDevices):
             self.table_devices.setItem(row_position, 3, QTableWidgetItem(device.id))
             self.table_devices.setItem(row_position, 4, QTableWidgetItem(device.mac_address))
             self.table_devices.setItem(row_position, 5, QTableWidgetItem(device.ip_address))
+            self.table_devices.setItem(row_position, 6, QTableWidgetItem('Not Added'))
         self.table_devices.resizeColumnToContents(0)
         self.table_devices.resizeColumnToContents(2)
         self.table_devices.resizeColumnToContents(6)

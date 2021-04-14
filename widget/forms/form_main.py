@@ -4,9 +4,7 @@ import socket
 import datetime
 import time
 from typing import Union
-
 import numpy as np
-import webbrowser as wb
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect, \
@@ -114,6 +112,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_database_clicked(self, event):
         self._update_system_buttons(self.button_database)
+        self.comboBox_databases.clear()
+        self.comboBox_databases.addItems([
+            device.id for device in self.devices if device.online
+        ])
         self.stackedWidget.setCurrentWidget(self.page_database)
 
     def _button_statistic_clicked(self, event):
@@ -181,18 +183,20 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.table_profiles.removeRow(row_position)
 
     def _button_send_device_clicked(self, event):
+        for dev in self.devices:
+            if dev.id == self.comboBox_databases.currentText():
+                device = dev
+                break
+        self.publish_platform.set_device(device.id, device.token)
         if not self.table_profiles.horizontalHeaderItem(0).checkState():
-            profile_ids = [int(self.table_profiles.item(row_position, 1).text())
-                           for row_position in range(self.table_profiles.rowCount())
-                           if self.table_profiles.cellWidget(row_position, 0).isChecked()]
-        for device in self.devices:
-            if device['state'] == 'online':
-                print('online!')
-                self.publish_platform.set_device(device['serial'], device['token'])
-                if not self.table_profiles.horizontalHeaderItem(0).checkState():
-                    self.publish_platform.add_profiles_data(profile_ids)
-                else:
-                    self.publish_platform.add_profiles_data()
+            profile_ids = [
+                self.table_profiles.item(row_position, 1).text()
+                for row_position in range(self.table_profiles.rowCount())
+                if self.table_profiles.cellWidget(row_position, 0).isChecked()
+            ]
+            self.publish_platform.add_profiles_data(profile_ids)
+        else:
+            self.publish_platform.add_profiles_data()
 
     def _button_add_department_clicked(self, event):
         dmsb = DepartmentMessageBox()
