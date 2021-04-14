@@ -290,7 +290,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.database_management.remove_devices(device.id)
         for device in remove_devices:
             self.devices.remove(device)
-        print(sorted(remove_rows, reverse=True))
         for remove_row in sorted(remove_rows, reverse=True):
             self.table_devices.removeRow(remove_row)
 
@@ -399,18 +398,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot(str)
     def _get_token(self, token: str):
         token = token.split('_')
-        print(token)
         device_id = token[0]
         token = token[1]
         for device in self.device_management.devices:
             if device_id == device.id:
                 device.token = token
                 device.online = True
-                print(device)
                 self.database_management.add_devices(device)
                 self.devices.append(device)
                 self.device_management.remove_device(device)
                 self._add_device_row(device)
+                self.publish_platform.set_device(device.id, device.token)
+                self.publish_platform.get_device_info()
 
     def _load_devices_info_to_table(self):
         for device in self.devices:
