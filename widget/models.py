@@ -26,6 +26,17 @@ class Device(Base):
     ip_address = Column('IP-Address', String(32), nullable=True)
     token = Column('Token', String(32), nullable=True)
     _online = False
+    _volume = 0
+    _brightness = 45
+    _light_supplementary = False
+    _temperature_check = True
+    _temperature_alarm = 37.5
+    _temperature_compensation = 0.0
+    _mask_detection = False
+    _stranger_passage = False
+    _record_save = False
+    _record_save_time = -1
+    _save_jpeg = False
 
     def __init__(self, identifier: str,
                  name: str = null(),
@@ -51,6 +62,120 @@ class Device(Base):
     def online(self, value):
         if isinstance(value, bool):
             self._online = value
+
+    @property
+    def volume(self):
+        return self._volume
+
+    @volume.setter
+    def volume(self, value):
+        if isinstance(value, int):
+            if 0 <= value <= 24:
+                self._volume = value
+            else:
+                self._volume = 0
+
+    @property
+    def brightness(self):
+        return self._brightness
+
+    @brightness.setter
+    def brightness(self, value):
+        if isinstance(value, int):
+            if 45 <= value <= 100:
+                self._brightness = value
+            else:
+                self._brightness = 45
+
+    @property
+    def light_supplementary(self):
+        return self._light_supplementary
+
+    @light_supplementary
+    def light_supplementary(self, value):
+        if isinstance(value, bool):
+            self._light_supplementary = value
+
+    @property
+    def temperature_check(self):
+        return self._temperature_check
+
+    @temperature_check.setter
+    def temperature_check(self, value):
+        if isinstance(value, bool):
+            self._temperature_check = value
+
+    @property
+    def temperature_alarm(self):
+        return self._temperature_alarm
+
+    @temperature_alarm.setter
+    def temperature_alarm(self, value):
+        if isinstance(value, float) or isinstance(value, int):
+            if 35.0 <= value <= 40.0:
+                self._temperature_alarm = float(value)
+            else:
+                self._temperature_alarm = 37.5
+
+    @property
+    def temperature_compensation(self):
+        return self._temperature_compensation
+
+    @temperature_compensation.setter
+    def temperature_compensation(self, value):
+        if isinstance(value, float) or isinstance(value, int):
+            if -5.0 <= value <= 5.0:
+                self._temperature_compensation = float(value)
+            else:
+                self._temperature_compensation = 0.0
+
+    @property
+    def mask_detection(self):
+        return self._mask_detection
+
+    @mask_detection.setter
+    def mask_detection(self, value):
+        if isinstance(value, bool):
+            self._mask_detection = value
+
+    @property
+    def stranger_passage(self):
+        return self._stranger_passage
+
+    @stranger_passage.setter
+    def stranger_passage(self, value):
+        if isinstance(value, bool):
+            self._stranger_passage = value
+
+    @property
+    def record_save(self):
+        return self._record_save
+
+    @record_save.setter
+    def record_save(self, value):
+        if isinstance(value, bool):
+            self._record_save = value
+
+    @property
+    def save_jpeg(self):
+        return self._save_jpeg
+
+    @save_jpeg.setter
+    def save_jpeg(self, value):
+        if isinstance(value, bool):
+            self._save_jpeg = value
+
+    @property
+    def record_save_time(self):
+        return self._record_save_time
+
+    @record_save_time.setter
+    def record_save_time(self, value):
+        if isinstance(value, int):
+            if -1 <= value:
+                self._record_save_time = value
+            else:
+                self._record_save_time = -1
 
     def __repr__(self):
         return f'[ID: {self.id}, Name: {self.name}, Model: {self.model}, Version: {self.version},' \

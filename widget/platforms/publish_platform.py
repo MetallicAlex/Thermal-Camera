@@ -268,7 +268,8 @@ class PublishPlatform:
         }
         self._publish_data()
 
-    def update_temperature_configuration(self, temperature_check: bool = True,
+    def update_temperature_configuration(self,
+                                         temperature_check: bool = True,
                                          stranger_passage: bool = False,
                                          mask_detection: bool = False,
                                          alarm_temperature: float = 37.5,
