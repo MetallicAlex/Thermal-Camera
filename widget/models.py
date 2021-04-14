@@ -91,7 +91,7 @@ class Device(Base):
     def light_supplementary(self):
         return self._light_supplementary
 
-    @light_supplementary
+    @light_supplementary.setter
     def light_supplementary(self, value):
         if isinstance(value, bool):
             self._light_supplementary = value

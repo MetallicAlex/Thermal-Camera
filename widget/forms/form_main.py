@@ -17,6 +17,7 @@ from PyQt5.QtCore import Qt
 from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_profile import FormProfile
 from widget.forms.form_devices import FormDevices
+from widget.forms.form_configuration import FormConfiguration
 from widget.forms.messagebox import DepartmentMessageBox, WarningMessageBox, InformationMessageBox
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
@@ -35,6 +36,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # DATA
         self.device_management = DeviceManagement()
         self.device_management.find_host_info()
+        print(self.device_management.host)
         self.device_management.port = 7777
         self.database_management = DBManagement()
         self.devices = self.database_management.get_devices()
@@ -233,18 +235,33 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.publish_platform.bind_device()
 
     def _button_configure_device_clicked(self, event):
-        devices_ip = [self.table_devices.item(row_position, 5).text()
-                      for row_position in range(self.table_devices.rowCount())
-                      if self.table_devices.cellWidget(row_position, 0).isChecked()
-                      and self.table_devices.item(row_position, 6).text() == 'online']
-        print(devices_ip)
-        for device_ip in devices_ip:
-            wb.open_new_tab(f'http://{device_ip}:7080')
+        for row_position, device in enumerate(self.devices):
+            if self.table_devices.cellWidget(row_position, 0).isChecked() and device.online:
+                form_configuration = FormConfiguration(device)
+                form_configuration.exec_()
+                if form_configuration.dialog_result == 0:
+                    self.devices[row_position] = form_configuration.device
+                    self.publish_platform.set_device(device.id, device.token)
+                    self.publish_platform.update_remote_configuration(
+                        volume=device.volume,
+                        screen_brightness=device.brightness,
+                        light_supplementary=device.light_supplementary
+                    )
+                    self.publish_platform.update_temperature_configuration(
+                        temperature_check=device.temperature_check,
+                        stranger_passage=device.stranger_passage,
+                        mask_detection=device.mask_detection,
+                        alarm_temperature=device.temperature_alarm,
+                        temperature_compensation=device.temperature_compensation,
+                        record_save_time=device.record_save_time,
+                        save_record=device.record_save,
+                        save_jpeg=device.save_jpeg
+                    )
 
     def _button_delete_device_clicked(self, event):
         devices = [
             device for row_position, device in enumerate(self.devices)
-            if self.table_devices.item(row_position, 0).checkState()
+            if self.table_devices.cellWidget(row_position, 0).isChecked()
         ]
         for device in devices:
             if device.online:
@@ -355,6 +372,19 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 6, item)
                 self.devices[row_position].online = True
+                # REMOTE CONFIG
+                self.devices[row_position].volume = data['datas']['remote_config']['volume_cur']
+                self.devices[row_position].brightness = data['datas']['remote_config']['screen_brightness_cur']
+                self.devices[row_position].light_supplementary = data['datas']['remote_config']['light_supplementary']
+                # TEMPERATURE CONFIG
+                self.devices[row_position].temperature_check = data['datas']['fun_param']['temp_dec_en']
+                self.devices[row_position].stranger_passage = data['datas']['fun_param']['stranger_pass_en']
+                self.devices[row_position].mask_detection = data['datas']['fun_param']['make_check_en']
+                self.devices[row_position].temperature_alarm = data['datas']['fun_param']['alarm_temp']
+                self.devices[row_position].temperature_compensation = data['datas']['fun_param']['temp_comp']
+                self.devices[row_position].record_save_time = data['datas']['fun_param']['record_save_time']
+                self.devices[row_position].record_save = data['datas']['fun_param']['save_record']
+                self.devices[row_position].save_jpeg = data['datas']['fun_param']['save_jpeg']
                 self.database_management.update_device(self.devices[row_position].id, self.devices[row_position])
                 break
 
@@ -374,6 +404,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _load_devices_info_to_table(self):
         for device in self.devices:
             self._add_device_row(device)
+            self.publish_platform.set_device(device.id, device.token)
+            self.publish_platform.get_device_info()
         self.table_devices.resizeColumnToContents(0)
         self.table_devices.resizeColumnToContents(2)
         self.table_devices.resizeColumnToContents(6)

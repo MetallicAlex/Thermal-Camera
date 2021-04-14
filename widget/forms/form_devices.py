@@ -1,7 +1,3 @@
-import re
-import os
-import socket
-import requests
 import numpy as np
 
 from PyQt5 import QtWidgets, QtGui, QtCore
