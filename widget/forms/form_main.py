@@ -137,28 +137,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_profiles.resizeRowsToContents()
 
     def _button_edit_profile_clicked(self, event):
-        id_profiles = [self.table_profiles.item(row_position, 1).text()
-                       for row_position in range(self.table_profiles.rowCount())
-                       if self.table_profiles.cellWidget(row_position, 0).isChecked()]
-        indexes = [row_position for row_position in range(self.table_profiles.rowCount())
-                   if self.table_profiles.cellWidget(row_position, 0).isChecked()]
-        profiles = self.database_management.get_profiles(*id_profiles)
-        for profile, profile_id, row_position in zip(profiles, id_profiles, indexes):
-            self.form_profile = FormProfile(profile)
-            self.form_profile.exec_()
-            if self.form_profile.dialog_result == 1:
-                self.database_management.edit_profile(profile_id, profile)
-                self.table_profiles.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.profile.id))
-                self.table_profiles.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
-                self.table_profiles.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
-                self.table_profiles.setItem(row_position, 4,
-                                            QTableWidgetItem(self.form_profile.profile.name_department))
-                self.table_profiles.setItem(row_position, 5,
-                                            QTableWidgetItem(str(self.form_profile.profile.gender)))
-                self.table_profiles.setItem(row_position, 6,
-                                            QTableWidgetItem(str(self.form_profile.profile.phone_number)))
-            self.table_profiles.resizeColumnsToContents()
-            self.table_profiles.resizeRowsToContents()
+        for row_position in range(self.table_profiles.rowCount()):
+            if self.table_profiles.cellWidget(row_position, 0).isChecked():
+                profile = self.database_management.get_profile(self.table_profiles.item(row_position, 1).text())
+                form_profile = FormProfile(profile)
+                form_profile.exec_()
+                if form_profile.dialog_result == 0:
+                    self.database_management.update_profile(profile.id, form_profile.profile)
+                    self._add_update_profile_row(row_position, form_profile.profile)
+        self.table_profiles.resizeColumnsToContents()
+        self.table_profiles.resizeRowsToContents()
 
     def _button_delete_profile_clicked(self, event):
         messagebox = WarningMessageBox()
@@ -471,18 +459,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # DATABASE
     def _load_profiles_to_table(self):
+        self.table_profiles.setRowCount(0)
         profiles = self.database_management.get_profiles()
         for row_position, profile in enumerate(profiles):
-            self.table_profiles.insertRow(row_position)
-            item = QCheckBox()
-            item.setCheckState(Qt.Unchecked)
-            self.table_profiles.setCellWidget(row_position, 0, item)
-            self.table_profiles.setItem(row_position, 1, QTableWidgetItem(profile.id))
-            self.table_profiles.setItem(row_position, 2, self._get_item_image(profile.face))
-            self.table_profiles.setItem(row_position, 3, QTableWidgetItem(profile.name))
-            self.table_profiles.setItem(row_position, 4, QTableWidgetItem(profile.name_department))
-            self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
-            self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
+            self._add_update_profile_row(row_position, profile)
             self.comboBox_profiles.addItem(profile.name)
         self.table_profiles.resizeColumnsToContents()
         self.table_profiles.resizeRowsToContents()
@@ -520,7 +500,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.table_statistics.viewport().update()
 
     def _add_update_profile_row(self, row_position: int, profile: models.Profile):
-        self.table_profiles.insertRow(row_position)
+        if row_position > self.table_profiles.rowCount() - 1:
+            self.table_profiles.insertRow(row_position)
         item = QCheckBox()
         item.setCheckState(Qt.Unchecked)
         self.table_profiles.setCellWidget(row_position, 0, item)
@@ -529,7 +510,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_profiles.setItem(row_position, 3, QTableWidgetItem(profile.name))
         self.table_profiles.setItem(row_position, 4, QTableWidgetItem(profile.name_department))
         self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
-        self.table_profiles.setItem(row_position, 6, QTableWidgetItem(profile.phone_number))
+        self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
 
     # STATISTIC
     @QtCore.pyqtSlot(object)

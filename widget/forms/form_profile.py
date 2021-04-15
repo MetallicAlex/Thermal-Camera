@@ -107,9 +107,17 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         self.lineEdit_id.setText(self.profile.id)
         self.lineEdit_name.setText(self.profile.name)
         self.lineEdit_phonenumber.setText(self.profile.phone_number)
-        self.comboBox_gender.setCurrentIndex(self.profile.gender.value - 1)
-        self.comboBox_department.setCurrentText(self.profile.name_department)
-        self.label_photo.setScaledContents(False)
-        pixmap = QPixmap(QImage(f'nginx/html{self.profile.face}'))
-        pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
-        self.label_photo.setPixmap(pixmap)
+        if self.profile.gender is None:
+            self.comboBox_gender.setCurrentIndex(0)
+        else:
+            self.comboBox_gender.setCurrentIndex(self.profile.gender.value)
+        if self.profile.name_department is None:
+            self.comboBox_department.setCurrentIndex(0)
+        else:
+            self.comboBox_department.setCurrentText(self.profile.name_department)
+        if self.profile.face is not None:
+            self.filename = f'nginx/html/{self.profile.face}'
+            self.label_photo.setScaledContents(False)
+            pixmap = QPixmap(QImage(f'nginx/html{self.profile.face}'))
+            pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
+            self.label_photo.setPixmap(pixmap)

@@ -102,13 +102,21 @@ class DBManagement:
             return True
         return False
 
-    def get_profile_name(self, identifier):
+    def get_profile_name(self, identifier: str):
         with models.get_session() as session:
             profile_name = session.query(models.Profile.name) \
                 .filter(models.Profile.id == identifier) \
                 .scalar()
         self._profile_name = profile_name
         return profile_name
+
+    def get_profile(self, identifier: str):
+        with models.get_session() as session:
+            profile = session.query(models.Profile)\
+                .filter(models.Profile.id == identifier)\
+                .scalar()
+        self._profiles = profile
+        return self._profiles
 
     def get_profiles(self, *identifiers: str):
         with models.get_session() as session:
