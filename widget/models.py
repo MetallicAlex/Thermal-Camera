@@ -222,7 +222,7 @@ class Profile(Base):
     name = Column('Name', String(32), primary_key=True, unique=True)
     face = Column('Face', String(64), nullable=True)
     name_department = Column('NameDepartment', String(32),
-                             ForeignKey('departments.Name', onupdate='CASCADE', ondelete='CASCADE'),
+                             ForeignKey('departments.Name', onupdate='CASCADE', ondelete='SET NULL'),
                              nullable=True)
     gender = Column('Gender', Enum(GenderEnum), nullable=True)
     phone_number = Column('PhoneNumber', String(32), nullable=True)

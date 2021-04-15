@@ -1,6 +1,6 @@
 import json
 import os
-import socket
+import subprocess
 import datetime
 import time
 from typing import Union
@@ -199,15 +199,29 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.publish_platform.add_profiles_data()
 
     def _button_add_department_clicked(self, event):
-        dmsb = DepartmentMessageBox()
-        dmsb.exec_()
-        dmsb = InformationMessageBox()
-        dmsb.exec_()
-        dmsb = WarningMessageBox()
-        dmsb.exec_()
+        messagebox = DepartmentMessageBox()
+        messagebox.exec_()
+        if messagebox.dialog_result == 0:
+            row_position = self.table_departments.rowCount()
+            self.table_departments.insertRow(row_position)
+            item = QCheckBox()
+            item.setCheckState(Qt.Unchecked)
+            self.table_departments.setCellWidget(row_position, 0, item)
+            self.table_departments.setItem(row_position, 1, QTableWidgetItem(messagebox.department))
+            self.database_management.add_departments(messagebox.department)
 
     def _button_delete_department_clicked(self, event):
-        pass
+        messagebox = WarningMessageBox()
+        messagebox.label_title.setText('Warning - Department')
+        messagebox.label_info.setText('Are you sure you want to delete departments?')
+        messagebox.exec_()
+        if messagebox.dialog_result == 0:
+            remove_departments = []
+            for row_position in range(self.table_departments.rowCount() - 1, 0, -1):
+                if self.table_departments.cellWidget(row_position, 0).isChecked():
+                    remove_departments.append(self.table_departments.item(row_position, 1).text())
+                    self.table_departments.removeRow(row_position)
+            self.database_management.remove_departments(*remove_departments)
 
     def _button_add_profiles_group_clicked(self, event):
         pass
@@ -552,18 +566,21 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         icon = QtGui.QIcon()
         if checked:
             icon.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-check-circle.png"),
-                             QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                           QtGui.QIcon.Normal, QtGui.QIcon.Off)
             item.setCheckState(Qt.Checked)
         else:
             icon.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"),
-                             QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                           QtGui.QIcon.Normal, QtGui.QIcon.Off)
             item.setCheckState(Qt.Unchecked)
         item.setIcon(icon)
         table.setHorizontalHeaderItem(0, item)
 
     # NGINX
     def start_nginx(self):
-        os.system('nginx\\nginx.exe')
+        path = os.path.abspath('nginx')
+        print(path)
+        subprocess.run([f"{path}\\start", "nginx"])
+        # os.system(f'{path}\\start nginx')
 
     def quit_nginx(self):
         os.system('nginx\\nginx.exe -s quit')
