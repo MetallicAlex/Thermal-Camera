@@ -83,6 +83,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
         self.button_add_profiles_group.clicked.connect(self._button_add_profiles_group_clicked)
         self.button_add_profile_images.clicked.connect(self._button_add_profile_images_clicked)
+        self.button_create_pattern.clicked.connect(self._button_create_pattern_clicked)
+        self.button_device_database_view.clicked.connect(self._button_device_database_view_clicked)
         self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         # PAGE STATISTIC
@@ -226,6 +228,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_add_profile_images_clicked(self, event):
         pass
+
+    def _button_device_database_view_clicked(self, event):
+        pass
+
+    def _button_create_pattern_clicked(self, event):
+        filename, _ = QFileDialog.getSaveFileName(self, 'Save Pattern', '', 'CSV File (*.csv)')
+        if filename:
+            self.database_management.create_profiles_pattern(filename)
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
