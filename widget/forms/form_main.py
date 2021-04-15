@@ -38,7 +38,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.device_management.port = 7777
         self.database_management = DBManagement()
         self.devices = self.database_management.get_devices()
-        self.form_profile = FormProfile()
         self.theme = self._get_theme('dark theme')
         if self.device_management.host is not None:
             self.subscribe_platform = SubscribePlatform()
@@ -128,21 +127,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-DATABASE
     def _button_add_profile_clicked(self, event):
-        self.form_profile = FormProfile()
-        self.form_profile.exec_()
-        if self.form_profile.dialog_result == 1:
-            self.database_management.add_profiles(self.form_profile.profile)
+        form_profile = FormProfile()
+        form_profile.exec_()
+        if form_profile.dialog_result == 0:
+            self.database_management.add_profiles(form_profile.profile)
             row_position = self.table_profiles.rowCount()
-            self.table_profiles.insertRow(row_position)
-            item = QCheckBox()
-            item.setCheckState(Qt.Unchecked)
-            self.table_profiles.setCellWidget(row_position, 0, item)
-            self.table_profiles.setItem(row_position, 1, self._get_item_to_cell(self.form_profile.profile.id))
-            self.table_profiles.setItem(row_position, 2, self._get_item_image(self.form_profile.profile.face))
-            self.table_profiles.setItem(row_position, 3, QTableWidgetItem(self.form_profile.profile.name))
-            self.table_profiles.setItem(row_position, 4, QTableWidgetItem(self.form_profile.profile.name_department))
-            self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(self.form_profile.profile.gender)))
-            self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(self.form_profile.profile.phone_number)))
+            self._add_update_profile_row(row_position, form_profile.profile)
             self.table_profiles.resizeColumnsToContents()
             self.table_profiles.resizeRowsToContents()
 
@@ -482,7 +472,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # DATABASE
     def _load_profiles_to_table(self):
         profiles = self.database_management.get_profiles()
-        print(profiles)
         for row_position, profile in enumerate(profiles):
             self.table_profiles.insertRow(row_position)
             item = QCheckBox()
@@ -529,6 +518,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_statistics.resizeColumnsToContents()
         self.table_statistics.resizeRowsToContents()
         # self.table_statistics.viewport().update()
+
+    def _add_update_profile_row(self, row_position: int, profile: models.Profile):
+        self.table_profiles.insertRow(row_position)
+        item = QCheckBox()
+        item.setCheckState(Qt.Unchecked)
+        self.table_profiles.setCellWidget(row_position, 0, item)
+        self.table_profiles.setItem(row_position, 1, QTableWidgetItem(profile.id))
+        self.table_profiles.setItem(row_position, 2, self._get_item_image(profile.face))
+        self.table_profiles.setItem(row_position, 3, QTableWidgetItem(profile.name))
+        self.table_profiles.setItem(row_position, 4, QTableWidgetItem(profile.name_department))
+        self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
+        self.table_profiles.setItem(row_position, 6, QTableWidgetItem(profile.phone_number))
 
     # STATISTIC
     @QtCore.pyqtSlot(object)

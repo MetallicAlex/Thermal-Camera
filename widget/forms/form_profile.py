@@ -5,7 +5,7 @@ from PyQt5.QtGui import QPixmap, QImage
 
 from widget.management import DBManagement
 from widget.models import Profile
-from widget.forms.messagebox import WarningMessageBox
+from widget.forms.messagebox import WarningMessageBox, InformationMessageBox
 from widget.forms.form_profile_designer import Ui_FormProfile
 
 
@@ -16,11 +16,12 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         # DATA
         self.dialog_result = -1
         self.profile = profile
+        self.filename = None
         self.database_management = DBManagement()
         # SETTINGS
         self._set_departments()
         if self.profile is not None:
-            self._set_employee_data()
+            self._set_profile_data()
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())
         self.button_accept.clicked.connect(self._button_accept_clicked)
@@ -52,25 +53,43 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         else:
             pixmap = QPixmap(QImage(self.filename))
             pixmap.save(f'nginx/html/static/images/{self.lineEdit_name.text()}.jpg')
-        if self.profile is None:
-            if self.database_management.exists_profile(self.lineEdit_id.text()):
-                pass
-        self.profile = Profile(identifier=self.lineEdit_id.text(),
-                               name=self.lineEdit_name.text(),
-                               name_department=self.comboBox_department.currentText(),
-                               face=f'/static/images/{self.lineEdit_name.text()}.jpg',
-                               gender=self.comboBox_gender.currentText(),
-                               phone_number=self.lineEdit_phonenumber.text())
-        self.close()
+        identifier = self.lineEdit_id.text()
+        if self.database_management.exists_profile(identifier) and (
+                (self.profile is None) or (self.profile is not None and self.profile.id != identifier)):
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Information - ID')
+            messagebox.label_info.setText(f'ID {self.lineEdit_id.text()} already exists.\n'
+                                          f'Enter another ID.')
+            messagebox.exec_()
+        else:
+            if self.lineEdit_name.text() == '':
+                messagebox = InformationMessageBox()
+                messagebox.label_title.setText('Information - Name')
+                messagebox.label_info.setText(f'Enter profile name.')
+                messagebox.exec_()
+            else:
+                self.profile = Profile(
+                    identifier=self.lineEdit_id.text(),
+                    name=self.lineEdit_name.text(),
+                    face=f'/static/images/{self.lineEdit_name.text()}.jpg'
+                )
+                if self.comboBox_department.currentText() != 'Not Selected':
+                    self.profile.name_department = self.comboBox_department.currentText()
+                if self.comboBox_gender.currentText() != 'Not Selected':
+                    self.profile.gender = self.comboBox_gender.currentText()
+                if self.lineEdit_phonenumber.text() != '':
+                    self.profile.phone_number = self.lineEdit_phonenumber.text()
+                self.close()
 
     def _button_cancel_clicked(self, event):
         self.dialog_result = -1
         self.close()
 
     def _button_choose_file_clicked(self, event):
-        self.filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Choose File', '',
-                                                                  'Image File (*.bmp | *.jpg | *.jpeg | *.png);;'
-                                                                  'All Files (*)')
+        self.filename, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self, 'Choose File', '',
+            'Image File (*.bmp | *.jpg | *.jpeg | *.jfif | *.png);;'
+        )
         if self.filename:
             self.label_photo.setScaledContents(False)
             pixmap = QPixmap(QImage(self.filename))
@@ -84,7 +103,7 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         ]
         self.comboBox_department.addItems(departments)
 
-    def _set_employee_data(self):
+    def _set_profile_data(self):
         self.lineEdit_id.setText(self.profile.id)
         self.lineEdit_name.setText(self.profile.name)
         self.lineEdit_phonenumber.setText(self.profile.phone_number)
