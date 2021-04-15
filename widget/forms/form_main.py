@@ -16,6 +16,7 @@ from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_profile import FormProfile
 from widget.forms.form_devices import FormDevices
 from widget.forms.form_configuration import FormConfiguration
+from widget.forms.form_device_database_view import FormDeviceDBView
 from widget.forms.messagebox import DepartmentMessageBox, WarningMessageBox, InformationMessageBox
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
@@ -230,7 +231,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         pass
 
     def _button_device_database_view_clicked(self, event):
-        pass
+        form_device_db_view = FormDeviceDBView()
+        form_device_db_view.exec_()
 
     def _button_create_pattern_clicked(self, event):
         filename, _ = QFileDialog.getSaveFileName(self, 'Save Pattern', '', 'CSV File (*.csv)')
