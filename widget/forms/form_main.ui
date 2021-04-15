@@ -1121,7 +1121,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -1378,7 +1378,7 @@ QHeaderView::section:vertical
                 <bool>false</bool>
                </property>
                <property name="selectionMode">
-                <enum>QAbstractItemView::SingleSelection</enum>
+                <enum>QAbstractItemView::NoSelection</enum>
                </property>
                <property name="selectionBehavior">
                 <enum>QAbstractItemView::SelectRows</enum>
@@ -2651,7 +2651,7 @@ QPushButton:pressed {
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
               </widget>
-              <widget class="QPushButton" name="button_add_profiles_group">
+              <widget class="QPushButton" name="button_create_pattern">
                <property name="geometry">
                 <rect>
                  <x>800</x>
@@ -2684,17 +2684,57 @@ QPushButton:pressed {
 }</string>
                </property>
                <property name="text">
-                <string>Add Profiles Group</string>
+                <string>Create Pattern</string>
                </property>
                <property name="icon">
                 <iconset resource="../files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</iconset>
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-library-add.png</normaloff>:/16x16/data/resources/icons/16x16/cil-library-add.png</iconset>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="button_device_database_view">
+               <property name="geometry">
+                <rect>
+                 <x>800</x>
+                 <y>50</y>
+                 <width>150</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 2px solid rgb(52, 59, 72);
+	border-radius: 10px;	
+	background-color: rgb(52, 59, 72);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(57, 65, 80);
+	color: rgb(227, 227, 227);
+	border: 2px solid rgb(61, 70, 86);
+}
+QPushButton:pressed {	
+	background-color: rgb(35, 40, 49);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(43, 50, 61);
+}</string>
+               </property>
+               <property name="text">
+                <string>Database View</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-user.png</normaloff>:/16x16/data/resources/icons/16x16/cil-user.png</iconset>
                </property>
               </widget>
               <widget class="QPushButton" name="button_add_profile_images">
                <property name="geometry">
                 <rect>
-                 <x>800</x>
+                 <x>960</x>
                  <y>50</y>
                  <width>150</width>
                  <height>30</height>
@@ -2729,6 +2769,46 @@ QPushButton:pressed {
                <property name="icon">
                 <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-image-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-image-plus.png</iconset>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="button_add_profiles_group">
+               <property name="geometry">
+                <rect>
+                 <x>960</x>
+                 <y>10</y>
+                 <width>150</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border: 2px solid rgb(52, 59, 72);
+	border-radius: 10px;	
+	background-color: rgb(52, 59, 72);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(57, 65, 80);
+	color: rgb(227, 227, 227);
+	border: 2px solid rgb(61, 70, 86);
+}
+QPushButton:pressed {	
+	background-color: rgb(35, 40, 49);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(43, 50, 61);
+}</string>
+               </property>
+               <property name="text">
+                <string>Add Profiles Group</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</iconset>
                </property>
               </widget>
              </widget>
@@ -3432,38 +3512,6 @@ QPushButton:pressed {
                 </property>
                 <property name="text">
                  <string>MetallicAlex</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="frame_size_grip">
-                <property name="minimumSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="contextMenuPolicy">
-                 <enum>Qt::DefaultContextMenu</enum>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QSizeGrip {
-	background-image: url(:/16x16/data/resources/icons/16x16/cil-size-grip.png);
-	background-position: center;
-	background-repeat: no-reperat;
-}</string>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
                 </property>
                </widget>
               </item>

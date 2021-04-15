@@ -793,7 +793,7 @@ class Ui_MainWindow(object):
         self.table_devices.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.table_devices.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.table_devices.setAlternatingRowColors(False)
-        self.table_devices.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.table_devices.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.table_devices.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_devices.setTextElideMode(QtCore.Qt.ElideMiddle)
         self.table_devices.setRowCount(0)
@@ -1442,12 +1442,12 @@ class Ui_MainWindow(object):
         self.label_2.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.label_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_2.setObjectName("label_2")
-        self.button_add_profiles_group = QtWidgets.QPushButton(self.page_database)
-        self.button_add_profiles_group.setGeometry(QtCore.QRect(800, 10, 150, 30))
+        self.button_create_pattern = QtWidgets.QPushButton(self.page_database)
+        self.button_create_pattern.setGeometry(QtCore.QRect(800, 10, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        self.button_add_profiles_group.setFont(font)
-        self.button_add_profiles_group.setStyleSheet("QPushButton {\n"
+        self.button_create_pattern.setFont(font)
+        self.button_create_pattern.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
@@ -1464,11 +1464,36 @@ class Ui_MainWindow(object):
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
         icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-notes.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_add_profiles_group.setIcon(icon13)
-        self.button_add_profiles_group.setObjectName("button_add_profiles_group")
+        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-library-add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_create_pattern.setIcon(icon13)
+        self.button_create_pattern.setObjectName("button_create_pattern")
+        self.button_device_database_view = QtWidgets.QPushButton(self.page_database)
+        self.button_device_database_view.setGeometry(QtCore.QRect(800, 50, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_device_database_view.setFont(font)
+        self.button_device_database_view.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon14 = QtGui.QIcon()
+        icon14.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-user.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_device_database_view.setIcon(icon14)
+        self.button_device_database_view.setObjectName("button_device_database_view")
         self.button_add_profile_images = QtWidgets.QPushButton(self.page_database)
-        self.button_add_profile_images.setGeometry(QtCore.QRect(800, 50, 150, 30))
+        self.button_add_profile_images.setGeometry(QtCore.QRect(960, 50, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         self.button_add_profile_images.setFont(font)
@@ -1488,10 +1513,35 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_add_profile_images.setIcon(icon14)
+        icon15 = QtGui.QIcon()
+        icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_add_profile_images.setIcon(icon15)
         self.button_add_profile_images.setObjectName("button_add_profile_images")
+        self.button_add_profiles_group = QtWidgets.QPushButton(self.page_database)
+        self.button_add_profiles_group.setGeometry(QtCore.QRect(960, 10, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        self.button_add_profiles_group.setFont(font)
+        self.button_add_profiles_group.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    border-radius: 10px;    \n"
+"    background-color: rgb(52, 59, 72);\n"
+"    color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: rgb(35, 40, 49);\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        icon16 = QtGui.QIcon()
+        icon16.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-notes.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_add_profiles_group.setIcon(icon16)
+        self.button_add_profiles_group.setObjectName("button_add_profiles_group")
         self.stackedWidget.addWidget(self.page_database)
         self.page_statistic = QtWidgets.QWidget()
         self.page_statistic.setObjectName("page_statistic")
@@ -1769,9 +1819,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon15 = QtGui.QIcon()
-        icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_person_plot.setIcon(icon15)
+        icon17 = QtGui.QIcon()
+        icon17.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_person_plot.setIcon(icon17)
         self.button_person_plot.setObjectName("button_person_plot")
         self.button_all_statistic = QtWidgets.QPushButton(self.page_statistic)
         self.button_all_statistic.setGeometry(QtCore.QRect(140, 130, 120, 30))
@@ -1795,9 +1845,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon16 = QtGui.QIcon()
-        icon16.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_all_statistic.setIcon(icon16)
+        icon18 = QtGui.QIcon()
+        icon18.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_all_statistic.setIcon(icon18)
         self.button_all_statistic.setObjectName("button_all_statistic")
         self.button_report = QtWidgets.QPushButton(self.page_statistic)
         self.button_report.setGeometry(QtCore.QRect(510, 10, 120, 30))
@@ -1821,7 +1871,7 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        self.button_report.setIcon(icon13)
+        self.button_report.setIcon(icon16)
         self.button_report.setObjectName("button_report")
         self.button_strangers_statistic = QtWidgets.QPushButton(self.page_statistic)
         self.button_strangers_statistic.setGeometry(QtCore.QRect(270, 130, 140, 30))
@@ -1845,9 +1895,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        icon17 = QtGui.QIcon()
-        icon17.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart-pie.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_strangers_statistic.setIcon(icon17)
+        icon19 = QtGui.QIcon()
+        icon19.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart-pie.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_strangers_statistic.setIcon(icon19)
         self.button_strangers_statistic.setObjectName("button_strangers_statistic")
         self.stackedWidget.addWidget(self.page_statistic)
         self.page_settings = QtWidgets.QWidget()
@@ -1873,26 +1923,13 @@ class Ui_MainWindow(object):
         self.label_statusbar.setFont(font)
         self.label_statusbar.setObjectName("label_statusbar")
         self.horizontalLayout_4.addWidget(self.label_statusbar)
-        self.frame_size_grip = QtWidgets.QFrame(self.frame_statusbar)
-        self.frame_size_grip.setMinimumSize(QtCore.QSize(25, 25))
-        self.frame_size_grip.setMaximumSize(QtCore.QSize(25, 25))
-        self.frame_size_grip.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        self.frame_size_grip.setStyleSheet("QSizeGrip {\n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-size-grip.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-"}")
-        self.frame_size_grip.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_size_grip.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_size_grip.setObjectName("frame_size_grip")
-        self.horizontalLayout_4.addWidget(self.frame_size_grip)
         self.verticalLayout_2.addWidget(self.frame_statusbar)
         self.horizontalLayout.addWidget(self.frame_contains)
         self.verticalLayout.addWidget(self.frame_center)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1943,8 +1980,10 @@ class Ui_MainWindow(object):
         self.button_add_department.setText(_translate("MainWindow", "Add"))
         self.label.setText(_translate("MainWindow", "Profiles DB"))
         self.label_2.setText(_translate("MainWindow", "Departments DB"))
-        self.button_add_profiles_group.setText(_translate("MainWindow", "Add Profiles Group"))
+        self.button_create_pattern.setText(_translate("MainWindow", "Create Pattern"))
+        self.button_device_database_view.setText(_translate("MainWindow", "Database View"))
         self.button_add_profile_images.setText(_translate("MainWindow", "Add Profile Images"))
+        self.button_add_profiles_group.setText(_translate("MainWindow", "Add Profiles Group"))
         self.label_statistic_day.setText(_translate("MainWindow", "TextLabel"))
         self.label_statistic_all_days.setText(_translate("MainWindow", "TextLabel"))
         self.table_statistics.setSortingEnabled(True)
@@ -1972,4 +2011,3 @@ class Ui_MainWindow(object):
         self.button_report.setText(_translate("MainWindow", "Report"))
         self.button_strangers_statistic.setText(_translate("MainWindow", "Strangers Statistic"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
-import files_rc

@@ -34,7 +34,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # DATA
         self.device_management = DeviceManagement()
         self.device_management.find_host_info()
-        print(self.device_management.host)
         self.device_management.port = 7777
         self.database_management = DBManagement()
         self.devices = self.database_management.get_devices()
@@ -63,8 +62,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
         self.button_close.clicked.connect(lambda: self.close())
         self.button_minimize.clicked.connect(lambda: self.showMinimized())
-        self.sizegrip = QSizeGrip(self.frame_size_grip)
-        self.sizegrip.setStyleSheet("width: 20px; height: 20px; margin 0px; padding: 0px;")
         self.frame_header.mouseMoveEvent = self._frame_header_move_window
         self.frame_header.mousePressEvent = self._frame_header_mouse_press
         # MENU BUTTONS
