@@ -14,16 +14,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_FormProfile(object):
     def setupUi(self, FormProfile):
         FormProfile.setObjectName("FormProfile")
-        FormProfile.resize(510, 730)
-        FormProfile.setMaximumSize(QtCore.QSize(510, 730))
+        FormProfile.resize(510, 750)
+        FormProfile.setMaximumSize(QtCore.QSize(510, 750))
         FormProfile.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         font = QtGui.QFont()
         font.setPointSize(8)
         FormProfile.setFont(font)
         FormProfile.setStyleSheet("background: transparent;\n"
-"color: rgb(210, 210, 210);")
+                                  "color: rgb(210, 210, 210);")
         self.frame_border = QtWidgets.QFrame(FormProfile)
-        self.frame_border.setGeometry(QtCore.QRect(0, 0, 510, 730))
+        self.frame_border.setGeometry(QtCore.QRect(0, 0, 510, 750))
         self.frame_border.setStyleSheet("background-color: rgb(27, 29, 35);")
         self.frame_border.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_border.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -33,213 +33,213 @@ class Ui_FormProfile(object):
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.frame_main = QtWidgets.QFrame(self.frame_border)
-        self.frame_main.setMinimumSize(QtCore.QSize(500, 720))
+        self.frame_main.setMinimumSize(QtCore.QSize(500, 740))
         self.frame_main.setMaximumSize(QtCore.QSize(500, 16777215))
         self.frame_main.setStyleSheet("/* LINE EDIT */\n"
-"QLineEdit {\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid rgb(91, 101, 124);\n"
-"}\n"
-"\n"
-"/* SCROLL BARS */\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: rgb(52, 59, 72);\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"    border-radius: 0px;\n"
-"}\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: rgb(85, 170, 255);\n"
-"    min-width: 25px;\n"
-"    border-radius: 7px\n"
-"}\n"
-"QScrollBar::add-line:horizontal {\n"
-"    border: none;\n"
-"    background: rgb(55, 63, 77);\n"
-"    width: 20px;\n"
-"    border-top-right-radius: 7px;\n"
-"    border-bottom-right-radius: 7px;\n"
-"    subcontrol-position: right;\n"
-"    subcontrol-origin: margin;\n"
-"}\n"
-"QScrollBar::sub-line:horizontal {\n"
-"    border: none;\n"
-"    background: rgb(55, 63, 77);\n"
-"    width: 20px;\n"
-"    border-top-left-radius: 7px;\n"
-"    border-bottom-left-radius: 7px;\n"
-"    subcontrol-position: left;\n"
-"    subcontrol-origin: margin;\n"
-"}\n"
-"QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal\n"
-"{\n"
-"     background: none;\n"
-"}\n"
-"QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal\n"
-"{\n"
-"     background: none;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: rgb(52, 59, 72);\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"    border-radius: 0px;\n"
-" }\n"
-" QScrollBar::handle:vertical {    \n"
-"    background: rgb(85, 170, 255);\n"
-"    min-height: 25px;\n"
-"    border-radius: 7px\n"
-" }\n"
-" QScrollBar::add-line:vertical {\n"
-"     border: none;\n"
-"    background: rgb(55, 63, 77);\n"
-"     height: 20px;\n"
-"    border-bottom-left-radius: 7px;\n"
-"    border-bottom-right-radius: 7px;\n"
-"     subcontrol-position: bottom;\n"
-"     subcontrol-origin: margin;\n"
-" }\n"
-" QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: rgb(55, 63, 77);\n"
-"     height: 20px;\n"
-"    border-top-left-radius: 7px;\n"
-"    border-top-right-radius: 7px;\n"
-"     subcontrol-position: top;\n"
-"     subcontrol-origin: margin;\n"
-" }\n"
-" QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {\n"
-"     background: none;\n"
-" }\n"
-"\n"
-" QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
-"     background: none;\n"
-" }\n"
-"\n"
-"/* CHECKBOX */\n"
-"QCheckBox::indicator {\n"
-"    border: 3px solid rgb(52, 59, 72);\n"
-"    width: 15px;\n"
-"    height: 15px;\n"
-"    border-radius: 10px;\n"
-"    background: rgb(44, 49, 60);\n"
-"}\n"
-"QCheckBox::indicator:hover {\n"
-"    border: 3px solid rgb(58, 66, 81);\n"
-"}\n"
-"QCheckBox::indicator:checked {\n"
-"    background: 3px solid rgb(52, 59, 72);\n"
-"    border: 3px solid rgb(52, 59, 72);    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);\n"
-"}\n"
-"\n"
-"/* RADIO BUTTON */\n"
-"QRadioButton::indicator {\n"
-"    border: 3px solid rgb(52, 59, 72);\n"
-"    width: 15px;\n"
-"    height: 15px;\n"
-"    border-radius: 10px;\n"
-"    background: rgb(44, 49, 60);\n"
-"}\n"
-"QRadioButton::indicator:hover {\n"
-"    border: 3px solid rgb(58, 66, 81);\n"
-"}\n"
-"QRadioButton::indicator:checked {\n"
-"    background: 3px solid rgb(94, 106, 130);\n"
-"    border: 3px solid rgb(52, 59, 72);    \n"
-"}\n"
-"\n"
-"/* COMBOBOX */\n"
-"QComboBox{\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: rgba(39, 44, 54, 150);\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QComboBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}\n"
-"\n"
-"/* SLIDERS */\n"
-"QSlider::groove:horizontal {\n"
-"    border-radius: 9px;\n"
-"    height: 18px;\n"
-"    margin: 0px;\n"
-"    background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QSlider::groove:horizontal:hover {\n"
-"    background-color: rgb(55, 62, 76);\n"
-"}\n"
-"QSlider::handle:horizontal {\n"
-"    background-color: rgb(85, 170, 255);\n"
-"    border: none;\n"
-"    height: 18px;\n"
-"    width: 18px;\n"
-"    margin: 0px;\n"
-"    border-radius: 9px;\n"
-"}\n"
-"QSlider::handle:horizontal:hover {\n"
-"    background-color: rgb(105, 180, 255);\n"
-"}\n"
-"QSlider::handle:horizontal:pressed {\n"
-"    background-color: rgb(65, 130, 195);\n"
-"}\n"
-"\n"
-"QSlider::groove:vertical {\n"
-"    border-radius: 9px;\n"
-"    width: 18px;\n"
-"    margin: 0px;\n"
-"    background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QSlider::groove:vertical:hover {\n"
-"    background-color: rgb(55, 62, 76);\n"
-"}\n"
-"QSlider::handle:vertical {\n"
-"    background-color: rgb(85, 170, 255);\n"
-"    border: none;\n"
-"    height: 18px;\n"
-"    width: 18px;\n"
-"    margin: 0px;\n"
-"    border-radius: 9px;\n"
-"}\n"
-"QSlider::handle:vertical:hover {\n"
-"    background-color: rgb(105, 180, 255);\n"
-"}\n"
-"QSlider::handle:vertical:pressed {\n"
-"    background-color: rgb(65, 130, 195);\n"
-"}\n"
-"\n"
-"")
+                                      "QLineEdit {\n"
+                                      "    background-color: rgb(27, 29, 35);\n"
+                                      "    border-radius: 5px;\n"
+                                      "    border: 2px solid rgb(27, 29, 35);\n"
+                                      "    padding-left: 10px;\n"
+                                      "}\n"
+                                      "QLineEdit:hover {\n"
+                                      "    border: 2px solid rgb(64, 71, 88);\n"
+                                      "}\n"
+                                      "QLineEdit:focus {\n"
+                                      "    border: 2px solid rgb(91, 101, 124);\n"
+                                      "}\n"
+                                      "\n"
+                                      "/* SCROLL BARS */\n"
+                                      "QScrollBar:horizontal {\n"
+                                      "    border: none;\n"
+                                      "    background: rgb(52, 59, 72);\n"
+                                      "    height: 14px;\n"
+                                      "    margin: 0px 21px 0 21px;\n"
+                                      "    border-radius: 0px;\n"
+                                      "}\n"
+                                      "QScrollBar::handle:horizontal {\n"
+                                      "    background: rgb(85, 170, 255);\n"
+                                      "    min-width: 25px;\n"
+                                      "    border-radius: 7px\n"
+                                      "}\n"
+                                      "QScrollBar::add-line:horizontal {\n"
+                                      "    border: none;\n"
+                                      "    background: rgb(55, 63, 77);\n"
+                                      "    width: 20px;\n"
+                                      "    border-top-right-radius: 7px;\n"
+                                      "    border-bottom-right-radius: 7px;\n"
+                                      "    subcontrol-position: right;\n"
+                                      "    subcontrol-origin: margin;\n"
+                                      "}\n"
+                                      "QScrollBar::sub-line:horizontal {\n"
+                                      "    border: none;\n"
+                                      "    background: rgb(55, 63, 77);\n"
+                                      "    width: 20px;\n"
+                                      "    border-top-left-radius: 7px;\n"
+                                      "    border-bottom-left-radius: 7px;\n"
+                                      "    subcontrol-position: left;\n"
+                                      "    subcontrol-origin: margin;\n"
+                                      "}\n"
+                                      "QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal\n"
+                                      "{\n"
+                                      "     background: none;\n"
+                                      "}\n"
+                                      "QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal\n"
+                                      "{\n"
+                                      "     background: none;\n"
+                                      "}\n"
+                                      " QScrollBar:vertical {\n"
+                                      "    border: none;\n"
+                                      "    background: rgb(52, 59, 72);\n"
+                                      "    width: 14px;\n"
+                                      "    margin: 21px 0 21px 0;\n"
+                                      "    border-radius: 0px;\n"
+                                      " }\n"
+                                      " QScrollBar::handle:vertical {    \n"
+                                      "    background: rgb(85, 170, 255);\n"
+                                      "    min-height: 25px;\n"
+                                      "    border-radius: 7px\n"
+                                      " }\n"
+                                      " QScrollBar::add-line:vertical {\n"
+                                      "     border: none;\n"
+                                      "    background: rgb(55, 63, 77);\n"
+                                      "     height: 20px;\n"
+                                      "    border-bottom-left-radius: 7px;\n"
+                                      "    border-bottom-right-radius: 7px;\n"
+                                      "     subcontrol-position: bottom;\n"
+                                      "     subcontrol-origin: margin;\n"
+                                      " }\n"
+                                      " QScrollBar::sub-line:vertical {\n"
+                                      "    border: none;\n"
+                                      "    background: rgb(55, 63, 77);\n"
+                                      "     height: 20px;\n"
+                                      "    border-top-left-radius: 7px;\n"
+                                      "    border-top-right-radius: 7px;\n"
+                                      "     subcontrol-position: top;\n"
+                                      "     subcontrol-origin: margin;\n"
+                                      " }\n"
+                                      " QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {\n"
+                                      "     background: none;\n"
+                                      " }\n"
+                                      "\n"
+                                      " QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+                                      "     background: none;\n"
+                                      " }\n"
+                                      "\n"
+                                      "/* CHECKBOX */\n"
+                                      "QCheckBox::indicator {\n"
+                                      "    border: 3px solid rgb(52, 59, 72);\n"
+                                      "    width: 15px;\n"
+                                      "    height: 15px;\n"
+                                      "    border-radius: 10px;\n"
+                                      "    background: rgb(44, 49, 60);\n"
+                                      "}\n"
+                                      "QCheckBox::indicator:hover {\n"
+                                      "    border: 3px solid rgb(58, 66, 81);\n"
+                                      "}\n"
+                                      "QCheckBox::indicator:checked {\n"
+                                      "    background: 3px solid rgb(52, 59, 72);\n"
+                                      "    border: 3px solid rgb(52, 59, 72);    \n"
+                                      "    background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);\n"
+                                      "}\n"
+                                      "\n"
+                                      "/* RADIO BUTTON */\n"
+                                      "QRadioButton::indicator {\n"
+                                      "    border: 3px solid rgb(52, 59, 72);\n"
+                                      "    width: 15px;\n"
+                                      "    height: 15px;\n"
+                                      "    border-radius: 10px;\n"
+                                      "    background: rgb(44, 49, 60);\n"
+                                      "}\n"
+                                      "QRadioButton::indicator:hover {\n"
+                                      "    border: 3px solid rgb(58, 66, 81);\n"
+                                      "}\n"
+                                      "QRadioButton::indicator:checked {\n"
+                                      "    background: 3px solid rgb(94, 106, 130);\n"
+                                      "    border: 3px solid rgb(52, 59, 72);    \n"
+                                      "}\n"
+                                      "\n"
+                                      "/* COMBOBOX */\n"
+                                      "QComboBox{\n"
+                                      "    background-color: rgb(27, 29, 35);\n"
+                                      "    border-radius: 5px;\n"
+                                      "    border: 2px solid rgb(27, 29, 35);\n"
+                                      "    padding: 5px;\n"
+                                      "    padding-left: 10px;\n"
+                                      "}\n"
+                                      "QComboBox:hover{\n"
+                                      "    border: 2px solid rgb(64, 71, 88);\n"
+                                      "}\n"
+                                      "QComboBox::drop-down {\n"
+                                      "    subcontrol-origin: padding;\n"
+                                      "    subcontrol-position: top right;\n"
+                                      "    width: 25px; \n"
+                                      "    border-left-width: 3px;\n"
+                                      "    border-left-color: rgba(39, 44, 54, 150);\n"
+                                      "    border-left-style: solid;\n"
+                                      "    border-top-right-radius: 3px;\n"
+                                      "    border-bottom-right-radius: 3px;    \n"
+                                      "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                      "    background-position: center;\n"
+                                      "    background-repeat: no-reperat;\n"
+                                      " }\n"
+                                      "QComboBox QAbstractItemView {\n"
+                                      "    color: rgb(85, 170, 255);    \n"
+                                      "    background-color: rgb(27, 29, 35);\n"
+                                      "    padding: 10px;\n"
+                                      "    selection-background-color: rgb(39, 44, 54);\n"
+                                      "}\n"
+                                      "\n"
+                                      "/* SLIDERS */\n"
+                                      "QSlider::groove:horizontal {\n"
+                                      "    border-radius: 9px;\n"
+                                      "    height: 18px;\n"
+                                      "    margin: 0px;\n"
+                                      "    background-color: rgb(52, 59, 72);\n"
+                                      "}\n"
+                                      "QSlider::groove:horizontal:hover {\n"
+                                      "    background-color: rgb(55, 62, 76);\n"
+                                      "}\n"
+                                      "QSlider::handle:horizontal {\n"
+                                      "    background-color: rgb(85, 170, 255);\n"
+                                      "    border: none;\n"
+                                      "    height: 18px;\n"
+                                      "    width: 18px;\n"
+                                      "    margin: 0px;\n"
+                                      "    border-radius: 9px;\n"
+                                      "}\n"
+                                      "QSlider::handle:horizontal:hover {\n"
+                                      "    background-color: rgb(105, 180, 255);\n"
+                                      "}\n"
+                                      "QSlider::handle:horizontal:pressed {\n"
+                                      "    background-color: rgb(65, 130, 195);\n"
+                                      "}\n"
+                                      "\n"
+                                      "QSlider::groove:vertical {\n"
+                                      "    border-radius: 9px;\n"
+                                      "    width: 18px;\n"
+                                      "    margin: 0px;\n"
+                                      "    background-color: rgb(52, 59, 72);\n"
+                                      "}\n"
+                                      "QSlider::groove:vertical:hover {\n"
+                                      "    background-color: rgb(55, 62, 76);\n"
+                                      "}\n"
+                                      "QSlider::handle:vertical {\n"
+                                      "    background-color: rgb(85, 170, 255);\n"
+                                      "    border: none;\n"
+                                      "    height: 18px;\n"
+                                      "    width: 18px;\n"
+                                      "    margin: 0px;\n"
+                                      "    border-radius: 9px;\n"
+                                      "}\n"
+                                      "QSlider::handle:vertical:hover {\n"
+                                      "    background-color: rgb(105, 180, 255);\n"
+                                      "}\n"
+                                      "QSlider::handle:vertical:pressed {\n"
+                                      "    background-color: rgb(65, 130, 195);\n"
+                                      "}\n"
+                                      "\n"
+                                      "")
         self.frame_main.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_main.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_main.setObjectName("frame_main")
@@ -292,271 +292,276 @@ class Ui_FormProfile(object):
         self.button_close.setMinimumSize(QtCore.QSize(40, 0))
         self.button_close.setMaximumSize(QtCore.QSize(40, 16777215))
         self.button_close.setStyleSheet("QPushButton {    \n"
-"    border: none;\n"
-"    background-color: transparent;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(85, 170, 255);\n"
-"}")
+                                        "    border: none;\n"
+                                        "    background-color: transparent;\n"
+                                        "}\n"
+                                        "QPushButton:hover {\n"
+                                        "    background-color: rgb(52, 59, 72);\n"
+                                        "}\n"
+                                        "QPushButton:pressed {    \n"
+                                        "    background-color: rgb(85, 170, 255);\n"
+                                        "}")
         self.button_close.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal,
+                       QtGui.QIcon.Off)
         self.button_close.setIcon(icon)
         self.button_close.setObjectName("button_close")
         self.horizontalLayout_5.addWidget(self.button_close)
         self.horizontalLayout.addWidget(self.frame_system_buttons)
         self.verticalLayout.addWidget(self.frame_header)
         self.frame_contains = QtWidgets.QFrame(self.frame_main)
-        self.frame_contains.setMinimumSize(QtCore.QSize(500, 678))
-        self.frame_contains.setMaximumSize(QtCore.QSize(500, 678))
+        self.frame_contains.setMinimumSize(QtCore.QSize(500, 700))
+        self.frame_contains.setMaximumSize(QtCore.QSize(500, 700))
         self.frame_contains.setStyleSheet("background-color: rgb(40, 44, 52);")
         self.frame_contains.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_contains.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_contains.setObjectName("frame_contains")
         self.label_photo = QtWidgets.QLabel(self.frame_contains)
-        self.label_photo.setGeometry(QtCore.QRect(10, 10, 250, 250))
+        self.label_photo.setGeometry(QtCore.QRect(120, 10, 250, 250))
         self.label_photo.setText("")
         self.label_photo.setPixmap(QtGui.QPixmap("data/resources/icons/photo.png"))
         self.label_photo.setScaledContents(True)
         self.label_photo.setObjectName("label_photo")
         self.label_id = QtWidgets.QLabel(self.frame_contains)
-        self.label_id.setGeometry(QtCore.QRect(10, 270, 55, 31))
+        self.label_id.setGeometry(QtCore.QRect(10, 300, 55, 31))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
         self.label_id.setFont(font)
-        self.label_id.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_id.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label_id.setObjectName("label_id")
         self.label_name = QtWidgets.QLabel(self.frame_contains)
-        self.label_name.setGeometry(QtCore.QRect(10, 340, 91, 31))
+        self.label_name.setGeometry(QtCore.QRect(10, 370, 91, 31))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
         self.label_name.setFont(font)
-        self.label_name.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_name.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label_name.setObjectName("label_name")
         self.label_gender = QtWidgets.QLabel(self.frame_contains)
-        self.label_gender.setGeometry(QtCore.QRect(10, 410, 81, 31))
+        self.label_gender.setGeometry(QtCore.QRect(10, 440, 81, 31))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
         self.label_gender.setFont(font)
-        self.label_gender.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_gender.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label_gender.setObjectName("label_gender")
         self.comboBox_gender = QtWidgets.QComboBox(self.frame_contains)
-        self.comboBox_gender.setGeometry(QtCore.QRect(10, 440, 481, 30))
+        self.comboBox_gender.setGeometry(QtCore.QRect(10, 470, 481, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.comboBox_gender.setFont(font)
         self.comboBox_gender.setAutoFillBackground(False)
         self.comboBox_gender.setStyleSheet("QComboBox{\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QComboBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}")
+                                           "    background-color: rgb(27, 29, 35);\n"
+                                           "    border-radius: 5px;\n"
+                                           "    border: 2px solid rgb(27, 29, 35);\n"
+                                           "    padding: 5px;\n"
+                                           "    padding-left: 10px;\n"
+                                           "}\n"
+                                           "QComboBox:hover{\n"
+                                           "    border: 2px solid rgb(64, 71, 88);\n"
+                                           "}\n"
+                                           "QComboBox QAbstractItemView {\n"
+                                           "    color: rgb(85, 170, 255);    \n"
+                                           "    background-color: rgb(27, 29, 35);\n"
+                                           "    padding: 10px;\n"
+                                           "    selection-background-color: rgb(39, 44, 54);\n"
+                                           "}")
         self.comboBox_gender.setIconSize(QtCore.QSize(16, 16))
         self.comboBox_gender.setFrame(True)
         self.comboBox_gender.setObjectName("comboBox_gender")
         self.comboBox_gender.addItem("")
         self.comboBox_gender.addItem("")
+        self.comboBox_gender.addItem("")
         self.lineEdit_id = QtWidgets.QLineEdit(self.frame_contains)
-        self.lineEdit_id.setGeometry(QtCore.QRect(10, 300, 481, 30))
+        self.lineEdit_id.setGeometry(QtCore.QRect(10, 330, 481, 30))
         self.lineEdit_id.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.lineEdit_id.setFont(font)
         self.lineEdit_id.setStyleSheet("QLineEdit {\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid rgb(91, 101, 124);\n"
-"}")
+                                       "    background-color: rgb(27, 29, 35);\n"
+                                       "    border-radius: 5px;\n"
+                                       "    border: 2px solid rgb(27, 29, 35);\n"
+                                       "    padding-left: 10px;\n"
+                                       "}\n"
+                                       "QLineEdit:hover {\n"
+                                       "    border: 2px solid rgb(64, 71, 88);\n"
+                                       "}\n"
+                                       "QLineEdit:focus {\n"
+                                       "    border: 2px solid rgb(91, 101, 124);\n"
+                                       "}")
         self.lineEdit_id.setMaxLength(32)
         self.lineEdit_id.setObjectName("lineEdit_id")
         self.lineEdit_name = QtWidgets.QLineEdit(self.frame_contains)
-        self.lineEdit_name.setGeometry(QtCore.QRect(10, 370, 481, 30))
+        self.lineEdit_name.setGeometry(QtCore.QRect(10, 400, 481, 30))
         self.lineEdit_name.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.lineEdit_name.setFont(font)
         self.lineEdit_name.setStyleSheet("QLineEdit {\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid rgb(91, 101, 124);\n"
-"}")
+                                         "    background-color: rgb(27, 29, 35);\n"
+                                         "    border-radius: 5px;\n"
+                                         "    border: 2px solid rgb(27, 29, 35);\n"
+                                         "    padding-left: 10px;\n"
+                                         "}\n"
+                                         "QLineEdit:hover {\n"
+                                         "    border: 2px solid rgb(64, 71, 88);\n"
+                                         "}\n"
+                                         "QLineEdit:focus {\n"
+                                         "    border: 2px solid rgb(91, 101, 124);\n"
+                                         "}")
         self.lineEdit_name.setMaxLength(32)
         self.lineEdit_name.setObjectName("lineEdit_name")
         self.label_department = QtWidgets.QLabel(self.frame_contains)
-        self.label_department.setGeometry(QtCore.QRect(10, 480, 121, 31))
+        self.label_department.setGeometry(QtCore.QRect(10, 510, 121, 31))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
         self.label_department.setFont(font)
-        self.label_department.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_department.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label_department.setObjectName("label_department")
         self.comboBox_department = QtWidgets.QComboBox(self.frame_contains)
-        self.comboBox_department.setGeometry(QtCore.QRect(10, 510, 481, 30))
+        self.comboBox_department.setGeometry(QtCore.QRect(10, 540, 481, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.comboBox_department.setFont(font)
         self.comboBox_department.setAutoFillBackground(False)
         self.comboBox_department.setStyleSheet("QComboBox{\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QComboBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}")
+                                               "    background-color: rgb(27, 29, 35);\n"
+                                               "    border-radius: 5px;\n"
+                                               "    border: 2px solid rgb(27, 29, 35);\n"
+                                               "    padding: 5px;\n"
+                                               "    padding-left: 10px;\n"
+                                               "}\n"
+                                               "QComboBox:hover{\n"
+                                               "    border: 2px solid rgb(64, 71, 88);\n"
+                                               "}\n"
+                                               "QComboBox QAbstractItemView {\n"
+                                               "    color: rgb(85, 170, 255);    \n"
+                                               "    background-color: rgb(27, 29, 35);\n"
+                                               "    padding: 10px;\n"
+                                               "    selection-background-color: rgb(39, 44, 54);\n"
+                                               "}")
         self.comboBox_department.setIconSize(QtCore.QSize(16, 16))
         self.comboBox_department.setFrame(True)
         self.comboBox_department.setObjectName("comboBox_department")
+        self.comboBox_department.addItem("")
         self.button_choose_file = QtWidgets.QPushButton(self.frame_contains)
-        self.button_choose_file.setGeometry(QtCore.QRect(280, 210, 200, 50))
+        self.button_choose_file.setGeometry(QtCore.QRect(10, 270, 481, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.button_choose_file.setFont(font)
         self.button_choose_file.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
+                                              "    border: 2px solid rgb(52, 59, 72);\n"
+                                              "    border-radius: 10px;    \n"
+                                              "    background-color: rgb(52, 59, 72);\n"
+                                              "    color: rgb(255, 255, 255);\n"
+                                              "}\n"
+                                              "QPushButton:hover {\n"
+                                              "    background-color: rgb(57, 65, 80);\n"
+                                              "    color: rgb(227, 227, 227);\n"
+                                              "    border: 2px solid rgb(61, 70, 86);\n"
+                                              "}\n"
+                                              "QPushButton:pressed {    \n"
+                                              "    background-color: rgb(35, 40, 49);\n"
+                                              "    color: rgb(255, 255, 255);\n"
+                                              "    border: 2px solid rgb(43, 50, 61);\n"
+                                              "}")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-image1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-image1.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_choose_file.setIcon(icon1)
         self.button_choose_file.setIconSize(QtCore.QSize(40, 40))
         self.button_choose_file.setObjectName("button_choose_file")
         self.label_phonenumber = QtWidgets.QLabel(self.frame_contains)
-        self.label_phonenumber.setGeometry(QtCore.QRect(10, 550, 141, 31))
+        self.label_phonenumber.setGeometry(QtCore.QRect(10, 580, 141, 31))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
         self.label_phonenumber.setFont(font)
-        self.label_phonenumber.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_phonenumber.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label_phonenumber.setObjectName("label_phonenumber")
         self.lineEdit_phonenumber = QtWidgets.QLineEdit(self.frame_contains)
-        self.lineEdit_phonenumber.setGeometry(QtCore.QRect(10, 580, 481, 30))
+        self.lineEdit_phonenumber.setGeometry(QtCore.QRect(10, 610, 481, 30))
         self.lineEdit_phonenumber.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.lineEdit_phonenumber.setFont(font)
         self.lineEdit_phonenumber.setStyleSheet("QLineEdit {\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid rgb(91, 101, 124);\n"
-"}")
+                                                "    background-color: rgb(27, 29, 35);\n"
+                                                "    border-radius: 5px;\n"
+                                                "    border: 2px solid rgb(27, 29, 35);\n"
+                                                "    padding-left: 10px;\n"
+                                                "}\n"
+                                                "QLineEdit:hover {\n"
+                                                "    border: 2px solid rgb(64, 71, 88);\n"
+                                                "}\n"
+                                                "QLineEdit:focus {\n"
+                                                "    border: 2px solid rgb(91, 101, 124);\n"
+                                                "}")
         self.lineEdit_phonenumber.setObjectName("lineEdit_phonenumber")
         self.button_accept = QtWidgets.QPushButton(self.frame_contains)
-        self.button_accept.setGeometry(QtCore.QRect(40, 620, 200, 40))
+        self.button_accept.setGeometry(QtCore.QRect(40, 650, 200, 40))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.button_accept.setFont(font)
         self.button_accept.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
+                                         "    border: 2px solid rgb(52, 59, 72);\n"
+                                         "    border-radius: 10px;    \n"
+                                         "    background-color: rgb(52, 59, 72);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "}\n"
+                                         "QPushButton:hover {\n"
+                                         "    background-color: rgb(57, 65, 80);\n"
+                                         "    color: rgb(227, 227, 227);\n"
+                                         "    border: 2px solid rgb(61, 70, 86);\n"
+                                         "}\n"
+                                         "QPushButton:pressed {    \n"
+                                         "    background-color: rgb(35, 40, 49);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "    border: 2px solid rgb(43, 50, 61);\n"
+                                         "}")
         self.button_accept.setIconSize(QtCore.QSize(40, 40))
         self.button_accept.setObjectName("button_accept")
         self.button_cancel = QtWidgets.QPushButton(self.frame_contains)
-        self.button_cancel.setGeometry(QtCore.QRect(270, 620, 200, 40))
+        self.button_cancel.setGeometry(QtCore.QRect(270, 650, 200, 40))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.button_cancel.setFont(font)
         self.button_cancel.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
+                                         "    border: 2px solid rgb(52, 59, 72);\n"
+                                         "    border-radius: 10px;    \n"
+                                         "    background-color: rgb(52, 59, 72);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "}\n"
+                                         "QPushButton:hover {\n"
+                                         "    background-color: rgb(57, 65, 80);\n"
+                                         "    color: rgb(227, 227, 227);\n"
+                                         "    border: 2px solid rgb(61, 70, 86);\n"
+                                         "}\n"
+                                         "QPushButton:pressed {    \n"
+                                         "    background-color: rgb(35, 40, 49);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "    border: 2px solid rgb(43, 50, 61);\n"
+                                         "}")
         self.button_cancel.setIconSize(QtCore.QSize(40, 40))
         self.button_cancel.setObjectName("button_cancel")
         self.verticalLayout.addWidget(self.frame_contains)
         self.horizontalLayout_3.addWidget(self.frame_main)
 
         self.retranslateUi(FormProfile)
+        self.comboBox_department.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(FormProfile)
 
     def retranslateUi(self, FormProfile):
@@ -567,11 +572,13 @@ class Ui_FormProfile(object):
         self.label_id.setText(_translate("FormProfile", "ID *"))
         self.label_name.setText(_translate("FormProfile", "Name *"))
         self.label_gender.setText(_translate("FormProfile", "Gender"))
-        self.comboBox_gender.setItemText(0, _translate("FormProfile", "Male"))
-        self.comboBox_gender.setItemText(1, _translate("FormProfile", "Female"))
+        self.comboBox_gender.setItemText(0, _translate("FormProfile", "Not Selected"))
+        self.comboBox_gender.setItemText(1, _translate("FormProfile", "Male"))
+        self.comboBox_gender.setItemText(2, _translate("FormProfile", "Female"))
         self.lineEdit_id.setPlaceholderText(_translate("FormProfile", "Enter ID"))
         self.lineEdit_name.setPlaceholderText(_translate("FormProfile", "Enter Name"))
         self.label_department.setText(_translate("FormProfile", "Department"))
+        self.comboBox_department.setItemText(0, _translate("FormProfile", "Not Selected"))
         self.button_choose_file.setText(_translate("FormProfile", "Choose File"))
         self.label_phonenumber.setText(_translate("FormProfile", "Phone Number"))
         self.lineEdit_phonenumber.setPlaceholderText(_translate("FormProfile", "+3753312345678"))

@@ -1,11 +1,7 @@
-import sys
-import os
-import base64
 from datetime import datetime
-import time
 import json
 import paho.mqtt.client as mqtt
-import widget.models as models
+
 from widget.management import DBManagement
 
 
@@ -70,7 +66,6 @@ class PublishPlatform:
         self._client.connect(self.host, self.port)
         self._client.loop_start()
         self._client.publish(self._topic, json.dumps(self.data, indent=4))
-        # time.sleep(1)
         self._client.loop_stop()
         self._client.disconnect()
 

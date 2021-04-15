@@ -19,8 +19,8 @@ from widget.forms.form_configuration import FormConfiguration
 from widget.forms.messagebox import DepartmentMessageBox, WarningMessageBox, InformationMessageBox
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
-from widget.platforms.subscribe_platform import SubscribePlatform
-from widget.platforms.publish_platform import PublishPlatform
+from widget.mqtt.subscribe_platform import SubscribePlatform
+from widget.mqtt.publish_platform import PublishPlatform
 
 
 # MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
@@ -168,16 +168,17 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_profiles.resizeRowsToContents()
 
     def _button_delete_profile_clicked(self, event):
-        button_reply = QMessageBox.question(self, 'Database Manager', 'Are you sure you want to delete persons?',
-                                            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if button_reply == QMessageBox.Yes:
-            id_profiles = [int(self.table_profiles.item(row_position, 1).text())
-                           for row_position in range(self.table_profiles.rowCount())
-                           if self.table_profiles.cellWidget(row_position, 0).isChecked()]
-            self.database_management.remove_profiles(*id_profiles)
+        messagebox = WarningMessageBox()
+        messagebox.label_title.setText('Warning - Delete Profiles')
+        messagebox.label_info.setText('Are you sure you want to delete profiles?')
+        messagebox.exec_()
+        if messagebox.dialog_result == 0:
+            id_profiles = []
             for row_position in range(self.table_profiles.rowCount() - 1, 0, -1):
                 if self.table_profiles.cellWidget(row_position, 0).isChecked():
+                    id_profiles.append(self.table_profiles.item(row_position, 1).text())
                     self.table_profiles.removeRow(row_position)
+            self.database_management.remove_profiles(*id_profiles)
 
     def _button_send_device_clicked(self, event):
         for dev in self.devices:

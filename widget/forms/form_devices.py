@@ -6,8 +6,8 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QCheckBox, QTableWidgetItem, QMessageBox
 
 import widget.models as models
-from widget.platforms.subscribe_platform import SubscribePlatform
-from widget.platforms.publish_platform import PublishPlatform
+from widget.mqtt.subscribe_platform import SubscribePlatform
+from widget.mqtt.publish_platform import PublishPlatform
 from widget.forms.form_devices_designer import Ui_FormDevices
 
 

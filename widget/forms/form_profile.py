@@ -3,17 +3,20 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QImage
 
-import widget.models as models
+from widget.management import DBManagement
+from widget.models import Profile
+from widget.forms.messagebox import WarningMessageBox
 from widget.forms.form_profile_designer import Ui_FormProfile
 
 
 class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
-    def __init__(self, profile=None):
+    def __init__(self, profile: Profile = None):
         super().__init__()
         self.setupUi(self)
         # DATA
-        self.dialog_result = 0
+        self.dialog_result = -1
         self.profile = profile
+        self.database_management = DBManagement()
         # SETTINGS
         self._set_departments()
         if self.profile is not None:
@@ -37,42 +40,52 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
             event.accept()
 
     def _button_accept_clicked(self, event):
-        self.dialog_result = 1
-        if self.file_name is not None:
-            pixmap = QPixmap(QImage(self.file_name))
-            pixmap.save(f'nginx/html/static/images/{self.lineEdit_name.text()}.jpg')
+        self.dialog_result = 0
+        if self.filename is None:
+            messagebox = WarningMessageBox()
+            messagebox.label_title.setText('Warning - No Face Image')
+            messagebox.label_info.setText('For the device to recognize you need a face image\n'
+                                          'Upload an face image?')
+            messagebox.exec_()
+            if messagebox.dialog_result == 0:
+                self._button_choose_file_clicked(event)
         else:
-            QMessageBox.about(self, 'Face Photo', 'Load photo')
-        self.profile = models.Profile(identifier=self.lineEdit_id.text(),
-                                      name=self.lineEdit_name.text(),
-                                      name_department=self.comboBox_department.currentText(),
-                                      face=f'/static/images/{self.lineEdit_name.text()}.jpg',
-                                      gender=self.comboBox_gender.currentText(),
-                                      phone_number=self.lineEdit_phonenumber.text())
+            pixmap = QPixmap(QImage(self.filename))
+            pixmap.save(f'nginx/html/static/images/{self.lineEdit_name.text()}.jpg')
+        if self.profile is None:
+            if self.database_management.exists_profile(self.lineEdit_id.text()):
+                pass
+        self.profile = Profile(identifier=self.lineEdit_id.text(),
+                               name=self.lineEdit_name.text(),
+                               name_department=self.comboBox_department.currentText(),
+                               face=f'/static/images/{self.lineEdit_name.text()}.jpg',
+                               gender=self.comboBox_gender.currentText(),
+                               phone_number=self.lineEdit_phonenumber.text())
         self.close()
 
     def _button_cancel_clicked(self, event):
-        self.dialog_result = 0
+        self.dialog_result = -1
         self.close()
 
     def _button_choose_file_clicked(self, event):
-        self.file_name, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Choose File', '',
+        self.filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Choose File', '',
                                                                   'Image File (*.bmp | *.jpg | *.jpeg | *.png);;'
                                                                   'All Files (*)')
-        if self.file_name:
+        if self.filename:
             self.label_photo.setScaledContents(False)
-            pixmap = QPixmap(QImage(self.file_name))
+            pixmap = QPixmap(QImage(self.filename))
             pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
             self.label_photo.setPixmap(pixmap)
 
     # SETTINGS
     def _set_departments(self):
-        with models.get_session() as session:
-            departments = [department.name for department in session.query(models.Department).all()]
+        departments = [
+            department.name for department in self.database_management.get_departments()
+        ]
         self.comboBox_department.addItems(departments)
 
     def _set_employee_data(self):
-        self.lineEdit_id.setText(str(self.profile.id))
+        self.lineEdit_id.setText(self.profile.id)
         self.lineEdit_name.setText(self.profile.name)
         self.lineEdit_phonenumber.setText(self.profile.phone_number)
         self.comboBox_gender.setCurrentIndex(self.profile.gender.value - 1)
