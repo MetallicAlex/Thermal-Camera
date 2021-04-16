@@ -55,6 +55,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.thread.start()
             self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
+        self.comboBox_profiles.addItem('All Profiles')
+        self.radiobutton_time.setChecked(True)
         self._load_devices_info_to_table()
         self._load_profiles_to_table()
         self._load_departments_to_table()
@@ -137,6 +139,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.database_management.add_profiles(form_profile.profile)
             row_position = self.table_profiles.rowCount()
             self._add_update_profile_row(row_position, form_profile.profile)
+            self.comboBox_profiles.addItem(form_profile.profile.name)
             self.table_profiles.resizeColumnsToContents()
             self.table_profiles.resizeRowsToContents()
 
@@ -149,6 +152,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 if form_profile.dialog_result == 0:
                     self.database_management.update_profile(profile.id, form_profile.profile)
                     self._add_update_profile_row(row_position, form_profile.profile)
+                    self.comboBox_profiles.setItemText(row_position + 1, form_profile.profile.name)
         self.table_profiles.resizeColumnsToContents()
         self.table_profiles.resizeRowsToContents()
 
@@ -163,6 +167,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.table_profiles.cellWidget(row_position, 0).isChecked():
                     id_profiles.append(self.table_profiles.item(row_position, 1).text())
                     self.table_profiles.removeRow(row_position)
+                    self.comboBox_profiles.removeItem(row_position + 1)
             self.database_management.remove_profiles(*id_profiles)
 
     def _button_send_device_clicked(self, event):
@@ -523,7 +528,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_profiles.setItem(row_position, 1, QTableWidgetItem(profile.id))
         self.table_profiles.setItem(row_position, 2, self._get_item_image(profile.face))
         self.table_profiles.setItem(row_position, 3, QTableWidgetItem(profile.name))
-        self.table_profiles.setItem(row_position, 4, QTableWidgetItem(profile.name_department))
+        self.table_profiles.setItem(row_position, 4, QTableWidgetItem(str(profile.name_department)))
         self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
         self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
 

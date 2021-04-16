@@ -218,10 +218,7 @@ class DBManagement:
         profiles = self.get_profiles(identifiers)
         path = os.path.dirname(os.path.abspath(__file__))
         for profile in profiles:
-            print(profile.face)
-            print(f'{path}\\nginx\\html{profile.face}')
             if os.path.exists(f'{path}\\nginx\\html{profile.face}'):
-                print(True)
                 os.remove(f'{path}\\nginx\\html{profile.face}')
         with models.get_session() as session:
             session.query(models.Profile) \
