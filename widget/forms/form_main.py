@@ -3,6 +3,7 @@ import os
 import subprocess
 import datetime
 import time
+import natsort
 from typing import Union
 import numpy as np
 
@@ -39,6 +40,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.database_management = DBManagement()
         self.devices = self.database_management.get_devices()
         self.theme = self._get_theme('dark theme')
+        self.number_device_profiles = 0
+        self.last_page = False
         if self.device_management.host is not None:
             self.subscribe_platform = SubscribePlatform()
             self.subscribe_platform.set_host_port(self.device_management.host, client_name='SP1')
@@ -46,6 +49,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.subscribe_platform.moveToThread(self.thread)
             self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
             self.subscribe_platform.device.connect(self._update_device_info)
+            self.subscribe_platform.profiles.connect(self._get_profiles_from_device)
             self.subscribe_platform.token.connect(self._get_token)
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
@@ -156,7 +160,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if messagebox.dialog_result == 0:
             id_profiles = []
             for row_position in range(self.table_profiles.rowCount() - 1, -1, -1):
-                print(row_position)
                 if self.table_profiles.cellWidget(row_position, 0).isChecked():
                     id_profiles.append(self.table_profiles.item(row_position, 1).text())
                     self.table_profiles.removeRow(row_position)
@@ -216,8 +219,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self._load_profiles_to_table()
 
     def _button_device_database_view_clicked(self, event):
-        form_device_db_view = FormDeviceDBView()
-        form_device_db_view.exec_()
+        self.profile_ids = []
+        self.last_page = False
+        for device in self.devices:
+            if device.id == self.comboBox_databases.currentText():
+                self.publish_platform.set_device(device.id, device.token)
+                self.publish_platform.query_profiles_data(-1)
+                break
 
     def _button_create_pattern_clicked(self, event):
         filename, _ = QFileDialog.getSaveFileName(self, 'Save Pattern', '', 'CSV File (*.csv)')
@@ -518,6 +526,40 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_profiles.setItem(row_position, 4, QTableWidgetItem(profile.name_department))
         self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
         self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
+
+    @QtCore.pyqtSlot(object)
+    def _get_profiles_from_device(self, data):
+        if isinstance(data, dict):
+            self.number_device_profiles = data['total_num']
+            number_pages = np.int(np.ceil(self.number_device_profiles / 100))
+            print(number_pages)
+            for page in range(number_pages):
+                self.publish_platform.query_profiles_data(page)
+            self.last_page = True
+        elif isinstance(data, list):
+            for profile in data:
+                self.profile_ids.append(profile['user_id'])
+            if self.last_page:
+                profiles = [
+                    models.Profile(identifier=profile_id,
+                                   name='User')
+                    for profile_id in self.profile_ids
+                ]
+                current_profiles = set(self.database_management.get_profiles(*self.profile_ids))
+                profiles = set(profiles)
+                remove_profiles = list(profiles - current_profiles)
+                if len(remove_profiles) > 0:
+                    self.publish_platform.remove_profiles_data(*[
+                        profile.id
+                        for profile in remove_profiles
+                    ])
+                current_profiles = natsort.natsorted(list(current_profiles), key=lambda x: x.id)
+                form_device_db_view = FormDeviceDBView(list(current_profiles))
+                form_device_db_view.label_title.setText(f'DB View - Device {self.comboBox_databases.currentText()}')
+                form_device_db_view.exec_()
+                if form_device_db_view.dialog_result == 0:
+                    if len(form_device_db_view.remove_profile_ids) > 0:
+                        self.publish_platform.remove_profiles_data(*form_device_db_view.remove_profile_ids)
 
     # STATISTIC
     @QtCore.pyqtSlot(object)

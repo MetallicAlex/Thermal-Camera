@@ -13,6 +13,7 @@ class SubscribePlatform(QtCore.QObject):
     statistic = QtCore.pyqtSignal(object)
     device = QtCore.pyqtSignal(dict)
     token = QtCore.pyqtSignal(str)
+    profiles = QtCore.pyqtSignal(object)
 
     running = False
     _host = None
@@ -83,6 +84,8 @@ class SubscribePlatform(QtCore.QObject):
         else:
             if self.data['tag'] == 'UploadPersonInfo':
                 self.record_person_information()
+            elif self.data['tag'] == 'query_profiles':
+                self.profiles.emit(self.data['datas'])
             elif self.data['tag'] == 'bind_control':
                 if 'device_token' in self.data['datas']:
                     self.token.emit(f"{self.data['device_id']}_{self.data['datas']['device_token']}")
