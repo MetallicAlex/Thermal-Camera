@@ -47,7 +47,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.subscribe_platform.set_host_port(self.device_management.host, client_name='SP1')
             self.thread = QtCore.QThread()
             self.subscribe_platform.moveToThread(self.thread)
-            self.subscribe_platform.statistic.connect(self._add_statistic_to_table)
+            self.subscribe_platform.statistic.connect(self._get_record)
             self.subscribe_platform.device.connect(self._update_device_info)
             self.subscribe_platform.profiles.connect(self._get_profiles_from_device)
             self.subscribe_platform.token.connect(self._get_token)
@@ -321,15 +321,30 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-STATISTICS
     def _button_search_statistics_clicked(self, event):
+        if self.comboBox_profiles.currentText() == 'All Profiles':
+            identifier = None
+        else:
+            profile = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
+            identifier = profile.id
         if self.radiobutton_time.isChecked():
-            self._load_statistics_to_table(low=self.dateTimeEdit_start.text(),
-                                           high=self.dateTimeEdit_end.text())
+            low = self.dateTimeEdit_start.text()
+            high = self.dateTimeEdit_end.text()
         elif self.radiobutton_temperature.isChecked():
-            self._load_statistics_to_table(low=self.doubleSpinBox_min_temperature.value(),
-                                           high=self.doubleSpinBox_max_temperature.value())
+            low = self.doubleSpinBox_min_temperature.value()
+            high = self.doubleSpinBox_max_temperature.value()
+        self._load_statistics_to_table(
+            low=low,
+            high=high,
+            identifiers=identifier
+        )
 
     def _button_all_statistic_clicked(self, event):
-        self._load_statistics_to_table()
+        print('All')
+        if self.comboBox_profiles.currentText() == 'All Profiles':
+            identifier = None
+        else:
+            profile = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
+        self._load_statistics_to_table(identifiers=profile.id)
 
     def _button_report_clicked(self, event):
         filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File', '', 'JSON File (*.json);')
@@ -479,13 +494,17 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # DATABASE
     def _load_profiles_to_table(self):
+        start = time.time()
         self.table_profiles.setRowCount(0)
         profiles = self.database_management.get_profiles()
+        print(f'[DATABASE][PROFILES] {time.time() - start}')
+        start = time.time()
         for row_position, profile in enumerate(profiles):
             self._add_update_profile_row(row_position, profile)
             self.comboBox_profiles.addItem(profile.name)
         self.table_profiles.resizeColumnsToContents()
         self.table_profiles.resizeRowsToContents()
+        print(f'[VISUAL][PROFILES] {time.time() - start}')
 
     def _load_departments_to_table(self):
         for row_position, department in enumerate(self.database_management.get_departments()):
@@ -500,24 +519,32 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _load_statistics_to_table(self, low: Union[str, float] = None,
                                   high: Union[str, float] = None,
                                   identifiers: list = None):
+        start = time.time()
         self.table_statistics.setRowCount(0)
-        for row_position, statistic in enumerate(self.database_management.get_statistics(
-                low=low,
-                high=high,
-                identifiers=identifiers,
-                profile_name=True)
-        ):
+        statistics = self.database_management.get_statistics(
+            low=low,
+            high=high,
+            identifiers=identifiers,
+            profile_name=True
+        )
+        print(f'[DATABASE][STATISTICS] {time.time() - start}')
+        start = time.time()
+        for row_position, statistic in enumerate(statistics):
             statistic, name = statistic
-            self.table_statistics.insertRow(row_position)
-            self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
-            self.table_statistics.setItem(row_position, 1, QTableWidgetItem(name))
-            self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
-            self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
-            self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
+            self._add_statistic_row(row_position, statistic, name)
         # self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
         self.table_statistics.resizeColumnsToContents()
         self.table_statistics.resizeRowsToContents()
         # self.table_statistics.viewport().update()
+        print(f'[VISUAL][STATISTICS] {time.time() - start}')
+
+    def _add_statistic_row(self, row_position: int, statistic: models.Statistic, name: str):
+        self.table_statistics.insertRow(row_position)
+        self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
+        self.table_statistics.setItem(row_position, 1, QTableWidgetItem(name))
+        self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
+        self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
+        self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
 
     def _add_update_profile_row(self, row_position: int, profile: models.Profile):
         if row_position > self.table_profiles.rowCount() - 1:
@@ -568,19 +595,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # STATISTIC
     @QtCore.pyqtSlot(object)
-    def _add_statistic_to_table(self, statistic: models.Statistic):
-        row_position = self.table_statistics.rowCount() - 1
-        self.table_statistics.insertRow(row_position)
-        self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
-        self.table_statistics.setItem(row_position, 1,
-                                      QTableWidgetItem(self.database_management.get_profile_name(statistic.id_profile)))
-        self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
-        self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
-        self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
-        # self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
-        self.table_statistics.resizeColumnsToContents()
-        self.table_statistics.resizeRowsToContents()
-        self.table_statistics.update()
+    def _get_record(self, statistic: models.Statistic):
+        row_position = self.table_statistics.rowCount()
+        self._add_statistic_row(row_position,
+                                statistic,
+                                self.database_management.get_profile_name(statistic.id_profie))
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):

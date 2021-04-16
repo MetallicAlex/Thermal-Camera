@@ -119,6 +119,14 @@ class DBManagement:
         self._profiles = profile
         return self._profiles
 
+    def get_profile_by_name(self, name: str):
+        with models.get_session() as session:
+            profile = session.query(models.Profile)\
+                .filter(models.Profile.name == name)\
+                .scalar()
+        self._profiles = profile
+        return self._profiles
+
     def get_profiles(self, *identifiers: str):
         with models.get_session() as session:
             query = session.query(models.Profile)
