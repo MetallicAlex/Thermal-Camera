@@ -155,7 +155,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         messagebox.exec_()
         if messagebox.dialog_result == 0:
             id_profiles = []
-            for row_position in range(self.table_profiles.rowCount() - 1, 0, -1):
+            for row_position in range(self.table_profiles.rowCount() - 1, -1, -1):
+                print(row_position)
                 if self.table_profiles.cellWidget(row_position, 0).isChecked():
                     id_profiles.append(self.table_profiles.item(row_position, 1).text())
                     self.table_profiles.removeRow(row_position)
@@ -196,17 +197,23 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         messagebox.exec_()
         if messagebox.dialog_result == 0:
             remove_departments = []
-            for row_position in range(self.table_departments.rowCount() - 1, 0, -1):
+            for row_position in range(self.table_departments.rowCount() - 1, -1, -1):
                 if self.table_departments.cellWidget(row_position, 0).isChecked():
                     remove_departments.append(self.table_departments.item(row_position, 1).text())
                     self.table_departments.removeRow(row_position)
             self.database_management.remove_departments(*remove_departments)
 
     def _button_add_profiles_group_clicked(self, event):
-        pass
+        filename, _ = QFileDialog.getOpenFileName(self, 'Open Profiles Group', '', 'CSV File (*.csv)')
+        if filename:
+            self.database_management.add_profiles_from_pattern(filename)
+            self._load_profiles_to_table()
 
     def _button_add_profile_images_clicked(self, event):
-        pass
+        filename, _ = QFileDialog.getOpenFileName(self, 'Open Profile Images', '', 'ZIP File (*.zip)')
+        if filename:
+            self.database_management.add_profiles_from_images(filename)
+            self._load_profiles_to_table()
 
     def _button_device_database_view_clicked(self, event):
         form_device_db_view = FormDeviceDBView()

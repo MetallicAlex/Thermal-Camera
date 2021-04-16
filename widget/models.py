@@ -220,7 +220,7 @@ class Profile(Base):
 
     id = Column('ID', String(32), primary_key=True, unique=True)
     name = Column('Name', String(32), primary_key=True, unique=True)
-    face = Column('Face', String(64), nullable=True)
+    face = Column('Face', String(128), nullable=True)
     name_department = Column('NameDepartment', String(32),
                              ForeignKey('departments.Name', onupdate='CASCADE', ondelete='SET NULL'),
                              nullable=True)
@@ -287,7 +287,7 @@ class Statistic(Base):
     temperature = Column('Temperature', DECIMAL(4, 2))
     mask = Column('Mask', Enum(MaskEnum))
     similar = Column('Similar', DECIMAL(4, 2))
-    face = Column('Face', String(64))
+    face = Column('Face', String(128))
 
     def __init__(self, identifier: str,
                  time: str,

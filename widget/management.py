@@ -149,10 +149,17 @@ class DBManagement:
         identifiers = [identifier for index, identifier in enumerate(self._pattern['ID'])]
         current_profiles = set(self.get_profiles(*identifiers))
         insert_profiles = list(profiles - current_profiles)
-        update_profiles = list(profiles & current_profiles)
+        # update_profiles = list(profiles & current_profiles)
+        update_profiles = []
+        for current_profile in current_profiles:
+            for profile in profiles:
+                if current_profile == profile:
+                    update_profiles.append(profile.to_dict())
         self.add_profiles(*insert_profiles)
         for profile in update_profiles:
-            self.update_profile(profile.id, profile)
+            if 'face' in profile:
+                del profile['face']
+            self.update_profile(profile['id'], profile)
 
     def add_profiles_from_images(self, filename):
         if zipfile.is_zipfile(filename):
