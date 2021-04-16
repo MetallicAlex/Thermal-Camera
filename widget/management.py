@@ -8,6 +8,7 @@ import zipfile
 from typing import Union
 import pandas as pd
 from sqlalchemy import func
+from sqlalchemy.orm import load_only
 
 import widget.models as models
 
@@ -214,6 +215,14 @@ class DBManagement:
         self._profiles = new_profile
 
     def remove_profiles(self, *identifiers: str):
+        profiles = self.get_profiles(identifiers)
+        path = os.path.dirname(os.path.abspath(__file__))
+        for profile in profiles:
+            print(profile.face)
+            print(f'{path}\\nginx\\html{profile.face}')
+            if os.path.exists(f'{path}\\nginx\\html{profile.face}'):
+                print(True)
+                os.remove(f'{path}\\nginx\\html{profile.face}')
         with models.get_session() as session:
             session.query(models.Profile) \
                 .filter(models.Profile.id.in_(identifiers)) \
