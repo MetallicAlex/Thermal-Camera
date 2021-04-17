@@ -8,13 +8,13 @@
         - карта температур
         - карта схожести с данным человеком
 """
-import matplotlib
+import matplotlib as mpl
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 import widget.models as models
 
-matplotlib.use('Qt5Agg')
+mpl.use('Qt5Agg')
 
 
 class DBVisualization(FigureCanvas):

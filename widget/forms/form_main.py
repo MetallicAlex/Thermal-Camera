@@ -171,20 +171,27 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.database_management.remove_profiles(*id_profiles)
 
     def _button_send_device_clicked(self, event):
-        for dev in self.devices:
-            if dev.id == self.comboBox_databases.currentText():
-                device = dev
-                break
-        self.publish_platform.set_device(device.id, device.token)
-        if not self.table_profiles.horizontalHeaderItem(0).checkState():
-            profile_ids = [
-                self.table_profiles.item(row_position, 1).text()
-                for row_position in range(self.table_profiles.rowCount())
-                if self.table_profiles.cellWidget(row_position, 0).isChecked()
-            ]
-            self.publish_platform.add_profiles_data(profile_ids)
+        if self.comboBox_databases.currentText() == '':
+            messagebox = InformationMessageBox()
+            messagebox.setWindowTitle('Information')
+            messagebox.label_title.setText('Information - Send to Device')
+            messagebox.label_info.setText('No connected devices')
+            messagebox.exec_()
         else:
-            self.publish_platform.add_profiles_data()
+            for dev in self.devices:
+                if dev.id == self.comboBox_databases.currentText():
+                    device = dev
+                    break
+            self.publish_platform.set_device(device.id, device.token)
+            if not self.table_profiles.horizontalHeaderItem(0).checkState():
+                profile_ids = [
+                    self.table_profiles.item(row_position, 1).text()
+                    for row_position in range(self.table_profiles.rowCount())
+                    if self.table_profiles.cellWidget(row_position, 0).isChecked()
+                ]
+                self.publish_platform.add_profiles_data(profile_ids)
+            else:
+                self.publish_platform.add_profiles_data()
 
     def _button_add_department_clicked(self, event):
         messagebox = DepartmentMessageBox()
@@ -339,7 +346,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         )
 
     def _button_all_statistic_clicked(self, event):
-        print('All')
         if self.comboBox_profiles.currentText() == 'All Profiles':
             identifier = None
         else:
