@@ -18,6 +18,7 @@ from widget.forms.form_profile import FormProfile
 from widget.forms.form_devices import FormDevices
 from widget.forms.form_configuration import FormConfiguration
 from widget.forms.form_device_database_view import FormDeviceDBView
+from widget.forms.form_stranger_table import FormStrangerTable
 from widget.forms.messagebox import DepartmentMessageBox, WarningMessageBox, InformationMessageBox
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
@@ -101,6 +102,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_search_statistics.clicked.connect(self._button_search_statistics_clicked)
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
         self.button_report.clicked.connect(self._button_report_clicked)
+        self.button_strangers_statistic.clicked.connect(self._button_stranger_statistics_clicked)
         self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
         self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
         print(time.time() - start)
@@ -360,6 +362,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File', '', 'JSON File (*.json);')
         if filename:
             self.database_management.create_passage_report(filename)
+
+    def _button_stranger_statistics_clicked(self, event):
+        statistics = self.database_management.get_stranger_statistics()
+        print(statistics)
+        form_stranger_table = FormStrangerTable(statistics)
+        form_stranger_table.exec_()
 
     def _checkbox_header_persons_pressed(self, index):
         if index == 0:
