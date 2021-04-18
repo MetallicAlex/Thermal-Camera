@@ -21,6 +21,7 @@ from widget.forms.form_device_database_view import FormDeviceDBView
 from widget.forms.messagebox import DepartmentMessageBox, WarningMessageBox, InformationMessageBox
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
+from widget.database_visualization import DBVisualization
 from widget.mqtt.subscribe_platform import SubscribePlatform
 from widget.mqtt.publish_platform import PublishPlatform
 
@@ -55,6 +56,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.thread.start()
             self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
+        self.canvas = DBVisualization()
+        self.canvas.create_pie_chart_temperatures()
+        self.verticalLayout_pie_person_passage_day.addWidget(self.canvas)
         self.comboBox_profiles.addItem('All Profiles')
         self.radiobutton_time.setChecked(True)
         self._load_devices_info_to_table()

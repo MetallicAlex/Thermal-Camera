@@ -1545,12 +1545,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_database)
         self.page_statistic = QtWidgets.QWidget()
         self.page_statistic.setObjectName("page_statistic")
-        self.label_statistic_day = QtWidgets.QLabel(self.page_statistic)
-        self.label_statistic_day.setGeometry(QtCore.QRect(650, 10, 500, 320))
-        self.label_statistic_day.setObjectName("label_statistic_day")
-        self.label_statistic_all_days = QtWidgets.QLabel(self.page_statistic)
-        self.label_statistic_all_days.setGeometry(QtCore.QRect(650, 340, 500, 320))
-        self.label_statistic_all_days.setObjectName("label_statistic_all_days")
         self.table_statistics = QtWidgets.QTableWidget(self.page_statistic)
         self.table_statistics.setGeometry(QtCore.QRect(10, 170, 630, 520))
         self.table_statistics.setStyleSheet("QTableWidget {    \n"
@@ -1899,6 +1893,24 @@ class Ui_MainWindow(object):
         icon19.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-chart-pie.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_strangers_statistic.setIcon(icon19)
         self.button_strangers_statistic.setObjectName("button_strangers_statistic")
+        self.widget_pie_person_passage_day = QtWidgets.QWidget(self.page_statistic)
+        self.widget_pie_person_passage_day.setGeometry(QtCore.QRect(650, 30, 500, 320))
+        self.widget_pie_person_passage_day.setObjectName("widget_pie_person_passage_day")
+        self.verticalLayoutWidget = QtWidgets.QWidget(self.widget_pie_person_passage_day)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 491, 311))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout_pie_person_passage_day = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout_pie_person_passage_day.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_pie_person_passage_day.setObjectName("verticalLayout_pie_person_passage_day")
+        self.widget_pie_person_passage_all_time = QtWidgets.QWidget(self.page_statistic)
+        self.widget_pie_person_passage_all_time.setGeometry(QtCore.QRect(650, 370, 500, 320))
+        self.widget_pie_person_passage_all_time.setObjectName("widget_pie_person_passage_all_time")
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.widget_pie_person_passage_all_time)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(0, 0, 491, 311))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        self.verticalLayout_pie_person_passage_day_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_pie_person_passage_day_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_pie_person_passage_day_2.setObjectName("verticalLayout_pie_person_passage_day_2")
         self.stackedWidget.addWidget(self.page_statistic)
         self.page_settings = QtWidgets.QWidget()
         self.page_settings.setObjectName("page_settings")
@@ -1929,7 +1941,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1984,8 +1996,6 @@ class Ui_MainWindow(object):
         self.button_device_database_view.setText(_translate("MainWindow", "Database View"))
         self.button_add_profile_images.setText(_translate("MainWindow", "Add Profile Images"))
         self.button_add_profiles_group.setText(_translate("MainWindow", "Add Profiles Group"))
-        self.label_statistic_day.setText(_translate("MainWindow", "TextLabel"))
-        self.label_statistic_all_days.setText(_translate("MainWindow", "TextLabel"))
         self.table_statistics.setSortingEnabled(True)
         item = self.table_statistics.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "ID"))
@@ -2011,3 +2021,14 @@ class Ui_MainWindow(object):
         self.button_report.setText(_translate("MainWindow", "Report"))
         self.button_strangers_statistic.setText(_translate("MainWindow", "Strangers Statistic"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
+import files_rc
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

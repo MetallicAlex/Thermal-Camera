@@ -1121,7 +1121,7 @@ QPushButton:pressed {
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="page_device">
               <widget class="QTableWidget" name="table_devices">
@@ -2813,32 +2813,6 @@ QPushButton:pressed {
               </widget>
              </widget>
              <widget class="QWidget" name="page_statistic">
-              <widget class="QLabel" name="label_statistic_day">
-               <property name="geometry">
-                <rect>
-                 <x>650</x>
-                 <y>10</y>
-                 <width>500</width>
-                 <height>320</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_statistic_all_days">
-               <property name="geometry">
-                <rect>
-                 <x>650</x>
-                 <y>340</y>
-                 <width>500</width>
-                 <height>320</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
               <widget class="QTableWidget" name="table_statistics">
                <property name="geometry">
                 <rect>
@@ -3457,6 +3431,48 @@ QPushButton:pressed {
                 <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-chart-pie.png</normaloff>:/16x16/data/resources/icons/16x16/cil-chart-pie.png</iconset>
                </property>
+              </widget>
+              <widget class="QWidget" name="widget_pie_person_passage_day" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>650</x>
+                 <y>30</y>
+                 <width>500</width>
+                 <height>320</height>
+                </rect>
+               </property>
+               <widget class="QWidget" name="verticalLayoutWidget">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>491</width>
+                  <height>311</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_pie_person_passage_day"/>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="widget_pie_person_passage_all_time" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>650</x>
+                 <y>370</y>
+                 <width>500</width>
+                 <height>320</height>
+                </rect>
+               </property>
+               <widget class="QWidget" name="verticalLayoutWidget_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>491</width>
+                  <height>311</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_pie_person_passage_day_2"/>
+               </widget>
               </widget>
              </widget>
              <widget class="QWidget" name="page_settings"/>

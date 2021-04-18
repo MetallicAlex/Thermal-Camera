@@ -15,6 +15,10 @@ import widget.models as models
 
 class DBManagement:
     def __init__(self):
+        self._number_profile_passages = int
+        self._number_stranger_passages = int
+        self._number_normal_temperature_profile_passages = int
+        self._number_normal_temperature_stranger_passages = int
         self._profile_name = str
         self._pattern = None
         self._devices = models.Device
@@ -113,16 +117,16 @@ class DBManagement:
 
     def get_profile(self, identifier: str):
         with models.get_session() as session:
-            profile = session.query(models.Profile)\
-                .filter(models.Profile.id == identifier)\
+            profile = session.query(models.Profile) \
+                .filter(models.Profile.id == identifier) \
                 .scalar()
         self._profiles = profile
         return self._profiles
 
     def get_profile_by_name(self, name: str):
         with models.get_session() as session:
-            profile = session.query(models.Profile)\
-                .filter(models.Profile.name == name)\
+            profile = session.query(models.Profile) \
+                .filter(models.Profile.name == name) \
                 .scalar()
         self._profiles = profile
         return self._profiles
@@ -264,6 +268,40 @@ class DBManagement:
             session.add_all(statistics)
         self._statistics = statistics
 
+    def get_number_statistics(self,
+                              low: Union[str, float] = None,
+                              high: Union[str, float] = None,
+                              identifiers: list = None):
+        with models.get_session() as session:
+            query = session.query(models.Statistic)
+            if isinstance(low, str) and isinstance(high, str):
+                query = query.filter(models.Statistic.time >= low,
+                                     models.Statistic.time <= high)
+            elif isinstance(low, float) and isinstance(high, float):
+                query = query.filter(models.Statistic.temperature >= low,
+                                     models.Statistic.temperature <= high)
+            if identifiers:
+                query = query.filter(models.Statistic.id_profile.in_(identifiers))
+            self._number_profile_passages = query.count()
+        return self._number_profile_passages
+
+    def get_number_normal_temperature_statistics(self,
+                                                 threshold: float,
+                                                 low: str = None,
+                                                 high: str = None,
+                                                 identifiers: list = None
+                                                 ):
+        with models.get_session() as session:
+            query = session.query(models.Statistic)
+            if isinstance(low, str) and isinstance(high, str):
+                query = query.filter(models.Statistic.time >= low,
+                                     models.Statistic.time <= high)
+            if identifiers:
+                query = query.filter(models.Statistic.id_profile.in_(identifiers))
+            self._number_normal_temperature_profile_passages = query.filter(models.Statistic.temperature <= threshold)\
+                .count()
+        return self._number_normal_temperature_profile_passages
+
     def remove_statistics(self, *times: tuple):
         """
         :param times: tuple[identifier, datetime]
@@ -335,6 +373,32 @@ class DBManagement:
                                      models.StrangerStatistic.temperature <= high)
             self._stranger_statistics = query.all()
         return self._stranger_statistics
+
+    def get_number_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
+        with models.get_session() as session:
+            query = session.query(models.StrangerStatistic)
+            if isinstance(low, str) and isinstance(high, str):
+                query = query.filter(models.StrangerStatistic.time >= low,
+                                     models.StrangerStatistic.time <= high)
+            elif isinstance(low, float) and isinstance(high, float):
+                query = query.filter(models.StrangerStatistic.temperature >= low,
+                                     models.StrangerStatistic.temperature <= high)
+            self._number_stranger_passages = query.count()
+        return self._number_stranger_passages
+
+    def get_number_normal_temperature_stranger_statistics(self,
+                                                          threshold: float,
+                                                          low: str = None,
+                                                          high: str = None):
+        with models.get_session() as session:
+            query = session.query(models.StrangerStatistic)
+            if isinstance(low, str) and isinstance(high, str):
+                query = query.filter(models.StrangerStatistic.time >= low,
+                                     models.StrangerStatistic.time <= high)
+            self._number_normal_temperature_stranger_passages = query\
+                .filter(models.StrangerStatistic.temperature <= threshold)\
+                .count()
+        return self._number_normal_temperature_stranger_passages
 
     def add_stranger_statistics(self, *statistics: models.StrangerStatistic):
         with models.get_session() as session:
