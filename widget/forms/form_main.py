@@ -59,6 +59,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # SETTINGS
         self.canvas = DBVisualization()
         self.canvas.create_pie_chart_temperatures()
+        self.canvas.show()
         self.verticalLayout_pie_person_passage_day.addWidget(self.canvas)
         self.comboBox_profiles.addItem('All Profiles')
         self.radiobutton_time.setChecked(True)

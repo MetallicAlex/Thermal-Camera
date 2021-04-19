@@ -3432,47 +3432,27 @@ QPushButton:pressed {
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-chart-pie.png</normaloff>:/16x16/data/resources/icons/16x16/cil-chart-pie.png</iconset>
                </property>
               </widget>
-              <widget class="QWidget" name="widget_pie_person_passage_day" native="true">
+              <widget class="QWidget" name="verticalLayoutWidget">
                <property name="geometry">
                 <rect>
                  <x>650</x>
-                 <y>30</y>
-                 <width>500</width>
-                 <height>320</height>
+                 <y>50</y>
+                 <width>491</width>
+                 <height>311</height>
                 </rect>
                </property>
-               <widget class="QWidget" name="verticalLayoutWidget">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>491</width>
-                  <height>311</height>
-                 </rect>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_pie_person_passage_day"/>
-               </widget>
+               <layout class="QVBoxLayout" name="verticalLayout_pie_person_passage_day"/>
               </widget>
-              <widget class="QWidget" name="widget_pie_person_passage_all_time" native="true">
+              <widget class="QWidget" name="verticalLayoutWidget_2">
                <property name="geometry">
                 <rect>
                  <x>650</x>
                  <y>370</y>
-                 <width>500</width>
-                 <height>320</height>
+                 <width>491</width>
+                 <height>311</height>
                 </rect>
                </property>
-               <widget class="QWidget" name="verticalLayoutWidget_2">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>491</width>
-                  <height>311</height>
-                 </rect>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_pie_person_passage_day_2"/>
-               </widget>
+               <layout class="QVBoxLayout" name="verticalLayout_pie_person_passage_alltime"/>
               </widget>
              </widget>
              <widget class="QWidget" name="page_settings"/>

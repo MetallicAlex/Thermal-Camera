@@ -25,6 +25,7 @@ class SubscribePlatform(QtCore.QObject):
     _client = mqtt.Client(client_name)
     code_result = 0
     _data = dict
+    _prev_statistic = models.Statistic
     _database_management = DBManagement()
 
     @property
@@ -99,19 +100,19 @@ class SubscribePlatform(QtCore.QObject):
             self.record_stranger_information()
 
     def record_profile_information(self):
-        face = None
-        if 'imageFile' in self.data['datas']:
-            face = self.record_face_person()
         statistic = models.Statistic(
             identifier=self.data['datas']['user_id'],
             time=self.data['datas']['time'],
             temperature=self.data['datas']['temperature'],
             similar=self.data['datas']['similar'],
-            mask=self.is_mask_on(),
-            face=face
+            mask=self.is_mask_on()
         )
-        self._database_management.add_statistics(statistic)
-        self.statistic.emit(statistic)
+        if not self.is_duplicate_statistic(statistic):
+            if 'imageFile' in self.data['datas']:
+                face = self.record_face_person()
+                statistic.face = face
+            self._database_management.add_statistics(statistic)
+            self.statistic.emit(statistic)
 
     def record_stranger_information(self):
         face = None
@@ -150,3 +151,9 @@ class SubscribePlatform(QtCore.QObject):
         else:
             mask = 'unknow'
         return mask
+
+    def is_duplicate_statistic(self, statistic: models.Statistic):
+        time_difference = (abs(statistic.time - self._prev_statistic.time)).total_seconds()
+        if self._prev_statistic.id_profile == statistic.id_profile and 0 < time_difference <= 60:
+            return True
+        return False

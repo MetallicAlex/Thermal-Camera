@@ -51,12 +51,12 @@ class DBVisualization(FigureCanvas):
         self.ax.set_title('Title', fontsize=20)
         # self.ax.grid(color='#55aaff', linestyle='--', linewidth=2)
 
-    def create_pie_chart_temperatures(self, threshold: int = 37.5):
+    def create_pie_chart_temperatures(self, threshold: int = 37.5, identifiers: list = None):
         # bb13d1
         self.figure.set_facecolor('#272c36')
         labels = ['Profile', 'Stranger']
         number_passages = [
-            self.database_management.get_number_statistics(),
+            self.database_management.get_number_statistics(identifiers),
             self.database_management.get_number_stranger_statistics()
         ]
         number_all_persons = np.array(number_passages).sum()
