@@ -57,10 +57,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.thread.start()
             self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
-        self.canvas = DBVisualization()
-        self.canvas.create_pie_chart_temperatures()
-        self.canvas.show()
-        self.verticalLayout_pie_person_passage_day.addWidget(self.canvas)
+        self.pie_current_day = DBVisualization()
+        # self.pie_current_day.create_pie_chart_temperatures(title='Passage of people for the current day',
+        #                                                    current_day=datetime.date.today().strftime('%Y/%m/%d'))
+        self.pie_current_all_time = DBVisualization()
+        self.pie_current_all_time.create_pie_chart_temperatures()
+        # self.verticalLayout_pie_person_passage_day.addWidget(self.pie_current_day)
+        self.verticalLayout_pie_person_passage_alltime.addWidget(self.pie_current_all_time)
         self.comboBox_profiles.addItem('All Profiles')
         self.radiobutton_time.setChecked(True)
         self._load_devices_info_to_table()

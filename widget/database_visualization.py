@@ -51,26 +51,37 @@ class DBVisualization(FigureCanvas):
         self.ax.set_title('Title', fontsize=20)
         # self.ax.grid(color='#55aaff', linestyle='--', linewidth=2)
 
-    def create_pie_chart_temperatures(self, threshold: int = 37.5, identifiers: list = None):
-        # bb13d1
+    def create_pie_chart_temperatures(
+            self,
+            threshold: int = 37.5,
+            current_day: str = None,
+            title: str = 'All time passage of people' # Passage of people for the current day
+    ):
+        self.ax.clear()
         self.figure.set_facecolor('#272c36')
         labels = ['Profile', 'Stranger']
+        if current_day is None:
+            low = None
+            high = None
+        else:
+            low = current_day + ' 00:00:00'
+            high = current_day + ' 23:59:59'
         number_passages = [
-            self.database_management.get_number_statistics(identifiers),
-            self.database_management.get_number_stranger_statistics()
+            self.database_management.get_number_statistics(low=low, high=high),
+            self.database_management.get_number_stranger_statistics(low=low, high=high)
         ]
         number_all_persons = np.array(number_passages).sum()
-        number_normal_temp_stats = self.database_management\
-            .get_number_normal_temperature_statistics(threshold=threshold)
+        number_normal_temp_stats = self.database_management \
+            .get_number_normal_temperature_statistics(threshold=threshold, low=low, high=high)
         number_normal_temp_stranger_stats = self.database_management \
-            .get_number_normal_temperature_stranger_statistics(threshold=threshold)
+            .get_number_normal_temperature_stranger_statistics(threshold=threshold, low=low, high=high)
         number_temperatures = [
             number_normal_temp_stats,
             number_passages[0] - number_normal_temp_stats,
             number_normal_temp_stranger_stats,
             number_passages[1] - number_normal_temp_stranger_stats
         ]
-        colors = ['#ff6666', '#99ff99']
+        colors_temperatures = ['#99ff99', '#ff6666', '#99ff99', '#ff6666']
         colors = ['#49b6fc', '#fb7c33']
         wedges, texts = self.ax.pie(
             number_passages,
@@ -80,26 +91,33 @@ class DBVisualization(FigureCanvas):
             pctdistance=0.7,
             wedgeprops=dict(width=0.5)
         )
+        self.ax.pie(
+            number_temperatures,
+            colors=colors_temperatures,
+            radius=0.75,
+            startangle=45
+        )
         centre_circle = plt.Circle((0, 0), 0.5, color='black', fc='#272c36', linewidth=0)
         self.ax.add_artist(centre_circle)
         bbox_props = dict(boxstyle='square,pad=0.3', fc='#272c36', ec='w', lw=0.72)
         kw = dict(arrowprops=dict(arrowstyle='-', color='w'),
                   bbox=bbox_props, zorder=0, va='center',
                   color='w')
+        j = 0
         for i, p in enumerate(wedges):
             ang = (p.theta2 - p.theta1) / 2. + p.theta1
             y = np.sin(np.deg2rad(ang))
             x = np.cos(np.deg2rad(ang))
-            horizontalalignment = {-1: 'right', 1: 'left'}[int(np.sign(x))]
             connectionstyle = 'angle,angleA=0,angleB={}'.format(ang)
-            print(texts[i])
-            print(wedges[i])
             kw['arrowprops'].update({'connectionstyle': connectionstyle})
-            self.ax.annotate(f'{labels[i]} {np.round(100*number_passages[i]/number_all_persons, 2)}% ({number_passages[i]})',
+            self.ax.annotate(f'{labels[i]} '
+                             f'{np.round(100 * number_passages[i] / number_all_persons, 2)}%\n'
+                             f'({number_passages[i]} [N - {number_temperatures[j]}; A - {number_temperatures[j + 1]}])',
                              xy=(x, y),
                              xytext=(1.35 * np.sign(x), 1.4 * y),
                              horizontalalignment='center', **kw)
-        self.ax.set_title(r'Person Passage', color='w')
+            j += 2
+        self.ax.set_title(title, color='w')
 
     def create_pie_chart_number_persons(self, low: str = None, high: str = None):
         pass
@@ -115,6 +133,3 @@ class DBVisualization(FigureCanvas):
 
     def create_map_similar(self, statistics: list):
         pass
-
-    def show(self):
-        self.draw()

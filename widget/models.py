@@ -329,6 +329,7 @@ class StrangerStatistic(Base):
 @contextmanager
 def get_session():
     session = Session()
+    session.expire_on_commit = False
     try:
         yield session
     except:
