@@ -36,6 +36,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # APPLICATIONS
         # self.start_nginx()
         # DATA
+        self.path = os.path.abspath('nginx')
         self.device_management = DeviceManagement()
         self.device_management.find_host_info()
         self.device_management.port = 7777
@@ -564,7 +565,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_statistics.insertRow(row_position)
         self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
         self.table_statistics.setItem(row_position, 1, QTableWidgetItem(name))
-        self.table_statistics.setItem(row_position, 2, QTableWidgetItem(str(statistic.time)))
+        item = QTableWidgetItem(str(statistic.time))
+        if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
+            item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
+        else:
+            item.setToolTip('No Image')
+        self.table_statistics.setItem(row_position, 2, item)
         self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
         self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
 
