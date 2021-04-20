@@ -25,7 +25,8 @@ class SubscribePlatform(QtCore.QObject):
     _client = mqtt.Client(client_name)
     code_result = 0
     _data = dict
-    _prev_statistic = models.Statistic
+    _prev_statistic = models.Statistic('-1', '2021/01/01 00:00:00', '37.5', '0.0')
+    _prev_statistic.time = datetime.now()
     _database_management = DBManagement()
 
     @property
@@ -113,6 +114,7 @@ class SubscribePlatform(QtCore.QObject):
                 statistic.face = face
             self._database_management.add_statistics(statistic)
             self.statistic.emit(statistic)
+            self._prev_statistic = statistic
 
     def record_stranger_information(self):
         face = None
@@ -153,7 +155,12 @@ class SubscribePlatform(QtCore.QObject):
         return mask
 
     def is_duplicate_statistic(self, statistic: models.Statistic):
-        time_difference = (abs(statistic.time - self._prev_statistic.time)).total_seconds()
+        if isinstance(self._prev_statistic.time, datetime):
+            prev_time = self._prev_statistic.time
+        else:
+            prev_time = datetime.strptime(self._prev_statistic.time, '%Y-%m-%d %H:%M:%S')
+        current_time = datetime.strptime(statistic.time, '%Y-%m-%d %H:%M:%S')
+        time_difference = (abs(current_time - prev_time)).total_seconds()
         if self._prev_statistic.id_profile == statistic.id_profile and 0 < time_difference <= 60:
             return True
         return False

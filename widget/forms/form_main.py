@@ -621,7 +621,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         row_position = self.table_statistics.rowCount()
         self._add_statistic_row(row_position,
                                 statistic,
-                                self.database_management.get_profile_name(statistic.id_profie))
+                                self.database_management.get_profile_name(statistic.id_profile))
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):
