@@ -1,3 +1,5 @@
+import os
+
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
@@ -18,6 +20,7 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
         self.profile = profile
         self.filename = None
         self.database_management = DBManagement()
+        print(os.getcwd())
         # SETTINGS
         self._set_departments()
         if self.profile is not None:

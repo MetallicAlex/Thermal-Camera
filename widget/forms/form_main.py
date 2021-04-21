@@ -36,7 +36,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # APPLICATIONS
         # self.start_nginx()
         # DATA
-        self.path = os.path.abspath('nginx')
+        self.app_path = os.path.dirname(os.getcwd())
+        with open(f'{self.app_path}/widget/setting.json') as file:
+            self.settings = json.load(file, strict=False)
+        print(self.settings)
         self.device_management = DeviceManagement()
         self.device_management.find_host_info()
         self.device_management.port = 7777
@@ -61,10 +64,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pie_current_day = DBVisualization()
         # self.pie_current_day.create_pie_chart_temperatures(title='Passage of people for the current day',
         #                                                    current_day=datetime.date.today().strftime('%Y/%m/%d'))
-        self.pie_current_all_time = DBVisualization()
+        self.pie_current_all_time = DBVisualization(width=6, height=4)
         self.pie_current_all_time.create_pie_chart_temperatures()
+        self.pie_current_all_time.save(f'{self.app_path}/{self.settings["paths"]["temp"]}/temp.png')
+        # time.sleep(1)
+        self.label_pie_number_person_all_time.setPixmap(
+            QPixmap(QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/temp.png'))
+        )
+        self.label_pie_number_person_all_time.setScaledContents(True)
         # self.verticalLayout_pie_person_passage_day.addWidget(self.pie_current_day)
-        self.verticalLayout_pie_person_passage_alltime.addWidget(self.pie_current_all_time)
+        # self.verticalLayout_pie_person_passage_alltime.addWidget(self.pie_current_all_time)
         self.comboBox_profiles.addItem('All Profiles')
         self.radiobutton_time.setChecked(True)
         self._load_devices_info_to_table()
@@ -369,7 +378,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             identifier = None
         else:
             profile = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
-        self._load_statistics_to_table(identifiers=profile.id)
+            identifier = profile.id
+        self._load_statistics_to_table(identifiers=identifier)
 
     def _button_report_clicked(self, event):
         filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File', '', 'JSON File (*.json);')
@@ -650,10 +660,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = QTableWidgetItem()
         if os.path.isfile(f'nginx/html{path_image}'):
             pixmap = QPixmap(QImage(f'nginx/html{path_image}'))
+            image = f'<br><img src="nginx/html{path_image}" width="360" alt="lorem"'
         else:
             pixmap = QPixmap(QImage('data/resources/icons/user.png'))
+            image = 'No Image'
         pixmap = pixmap.scaled(100, 100, Qt.KeepAspectRatio)
         item.setData(Qt.DecorationRole, pixmap)
+        item.setToolTip(image)
         return item
 
     def _get_item_to_cell(self, value):

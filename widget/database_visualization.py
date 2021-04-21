@@ -55,7 +55,7 @@ class DBVisualization(FigureCanvas):
             self,
             threshold: int = 37.5,
             current_day: str = None,
-            title: str = 'All time passage of people' # Passage of people for the current day
+            title: str = 'All time passage of people'  # Passage of people for the current day
     ):
         self.ax.clear()
         self.figure.set_facecolor('#272c36')
@@ -71,6 +71,10 @@ class DBVisualization(FigureCanvas):
             self.database_management.get_number_stranger_statistics(low=low, high=high)
         ]
         number_all_persons = np.array(number_passages).sum()
+        if number_all_persons == 0:
+            data = [1, 1]
+        else:
+            data = number_passages
         number_normal_temp_stats = self.database_management \
             .get_number_normal_temperature_statistics(threshold=threshold, low=low, high=high)
         number_normal_temp_stranger_stats = self.database_management \
@@ -81,18 +85,23 @@ class DBVisualization(FigureCanvas):
             number_normal_temp_stranger_stats,
             number_passages[1] - number_normal_temp_stranger_stats
         ]
-        colors_temperatures = ['#99ff99', '#ff6666', '#99ff99', '#ff6666']
-        colors = ['#49b6fc', '#fb7c33']
+        if np.array(number_temperatures).sum() == 0:
+            data_temperatures = [1, 1, 1, 1]
+        else:
+            data_temperatures = number_temperatures
+        print(number_temperatures, number_passages)
+        colors_temperatures = ['#BB9BB6', '#E9B9D2', '#BB9BB6', '#E9B9D2']
+        colors = ['#686277', '#907E97']
         wedges, texts = self.ax.pie(
-            number_passages,
+            data,
             colors=colors,
             startangle=45,
             frame=False,
             pctdistance=0.7,
             wedgeprops=dict(width=0.5)
         )
-        self.ax.pie(
-            number_temperatures,
+        wedges2, texts2 = self.ax.pie(
+            data_temperatures,
             colors=colors_temperatures,
             radius=0.75,
             startangle=45
@@ -118,6 +127,10 @@ class DBVisualization(FigureCanvas):
                              horizontalalignment='center', **kw)
             j += 2
         self.ax.set_title(title, color='w')
+        # self.ax.legend([wedges, wedges2], [data, data_temperatures],
+        #                title='Passage',
+        #                loc='center left',
+        #                bbox_to_anchor=(1, 0, 0.5, 1))
 
     def create_pie_chart_number_persons(self, low: str = None, high: str = None):
         pass
@@ -133,3 +146,6 @@ class DBVisualization(FigureCanvas):
 
     def create_map_similar(self, statistics: list):
         pass
+
+    def save(self, filename):
+        self.figure.savefig(filename)

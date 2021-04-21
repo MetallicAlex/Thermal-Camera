@@ -2879,6 +2879,9 @@ QHeaderView::section:vertical
 }
 </string>
                </property>
+               <property name="selectionMode">
+                <enum>QAbstractItemView::NoSelection</enum>
+               </property>
                <property name="selectionBehavior">
                 <enum>QAbstractItemView::SelectRows</enum>
                </property>
@@ -3432,27 +3435,31 @@ QPushButton:pressed {
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-chart-pie.png</normaloff>:/16x16/data/resources/icons/16x16/cil-chart-pie.png</iconset>
                </property>
               </widget>
-              <widget class="QWidget" name="verticalLayoutWidget">
+              <widget class="QLabel" name="label_pie_number_person_day">
                <property name="geometry">
                 <rect>
                  <x>650</x>
                  <y>50</y>
-                 <width>491</width>
-                 <height>311</height>
+                 <width>489</width>
+                 <height>309</height>
                 </rect>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_pie_person_passage_day"/>
+               <property name="text">
+                <string/>
+               </property>
               </widget>
-              <widget class="QWidget" name="verticalLayoutWidget_2">
+              <widget class="QLabel" name="label_pie_number_person_all_time">
                <property name="geometry">
                 <rect>
                  <x>650</x>
                  <y>370</y>
-                 <width>491</width>
-                 <height>311</height>
+                 <width>489</width>
+                 <height>309</height>
                 </rect>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_pie_person_passage_alltime"/>
+               <property name="text">
+                <string/>
+               </property>
               </widget>
              </widget>
              <widget class="QWidget" name="page_settings"/>
