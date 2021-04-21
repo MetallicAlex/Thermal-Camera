@@ -200,7 +200,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     for row_position in range(self.table_profiles.rowCount())
                     if self.table_profiles.cellWidget(row_position, 0).isChecked()
                 ]
-                self.publish_platform.add_profiles_data(profile_ids)
+                if len(profile_ids) <= 0:
+                    messagebox = InformationMessageBox()
+                    messagebox.setWindowTitle('Information')
+                    messagebox.label_title.setText('Information - Send to Device')
+                    messagebox.label_info.setText(f'Choose who to add to the device'
+                                                  f' {self.comboBox_databases.currentText()}.')
+                    messagebox.exec_()
+                else:
+                    self.publish_platform.add_profiles_data(profile_ids)
             else:
                 self.publish_platform.add_profiles_data()
 
