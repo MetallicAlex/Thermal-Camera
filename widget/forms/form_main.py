@@ -1,6 +1,7 @@
 import json
 import os
-import subprocess
+import copy
+import multiprocessing
 import datetime
 import time
 import natsort
@@ -34,7 +35,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # APPLICATIONS
-        # self.start_nginx()
+        self.start_nginx()
         # DATA
         self.app_path = os.path.dirname(os.getcwd())
         with open(f'{self.app_path}/widget/setting.json') as file:
@@ -48,35 +49,20 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.theme = self._get_theme('dark theme')
         self.number_device_profiles = 0
         self.last_page = False
-        if self.device_management.host is not None:
-            self.subscribe_platform = SubscribePlatform()
-            self.subscribe_platform.set_host_port(self.device_management.host, client_name='SP1')
-            self.thread = QtCore.QThread()
-            self.subscribe_platform.moveToThread(self.thread)
-            self.subscribe_platform.statistic.connect(self._get_record)
-            self.subscribe_platform.device.connect(self._update_device_info)
-            self.subscribe_platform.profiles.connect(self._get_profiles_from_device)
-            self.subscribe_platform.token.connect(self._get_token)
-            self.thread.started.connect(self.subscribe_platform.run)
-            self.thread.start()
-            self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
+        self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
-        self.pie_current_day = DBVisualization()
+        # self.pie_current_day = DBVisualization()
         # self.pie_current_day.create_pie_chart_temperatures(title='Passage of people for the current day',
         #                                                    current_day=datetime.date.today().strftime('%Y/%m/%d'))
-        self.pie_current_all_time = DBVisualization(width=6, height=4)
-        self.pie_current_all_time.create_pie_chart_temperatures()
-        self.pie_current_all_time.save(f'{self.app_path}/{self.settings["paths"]["temp"]}/temp.png')
-        # time.sleep(1)
-        self.label_pie_number_person_all_time.setPixmap(
-            QPixmap(QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/temp.png'))
-        )
+        # self.pie_current_all_time = DBVisualization(width=10, height=4)
+        # self.pie_current_all_time.create_pie_chart_temperatures()
+        # self.pie_current_all_time.figure.savefig(f'{self.app_path}/widget/data/temp/temp.png')
+        # self.label_pie_number_person_all_time.setPixmap(
+        #     QPixmap(QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/temp.png'))
+        # )
         self.label_pie_number_person_all_time.setScaledContents(True)
-        # self.verticalLayout_pie_person_passage_day.addWidget(self.pie_current_day)
-        # self.verticalLayout_pie_person_passage_alltime.addWidget(self.pie_current_all_time)
         self.comboBox_profiles.addItem('All Profiles')
         self.radiobutton_time.setChecked(True)
-        self._load_devices_info_to_table()
         self._load_profiles_to_table()
         self._load_departments_to_table()
         self._load_statistics_to_table(low=str(datetime.datetime.now().replace(hour=0, minute=0, second=0)),
@@ -119,6 +105,19 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_strangers_statistic.clicked.connect(self._button_stranger_statistics_clicked)
         self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
         self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
+        # DATA
+        if self.device_management.host is not None:
+            self.subscribe_platform = SubscribePlatform()
+            self.subscribe_platform.set_host_port(self.device_management.host, client_name='SP1')
+            self.thread = QtCore.QThread()
+            self.subscribe_platform.moveToThread(self.thread)
+            self.subscribe_platform.statistic.connect(self._get_record)
+            self.subscribe_platform.device.connect(self._update_device_info)
+            self.subscribe_platform.profiles.connect(self._get_profiles_from_device)
+            self.subscribe_platform.token.connect(self._get_token)
+            self.thread.started.connect(self.subscribe_platform.run)
+            self.thread.start()
+        self._load_devices_info_to_table()
         print(time.time() - start)
 
     # EVENTS
@@ -130,6 +129,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.move(self.pos() + event.globalPos() - self.dragPos)
             self.dragPos = event.globalPos()
             event.accept()
+
+    def _button_close_clicked(self, event):
+        pass
 
     def _button_device_clicked(self, event):
         self._update_system_buttons(self.button_device)
@@ -372,6 +374,21 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             high=high,
             identifiers=identifier
         )
+        start = time.time()
+        process = multiprocessing.Process(
+            target=MainForm._update_plots,
+            args=(
+                copy.copy(self.app_path),
+            )
+        )
+        process.start()
+        process.join()
+        self.label_pie_number_person_all_time.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/temp.png')
+            )
+        )
+        print(time.time() - start)
 
     def _button_all_statistic_clicked(self, event):
         if self.comboBox_profiles.currentText() == 'All Profiles':
@@ -656,6 +673,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         button.setStyleSheet(self.theme['system-button'] +
                              "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
 
+    @staticmethod
+    def _update_plots(app_path: str):
+        db_visualisation = DBVisualization(width=10, height=4)
+        db_visualisation.create_pie_chart_temperatures()
+        db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/temp.png')
+
     def _get_item_image(self, path_image=str):
         item = QTableWidgetItem()
         if os.path.isfile(f'nginx/html{path_image}'):
@@ -692,9 +715,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # NGINX
     def start_nginx(self):
         path = os.path.abspath('nginx')
-        print(path)
-        subprocess.run([f"{path}\\start", "nginx"])
+        # print(path)
+        # subprocess.run([f"{path}\\start", "nginx"])
         # os.system(f'{path}\\start nginx')
+        print(path)
+        self.p = QtCore.QProcess()
+        self.p.setWorkingDirectory(f'{path}')
+        self.p.start('nginx.exe')
 
     def quit_nginx(self):
         os.system('nginx\\nginx.exe -s quit')

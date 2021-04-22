@@ -127,6 +127,12 @@ class DBVisualization(FigureCanvas):
                              horizontalalignment='center', **kw)
             j += 2
         self.ax.set_title(title, color='w')
+        self.ax.legend(
+            [*wedges, *wedges2],
+            ['Profile Passage', 'Stranger Passage', 'Normal Temperature (N)', 'Heat Temperature (H)'],
+            loc='upper left',
+            bbox_to_anchor=(-1, 0.6)
+        )
         # self.ax.legend([wedges, wedges2], [data, data_temperatures],
         #                title='Passage',
         #                loc='center left',
