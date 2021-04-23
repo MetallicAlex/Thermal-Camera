@@ -73,6 +73,7 @@ class DBVisualization(FigureCanvas):
         number_all_persons = np.array(number_passages).sum()
         if number_all_persons == 0:
             data = [1, 1]
+            number_all_persons = 2
         else:
             data = number_passages
         number_normal_temp_stats = self.database_management \
@@ -120,18 +121,21 @@ class DBVisualization(FigureCanvas):
             connectionstyle = 'angle,angleA=0,angleB={}'.format(ang)
             kw['arrowprops'].update({'connectionstyle': connectionstyle})
             self.ax.annotate(f'{labels[i]} '
-                             f'{np.round(100 * number_passages[i] / number_all_persons, 2)}%\n'
-                             f'({number_passages[i]} [N - {number_temperatures[j]}; A - {number_temperatures[j + 1]}])',
+                             f'{np.round(100 * data[i] / number_all_persons, 2)}%\n'
+                             f'({number_passages[i]} [N - {number_temperatures[j]}; H - {number_temperatures[j + 1]}])',
                              xy=(x, y),
-                             xytext=(1.35 * np.sign(x), 1.4 * y),
-                             horizontalalignment='center', **kw)
+                             xytext=(2 * np.sign(x), 1.5 * y),
+                             horizontalalignment='center', fontsize=12, **kw)
             j += 2
-        self.ax.set_title(title, color='w')
+        self.ax.set_title(title, color='w', fontsize=16)
         self.ax.legend(
             [*wedges, *wedges2],
             ['Profile Passage', 'Stranger Passage', 'Normal Temperature (N)', 'Heat Temperature (H)'],
-            loc='upper left',
-            bbox_to_anchor=(-1, 0.6)
+            loc='best',
+            bbox_to_anchor=(-0.1, 0.7),
+            fontsize=12,
+            framealpha=0,
+            labelcolor='w'
         )
         # self.ax.legend([wedges, wedges2], [data, data_temperatures],
         #                title='Passage',

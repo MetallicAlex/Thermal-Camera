@@ -51,15 +51,25 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.last_page = False
         self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
-        # self.pie_current_day = DBVisualization()
-        # self.pie_current_day.create_pie_chart_temperatures(title='Passage of people for the current day',
-        #                                                    current_day=datetime.date.today().strftime('%Y/%m/%d'))
-        # self.pie_current_all_time = DBVisualization(width=10, height=4)
-        # self.pie_current_all_time.create_pie_chart_temperatures()
-        # self.pie_current_all_time.figure.savefig(f'{self.app_path}/widget/data/temp/temp.png')
-        # self.label_pie_number_person_all_time.setPixmap(
-        #     QPixmap(QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/temp.png'))
-        # )
+        self.database_visualization = DBVisualization(width=9, height=4)
+        self.database_visualization.create_pie_chart_temperatures(
+            title='Passage of people for the current day',
+            current_day=datetime.date.today().strftime('%Y-%m-%d')
+        )
+        self.database_visualization.save(f'{self.app_path}/{self.settings["paths"]["temp"]}/pie_day.png')
+        self.label_pie_number_person_day.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/pie_day.png')
+            )
+        )
+        self.database_visualization.create_pie_chart_temperatures()
+        self.database_visualization.save(f'{self.app_path}/{self.settings["paths"]["temp"]}/pie_all_time.png')
+        self.label_pie_number_person_all_time.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/pie_all_time.png')
+            )
+        )
+        self.label_pie_number_person_day.setScaledContents(True)
         self.label_pie_number_person_all_time.setScaledContents(True)
         self.comboBox_profiles.addItem('All Profiles')
         self.radiobutton_time.setChecked(True)
@@ -374,21 +384,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             high=high,
             identifiers=identifier
         )
-        start = time.time()
-        process = multiprocessing.Process(
-            target=MainForm._update_plots,
-            args=(
-                copy.copy(self.app_path),
-            )
-        )
-        process.start()
-        process.join()
-        self.label_pie_number_person_all_time.setPixmap(
-            QPixmap(
-                QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/temp.png')
-            )
-        )
-        print(time.time() - start)
 
     def _button_all_statistic_clicked(self, event):
         if self.comboBox_profiles.currentText() == 'All Profiles':
@@ -659,10 +654,38 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # STATISTIC
     @QtCore.pyqtSlot(object)
     def _get_record(self, statistic: models.Statistic):
-        row_position = self.table_statistics.rowCount()
-        self._add_statistic_row(row_position,
-                                statistic,
-                                self.database_management.get_profile_name(statistic.id_profile))
+        statistic_time = datetime.datetime.strptime(statistic.time, '%Y-%m-%d %H:%M:%S')
+        if self.dateTimeEdit_start.dateTime() <= statistic_time <= self.dateTimeEdit_end.dateTime() \
+                and (statistic.id_profile == self.comboBox_profiles.currentText()
+                     or self.comboBox_profiles.currentText() == 'All Profiles'):
+            row_position = self.table_statistics.rowCount()
+            self._add_statistic_row(
+                row_position,
+                statistic,
+                self.database_management.get_profile_name(statistic.id_profile)
+            )
+            self.table_statistics.resizeColumnsToContents()
+            self.table_statistics.resizeRowsToContents()
+        start = time.time()
+        process = multiprocessing.Process(
+            target=MainForm._update_plots,
+            args=(
+                copy.copy(self.app_path),
+            )
+        )
+        process.start()
+        process.join()
+        self.label_pie_number_person_day.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/pie_day.png')
+            )
+        )
+        self.label_pie_number_person_all_time.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/pie_all_time.png')
+            )
+        )
+        print(f'[VISUALISATION][PIES] {time.time() - start}')
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):
@@ -675,9 +698,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     @staticmethod
     def _update_plots(app_path: str):
-        db_visualisation = DBVisualization(width=10, height=4)
+        db_visualisation = DBVisualization(width=9, height=4)
         db_visualisation.create_pie_chart_temperatures()
-        db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/temp.png')
+        db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/pie_all_time.png')
+        db_visualisation.create_pie_chart_temperatures(
+            title='Passage of people for the current day',
+            current_day=datetime.date.today().strftime('%Y-%m-%d')
+        )
+        db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/pie_day.png')
 
     def _get_item_image(self, path_image=str):
         item = QTableWidgetItem()
