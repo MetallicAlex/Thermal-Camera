@@ -298,7 +298,7 @@ class DBManagement:
                                      models.Statistic.time <= high)
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
-            self._number_normal_temperature_profile_passages = query.filter(models.Statistic.temperature <= threshold)\
+            self._number_normal_temperature_profile_passages = query.filter(models.Statistic.temperature <= threshold) \
                 .count()
         return self._number_normal_temperature_profile_passages
 
@@ -332,34 +332,68 @@ class DBManagement:
         for statistic in self.get_statistics():
             pass
 
-    def create_passage_report(self, filename: str):
+    def create_passage_report(self, filename: str, identifiers: list = None, low: str = None, high: str = None):
+        file_format = filename.split('.')[-1]
+        if file_format == 'json':
+            self.create_passage_report_json(filename, identifiers, low, high)
+
+    def create_passage_report_json(self, filename: str = None,
+                                   identifiers: list = None,
+                                   low: str = None,
+                                   high: str = None):
         report = {}
-        for statistic in self.get_statistics():
+        number_statistic = 0
+        for statistic in self.get_statistics(identifiers=identifiers, low=low, high=high):
             name = self.get_profile_name(statistic.id_profile)
             statistic_datetime = str(statistic.time).split(' ')
             if name in report:
                 if statistic_datetime[0] in report[name]:
-                    new_time = datetime.strptime(statistic_datetime[1], '%H:%M:%S')
-                    if new_time < datetime.strptime(report[name][statistic_datetime[0]]['came'], '%H:%M:%S'):
-                        report[name][statistic_datetime[0]]['came'] = statistic_datetime[1]
-                    elif new_time > datetime.strptime(report[name][statistic_datetime[0]]['gone'], '%H:%M:%S'):
-                        report[name][statistic_datetime[0]]['gone'] = statistic_datetime[1]
+                    if number_statistic % 2 == 1:
+                        report[name][statistic_datetime[0]][int(number_statistic / 2)]['gone'] = statistic_datetime[1]
+                    else:
+                        report[name][statistic_datetime[0]].append(
+                            {
+                                'came': statistic_datetime[1],
+                                'gone': statistic_datetime[1]
+                            }
+                        )
+                    number_statistic += 1
                 else:
-                    report[name][statistic_datetime[0]] = {
-                        'came': statistic_datetime[1],
-                        'gone': statistic_datetime[1]
-                    }
+                    number_statistic = 1
+                    report[name][statistic_datetime[0]] = [
+                        {
+                            'came': statistic_datetime[1],
+                            'gone': statistic_datetime[1]
+                        }
+                    ]
             else:
+                number_statistic = 1
                 report[name] = {
-                    statistic_datetime[0]: {
-                        'came': statistic_datetime[1],
-                        'gone': statistic_datetime[1]
-                    }
+                    statistic_datetime[0]: [
+                        {
+                            'came': statistic_datetime[1],
+                            'gone': statistic_datetime[1]
+                        }
+                    ]
                 }
-        file_format = filename.split('.')[-1]
-        if file_format == 'json':
-            with open(filename, 'w', encoding='utf-8') as file:
-                json.dump(report, file, ensure_ascii=False, indent=4)
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(report, file, ensure_ascii=False, indent=4)
+
+    def create_passage_report_csv(self, filename: str = None,
+                                  identifiers: list = None,
+                                  low: str = None,
+                                  high: str = None):
+        report = pd.DataFrame(columns=['Name', 'Date', 'Came', 'Gone'])
+        number_statistic = 0
+        for statistic in self.get_statistics(identifiers=identifiers, low=low, high=high):
+            statistic_datetime = str(statistic.time).split(' ')
+            name = self.get_profile_name(statistic.id_profile)
+            row = {
+                'Name': self.get_profile_name(statistic.id_profile),
+                'Date': statistic_datetime[0],
+                'Came': statistic_datetime[1],
+                'Gone': statistic_datetime[1]
+            }
 
     # STRANGER STATISTICS
     def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
@@ -395,8 +429,8 @@ class DBManagement:
             if isinstance(low, str) and isinstance(high, str):
                 query = query.filter(models.StrangerStatistic.time >= low,
                                      models.StrangerStatistic.time <= high)
-            self._number_normal_temperature_stranger_passages = query\
-                .filter(models.StrangerStatistic.temperature <= threshold)\
+            self._number_normal_temperature_stranger_passages = query \
+                .filter(models.StrangerStatistic.temperature <= threshold) \
                 .count()
         return self._number_normal_temperature_stranger_passages
 

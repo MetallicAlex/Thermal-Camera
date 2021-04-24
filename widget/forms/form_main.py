@@ -405,9 +405,21 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         messagebox.exec_()
         start = time.time()
         if messagebox.dialog_result != -1:
+            if self.comboBox_profiles.currentText() != 'All Profiles':
+                identifier = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
+                identifier = [identifier.id]
+            else:
+                identifier = None
+            if self.radiobutton_time.isChecked():
+                low = self.dateTimeEdit_start.dateTime()
+                high = self.dateTimeEdit_end.dateTime()
+                print(low, high)
+            else:
+                low = None
+                high = None
             process = multiprocessing.Process(
                 target=MainForm._create_report,
-                args=(messagebox.dialog_result, messagebox.filename,)
+                args=(messagebox.dialog_result, messagebox.filename, identifier, low, high, )
             )
             process.start()
             process.join()
@@ -711,10 +723,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                              "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
 
     @staticmethod
-    def _create_report(dialog_result: int, filename):
+    def _create_report(dialog_result: int,
+                       filename: str,
+                       identifiers: list = None,
+                       low: str = None,
+                       high: str = None):
         db_management = DBManagement()
         if dialog_result == 1:
-            db_management.create_passage_report(filename)
+            db_management.create_passage_report(filename, identifiers, low, high)
         elif dialog_result == 2:
             db_management.create_temperatures_report(filename)
 
