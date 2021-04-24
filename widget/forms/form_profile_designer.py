@@ -239,7 +239,14 @@ class Ui_FormProfile(object):
                                       "    background-color: rgb(65, 130, 195);\n"
                                       "}\n"
                                       "\n"
-                                      "")
+                                      ""
+                                      "QToolTip {"
+                                      "color: #ffffff;"
+                                      "background-color: rgba(27, 29, 35, 160);"
+                                      "border: 1px solid rgb(40, 40, 40);"
+                                      "border-radius: 2px;"
+                                      "}"
+                                      )
         self.frame_main.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_main.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_main.setObjectName("frame_main")

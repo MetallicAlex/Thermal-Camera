@@ -20,7 +20,7 @@ from widget.forms.form_devices import FormDevices
 from widget.forms.form_configuration import FormConfiguration
 from widget.forms.form_device_database_view import FormDeviceDBView
 from widget.forms.form_stranger_table import FormStrangerTable
-from widget.forms.messagebox import DepartmentMessageBox, WarningMessageBox, InformationMessageBox
+from widget.forms.messagebox import DepartmentMessageBox, ReportMessageBox, WarningMessageBox, InformationMessageBox
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
 from widget.database_visualization import DBVisualization
@@ -51,7 +51,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.last_page = False
         self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
-        self.database_visualization = DBVisualization(width=9, height=4)
+        self.database_visualization = DBVisualization(width=10, height=6)
         self.database_visualization.create_pie_chart_temperatures(
             title='Passage of people for the current day',
             current_day=datetime.date.today().strftime('%Y-%m-%d')
@@ -273,11 +273,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _button_device_database_view_clicked(self, event):
         self.profile_ids = []
         self.last_page = False
-        for device in self.devices:
-            if device.id == self.comboBox_databases.currentText():
-                self.publish_platform.set_device(device.id, device.token)
-                self.publish_platform.query_profiles_data(-1)
-                break
+        if self.comboBox_databases.currentText() != '':
+            for device in self.devices:
+                if device.id == self.comboBox_databases.currentText():
+                    self.publish_platform.set_device(device.id, device.token)
+                    self.publish_platform.query_profiles_data(-1)
+                    break
+        else:
+            messagebox = InformationMessageBox()
+            messagebox.setWindowTitle('Information')
+            messagebox.label_title.setText('Information - Database View')
+            messagebox.label_info.setText('No connected devices')
+            messagebox.exec_()
 
     def _button_create_pattern_clicked(self, event):
         filename, _ = QFileDialog.getSaveFileName(self, 'Save Pattern', '', 'CSV File (*.csv)')
@@ -394,9 +401,17 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self._load_statistics_to_table(identifiers=identifier)
 
     def _button_report_clicked(self, event):
-        filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File', '', 'JSON File (*.json);')
-        if filename:
-            self.database_management.create_passage_report(filename)
+        messagebox = ReportMessageBox()
+        messagebox.exec_()
+        start = time.time()
+        if messagebox.dialog_result != -1:
+            process = multiprocessing.Process(
+                target=MainForm._create_report,
+                args=(messagebox.dialog_result, messagebox.filename,)
+            )
+            process.start()
+            process.join()
+        print(time.time() - start)
 
     def _button_stranger_statistics_clicked(self, event):
         statistics = self.database_management.get_stranger_statistics()
@@ -517,7 +532,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _add_device_row(self, device: models.Device):
         row_position = self.table_devices.rowCount()
-        print(row_position)
         self.table_devices.insertRow(row_position)
         item = QCheckBox()
         item.setCheckState(Qt.Unchecked)
@@ -695,6 +709,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_settings.setStyleSheet(self.theme['system-button'])
         button.setStyleSheet(self.theme['system-button'] +
                              "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
+
+    @staticmethod
+    def _create_report(dialog_result: int, filename):
+        db_management = DBManagement()
+        if dialog_result == 1:
+            db_management.create_passage_report(filename)
+        elif dialog_result == 2:
+            db_management.create_temperatures_report(filename)
 
     @staticmethod
     def _update_plots(app_path: str):

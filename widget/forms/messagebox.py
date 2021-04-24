@@ -1,8 +1,12 @@
+from widget.management import DBManagement
+
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
+
 from widget.forms.messagebox_department import Ui_DepartmentMessageBox
 from widget.forms.messagebox_warning import Ui_WarningMessageBox
 from widget.forms.messagebox_information import Ui_InforamtionMessageBox
+from widget.forms.messagebox_report import Ui_ReportMessageBox
 
 
 class DepartmentMessageBox(QtWidgets.QDialog, Ui_DepartmentMessageBox):
@@ -96,3 +100,39 @@ class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
     def _button_ok_clicked(self, event):
         self.dialog_result = 1
         self.close()
+
+
+class ReportMessageBox(QtWidgets.QDialog, Ui_ReportMessageBox):
+    def __init__(self, parent=None):
+        super().__init__()
+        self.setupUi(self)
+        # DATA
+        self.dialog_result = -1
+        self.filename = None
+        # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
+        self.button_close.clicked.connect(lambda: self.close())
+        self.button_passage.clicked.connect(self.button_passage_clicked)
+        self.button_temperature.clicked.connect(self.button_temperature_clicked)
+        self.frame_title.mouseMoveEvent = self._frame_header_move_window
+        self.frame_title.mousePressEvent = self._frame_header_mouse_press
+
+    def _frame_header_mouse_press(self, event):
+        self.dragPos = event.globalPos()
+
+    def _frame_header_move_window(self, event):
+        if event.buttons() == Qt.LeftButton:
+            self.move(self.pos() + event.globalPos() - self.dragPos)
+            self.dragPos = event.globalPos()
+            event.accept()
+
+    def button_passage_clicked(self, event):
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save Passage Report', '', 'JSON File (*.json);')
+        if self.filename:
+            self.dialog_result = 1
+            self.close()
+
+    def button_temperature_clicked(self, event):
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save Temperature Report', '', 'JSON File (*.json);')
+        if self.filename:
+            self.dialog_result = 2
+            self.close()

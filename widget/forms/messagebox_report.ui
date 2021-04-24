@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DepartmentMessageBox</class>
- <widget class="QWidget" name="DepartmentMessageBox">
+ <class>ReportMessageBox</class>
+ <widget class="QWidget" name="ReportMessageBox">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Department</string>
+   <string>Report</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background: transparent;
@@ -283,7 +283,7 @@ color: rgb(210, 210, 210);</string>
             <string notr="true">background: transparent;</string>
            </property>
            <property name="text">
-            <string>Department</string>
+            <string>Report</string>
            </property>
           </widget>
          </item>
@@ -345,40 +345,7 @@ QPushButton:pressed {
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QLineEdit" name="lineEdit_department">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>40</y>
-           <width>281</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLineEdit {
-	background-color: rgb(27, 29, 35);
-	border-radius: 5px;
-	border: 2px solid rgb(27, 29, 35);
-	padding-left: 10px;
-}
-QLineEdit:hover {
-	border: 2px solid rgb(64, 71, 88);
-}
-QLineEdit:focus {
-	border: 2px solid rgb(91, 101, 124);
-}</string>
-         </property>
-         <property name="maxLength">
-          <number>32</number>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="button_accept">
+        <widget class="QPushButton" name="button_passage">
          <property name="geometry">
           <rect>
            <x>60</x>
@@ -412,10 +379,10 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="text">
-          <string>Accept</string>
+          <string>Passage</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="button_cancel">
+        <widget class="QPushButton" name="button_temperature">
          <property name="geometry">
           <rect>
            <x>210</x>
@@ -449,14 +416,14 @@ QPushButton:pressed {
 }</string>
          </property>
          <property name="text">
-          <string>Cancel</string>
+          <string>Temperature</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_info">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>0</y>
+           <y>30</y>
            <width>371</width>
            <height>40</height>
           </rect>
@@ -646,7 +613,13 @@ QPushButton:pressed {
           <string notr="true">background: transparent;</string>
          </property>
          <property name="text">
-          <string>Enter department name</string>
+          <string>Select the type of report</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>

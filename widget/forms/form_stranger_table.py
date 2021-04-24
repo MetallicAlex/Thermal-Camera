@@ -1,3 +1,5 @@
+import os
+
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTableWidgetItem
@@ -31,5 +33,11 @@ class FormStrangerTable(QtWidgets.QDialog, Ui_FormStrangerTable):
     def _load_statistics_to_table(self, statistics: list):
         for row_position, statistic in enumerate(statistics):
             self.table_statistics.insertRow(row_position)
-            self.table_statistics.setItem(row_position, 0, QTableWidgetItem(str(statistic.time)))
+            item = QTableWidgetItem(str(statistic.time))
+            if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
+                item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
+            else:
+                item.setToolTip('No Image')
+            self.table_statistics.setItem(row_position, 0, item)
             self.table_statistics.setItem(row_position, 1, QTableWidgetItem(str(statistic.temperature)))
+        self.table_statistics.resizeColumnsToContents()

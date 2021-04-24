@@ -287,7 +287,14 @@ class Ui_FormConfiguration(object):
                                       "    padding: 10px;\n"
                                       "    selection-background-color: rgb(39, 44, 54);\n"
                                       "}\n"
-                                      "")
+                                      ""
+                                      "QToolTip {"
+                                      "color: #ffffff;"
+                                      "background-color: rgba(27, 29, 35, 160);"
+                                      "border: 1px solid rgb(40, 40, 40);"
+                                      "border-radius: 2px;"
+                                      "}"
+                                      )
         self.frame_main.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_main.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_main.setObjectName("frame_main")

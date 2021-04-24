@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'messagebox_warning.ui'
+# Form implementation generated from reading ui file 'messagebox_report.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.2
 #
@@ -11,18 +11,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_WarningMessageBox(object):
-    def setupUi(self, WarningMessageBox):
-        WarningMessageBox.setObjectName("WarningMessageBox")
-        WarningMessageBox.resize(400, 200)
-        WarningMessageBox.setWindowFlag(QtCore.Qt.FramelessWindowHint)
-        WarningMessageBox.setStyleSheet("background: transparent;\n"
-                                        "color: rgb(210, 210, 210);")
-        self.verticalLayout = QtWidgets.QVBoxLayout(WarningMessageBox)
+class Ui_ReportMessageBox(object):
+    def setupUi(self, ReportMessageBox):
+        ReportMessageBox.setObjectName("ReportMessageBox")
+        ReportMessageBox.resize(400, 200)
+        ReportMessageBox.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        ReportMessageBox.setStyleSheet("background: transparent;\n"
+                                       "color: rgb(210, 210, 210);")
+        self.verticalLayout = QtWidgets.QVBoxLayout(ReportMessageBox)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.frame_center = QtWidgets.QFrame(WarningMessageBox)
+        self.frame_center = QtWidgets.QFrame(ReportMessageBox)
         self.frame_center.setStyleSheet("background-color: rgb(27, 29, 35);\n"
                                         "")
         self.frame_center.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -147,54 +147,54 @@ class Ui_WarningMessageBox(object):
         self.frame_contains.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_contains.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_contains.setObjectName("frame_contains")
-        self.button_yes = QtWidgets.QPushButton(self.frame_contains)
-        self.button_yes.setGeometry(QtCore.QRect(60, 90, 131, 41))
+        self.button_passage = QtWidgets.QPushButton(self.frame_contains)
+        self.button_passage.setGeometry(QtCore.QRect(60, 90, 131, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
-        self.button_yes.setFont(font)
-        self.button_yes.setStyleSheet("QPushButton {\n"
-                                      "    border: 2px solid rgb(52, 59, 72);\n"
-                                      "    border-radius: 10px;    \n"
-                                      "    background-color: rgb(52, 59, 72);\n"
-                                      "    color: rgb(255, 255, 255);\n"
-                                      "}\n"
-                                      "QPushButton:hover {\n"
-                                      "    background-color: rgb(57, 65, 80);\n"
-                                      "    color: rgb(227, 227, 227);\n"
-                                      "    border: 2px solid rgb(61, 70, 86);\n"
-                                      "}\n"
-                                      "QPushButton:pressed {    \n"
-                                      "    background-color: rgb(35, 40, 49);\n"
-                                      "    color: rgb(255, 255, 255);\n"
-                                      "    border: 2px solid rgb(43, 50, 61);\n"
-                                      "}")
-        self.button_yes.setObjectName("button_yes")
-        self.button_no = QtWidgets.QPushButton(self.frame_contains)
-        self.button_no.setGeometry(QtCore.QRect(210, 90, 131, 41))
+        self.button_passage.setFont(font)
+        self.button_passage.setStyleSheet("QPushButton {\n"
+                                          "    border: 2px solid rgb(52, 59, 72);\n"
+                                          "    border-radius: 10px;    \n"
+                                          "    background-color: rgb(52, 59, 72);\n"
+                                          "    color: rgb(255, 255, 255);\n"
+                                          "}\n"
+                                          "QPushButton:hover {\n"
+                                          "    background-color: rgb(57, 65, 80);\n"
+                                          "    color: rgb(227, 227, 227);\n"
+                                          "    border: 2px solid rgb(61, 70, 86);\n"
+                                          "}\n"
+                                          "QPushButton:pressed {    \n"
+                                          "    background-color: rgb(35, 40, 49);\n"
+                                          "    color: rgb(255, 255, 255);\n"
+                                          "    border: 2px solid rgb(43, 50, 61);\n"
+                                          "}")
+        self.button_passage.setObjectName("button_passage")
+        self.button_temperature = QtWidgets.QPushButton(self.frame_contains)
+        self.button_temperature.setGeometry(QtCore.QRect(210, 90, 131, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
-        self.button_no.setFont(font)
-        self.button_no.setStyleSheet("QPushButton {\n"
-                                     "    border: 2px solid rgb(52, 59, 72);\n"
-                                     "    border-radius: 10px;    \n"
-                                     "    background-color: rgb(52, 59, 72);\n"
-                                     "    color: rgb(255, 255, 255);\n"
-                                     "}\n"
-                                     "QPushButton:hover {\n"
-                                     "    background-color: rgb(57, 65, 80);\n"
-                                     "    color: rgb(227, 227, 227);\n"
-                                     "    border: 2px solid rgb(61, 70, 86);\n"
-                                     "}\n"
-                                     "QPushButton:pressed {    \n"
-                                     "    background-color: rgb(35, 40, 49);\n"
-                                     "    color: rgb(255, 255, 255);\n"
-                                     "    border: 2px solid rgb(43, 50, 61);\n"
-                                     "}")
-        self.button_no.setObjectName("button_no")
+        self.button_temperature.setFont(font)
+        self.button_temperature.setStyleSheet("QPushButton {\n"
+                                              "    border: 2px solid rgb(52, 59, 72);\n"
+                                              "    border-radius: 10px;    \n"
+                                              "    background-color: rgb(52, 59, 72);\n"
+                                              "    color: rgb(255, 255, 255);\n"
+                                              "}\n"
+                                              "QPushButton:hover {\n"
+                                              "    background-color: rgb(57, 65, 80);\n"
+                                              "    color: rgb(227, 227, 227);\n"
+                                              "    border: 2px solid rgb(61, 70, 86);\n"
+                                              "}\n"
+                                              "QPushButton:pressed {    \n"
+                                              "    background-color: rgb(35, 40, 49);\n"
+                                              "    color: rgb(255, 255, 255);\n"
+                                              "    border: 2px solid rgb(43, 50, 61);\n"
+                                              "}")
+        self.button_temperature.setObjectName("button_temperature")
         self.label_info = QtWidgets.QLabel(self.frame_contains)
-        self.label_info.setGeometry(QtCore.QRect(10, 0, 371, 81))
+        self.label_info.setGeometry(QtCore.QRect(10, 30, 371, 40))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -259,23 +259,23 @@ class Ui_WarningMessageBox(object):
         font.setWeight(75)
         self.label_info.setFont(font)
         self.label_info.setStyleSheet("background: transparent;")
-        self.label_info.setAlignment(QtCore.Qt.AlignJustify | QtCore.Qt.AlignVCenter)
+        self.label_info.setTextFormat(QtCore.Qt.AutoText)
+        self.label_info.setAlignment(QtCore.Qt.AlignCenter)
         self.label_info.setObjectName("label_info")
         self.verticalLayout_2.addWidget(self.frame_contains)
         self.verticalLayout.addWidget(self.frame_center)
 
-        self.retranslateUi(WarningMessageBox)
-        QtCore.QMetaObject.connectSlotsByName(WarningMessageBox)
+        self.retranslateUi(ReportMessageBox)
+        QtCore.QMetaObject.connectSlotsByName(ReportMessageBox)
 
-    def retranslateUi(self, WarningMessageBox):
+    def retranslateUi(self, ReportMessageBox):
         _translate = QtCore.QCoreApplication.translate
-        WarningMessageBox.setWindowTitle(_translate("WarningMessageBox", "Form"))
-        self.label_title.setText(_translate("WarningMessageBox", "Warning"))
-        self.button_close.setToolTip(_translate("WarningMessageBox", "Close"))
-        self.button_yes.setText(_translate("WarningMessageBox", "Yes"))
-        self.button_no.setText(_translate("WarningMessageBox", "No"))
-        self.label_info.setText(_translate("WarningMessageBox", "Some text\n"
-                                                                "Delete device?"))
+        ReportMessageBox.setWindowTitle(_translate("ReportMessageBox", "Report"))
+        self.label_title.setText(_translate("ReportMessageBox", "Report"))
+        self.button_close.setToolTip(_translate("ReportMessageBox", "Close"))
+        self.button_passage.setText(_translate("ReportMessageBox", "Passage"))
+        self.button_temperature.setText(_translate("ReportMessageBox", "Temperature"))
+        self.label_info.setText(_translate("ReportMessageBox", "Select the type of report"))
 
 
 import files_rc
@@ -284,8 +284,8 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    WarningMessageBox = QtWidgets.QWidget()
-    ui = Ui_WarningMessageBox()
-    ui.setupUi(WarningMessageBox)
-    WarningMessageBox.show()
+    ReportMessageBox = QtWidgets.QWidget()
+    ui = Ui_ReportMessageBox()
+    ui.setupUi(ReportMessageBox)
+    ReportMessageBox.show()
     sys.exit(app.exec_())

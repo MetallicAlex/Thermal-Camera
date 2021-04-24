@@ -120,27 +120,24 @@ class DBVisualization(FigureCanvas):
             x = np.cos(np.deg2rad(ang))
             connectionstyle = 'angle,angleA=0,angleB={}'.format(ang)
             kw['arrowprops'].update({'connectionstyle': connectionstyle})
-            self.ax.annotate(f'{labels[i]} '
-                             f'{np.round(100 * data[i] / number_all_persons, 2)}%\n'
-                             f'({number_passages[i]} [N - {number_temperatures[j]}; H - {number_temperatures[j + 1]}])',
+            self.ax.annotate(
+                             f'{np.round(100 * data[i] / number_all_persons, 2)}% '
+                             f'({number_passages[i]})\n'
+                             f'[N - {number_temperatures[j]}; H - {number_temperatures[j + 1]}]',
                              xy=(x, y),
                              xytext=(2 * np.sign(x), 1.5 * y),
-                             horizontalalignment='center', fontsize=12, **kw)
+                             horizontalalignment='center', fontsize=16, **kw)
             j += 2
-        self.ax.set_title(title, color='w', fontsize=16)
+        self.ax.set_title(title, color='w', fontsize=18, weight='bold')
         self.ax.legend(
             [*wedges, *wedges2],
             ['Profile Passage', 'Stranger Passage', 'Normal Temperature (N)', 'Heat Temperature (H)'],
             loc='best',
-            bbox_to_anchor=(-0.1, 0.7),
-            fontsize=12,
+            bbox_to_anchor=(0.1, 0.7),
+            fontsize=14,
             framealpha=0,
             labelcolor='w'
         )
-        # self.ax.legend([wedges, wedges2], [data, data_temperatures],
-        #                title='Passage',
-        #                loc='center left',
-        #                bbox_to_anchor=(1, 0, 0.5, 1))
 
     def create_pie_chart_number_persons(self, low: str = None, high: str = None):
         pass

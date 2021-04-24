@@ -17,14 +17,15 @@ class Ui_DepartmentMessageBox(object):
         DepartmentMessageBox.resize(400, 200)
         DepartmentMessageBox.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         DepartmentMessageBox.setStyleSheet("background: transparent;\n"
-"color: rgb(210, 210, 210);")
+                                           "color: rgb(210, 210, 210);"
+                                           )
         self.verticalLayout = QtWidgets.QVBoxLayout(DepartmentMessageBox)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_center = QtWidgets.QFrame(DepartmentMessageBox)
         self.frame_center.setStyleSheet("background-color: rgb(27, 29, 35);\n"
-"")
+                                        "")
         self.frame_center.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_center.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_center.setObjectName("frame_center")
@@ -118,18 +119,26 @@ class Ui_DepartmentMessageBox(object):
         self.button_close.setMinimumSize(QtCore.QSize(40, 0))
         self.button_close.setMaximumSize(QtCore.QSize(40, 16777215))
         self.button_close.setStyleSheet("QPushButton {    \n"
-"    border: none;\n"
-"    background-color: transparent;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(85, 170, 255);\n"
-"}")
+                                        "    border: none;\n"
+                                        "    background-color: transparent;\n"
+                                        "}\n"
+                                        "QPushButton:hover {\n"
+                                        "    background-color: rgb(52, 59, 72);\n"
+                                        "}\n"
+                                        "QPushButton:pressed {    \n"
+                                        "    background-color: rgb(85, 170, 255);\n"
+                                        "}"
+                                        "QToolTip {"
+                                        "color: #ffffff;"
+                                        "background-color: rgba(27, 29, 35, 160);"
+                                        "border: 1px solid rgb(40, 40, 40);"
+                                        "border-radius: 2px;"
+                                        "}"
+                                        )
         self.button_close.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal,
+                       QtGui.QIcon.Off)
         self.button_close.setIcon(icon)
         self.button_close.setObjectName("button_close")
         self.horizontalLayout_3.addWidget(self.button_close)
@@ -146,17 +155,17 @@ class Ui_DepartmentMessageBox(object):
         font.setPointSize(8)
         self.lineEdit_department.setFont(font)
         self.lineEdit_department.setStyleSheet("QLineEdit {\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid rgb(91, 101, 124);\n"
-"}")
+                                               "    background-color: rgb(27, 29, 35);\n"
+                                               "    border-radius: 5px;\n"
+                                               "    border: 2px solid rgb(27, 29, 35);\n"
+                                               "    padding-left: 10px;\n"
+                                               "}\n"
+                                               "QLineEdit:hover {\n"
+                                               "    border: 2px solid rgb(64, 71, 88);\n"
+                                               "}\n"
+                                               "QLineEdit:focus {\n"
+                                               "    border: 2px solid rgb(91, 101, 124);\n"
+                                               "}")
         self.lineEdit_department.setMaxLength(32)
         self.lineEdit_department.setObjectName("lineEdit_department")
         self.button_accept = QtWidgets.QPushButton(self.frame_contains)
@@ -166,21 +175,21 @@ class Ui_DepartmentMessageBox(object):
         font.setPointSize(10)
         self.button_accept.setFont(font)
         self.button_accept.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
+                                         "    border: 2px solid rgb(52, 59, 72);\n"
+                                         "    border-radius: 10px;    \n"
+                                         "    background-color: rgb(52, 59, 72);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "}\n"
+                                         "QPushButton:hover {\n"
+                                         "    background-color: rgb(57, 65, 80);\n"
+                                         "    color: rgb(227, 227, 227);\n"
+                                         "    border: 2px solid rgb(61, 70, 86);\n"
+                                         "}\n"
+                                         "QPushButton:pressed {    \n"
+                                         "    background-color: rgb(35, 40, 49);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "    border: 2px solid rgb(43, 50, 61);\n"
+                                         "}")
         self.button_accept.setObjectName("button_accept")
         self.button_cancel = QtWidgets.QPushButton(self.frame_contains)
         self.button_cancel.setGeometry(QtCore.QRect(210, 90, 131, 41))
@@ -189,21 +198,21 @@ class Ui_DepartmentMessageBox(object):
         font.setPointSize(10)
         self.button_cancel.setFont(font)
         self.button_cancel.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
+                                         "    border: 2px solid rgb(52, 59, 72);\n"
+                                         "    border-radius: 10px;    \n"
+                                         "    background-color: rgb(52, 59, 72);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "}\n"
+                                         "QPushButton:hover {\n"
+                                         "    background-color: rgb(57, 65, 80);\n"
+                                         "    color: rgb(227, 227, 227);\n"
+                                         "    border: 2px solid rgb(61, 70, 86);\n"
+                                         "}\n"
+                                         "QPushButton:pressed {    \n"
+                                         "    background-color: rgb(35, 40, 49);\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "    border: 2px solid rgb(43, 50, 61);\n"
+                                         "}")
         self.button_cancel.setObjectName("button_cancel")
         self.label_info = QtWidgets.QLabel(self.frame_contains)
         self.label_info.setGeometry(QtCore.QRect(10, 0, 371, 40))
@@ -280,19 +289,9 @@ class Ui_DepartmentMessageBox(object):
 
     def retranslateUi(self, DepartmentMessageBox):
         _translate = QtCore.QCoreApplication.translate
-        DepartmentMessageBox.setWindowTitle(_translate("DepartmentMessageBox", "Form"))
+        DepartmentMessageBox.setWindowTitle(_translate("DepartmentMessageBox", "Department"))
         self.label_title.setText(_translate("DepartmentMessageBox", "Department"))
         self.button_close.setToolTip(_translate("DepartmentMessageBox", "Close"))
         self.button_accept.setText(_translate("DepartmentMessageBox", "Accept"))
         self.button_cancel.setText(_translate("DepartmentMessageBox", "Cancel"))
         self.label_info.setText(_translate("DepartmentMessageBox", "Enter department name"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    DepartmentMessageBox = QtWidgets.QWidget()
-    ui = Ui_DepartmentMessageBox()
-    ui.setupUi(DepartmentMessageBox)
-    DepartmentMessageBox.show()
-    sys.exit(app.exec_())
