@@ -126,13 +126,19 @@ class ReportMessageBox(QtWidgets.QDialog, Ui_ReportMessageBox):
             event.accept()
 
     def button_passage_clicked(self, event):
-        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save Passage Report', '', 'JSON File (*.json);')
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save Passage Report',
+                                                                 '',
+                                                                 'JSON File (*.json);;'
+                                                                 'CSV File (*.csv);')
         if self.filename:
             self.dialog_result = 1
             self.close()
 
     def button_temperature_clicked(self, event):
-        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save Temperature Report', '', 'JSON File (*.json);')
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save Temperature Report',
+                                                                 '',
+                                                                 'JSON File (*.json);;'
+                                                                 'CSV File (*.csv);')
         if self.filename:
             self.dialog_result = 2
             self.close()

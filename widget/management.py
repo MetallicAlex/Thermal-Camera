@@ -260,7 +260,7 @@ class DBManagement:
                                      models.Statistic.temperature <= high)
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
-            self._statistics = query.all()
+            self._statistics = query.order_by(func.abs(models.Statistic.id_profile)).all()
         return self._statistics
 
     def add_statistics(self, *statistics: models.Statistic):
@@ -327,15 +327,22 @@ class DBManagement:
                         removable_statistics.add((statistic.id_profile, str(statistic.time)))
         self.remove_statistics(*list(removable_statistics))
 
-    def create_temperatures_report(self, filename: str):
-        report = {}
-        for statistic in self.get_statistics():
-            pass
+    def create_temperatures_report(self, filename: str,
+                                   identifiers: list = None,
+                                   low: Union[str, float] = None,
+                                   high: Union[str, float] = None):
+        file_format = filename.split('.')[-1]
+        if file_format == 'json':
+            self.create_report_temperatures_json(filename, identifiers, low, high)
+        elif file_format == 'csv':
+            self.create_report_temperatures_csv(filename, identifiers, low, high)
 
     def create_passage_report(self, filename: str, identifiers: list = None, low: str = None, high: str = None):
         file_format = filename.split('.')[-1]
         if file_format == 'json':
             self.create_passage_report_json(filename, identifiers, low, high)
+        elif file_format == 'csv':
+            self.create_passage_report_csv(filename, identifiers, low, high)
 
     def create_passage_report_json(self, filename: str = None,
                                    identifiers: list = None,
@@ -379,7 +386,7 @@ class DBManagement:
         with open(filename, 'w', encoding='utf-8') as file:
             json.dump(report, file, ensure_ascii=False, indent=4)
 
-    def create_passage_report_csv(self, filename: str = None,
+    def create_passage_report_csv(self, filename: str,
                                   identifiers: list = None,
                                   low: str = None,
                                   high: str = None):
@@ -388,12 +395,67 @@ class DBManagement:
         for statistic in self.get_statistics(identifiers=identifiers, low=low, high=high):
             statistic_datetime = str(statistic.time).split(' ')
             name = self.get_profile_name(statistic.id_profile)
-            row = {
+            if number_statistic % 2 == 0:
+                row = {
+                    'Name': name,
+                    'Date': statistic_datetime[0],
+                    'Came': statistic_datetime[1],
+                    'Gone': statistic_datetime[1]
+                }
+                report = report.append(row, ignore_index=True)
+                number_statistic += 1
+            elif row['Name'] == name and row['Date'] == statistic_datetime[0]:
+                report.iloc[-1]['Gone'] = statistic_datetime[1]
+                number_statistic = 0
+            else:
+                row = {
+                    'Name': name,
+                    'Date': statistic_datetime[0],
+                    'Came': statistic_datetime[1],
+                    'Gone': statistic_datetime[1]
+                }
+                report = report.append(row, ignore_index=True)
+                number_statistic += 1
+        report.to_csv(filename, sep=';', header=True, encoding='cp1251')
+
+    def create_report_temperatures_json(self, filename: str,
+                                        identifiers: list = None,
+                                        low: Union[str, float] = None,
+                                        high: Union[str, float] = None):
+        report = {}
+        for statistic in self.get_statistics(low=low, high=high, identifiers=identifiers):
+            name = self.get_profile_name(statistic.id_profile)
+            statistic_datetime = str(statistic.time).split(' ')
+            if name in report:
+                if statistic_datetime[0] in report[name]:
+                    report[name][statistic_datetime[0]][statistic_datetime[1]] = float(statistic.temperature)
+                else:
+                    report[name][statistic_datetime[0]] = {
+                        statistic_datetime[1]: float(statistic.temperature)
+                    }
+            else:
+                report[name] = {
+                    statistic_datetime[0]: {
+                        statistic_datetime[1]: float(statistic.temperature)
+                    }
+                }
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(report, file, ensure_ascii=False, indent=4)
+
+    def create_report_temperatures_csv(self, filename: str,
+                                       identifiers: list = None,
+                                       low: Union[str, float] = None,
+                                       high: Union[str, float] = None):
+        report = pd.DataFrame(columns=['Name', 'Date', 'Time', 'Temperature'])
+        for statistic in self.get_statistics(identifiers=identifiers, low=low, high=high):
+            statistic_datetime = str(statistic.time).split(' ')
+            report = report.append({
                 'Name': self.get_profile_name(statistic.id_profile),
                 'Date': statistic_datetime[0],
-                'Came': statistic_datetime[1],
-                'Gone': statistic_datetime[1]
-            }
+                'Time': statistic_datetime[1],
+                'Temperature': float(statistic.temperature)
+            }, ignore_index=True)
+        report.to_csv(filename, sep=';', header=True, encoding='cp1251')
 
     # STRANGER STATISTICS
     def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):

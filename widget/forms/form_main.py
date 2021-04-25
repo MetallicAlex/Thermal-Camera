@@ -37,6 +37,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # APPLICATIONS
         self.start_nginx()
         # DATA
+        self.is_all_statistics = False
         self.app_path = os.path.dirname(os.getcwd())
         with open(f'{self.app_path}/widget/setting.json') as file:
             self.settings = json.load(file, strict=False)
@@ -391,6 +392,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             high=high,
             identifiers=identifier
         )
+        self.is_all_statistics = False
 
     def _button_all_statistic_clicked(self, event):
         if self.comboBox_profiles.currentText() == 'All Profiles':
@@ -399,6 +401,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             profile = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
             identifier = profile.id
         self._load_statistics_to_table(identifiers=identifier)
+        self.is_all_statistics = True
 
     def _button_report_clicked(self, event):
         messagebox = ReportMessageBox()
@@ -410,10 +413,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 identifier = [identifier.id]
             else:
                 identifier = None
-            if self.radiobutton_time.isChecked():
-                low = self.dateTimeEdit_start.dateTime()
-                high = self.dateTimeEdit_end.dateTime()
-                print(low, high)
+            if self.radiobutton_time.isChecked() and not self.is_all_statistics:
+                low = self.dateTimeEdit_start.dateTime().toPyDateTime()
+                low = low.replace(second=0).strftime('%Y-%m-%d %H:%M:%S')
+                high = self.dateTimeEdit_end.dateTime().toPyDateTime()
+                high = high.replace(second=59).strftime('%Y-%m-%d %H:%M:%S')
+            elif self.radiobutton_temperature.isChecked()\
+                    and not self.is_all_statistics\
+                    and messagebox.dialog_result == 2:
+                low = self.doubleSpinBox_min_temperature.value()
+                high = self.doubleSpinBox_max_temperature.value()
             else:
                 low = None
                 high = None
@@ -726,13 +735,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _create_report(dialog_result: int,
                        filename: str,
                        identifiers: list = None,
-                       low: str = None,
-                       high: str = None):
+                       low: Union[str, float] = None,
+                       high: Union[str, float] = None):
         db_management = DBManagement()
         if dialog_result == 1:
             db_management.create_passage_report(filename, identifiers, low, high)
         elif dialog_result == 2:
-            db_management.create_temperatures_report(filename)
+            db_management.create_temperatures_report(filename, identifiers, low, high)
 
     @staticmethod
     def _update_plots(app_path: str):
