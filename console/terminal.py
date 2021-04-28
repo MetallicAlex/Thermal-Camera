@@ -8,7 +8,7 @@ import multiprocessing
 
 def main():
     publish_platform = pp.PublishPlatform('192.168.1.2')
-    publish_platform.set_device('7101384284372', '705829065')
+    publish_platform.set_device('7101239214001', '705829065')
     publish_platform.find_token()
     #publish_platform.unbind_device()
     publish_platform.run()

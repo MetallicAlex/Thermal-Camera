@@ -1,3 +1,73 @@
 {
+"form_main": {
+    "window_title": "Thermal Camera's Manager",
+    "label_title": "Thermal Camera's Manager",
+    "btn_minimize": "Свернуть",
+    "btn_close": "Закрыть",
+    "btn_device": "Управл. Устройствами",
+    "btn_database": "Управление БД",
+    "btn_statistic": "Статистика",
+    "btn_settings": "Настройки",
+    "page_device": {
+      "btn_search": "Поиск",
+      "btn_configure": "Настроить",
+      "btn_delete": "Удалить",
+      "table_devices": {
+        "name": "Название",
+        "model": "Модель",
+        "serial_number": "Сер. Номер",
+        "mac_address": "MAC-Адрес",
+        "ip_address": "IP Адрес",
+        "state": "Состояние"
+      }
+    },
+    "page_database": {
+      "label_profile_db": "БД Профилей",
+      "btn_add_profile": "Добавить",
+      "btn_edit_profile": "Изменить",
+      "btn_delete_profile": "Удалить",
+      "btn_add_profile_images": "Добавить Изобр.",
+      "btn_add_profiles_group": "Добавить Профили",
+      "btn_create_pattern": "Создать Шаблон",
+      "btn_send_device": "Отправить На",
+      "btn_device_db_view": "Просмотр БД",
+      "table_profiles": {
+        "id": "ИД",
+        "image": "Изображение",
+        "name": "ФИО",
+        "department": "Отдел",
+        "gender": "Пол",
+        "phone_number": "Номер Телефона"
+      },
+      "label_department_db": "БД Отделов",
+      "btn_add_department": "Добавить",
+      "btn_delete_department": "Удалить",
+      "table_departments": {
+        "name": "Отдел"
+      }
+    },
+    "page_statistic": {
+      "label_start_time": "Начальное",
+      "label_end_time": "Последнее",
+      "label_min_temp": "Мин.",
+      "label_max_temp": "Макс.",
+      "radio_btn_time": "Время",
+      "radio_btn_temp": "Температура",
+      "btn_search": "Поиск",
+      "btn_all_stats": "Вся Статистика",
+      "btn_stranger_stats": "Статистика Неизв.",
+      "btn_report": "Отчет",
+      "btn_charts": "Графики",
+      "table_statistics": {
+        "id": "ИД",
+        "name": "ФИО",
+        "datetime": "Дата и Время",
+        "temp": "Температура",
+        "similar": "Схожесть"
+      }
+    }
+  },
+  "form_profile": {
 
+  }
 }

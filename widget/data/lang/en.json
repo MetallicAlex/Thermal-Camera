@@ -1,3 +1,73 @@
 {
+  "form_main": {
+    "window_title": "Thermal Camera's Manager",
+    "label_title": "Thermal Camera's Manager",
+    "btn_minimize": "Minimize",
+    "btn_close": "Close",
+    "btn_device": "Device Manager",
+    "btn_database": "Database Manager",
+    "btn_statistic": "Statistic",
+    "btn_settings": "Settings",
+    "page_device": {
+      "btn_search": "Search",
+      "btn_configure": "Configure",
+      "btn_delete": "Delete",
+      "table_devices": {
+        "name": "Device Name",
+        "model": "Model",
+        "serial_number": "Serial Number",
+        "mac_address": "MAC-Address",
+        "ip_address": "IP Address",
+        "state": "State"
+      }
+    },
+    "page_database": {
+      "label_profile_db": "Profiles DB",
+      "btn_add_profile": "Add",
+      "btn_edit_profile": "Edit",
+      "btn_delete_profile": "Delete",
+      "btn_add_profile_images": "Add Profile Images",
+      "btn_add_profiles_group": "Add Profiles Group",
+      "btn_create_pattern": "Create Pattern",
+      "btn_send_device": "Send to Device",
+      "btn_device_db_view": "Database View",
+      "table_profiles": {
+        "id": "ID",
+        "image": "Image",
+        "name": "Name",
+        "department": "Department",
+        "gender": "Gender",
+        "phone_number": "Phone Number"
+      },
+      "label_department_db": "Departments DB",
+      "btn_add_department": "Add",
+      "btn_delete_department": "Delete",
+      "table_departments": {
+        "name": "Department"
+      }
+    },
+    "page_statistic": {
+      "label_start_time": "Start",
+      "label_end_time": "End",
+      "label_min_temp": "Min",
+      "label_max_temp": "Max",
+      "radio_btn_time": "Time",
+      "radio_btn_temp": "Temperature",
+      "btn_search": "Search",
+      "btn_all_stats": "All Statistic",
+      "btn_stranger_stats": "Strangers Statistic",
+      "btn_report": "Report",
+      "btn_charts": "Charts",
+      "table_statistics": {
+        "id": "ID",
+        "name": "Name",
+        "datetime": "Datetime",
+        "temp": "Temperature",
+        "similar": "Similar"
+      }
+    }
+  },
+  "form_profile": {
 
+  }
 }
