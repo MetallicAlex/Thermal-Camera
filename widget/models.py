@@ -211,8 +211,10 @@ class GenderEnum(enum.Enum):
     def __str__(self):
         if self.value == 1:
             return 'male'
-        else:
+        elif self.value == 2:
             return 'female'
+        else:
+            return 'unknow'
 
 
 class Profile(Base):

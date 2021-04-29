@@ -72,7 +72,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         )
         self.label_pie_number_person_day.setScaledContents(True)
         self.label_pie_number_person_all_time.setScaledContents(True)
-        self.comboBox_profiles.addItem('All Profiles')
+        self.comboBox_profiles.addItem(self.setting.lang['form_main']['text_all_profiles'])
         self.radiobutton_time.setChecked(True)
         self._load_profiles_to_table()
         self._load_departments_to_table()
@@ -376,7 +376,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-STATISTICS
     def _button_search_statistics_clicked(self, event):
-        if self.comboBox_profiles.currentText() == 'All Profiles':
+        if self.comboBox_profiles.currentText() == self.setting.lang['form_main']['text_all_profiles']:
             identifier = None
         else:
             profile = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
@@ -395,7 +395,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.is_all_statistics = False
 
     def _button_all_statistic_clicked(self, event):
-        if self.comboBox_profiles.currentText() == 'All Profiles':
+        if self.comboBox_profiles.currentText() == self.setting.lang['form_main']['text_all_profiles']:
             identifier = None
         else:
             profile = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
@@ -408,7 +408,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         messagebox.exec_()
         start = time.time()
         if messagebox.dialog_result != -1:
-            if self.comboBox_profiles.currentText() != 'All Profiles':
+            if self.comboBox_profiles.currentText() != self.setting.lang['form_main']['text_all_profiles']:
                 identifier = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
                 identifier = [identifier.id]
             else:
@@ -505,7 +505,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 item = QTableWidgetItem(data['datas']['network_cofnig']['ip_addr'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 5, item)
-                item = QTableWidgetItem('online')
+                item = QTableWidgetItem(self.setting.lang['form_main']['page_device']['table_devices']['state_online'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 6, item)
                 self.devices[row_position].online = True
@@ -573,9 +573,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 5, item)
         if device.online:
-            state = 'online'
+            state = self.setting.lang['form_main']['page_device']['table_devices']['state_online']
         else:
-            state = 'not online'
+            state = self.setting.lang['form_main']['page_device']['table_devices']['state_not_online']
         item = QTableWidgetItem(state)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 6, item)
@@ -634,7 +634,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
             item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
         else:
-            item.setToolTip('No Image')
+            item.setToolTip(self.setting.lang['form_main']['page_statistic']['table_statistics']['tool_image_false'])
         self.table_statistics.setItem(row_position, 2, item)
         self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
         self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
@@ -646,10 +646,22 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setCheckState(Qt.Unchecked)
         self.table_profiles.setCellWidget(row_position, 0, item)
         self.table_profiles.setItem(row_position, 1, QTableWidgetItem(profile.id))
-        self.table_profiles.setItem(row_position, 2, self._get_item_image(profile.face))
+        item = QTableWidgetItem(self.setting.lang['form_main']['page_database']['table_profiles']['text_image_item'])
+        if os.path.isfile(f'nginx/html{profile.face}'):
+            image = f'<br><img src="nginx/html{profile.face}" width="360" alt="lorem"'
+        else:
+            image = self.setting.lang['form_main']['page_database']['table_profiles']['tool_image_false']
+        item.setToolTip(image)
+        self.table_profiles.setItem(row_position, 2, item)
         self.table_profiles.setItem(row_position, 3, QTableWidgetItem(profile.name))
         self.table_profiles.setItem(row_position, 4, QTableWidgetItem(str(profile.name_department)))
-        self.table_profiles.setItem(row_position, 5, QTableWidgetItem(str(profile.gender)))
+        if profile.gender is None:
+            gender = self.setting.lang['form_main']['page_database']['table_profiles']['unknown']
+        elif profile.gender.value == 1:
+            gender = self.setting.lang['form_main']['page_database']['table_profiles']['male']
+        else:
+            gender = self.setting.lang['form_main']['page_database']['table_profiles']['female']
+        self.table_profiles.setItem(row_position, 5, QTableWidgetItem(gender))
         self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
 
     @QtCore.pyqtSlot(object)
@@ -657,7 +669,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if isinstance(data, dict):
             self.number_device_profiles = data['total_num']
             number_pages = np.int(np.ceil(self.number_device_profiles / 100))
-            print(number_pages)
             for page in range(number_pages):
                 self.publish_platform.query_profiles_data(page)
             self.last_page = True
@@ -692,7 +703,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         statistic_time = datetime.datetime.strptime(statistic.time, '%Y-%m-%d %H:%M:%S')
         if self.dateTimeEdit_start.dateTime() <= statistic_time <= self.dateTimeEdit_end.dateTime() \
                 and (statistic.id_profile == self.comboBox_profiles.currentText()
-                     or self.comboBox_profiles.currentText() == 'All Profiles'):
+                     or self.comboBox_profiles.currentText() == self.setting.lang['form_main']['text_all_profiles']):
             row_position = self.table_statistics.rowCount()
             self._add_statistic_row(
                 row_position,
@@ -795,9 +806,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_minimize.setToolTip(lang['btn_minimize'])
         self.button_close.setToolTip(lang['btn_close'])
         self.button_database.setText(lang['btn_database'])
+        self.button_database.setToolTip(lang['tool_database'])
         self.button_device.setText(lang['btn_device'])
+        self.button_device.setToolTip(lang['tool_device'])
         self.button_statistic.setText(lang['btn_statistic'])
+        self.button_statistic.setToolTip(lang['tool_statistic'])
         self.button_settings.setText(lang['btn_settings'])
+        self.button_settings.setToolTip(lang['tool_settings'])
         item = self.table_devices.horizontalHeaderItem(1)
         item.setText(lang['page_device']['table_devices']['name'])
         item = self.table_devices.horizontalHeaderItem(2)
@@ -811,8 +826,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = self.table_devices.horizontalHeaderItem(6)
         item.setText(lang['page_device']['table_devices']['state'])
         self.button_search_device.setText(lang['page_device']['btn_search'])
+        self.button_search_device.setToolTip(lang['page_device']['tool_search'])
         self.button_configure_device.setText(lang['page_device']['btn_configure'])
+        self.button_configure_device.setToolTip(lang['page_device']['tool_configure'])
         self.button_delete_device.setText(lang['page_device']['btn_delete'])
+        self.button_delete_device.setToolTip(lang['page_device']['tool_delete'])
         self.table_profiles.setSortingEnabled(False)
         item = self.table_profiles.horizontalHeaderItem(1)
         item.setText(lang['page_database']['table_profiles']['id'])
@@ -830,16 +848,26 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_edit_profile.setText(lang['page_database']['btn_edit_profile'])
         self.button_add_profile.setText(lang['page_database']['btn_add_profile'])
         self.button_send_device.setText(lang['page_database']['btn_send_device'])
+        self.button_delete_profile.setToolTip(lang['page_database']['tool_delete_profile'])
+        self.button_edit_profile.setToolTip(lang['page_database']['tool_edit_profile'])
+        self.button_add_profile.setToolTip(lang['page_database']['tool_add_profile'])
+        self.button_send_device.setToolTip(lang['page_database']['tool_send_device'])
         item = self.table_departments.horizontalHeaderItem(1)
         item.setText(lang['page_database']['table_departments']['name'])
         self.button_delete_department.setText(lang['page_database']['btn_delete_department'])
         self.button_add_department.setText(lang['page_database']['btn_add_department'])
+        self.button_delete_department.setToolTip(lang['page_database']['tool_delete_department'])
+        self.button_add_department.setToolTip(lang['page_database']['tool_add_department'])
         self.label.setText(lang['page_database']['label_profile_db'])
         self.label_2.setText(lang['page_database']['label_department_db'])
         self.button_create_pattern.setText(lang['page_database']['btn_create_pattern'])
         self.button_device_database_view.setText(lang['page_database']['btn_device_db_view'])
         self.button_add_profile_images.setText(lang['page_database']['btn_add_profile_images'])
         self.button_add_profiles_group.setText(lang['page_database']['btn_add_profiles_group'])
+        self.button_create_pattern.setToolTip(lang['page_database']['tool_create_pattern'])
+        self.button_device_database_view.setToolTip(lang['page_database']['tool_device_db_view'])
+        self.button_add_profile_images.setToolTip(lang['page_database']['tool_add_profile_images'])
+        self.button_add_profiles_group.setToolTip(lang['page_database']['tool_add_profiles_group'])
         self.table_statistics.setSortingEnabled(True)
         item = self.table_statistics.horizontalHeaderItem(0)
         item.setText(lang['page_statistic']['table_statistics']['id'])
@@ -852,16 +880,27 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = self.table_statistics.horizontalHeaderItem(4)
         item.setText(lang['page_statistic']['table_statistics']['similar'])
         self.label_start_time.setText(lang['page_statistic']['label_start_time'])
+        self.label_start_time.setToolTip(lang['page_statistic']['tool_start_time'])
         self.label_end_time.setText(lang['page_statistic']['label_end_time'])
+        self.label_end_time.setToolTip(lang['page_statistic']['tool_end_time'])
         self.radiobutton_time.setText(lang['page_statistic']['radio_btn_time'])
         self.radiobutton_temperature.setText(lang['page_statistic']['radio_btn_temp'])
+        self.radiobutton_time.setToolTip(lang['page_statistic']['tool_radio_btn_time'])
+        self.radiobutton_temperature.setToolTip(lang['page_statistic']['tool_radio_btn_temp'])
         self.label_min_temperature.setText(lang['page_statistic']['label_min_temp'])
+        self.label_min_temperature.setToolTip(lang['page_statistic']['tool_min_temp'])
         self.label_max_temperature.setText(lang['page_statistic']['label_max_temp'])
+        self.label_max_temperature.setToolTip(lang['page_statistic']['tool_max_temp'])
         self.button_search_statistics.setText(lang['page_statistic']['btn_search'])
         self.button_person_plot.setText(lang['page_statistic']['btn_charts'])
         self.button_all_statistic.setText(lang['page_statistic']['btn_all_stats'])
         self.button_report.setText(lang['page_statistic']['btn_report'])
         self.button_strangers_statistic.setText(lang['page_statistic']['btn_stranger_stats'])
+        self.button_search_statistics.setToolTip(lang['page_statistic']['tool_search'])
+        self.button_person_plot.setToolTip(lang['page_statistic']['tool_charts'])
+        self.button_all_statistic.setToolTip(lang['page_statistic']['tool_all_stats'])
+        self.button_report.setToolTip(lang['page_statistic']['tool_report'])
+        self.button_strangers_statistic.setToolTip(lang['page_statistic']['tool_stranger_stats'])
         self.label_statusbar.setText("MetallicAlex")
 
     # NGINX
