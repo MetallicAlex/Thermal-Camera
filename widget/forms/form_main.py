@@ -17,7 +17,6 @@ from PyQt5.QtCore import Qt
 from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_profile import FormProfile
 from widget.forms.form_devices import FormDevices
-from widget.forms.form_configuration import FormConfiguration
 from widget.forms.form_device_database_view import FormDeviceDBView
 from widget.forms.form_stranger_table import FormStrangerTable
 from widget.forms.messagebox import DepartmentMessageBox, ReportMessageBox, WarningMessageBox, InformationMessageBox
@@ -35,7 +34,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         start = time.time()
         super().__init__()
         self.setupUi(self)
-        self._hide_search_device()
+        self._hide_buttons_search_device()
         # APPLICATIONS
         # self.start_nginx()
         # DATA
@@ -309,13 +308,32 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             messagebox.setWindowTitle('Information')
             messagebox.exec_()
         else:
-            self.form_devices = FormDevices(self.device_management.devices)
-            self.form_devices.exec_()
+            self._show_buttons_search_device()
+            self.table_devices.setRowCount(0)
+            for device in self.device_management.devices:
+                self._add_device_row(device)
             if self.form_devices.dialog_result == 0:
                 self.device_management.devices = self.form_devices.devices
                 for device in self.device_management.devices:
                     self.publish_platform.set_device(device.id)
                     self.publish_platform.bind_device()
+
+    def _button_add_new_devices_clicked(self, event):
+        self._hide_buttons_search_device()
+        devices = [
+            device
+            for row_position, device in enumerate(self.device_management.devices)
+            if self.table_devices.item(row_position, 0).isChecked()
+        ]
+        self._load_devices_info_to_table()
+        for device in devices:
+            self.devices.append(device)
+            self._add_device_row(device)
+            self.publish_platform.set_device(device.id)
+            self.publish_platform.bind_device()
+
+    def _button_cancel_new_devices_clicked(self, event):
+        self._hide_buttons_search_device()
 
     def _button_configure_device_clicked(self, event):
         row_position = self.table_devices.selectedIndexes()[0].row()
@@ -324,7 +342,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.publish_platform.set_device(device.id, device.token)
             if device.name != self.lineEdit_device_name.text():
                 pass
-            if device.volume != self.horizontalSlider_volume.value()\
+            if device.volume != self.horizontalSlider_volume.value() \
                     or device.brightness != self.horizontalSlider_brightness.value():
                 self.publish_platform.update_remote_configuration(
                     volume=device.volume,
@@ -443,8 +461,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 low = low.replace(second=0).strftime('%Y-%m-%d %H:%M:%S')
                 high = self.dateTimeEdit_end.dateTime().toPyDateTime()
                 high = high.replace(second=59).strftime('%Y-%m-%d %H:%M:%S')
-            elif self.radiobutton_temperature.isChecked()\
-                    and not self.is_all_statistics\
+            elif self.radiobutton_temperature.isChecked() \
+                    and not self.is_all_statistics \
                     and messagebox.dialog_result == 2:
                 low = self.doubleSpinBox_min_temperature.value()
                 high = self.doubleSpinBox_max_temperature.value()
@@ -453,7 +471,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 high = None
             process = multiprocessing.Process(
                 target=MainForm._create_report,
-                args=(messagebox.dialog_result, messagebox.filename, identifier, low, high, )
+                args=(messagebox.dialog_result, messagebox.filename, identifier, low, high,)
             )
             process.start()
             process.join()
@@ -823,11 +841,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setIcon(icon)
         table.setHorizontalHeaderItem(0, item)
 
-    def _hide_search_device(self):
+    def _hide_buttons_search_device(self):
         self.button_cancel_new_devices.hide()
         self.button_add_devices.hide()
 
-    def _show_search_device(self):
+    def _show_buttons_search_device(self):
         self.button_cancel_new_devices.show()
         self.button_add_devices.show()
 
