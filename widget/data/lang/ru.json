@@ -5,9 +5,9 @@
       "text_all_profiles": "Все профили",
     "btn_minimize": "Свернуть",
     "btn_close": "Закрыть",
-    "btn_device": "Управл. Устройствами",
+    "btn_device": "Устройства",
     "tool_device": "Управление Устройствами",
-    "btn_database": "Управление БД",
+    "btn_database": "База Данных",
     "tool_database": "Управление БД",
     "btn_statistic": "Статистика",
     "tool_statistic": "Статистика",
@@ -24,11 +24,11 @@
         "name": "Название",
         "model": "Модель",
         "serial_number": "Серийный номер",
-        "mac_address": "MAC-Адрес",
-        "ip_address": "IP Адрес",
+        "mac_address": "MAC-адрес",
+        "ip_address": "IP-адрес",
         "state": "Состояние",
         "state_online": "Онлайн",
-        "state_not_online": "Не онлайн"
+        "state_offline": "Оффлайн"
       }
     },
     "page_database": {
@@ -105,6 +105,25 @@
     }
   },
   "form_profile": {
-
+    "window_title_add": "Добавление профиля",
+    "window_title_edit": "Добавление профиля",
+    "label_title_add": "Добавление профиля",
+    "label_title_edit": "Добавление профиля",
+    "btn_close": "Закрыть",
+    "btn_choose_file": "Выберите изображение",
+    "table": {
+      "id": "ИД",
+      "text_id": "Введите индетификатор",
+      "name": "ФИО",
+      "text_name": "Введите ФИО",
+      "department": "Не выбран",
+      "gender": {
+        "male": "Мужской",
+        "female": "Женский",
+        "unknown": "Не выбран"
+      },
+      "phone_number": "Номер телефона",
+      "text_phone_number": "+3753312345678"
+    }
   }
 }

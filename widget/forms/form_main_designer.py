@@ -16,7 +16,6 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1366, 768)
         MainWindow.setMinimumSize(QtCore.QSize(1366, 768))
-        MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         MainWindow.setToolTipDuration(-1)
         MainWindow.setStyleSheet("QMainWindow {background: transparent; }\n"
 "QToolTip {\n"
@@ -36,9 +35,8 @@ class Ui_MainWindow(object):
         self.frame_main.setMinimumSize(QtCore.QSize(1366, 768))
         self.frame_main.setStyleSheet("/* LINE EDIT */\n"
 "QLineEdit {\n"
-"    background-color: rgb(27, 29, 35);\n"
+"    background-color: #91D1EE;\n"
 "    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
 "    padding-left: 10px;\n"
 "}\n"
 "QLineEdit:hover {\n"
@@ -57,13 +55,13 @@ class Ui_MainWindow(object):
 "    border-radius: 0px;\n"
 "}\n"
 "QScrollBar::handle:horizontal {\n"
-"    background: rgb(85, 170, 255);\n"
+"    background: #87B9E0;\n"
 "    min-width: 25px;\n"
 "    border-radius: 7px\n"
 "}\n"
 "QScrollBar::add-line:horizontal {\n"
 "    border: none;\n"
-"    background: rgb(55, 63, 77);\n"
+"    background: #0C5DB9;\n"
 "    width: 20px;\n"
 "    border-top-right-radius: 7px;\n"
 "    border-bottom-right-radius: 7px;\n"
@@ -72,7 +70,7 @@ class Ui_MainWindow(object):
 "}\n"
 "QScrollBar::sub-line:horizontal {\n"
 "    border: none;\n"
-"    background: rgb(55, 63, 77);\n"
+"    background: #0C5DB9;\n"
 "    width: 20px;\n"
 "    border-top-left-radius: 7px;\n"
 "    border-bottom-left-radius: 7px;\n"
@@ -95,13 +93,13 @@ class Ui_MainWindow(object):
 "    border-radius: 0px;\n"
 " }\n"
 " QScrollBar::handle:vertical {    \n"
-"    background: rgb(85, 170, 255);\n"
+"    background: #87B9E0;\n"
 "    min-height: 25px;\n"
 "    border-radius: 7px\n"
 " }\n"
 " QScrollBar::add-line:vertical {\n"
 "     border: none;\n"
-"    background: rgb(55, 63, 77);\n"
+"    background: #0C5DB9;\n"
 "     height: 20px;\n"
 "    border-bottom-left-radius: 7px;\n"
 "    border-bottom-right-radius: 7px;\n"
@@ -110,7 +108,7 @@ class Ui_MainWindow(object):
 " }\n"
 " QScrollBar::sub-line:vertical {\n"
 "    border: none;\n"
-"    background: rgb(55, 63, 77);\n"
+"    background: #0C5DB9;\n"
 "     height: 20px;\n"
 "    border-top-left-radius: 7px;\n"
 "    border-top-right-radius: 7px;\n"
@@ -191,27 +189,25 @@ class Ui_MainWindow(object):
 "\n"
 "/* SLIDERS */\n"
 "QSlider::groove:horizontal {\n"
-"    border-radius: 9px;\n"
-"    height: 18px;\n"
+"    border-radius: 2px;\n"
+"    height: 5px;\n"
 "    margin: 0px;\n"
-"    background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QSlider::groove:horizontal:hover {\n"
-"    background-color: rgb(55, 62, 76);\n"
+"    background-color: #91D1EE;\n"
 "}\n"
 "QSlider::handle:horizontal {\n"
-"    background-color: rgb(85, 170, 255);\n"
-"    border: none;\n"
-"    height: 18px;\n"
-"    width: 18px;\n"
-"    margin: 0px;\n"
-"    border-radius: 9px;\n"
+"    background-color: #0C5DB9;\n"
+"    border: 0px solid #91D1EE;\n"
+"    height: 20px;\n"
+"    width: 20px;\n"
+"    margin: -8px 0px;\n"
+"    border-radius: 10px;\n"
+"    padding: -8px 0px;\n"
 "}\n"
 "QSlider::handle:horizontal:hover {\n"
-"    background-color: rgb(105, 180, 255);\n"
+"    background-color: #87B9E0;\n"
 "}\n"
 "QSlider::handle:horizontal:pressed {\n"
-"    background-color: rgb(65, 130, 195);\n"
+"    background-color: #87B9E0;\n"
 "}\n"
 "\n"
 "QSlider::groove:vertical {\n"
@@ -360,7 +356,7 @@ class Ui_MainWindow(object):
         self.frame_header = QtWidgets.QFrame(self.frame_main)
         self.frame_header.setMinimumSize(QtCore.QSize(0, 42))
         self.frame_header.setMaximumSize(QtCore.QSize(16777215, 42))
-        self.frame_header.setStyleSheet("background-color: rgb(27, 29, 35);")
+        self.frame_header.setStyleSheet("background-color: #0C5DB9;")
         self.frame_header.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_header.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_header.setObjectName("frame_header")
@@ -369,6 +365,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.frame_title = QtWidgets.QFrame(self.frame_header)
+        self.frame_title.setStyleSheet("")
         self.frame_title.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_title.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_title.setLineWidth(0)
@@ -387,16 +384,16 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.frame_icon)
         self.label_title = QtWidgets.QLabel(self.frame_title)
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -405,16 +402,16 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -423,16 +420,16 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -444,11 +441,12 @@ class Ui_MainWindow(object):
         self.label_title.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(10)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.label_title.setFont(font)
-        self.label_title.setStyleSheet("background: transparent;")
+        self.label_title.setStyleSheet("background: transparent;\n"
+"color: rgb(255, 255, 255, 221);")
         self.label_title.setObjectName("label_title")
         self.horizontalLayout_3.addWidget(self.label_title)
         self.horizontalLayout_2.addWidget(self.frame_title)
@@ -522,6 +520,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_center.sizePolicy().hasHeightForWidth())
         self.frame_center.setSizePolicy(sizePolicy)
+        self.frame_center.setStyleSheet("")
         self.frame_center.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_center.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_center.setObjectName("frame_center")
@@ -538,15 +537,15 @@ class Ui_MainWindow(object):
         self.frame_left_menu.setSizePolicy(sizePolicy)
         self.frame_left_menu.setMinimumSize(QtCore.QSize(210, 0))
         self.frame_left_menu.setMaximumSize(QtCore.QSize(210, 16777215))
-        self.frame_left_menu.setStyleSheet("background-color: rgb(27, 29, 35);")
+        self.frame_left_menu.setStyleSheet("background-color: #0C5DB9;")
         self.frame_left_menu.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_left_menu.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_left_menu.setObjectName("frame_left_menu")
         self.button_database = QtWidgets.QPushButton(self.frame_left_menu)
-        self.button_database.setGeometry(QtCore.QRect(0, 70, 210, 60))
+        self.button_database.setGeometry(QtCore.QRect(0, 120, 210, 60))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(9)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.button_database.setFont(font)
@@ -557,13 +556,13 @@ class Ui_MainWindow(object):
 "    text-align: left;\n"
 "    padding-left: 15px;\n"
 "    border: none;\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(40, 44, 52);\n"
+"    background-color: #87B9E0;\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: rgb(85, 170, 255);\n"
+"    background-color: #91D1EE;\n"
 "}")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-people.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -572,10 +571,10 @@ class Ui_MainWindow(object):
         self.button_database.setFlat(True)
         self.button_database.setObjectName("button_database")
         self.button_device = QtWidgets.QPushButton(self.frame_left_menu)
-        self.button_device.setGeometry(QtCore.QRect(0, 10, 210, 60))
+        self.button_device.setGeometry(QtCore.QRect(0, 60, 210, 60))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(9)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.button_device.setFont(font)
@@ -589,13 +588,13 @@ class Ui_MainWindow(object):
 "    text-align: left;\n"
 "    padding-left: 15px;\n"
 "    border: none;\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(40, 44, 52);\n"
+"    background-color: #87B9E0;\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: rgb(85, 170, 255);\n"
+"    background-color: #91D1EE;\n"
 "}")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-screen-desktop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -604,10 +603,10 @@ class Ui_MainWindow(object):
         self.button_device.setFlat(True)
         self.button_device.setObjectName("button_device")
         self.button_statistic = QtWidgets.QPushButton(self.frame_left_menu)
-        self.button_statistic.setGeometry(QtCore.QRect(0, 130, 210, 60))
+        self.button_statistic.setGeometry(QtCore.QRect(0, 180, 210, 60))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(9)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.button_statistic.setFont(font)
@@ -618,13 +617,13 @@ class Ui_MainWindow(object):
 "    text-align: left;\n"
 "    padding-left: 15px;\n"
 "    border: none;\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(40, 44, 52);\n"
+"    background-color: #87B9E0;\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: rgb(85, 170, 255);\n"
+"    background-color: #91D1EE;\n"
 "}")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-chart-line.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -636,7 +635,7 @@ class Ui_MainWindow(object):
         self.button_settings.setGeometry(QtCore.QRect(0, 640, 210, 60))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Semibold")
-        font.setPointSize(9)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.button_settings.setFont(font)
@@ -647,7 +646,7 @@ class Ui_MainWindow(object):
 "    text-align: left;\n"
 "    padding-left: 15px;\n"
 "    border: none;\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(40, 44, 52);\n"
@@ -661,9 +660,41 @@ class Ui_MainWindow(object):
         self.button_settings.setIconSize(QtCore.QSize(24, 24))
         self.button_settings.setFlat(True)
         self.button_settings.setObjectName("button_settings")
+        self.button_control = QtWidgets.QPushButton(self.frame_left_menu)
+        self.button_control.setGeometry(QtCore.QRect(0, 0, 210, 60))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI Semibold")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.button_control.setFont(font)
+        self.button_control.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.button_control.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.button_control.setAutoFillBackground(False)
+        self.button_control.setStyleSheet("QPushButton {\n"
+"    background-position: left;\n"
+"    background-repeat: no-reperat;\n"
+"    background-origin: content;\n"
+"    text-align: left;\n"
+"    padding-left: 15px;\n"
+"    border: none;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #87B9E0;\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: #91D1EE;\n"
+"}")
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-video.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_control.setIcon(icon6)
+        self.button_control.setIconSize(QtCore.QSize(24, 24))
+        self.button_control.setFlat(True)
+        self.button_control.setObjectName("button_control")
         self.horizontalLayout.addWidget(self.frame_left_menu)
         self.frame_contains = QtWidgets.QFrame(self.frame_center)
-        self.frame_contains.setStyleSheet("background-color: rgb(40, 44, 52);")
+        self.frame_contains.setStyleSheet("background-color: #EFF7FD;")
         self.frame_contains.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_contains.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_contains.setObjectName("frame_contains")
@@ -672,138 +703,139 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.stackedWidget = QtWidgets.QStackedWidget(self.frame_contains)
+        self.stackedWidget.setStyleSheet("")
         self.stackedWidget.setObjectName("stackedWidget")
         self.page_device = QtWidgets.QWidget()
         self.page_device.setObjectName("page_device")
         self.table_devices = QtWidgets.QTableWidget(self.page_device)
-        self.table_devices.setGeometry(QtCore.QRect(20, 60, 1100, 620))
+        self.table_devices.setGeometry(QtCore.QRect(20, 60, 1116, 370))
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(228, 242, 253))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.AlternateBase, brush)
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(228, 242, 253))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.AlternateBase, brush)
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(39, 44, 54))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(228, 242, 253))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
         self.table_devices.setPalette(palette)
         self.table_devices.setStyleSheet("QTableWidget {    \n"
-"    background-color: rgb(39, 44, 54);\n"
-"    padding: 10px;\n"
-"    border-radius: 5px;\n"
-"    gridline-color: rgb(44, 49, 60);\n"
-"    border-bottom: 1px solid rgb(44, 49, 60);\n"
+"    background-color: #FFFFFF;\n"
+"    alternate-background-color: #E4F2FD;\n"
+"    gridline-color: #91D1EE;\n"
+"    color: #09376B;\n"
 "}\n"
 "QTableWidget::item{\n"
-"    border-color: rgb(44, 49, 60);\n"
-"    padding-left: 5px;\n"
-"    padding-right: 5px;\n"
-"    gridline-color: rgb(44, 49, 60);\n"
+"    gridline-color: #91D1EE;\n"
 "}\n"
 "QTableWidget::item:selected{\n"
-"    background-color: rgb(85, 170, 255);\n"
+"    background-color: #2894D4;\n"
+"    color: #FFFFFF;\n"
 "}\n"
 "QScrollBar:horizontal {\n"
 "    border: none;\n"
-"    background: rgb(52, 59, 72);\n"
+"    background: #EFF7FD;\n"
 "    height: 14px;\n"
 "    margin: 0px 21px 0 21px;\n"
 "    border-radius: 0px;\n"
 "}\n"
 " QScrollBar:vertical {\n"
 "    border: none;\n"
-"    background: rgb(52, 59, 72);\n"
+"    background: #EFF7FD;\n"
 "    width: 14px;\n"
 "    margin: 21px 0 21px 0;\n"
 "    border-radius: 0px;\n"
 " }\n"
 "QHeaderView::section{\n"
-"    Background-color: rgb(39, 44, 54);\n"
+"    Background-color: #91D1EE;\n"
 "    max-width: 30px;\n"
-"    border: 1px solid rgb(44, 49, 60);\n"
+"    border: 1px solid #91D1EE;\n"
 "    border-style: none;\n"
-"    border-bottom: 1px solid rgb(44, 49, 60);\n"
-"    border-right: 1px solid rgb(44, 49, 60);\n"
+"    border: 1px solid #91D1EE;\n"
 "}\n"
 "QTableWidget::horizontalHeader {    \n"
-"    background-color: rgb(81, 255, 0);\n"
+"    background-color: #FFFFFF;\n"
 "}\n"
 "QHeaderView::section:horizontal\n"
 "{\n"
-"    border: 1px solid rgb(32, 34, 42);\n"
-"    background-color: rgb(27, 29, 35);\n"
+"    background-color: #91D1EE;\n"
 "    color: rgb(255, 255, 255);\n"
-"    padding: 3px;\n"
-"    border-top-left-radius: 7px;\n"
-"    border-top-right-radius: 7px;\n"
-"}\n"
-"QHeaderView::section:vertical\n"
-"{\n"
-"    border: 1px solid rgb(44, 49, 60);\n"
+"    border: 1px solid #91D1EE;\n"
 "}\n"
 "")
         self.table_devices.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.table_devices.setFrameShadow(QtWidgets.QFrame.Plain)
         self.table_devices.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.table_devices.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.table_devices.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.table_devices.setAlternatingRowColors(False)
-        self.table_devices.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.table_devices.setAlternatingRowColors(True)
+        self.table_devices.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.table_devices.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_devices.setTextElideMode(QtCore.Qt.ElideMiddle)
+        self.table_devices.setShowGrid(False)
         self.table_devices.setRowCount(0)
         self.table_devices.setColumnCount(7)
         self.table_devices.setObjectName("table_devices")
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignVCenter)
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        item.setIcon(icon6)
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        item.setIcon(icon7)
         self.table_devices.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -850,86 +882,436 @@ class Ui_MainWindow(object):
         self.table_devices.horizontalHeader().setVisible(True)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
-        self.table_devices.horizontalHeader().setStretchLastSection(False)
+        self.table_devices.horizontalHeader().setStretchLastSection(True)
         self.table_devices.verticalHeader().setVisible(False)
         self.table_devices.verticalHeader().setHighlightSections(False)
-        self.table_devices.verticalHeader().setStretchLastSection(True)
+        self.table_devices.verticalHeader().setStretchLastSection(False)
         self.button_search_device = QtWidgets.QPushButton(self.page_device)
-        self.button_search_device.setGeometry(QtCore.QRect(20, 10, 100, 30))
+        self.button_search_device.setGeometry(QtCore.QRect(20, 15, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(8)
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_search_device.setFont(font)
         self.button_search_device.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    background-color: #0C5DB9;\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
+"    background-color: #87B9E0;\n"
 "    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_search_device.setIcon(icon7)
-        self.button_search_device.setObjectName("button_search_device")
-        self.button_configure_device = QtWidgets.QPushButton(self.page_device)
-        self.button_configure_device.setGeometry(QtCore.QRect(130, 10, 100, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        self.button_configure_device.setFont(font)
-        self.button_configure_device.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
 "}")
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-equalizer.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_configure_device.setIcon(icon8)
-        self.button_configure_device.setObjectName("button_configure_device")
-        self.button_delete_device = QtWidgets.QPushButton(self.page_device)
-        self.button_delete_device.setGeometry(QtCore.QRect(240, 10, 100, 30))
+        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_search_device.setIcon(icon8)
+        self.button_search_device.setObjectName("button_search_device")
+        self.button_configure_device = QtWidgets.QPushButton(self.page_device)
+        self.button_configure_device.setGeometry(QtCore.QRect(20, 450, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        self.button_delete_device.setFont(font)
-        self.button_delete_device.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_configure_device.setFont(font)
+        self.button_configure_device.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    background-color: #0C5DB9;\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
+"    background-color: #87B9E0;\n"
 "    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
+"}")
+        self.button_configure_device.setObjectName("button_configure_device")
+        self.button_delete_device = QtWidgets.QPushButton(self.page_device)
+        self.button_delete_device.setGeometry(QtCore.QRect(200, 15, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_delete_device.setFont(font)
+        self.button_delete_device.setStyleSheet("QPushButton {\n"
+"    border-radius: 10px;    \n"
+"    background-color: #0C5DB9;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: #87B9E0;\n"
+"    color: rgb(255, 255, 255);\n"
 "}")
         icon9 = QtGui.QIcon()
         icon9.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_delete_device.setIcon(icon9)
         self.button_delete_device.setObjectName("button_delete_device")
+        self.horizontalSlider_volume = QtWidgets.QSlider(self.page_device)
+        self.horizontalSlider_volume.setGeometry(QtCore.QRect(200, 530, 150, 30))
+        self.horizontalSlider_volume.setMaximum(24)
+        self.horizontalSlider_volume.setPageStep(2)
+        self.horizontalSlider_volume.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider_volume.setObjectName("horizontalSlider_volume")
+        self.label_ip_address = QtWidgets.QLabel(self.page_device)
+        self.label_ip_address.setGeometry(QtCore.QRect(395, 450, 130, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_ip_address.setFont(font)
+        self.label_ip_address.setStyleSheet("color: #09376B;")
+        self.label_ip_address.setObjectName("label_ip_address")
+        self.lineEdit_ip_address = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_ip_address.setGeometry(QtCore.QRect(555, 450, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_ip_address.setFont(font)
+        self.lineEdit_ip_address.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255,255,255,221);\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_ip_address.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_ip_address.setObjectName("lineEdit_ip_address")
+        self.label_subnet_mask = QtWidgets.QLabel(self.page_device)
+        self.label_subnet_mask.setGeometry(QtCore.QRect(395, 490, 130, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_subnet_mask.setFont(font)
+        self.label_subnet_mask.setStyleSheet("color: #09376B;")
+        self.label_subnet_mask.setObjectName("label_subnet_mask")
+        self.lineEdit_subnet_mask = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_subnet_mask.setGeometry(QtCore.QRect(555, 490, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_subnet_mask.setFont(font)
+        self.lineEdit_subnet_mask.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255,255,255,221);\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_subnet_mask.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_subnet_mask.setObjectName("lineEdit_subnet_mask")
+        self.lineEdit_gateway = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_gateway.setGeometry(QtCore.QRect(555, 530, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_gateway.setFont(font)
+        self.lineEdit_gateway.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255,255,255,221);\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_gateway.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_gateway.setObjectName("lineEdit_gateway")
+        self.label_gateway = QtWidgets.QLabel(self.page_device)
+        self.label_gateway.setGeometry(QtCore.QRect(395, 530, 130, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_gateway.setFont(font)
+        self.label_gateway.setStyleSheet("color: #09376B;")
+        self.label_gateway.setObjectName("label_gateway")
+        self.lineEdit_ddns1 = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_ddns1.setGeometry(QtCore.QRect(555, 570, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_ddns1.setFont(font)
+        self.lineEdit_ddns1.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255,255,255,221);\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_ddns1.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_ddns1.setObjectName("lineEdit_ddns1")
+        self.label_ddns1 = QtWidgets.QLabel(self.page_device)
+        self.label_ddns1.setGeometry(QtCore.QRect(395, 570, 130, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_ddns1.setFont(font)
+        self.label_ddns1.setStyleSheet("color: #09376B;")
+        self.label_ddns1.setObjectName("label_ddns1")
+        self.lineEdit_ddns2 = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_ddns2.setGeometry(QtCore.QRect(555, 610, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_ddns2.setFont(font)
+        self.lineEdit_ddns2.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255,255,255,221);\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_ddns2.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_ddns2.setObjectName("lineEdit_ddns2")
+        self.label_ddns2 = QtWidgets.QLabel(self.page_device)
+        self.label_ddns2.setGeometry(QtCore.QRect(395, 610, 130, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_ddns2.setFont(font)
+        self.label_ddns2.setStyleSheet("color: #09376B;")
+        self.label_ddns2.setObjectName("label_ddns2")
+        self.label_dhcp = QtWidgets.QLabel(self.page_device)
+        self.label_dhcp.setGeometry(QtCore.QRect(395, 650, 130, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_dhcp.setFont(font)
+        self.label_dhcp.setStyleSheet("color: #09376B;")
+        self.label_dhcp.setObjectName("label_dhcp")
+        self.label_volume = QtWidgets.QLabel(self.page_device)
+        self.label_volume.setGeometry(QtCore.QRect(20, 530, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_volume.setFont(font)
+        self.label_volume.setStyleSheet("color: #09376B;")
+        self.label_volume.setObjectName("label_volume")
+        self.label_brightness = QtWidgets.QLabel(self.page_device)
+        self.label_brightness.setGeometry(QtCore.QRect(20, 570, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_brightness.setFont(font)
+        self.label_brightness.setStyleSheet("color: #09376B;")
+        self.label_brightness.setObjectName("label_brightness")
+        self.horizontalSlider_brightness = QtWidgets.QSlider(self.page_device)
+        self.horizontalSlider_brightness.setGeometry(QtCore.QRect(200, 570, 150, 30))
+        self.horizontalSlider_brightness.setMinimum(45)
+        self.horizontalSlider_brightness.setMaximum(100)
+        self.horizontalSlider_brightness.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider_brightness.setObjectName("horizontalSlider_brightness")
+        self.label_light = QtWidgets.QLabel(self.page_device)
+        self.label_light.setGeometry(QtCore.QRect(20, 610, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_light.setFont(font)
+        self.label_light.setStyleSheet("color: #09376B;")
+        self.label_light.setObjectName("label_light")
+        self.label_device_name = QtWidgets.QLabel(self.page_device)
+        self.label_device_name.setGeometry(QtCore.QRect(20, 490, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_device_name.setFont(font)
+        self.label_device_name.setStyleSheet("color: #09376B;")
+        self.label_device_name.setObjectName("label_device_name")
+        self.lineEdit_device_name = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_device_name.setGeometry(QtCore.QRect(200, 490, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_device_name.setFont(font)
+        self.lineEdit_device_name.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255,255,255,221);\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_device_name.setInputMask("")
+        self.lineEdit_device_name.setText("")
+        self.lineEdit_device_name.setMaxLength(32)
+        self.lineEdit_device_name.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_device_name.setObjectName("lineEdit_device_name")
+        self.label_save_record = QtWidgets.QLabel(self.page_device)
+        self.label_save_record.setGeometry(QtCore.QRect(750, 560, 210, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_save_record.setFont(font)
+        self.label_save_record.setStyleSheet("color: #09376B;")
+        self.label_save_record.setObjectName("label_save_record")
+        self.label_check_temperature = QtWidgets.QLabel(self.page_device)
+        self.label_check_temperature.setGeometry(QtCore.QRect(750, 440, 240, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_check_temperature.setFont(font)
+        self.label_check_temperature.setStyleSheet("color: #09376B;")
+        self.label_check_temperature.setObjectName("label_check_temperature")
+        self.label_check_mask = QtWidgets.QLabel(self.page_device)
+        self.label_check_mask.setGeometry(QtCore.QRect(750, 480, 240, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_check_mask.setFont(font)
+        self.label_check_mask.setStyleSheet("color: #09376B;")
+        self.label_check_mask.setObjectName("label_check_mask")
+        self.label_strangers_passage = QtWidgets.QLabel(self.page_device)
+        self.label_strangers_passage.setGeometry(QtCore.QRect(750, 520, 240, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_strangers_passage.setFont(font)
+        self.label_strangers_passage.setStyleSheet("color: #09376B;")
+        self.label_strangers_passage.setObjectName("label_strangers_passage")
+        self.label_save_face = QtWidgets.QLabel(self.page_device)
+        self.label_save_face.setGeometry(QtCore.QRect(750, 600, 210, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_save_face.setFont(font)
+        self.label_save_face.setStyleSheet("color: #09376B;")
+        self.label_save_face.setObjectName("label_save_face")
+        self.label_record_time = QtWidgets.QLabel(self.page_device)
+        self.label_record_time.setGeometry(QtCore.QRect(750, 640, 210, 45))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_record_time.setFont(font)
+        self.label_record_time.setStyleSheet("color: #09376B;")
+        self.label_record_time.setObjectName("label_record_time")
+        self.lineEdit_record_time = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_record_time.setGeometry(QtCore.QRect(990, 640, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_record_time.setFont(font)
+        self.lineEdit_record_time.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255,255,255,221);\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_record_time.setInputMask("")
+        self.lineEdit_record_time.setText("")
+        self.lineEdit_record_time.setMaxLength(8)
+        self.lineEdit_record_time.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_record_time.setObjectName("lineEdit_record_time")
+        self.button_cancel_new_devices = QtWidgets.QPushButton(self.page_device)
+        self.button_cancel_new_devices.setGeometry(QtCore.QRect(383, 450, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_cancel_new_devices.setFont(font)
+        self.button_cancel_new_devices.setStyleSheet("QPushButton {\n"
+"    border-radius: 10px;    \n"
+"    background-color: #B9400C;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #8A0000;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: #D04B4B;\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.button_cancel_new_devices.setObjectName("button_cancel_new_devices")
+        self.button_add_devices = QtWidgets.QPushButton(self.page_device)
+        self.button_add_devices.setGeometry(QtCore.QRect(578, 450, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_add_devices.setFont(font)
+        self.button_add_devices.setStyleSheet("QPushButton {\n"
+"    border-radius: 10px;    \n"
+"    background-color: #0CB53B;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #009229;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: #00C838;\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.button_add_devices.setObjectName("button_add_devices")
         self.stackedWidget.addWidget(self.page_device)
         self.page_database = QtWidgets.QWidget()
         self.page_database.setObjectName("page_database")
@@ -1063,6 +1445,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
         self.table_profiles.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.table_profiles.setLineWidth(0)
         self.table_profiles.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.table_profiles.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.table_profiles.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -1074,7 +1457,7 @@ class Ui_MainWindow(object):
         self.table_profiles.setColumnCount(7)
         self.table_profiles.setObjectName("table_profiles")
         item = QtWidgets.QTableWidgetItem()
-        item.setIcon(icon6)
+        item.setIcon(icon7)
         self.table_profiles.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -1094,7 +1477,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_profiles.setHorizontalHeaderItem(6, item)
-        self.table_profiles.horizontalHeader().setVisible(True)
+        self.table_profiles.horizontalHeader().setVisible(False)
         self.table_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_profiles.horizontalHeader().setStretchLastSection(False)
@@ -1105,12 +1488,15 @@ class Ui_MainWindow(object):
         self.button_delete_profile.setGeometry(QtCore.QRect(690, 10, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_delete_profile.setFont(font)
         self.button_delete_profile.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1128,13 +1514,16 @@ class Ui_MainWindow(object):
         self.button_edit_profile.setGeometry(QtCore.QRect(580, 10, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_edit_profile.setFont(font)
         self.button_edit_profile.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.button_edit_profile.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1154,12 +1543,15 @@ class Ui_MainWindow(object):
         self.button_add_profile.setGeometry(QtCore.QRect(470, 10, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_add_profile.setFont(font)
         self.button_add_profile.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1179,12 +1571,15 @@ class Ui_MainWindow(object):
         self.button_send_device.setGeometry(QtCore.QRect(330, 50, 130, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_send_device.setFont(font)
         self.button_send_device.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1340,12 +1735,12 @@ class Ui_MainWindow(object):
         self.table_departments.setColumnCount(2)
         self.table_departments.setObjectName("table_departments")
         item = QtWidgets.QTableWidgetItem()
-        item.setIcon(icon6)
+        item.setIcon(icon7)
         self.table_departments.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_departments.setHorizontalHeaderItem(1, item)
-        self.table_departments.horizontalHeader().setVisible(True)
+        self.table_departments.horizontalHeader().setVisible(False)
         self.table_departments.horizontalHeader().setCascadingSectionResizes(True)
         self.table_departments.horizontalHeader().setDefaultSectionSize(200)
         self.table_departments.horizontalHeader().setStretchLastSection(False)
@@ -1379,12 +1774,15 @@ class Ui_MainWindow(object):
         self.button_delete_department.setGeometry(QtCore.QRect(120, 50, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_delete_department.setFont(font)
         self.button_delete_department.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1402,12 +1800,15 @@ class Ui_MainWindow(object):
         self.button_add_department.setGeometry(QtCore.QRect(10, 50, 100, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_add_department.setFont(font)
         self.button_add_department.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1425,17 +1826,17 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QtCore.QRect(330, 10, 121, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.page_database)
-        self.label_2.setGeometry(QtCore.QRect(10, 10, 121, 30))
+        self.label_2.setGeometry(QtCore.QRect(10, 10, 171, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.label_2.setFont(font)
@@ -1446,12 +1847,15 @@ class Ui_MainWindow(object):
         self.button_create_pattern.setGeometry(QtCore.QRect(800, 10, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_create_pattern.setFont(font)
         self.button_create_pattern.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1471,12 +1875,15 @@ class Ui_MainWindow(object):
         self.button_device_database_view.setGeometry(QtCore.QRect(800, 50, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_device_database_view.setFont(font)
         self.button_device_database_view.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1496,12 +1903,15 @@ class Ui_MainWindow(object):
         self.button_add_profile_images.setGeometry(QtCore.QRect(960, 50, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_add_profile_images.setFont(font)
         self.button_add_profile_images.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1521,12 +1931,15 @@ class Ui_MainWindow(object):
         self.button_add_profiles_group.setGeometry(QtCore.QRect(960, 10, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_add_profiles_group.setFont(font)
         self.button_add_profiles_group.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1668,41 +2081,45 @@ class Ui_MainWindow(object):
         self.label_start_time.setGeometry(QtCore.QRect(150, 50, 40, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(10)
         self.label_start_time.setFont(font)
         self.label_start_time.setObjectName("label_start_time")
         self.label_end_time = QtWidgets.QLabel(self.page_statistic)
         self.label_end_time.setGeometry(QtCore.QRect(390, 50, 40, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(10)
         self.label_end_time.setFont(font)
         self.label_end_time.setObjectName("label_end_time")
         self.radiobutton_time = QtWidgets.QRadioButton(self.page_statistic)
-        self.radiobutton_time.setGeometry(QtCore.QRect(10, 50, 120, 30))
+        self.radiobutton_time.setGeometry(QtCore.QRect(10, 50, 131, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(10)
         self.radiobutton_time.setFont(font)
         self.radiobutton_time.setStyleSheet("")
         self.radiobutton_time.setChecked(False)
         self.radiobutton_time.setObjectName("radiobutton_time")
         self.radiobutton_temperature = QtWidgets.QRadioButton(self.page_statistic)
-        self.radiobutton_temperature.setGeometry(QtCore.QRect(10, 90, 120, 30))
+        self.radiobutton_temperature.setGeometry(QtCore.QRect(10, 90, 131, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(10)
         self.radiobutton_temperature.setFont(font)
         self.radiobutton_temperature.setObjectName("radiobutton_temperature")
         self.label_min_temperature = QtWidgets.QLabel(self.page_statistic)
         self.label_min_temperature.setGeometry(QtCore.QRect(150, 90, 40, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(10)
         self.label_min_temperature.setFont(font)
         self.label_min_temperature.setObjectName("label_min_temperature")
         self.doubleSpinBox_min_temperature = QtWidgets.QDoubleSpinBox(self.page_statistic)
         self.doubleSpinBox_min_temperature.setGeometry(QtCore.QRect(200, 90, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.doubleSpinBox_min_temperature.setFont(font)
         self.doubleSpinBox_min_temperature.setStyleSheet("QDoubleSpinBox {\n"
 "    background-color: rgb(27, 29, 35);\n"
 "    border-radius: 5px;\n"
@@ -1721,6 +2138,10 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_min_temperature.setObjectName("doubleSpinBox_min_temperature")
         self.doubleSpinBox_max_temperature = QtWidgets.QDoubleSpinBox(self.page_statistic)
         self.doubleSpinBox_max_temperature.setGeometry(QtCore.QRect(440, 90, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.doubleSpinBox_max_temperature.setFont(font)
         self.doubleSpinBox_max_temperature.setStyleSheet("QDoubleSpinBox {\n"
 "    background-color: rgb(27, 29, 35);\n"
 "    border-radius: 5px;\n"
@@ -1742,20 +2163,20 @@ class Ui_MainWindow(object):
         self.label_max_temperature.setGeometry(QtCore.QRect(390, 90, 40, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(10)
         self.label_max_temperature.setFont(font)
         self.label_max_temperature.setObjectName("label_max_temperature")
         self.button_search_statistics = QtWidgets.QPushButton(self.page_statistic)
         self.button_search_statistics.setGeometry(QtCore.QRect(10, 130, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(8)
+        font.setPointSize(10)
         self.button_search_statistics.setFont(font)
         self.button_search_statistics.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1767,7 +2188,7 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 2px solid rgb(43, 50, 61);\n"
 "}")
-        self.button_search_statistics.setIcon(icon7)
+        self.button_search_statistics.setIcon(icon8)
         self.button_search_statistics.setObjectName("button_search_statistics")
         self.comboBox_profiles = QtWidgets.QComboBox(self.page_statistic)
         self.comboBox_profiles.setGeometry(QtCore.QRect(10, 10, 360, 30))
@@ -1796,13 +2217,13 @@ class Ui_MainWindow(object):
         self.button_person_plot.setGeometry(QtCore.QRect(380, 10, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(8)
+        font.setPointSize(10)
         self.button_person_plot.setFont(font)
         self.button_person_plot.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1822,13 +2243,13 @@ class Ui_MainWindow(object):
         self.button_all_statistic.setGeometry(QtCore.QRect(140, 130, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(8)
+        font.setPointSize(10)
         self.button_all_statistic.setFont(font)
         self.button_all_statistic.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1848,13 +2269,13 @@ class Ui_MainWindow(object):
         self.button_report.setGeometry(QtCore.QRect(510, 10, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(8)
+        font.setPointSize(10)
         self.button_report.setFont(font)
         self.button_report.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1872,13 +2293,13 @@ class Ui_MainWindow(object):
         self.button_strangers_statistic.setGeometry(QtCore.QRect(270, 130, 140, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(8)
+        font.setPointSize(10)
         self.button_strangers_statistic.setFont(font)
         self.button_strangers_statistic.setStyleSheet("QPushButton {\n"
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"
@@ -1910,7 +2331,7 @@ class Ui_MainWindow(object):
         self.frame_statusbar = QtWidgets.QFrame(self.frame_contains)
         self.frame_statusbar.setMinimumSize(QtCore.QSize(0, 25))
         self.frame_statusbar.setMaximumSize(QtCore.QSize(16777215, 25))
-        self.frame_statusbar.setStyleSheet("background-color: rgb(27, 29, 35);")
+        self.frame_statusbar.setStyleSheet("background-color: #0C5DB9;")
         self.frame_statusbar.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_statusbar.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_statusbar.setObjectName("frame_statusbar")
@@ -1931,8 +2352,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.frame_center)
         MainWindow.setCentralWidget(self.centralwidget)
 
-        # self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.retranslateUi(MainWindow)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1941,25 +2362,55 @@ class Ui_MainWindow(object):
         self.label_title.setText(_translate("MainWindow", "Thermal Camera\'s Manager"))
         self.button_minimize.setToolTip(_translate("MainWindow", "Minimize"))
         self.button_close.setToolTip(_translate("MainWindow", "Close"))
-        self.button_database.setText(_translate("MainWindow", "Database Manager"))
-        self.button_device.setText(_translate("MainWindow", "Device Manager"))
-        self.button_statistic.setText(_translate("MainWindow", "Statistic"))
-        self.button_settings.setText(_translate("MainWindow", "Settings"))
+        self.button_database.setText(_translate("MainWindow", "База Данных"))
+        self.button_device.setText(_translate("MainWindow", "Устройства"))
+        self.button_statistic.setText(_translate("MainWindow", "Статистика"))
+        self.button_settings.setText(_translate("MainWindow", "Настройки"))
+        self.button_control.setText(_translate("MainWindow", "Контроль"))
         item = self.table_devices.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Device Name"))
+        item.setText(_translate("MainWindow", "Состояние"))
         item = self.table_devices.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Model"))
+        item.setText(_translate("MainWindow", "Название"))
         item = self.table_devices.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Serial Number"))
+        item.setText(_translate("MainWindow", "Серийный номер"))
         item = self.table_devices.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "MAC-Address"))
+        item.setText(_translate("MainWindow", "Модель"))
         item = self.table_devices.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "IP Address"))
+        item.setText(_translate("MainWindow", "MAC-адрес"))
         item = self.table_devices.horizontalHeaderItem(6)
-        item.setText(_translate("MainWindow", "State"))
-        self.button_search_device.setText(_translate("MainWindow", "Search"))
-        self.button_configure_device.setText(_translate("MainWindow", "Configure"))
-        self.button_delete_device.setText(_translate("MainWindow", "Delete"))
+        item.setText(_translate("MainWindow", "MAC-Address"))
+        self.button_search_device.setText(_translate("MainWindow", "Поиск"))
+        self.button_configure_device.setText(_translate("MainWindow", "Применить"))
+        self.button_delete_device.setText(_translate("MainWindow", "Удалить"))
+        self.label_ip_address.setText(_translate("MainWindow", "IP-адрес"))
+        self.lineEdit_ip_address.setInputMask(_translate("MainWindow", "999.999.999.999"))
+        self.lineEdit_ip_address.setText(_translate("MainWindow", "..."))
+        self.label_subnet_mask.setText(_translate("MainWindow", "Маска подсети"))
+        self.lineEdit_subnet_mask.setInputMask(_translate("MainWindow", "999.999.999.999"))
+        self.lineEdit_subnet_mask.setText(_translate("MainWindow", "..."))
+        self.lineEdit_gateway.setInputMask(_translate("MainWindow", "999.999.999.999"))
+        self.lineEdit_gateway.setText(_translate("MainWindow", "..."))
+        self.label_gateway.setText(_translate("MainWindow", "Шлюз"))
+        self.lineEdit_ddns1.setInputMask(_translate("MainWindow", "999.999.999.999"))
+        self.lineEdit_ddns1.setText(_translate("MainWindow", "..."))
+        self.label_ddns1.setText(_translate("MainWindow", "DDNS-1"))
+        self.lineEdit_ddns2.setInputMask(_translate("MainWindow", "999.999.999.999"))
+        self.lineEdit_ddns2.setText(_translate("MainWindow", "..."))
+        self.label_ddns2.setText(_translate("MainWindow", "DDNS-2"))
+        self.label_dhcp.setText(_translate("MainWindow", "DHCP"))
+        self.label_volume.setText(_translate("MainWindow", "Громкость: 0"))
+        self.label_brightness.setText(_translate("MainWindow", "Яркость: 45"))
+        self.label_light.setText(_translate("MainWindow", "Подсветка"))
+        self.label_device_name.setText(_translate("MainWindow", "Название"))
+        self.label_save_record.setText(_translate("MainWindow", "Сохранять запись"))
+        self.label_check_temperature.setText(_translate("MainWindow", "Проверка температуры"))
+        self.label_check_mask.setText(_translate("MainWindow", "Проверка на наличие маски"))
+        self.label_strangers_passage.setText(_translate("MainWindow", "Проход незнакомцев"))
+        self.label_save_face.setText(_translate("MainWindow", "Сохранять фото"))
+        self.label_record_time.setText(_translate("MainWindow", "Время хранения записи\n"
+"в часах (-1 - безлимитное)"))
+        self.button_cancel_new_devices.setText(_translate("MainWindow", "Отмена"))
+        self.button_add_devices.setText(_translate("MainWindow", "Добавить"))
         self.table_profiles.setSortingEnabled(False)
         item = self.table_profiles.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "ID"))
@@ -2010,5 +2461,16 @@ class Ui_MainWindow(object):
         self.button_person_plot.setText(_translate("MainWindow", "Charts"))
         self.button_all_statistic.setText(_translate("MainWindow", "All Statistic"))
         self.button_report.setText(_translate("MainWindow", "Report"))
-        self.button_strangers_statistic.setText(_translate("MainWindow", "Strangers Statistic"))
+        self.button_strangers_statistic.setText(_translate("MainWindow", "Strangers Stats"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
+import files_rc
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

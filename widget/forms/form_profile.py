@@ -12,9 +12,11 @@ from widget.forms.form_profile_designer import Ui_FormProfile
 
 
 class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
-    def __init__(self, profile: Profile = None):
+    def __init__(self, title: str = 'A', profile: Profile = None):
         super().__init__()
         self.setupUi(self)
+        self.setWindowTitle(title)
+        self.label_title.setText(title)
         # DATA
         self.dialog_result = -1
         self.profile = profile
@@ -124,3 +126,22 @@ class FormProfile(QtWidgets.QDialog, Ui_FormProfile):
             pixmap = QPixmap(QImage(f'nginx/html{self.profile.face}'))
             pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
             self.label_photo.setPixmap(pixmap)
+
+
+    def translate_ui(self, lang: dict):
+        self.button_close.setToolTip(_translate("FormProfile", "Close"))
+        self.label_id.setText(_translate("FormProfile", "ID *"))
+        self.label_name.setText(_translate("FormProfile", "Name *"))
+        self.label_gender.setText(_translate("FormProfile", "Gender"))
+        self.comboBox_gender.setItemText(0, _translate("FormProfile", "Not Selected"))
+        self.comboBox_gender.setItemText(1, _translate("FormProfile", "Male"))
+        self.comboBox_gender.setItemText(2, _translate("FormProfile", "Female"))
+        self.lineEdit_id.setPlaceholderText(_translate("FormProfile", "Enter ID"))
+        self.lineEdit_name.setPlaceholderText(_translate("FormProfile", "Enter Name"))
+        self.label_department.setText(_translate("FormProfile", "Department"))
+        self.comboBox_department.setItemText(0, _translate("FormProfile", "Not Selected"))
+        self.button_choose_file.setText(_translate("FormProfile", "Choose File"))
+        self.label_phonenumber.setText(_translate("FormProfile", "Phone Number"))
+        self.lineEdit_phonenumber.setPlaceholderText(_translate("FormProfile", "+3753312345678"))
+        self.button_accept.setText(_translate("FormProfile", "Accept"))
+        self.button_cancel.setText(_translate("FormProfile", "Cancel"))

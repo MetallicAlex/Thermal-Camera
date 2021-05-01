@@ -105,6 +105,25 @@
     }
   },
   "form_profile": {
-
+    "window_title_add": "Add Profile",
+    "window_title_edit": "Edit Profile",
+    "label_title_add": "Add Profile",
+    "label_title_edit": "Edit Profile",
+    "btn_close": "Close",
+    "btn_choose_file": "Choose Image",
+    "table": {
+      "id": "ID *",
+      "text_id": "Enter Identifier",
+      "name": "Name *",
+      "text_name": "Enter Name",
+      "department": "Not Selected",
+      "gender": {
+        "male": "Male",
+        "female": "Female",
+        "unknown": "Not Selected"
+      },
+      "phone_number": "Phone Number",
+      "text_phone_number": "+3753312345678"
+    }
   }
 }
