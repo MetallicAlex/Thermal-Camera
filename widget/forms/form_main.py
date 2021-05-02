@@ -72,21 +72,20 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         )
         self.label_pie_number_person_day.setScaledContents(True)
         self.label_pie_number_person_all_time.setScaledContents(True)
-        self.comboBox_profiles.addItem(self.setting.lang['form_main']['text_all_profiles'])
-        self.radiobutton_time.setChecked(True)
         self._load_profiles_to_table()
         self._load_departments_to_table()
         self._load_statistics_to_table(low=str(datetime.datetime.now().replace(hour=0, minute=0, second=0)),
                                        high=str(datetime.datetime.now().replace(hour=23, minute=59, second=59)))
-        self.stackedWidget.setCurrentWidget(self.page_device)
-        self.button_device.setStyleSheet(self.theme['system-button'] +
-                                         "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
+        self.stackedWidget.setCurrentWidget(self.page_control)
+        # self.button_device.setStyleSheet(self.theme['system-button'] +
+        #                                  "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
         self.button_close.clicked.connect(lambda: self.close())
         self.button_minimize.clicked.connect(lambda: self.showMinimized())
         self.frame_header.mouseMoveEvent = self._frame_header_move_window
         self.frame_header.mousePressEvent = self._frame_header_mouse_press
         # MENU BUTTONS
+        self.button_control.clicked.connect(self._button_control_clicked)
         self.button_device.clicked.connect(self._button_device_clicked)
         self.button_database.clicked.connect(self._button_database_clicked)
         self.button_statistic.clicked.connect(self._button_statistic_clicked)
@@ -104,19 +103,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
         self.button_add_department.clicked.connect(self._button_add_department_clicked)
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
-        self.button_add_profiles_group.clicked.connect(self._button_add_profiles_group_clicked)
-        self.button_add_profile_images.clicked.connect(self._button_add_profile_images_clicked)
-        self.button_create_pattern.clicked.connect(self._button_create_pattern_clicked)
         self.button_device_database_view.clicked.connect(self._button_device_database_view_clicked)
         self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         # PAGE STATISTIC
-        self.button_search_statistics.clicked.connect(self._button_search_statistics_clicked)
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
-        self.button_report.clicked.connect(self._button_report_clicked)
-        self.button_strangers_statistic.clicked.connect(self._button_stranger_statistics_clicked)
-        self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
-        self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
+        # self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
+        # self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
         # DATA
         if self.device_management.host is not None:
             self.subscribe_platform = SubscribePlatform()
@@ -144,6 +137,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_close_clicked(self, event):
         pass
+
+    def _button_control_clicked(self, event):
+        self._update_system_buttons(self.button_control)
+        self.stackedWidget.setCurrentWidget(self.page_control)
 
     def _button_device_clicked(self, event):
         self._update_system_buttons(self.button_device)
@@ -632,8 +629,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         start = time.time()
         for row_position, profile in enumerate(profiles):
             self._add_update_profile_row(row_position, profile)
-            self.comboBox_profiles.addItem(profile.name)
-        self.table_profiles.resizeColumnsToContents()
+        self.table_profiles.resizeColumnToContents(0)
+        self.table_profiles.resizeColumnToContents(1)
+        self.table_profiles.resizeColumnToContents(2)
+        self.table_profiles.resizeColumnToContents(5)
         self.table_profiles.resizeRowsToContents()
         print(f'[VISUAL][PROFILES] {time.time() - start}')
 
@@ -778,12 +777,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):
-        self.button_device.setStyleSheet(self.theme['system-button'])
-        self.button_database.setStyleSheet(self.theme['system-button'])
-        self.button_statistic.setStyleSheet(self.theme['system-button'])
-        self.button_settings.setStyleSheet(self.theme['system-button'])
-        button.setStyleSheet(self.theme['system-button'] +
-                             "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
+        # self.button_device.setStyleSheet(self.theme['system-button'])
+        # self.button_database.setStyleSheet(self.theme['system-button'])
+        # self.button_statistic.setStyleSheet(self.theme['system-button'])
+        # self.button_settings.setStyleSheet(self.theme['system-button'])
+        # button.setStyleSheet(self.theme['system-button'] +
+        #                      "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
+        pass
 
     @staticmethod
     def _create_report(dialog_result: int,
@@ -909,16 +909,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_add_department.setText(lang['page_database']['btn_add_department'])
         self.button_delete_department.setToolTip(lang['page_database']['tool_delete_department'])
         self.button_add_department.setToolTip(lang['page_database']['tool_add_department'])
-        self.label.setText(lang['page_database']['label_profile_db'])
-        self.label_2.setText(lang['page_database']['label_department_db'])
-        self.button_create_pattern.setText(lang['page_database']['btn_create_pattern'])
         self.button_device_database_view.setText(lang['page_database']['btn_device_db_view'])
-        self.button_add_profile_images.setText(lang['page_database']['btn_add_profile_images'])
-        self.button_add_profiles_group.setText(lang['page_database']['btn_add_profiles_group'])
-        self.button_create_pattern.setToolTip(lang['page_database']['tool_create_pattern'])
         self.button_device_database_view.setToolTip(lang['page_database']['tool_device_db_view'])
-        self.button_add_profile_images.setToolTip(lang['page_database']['tool_add_profile_images'])
-        self.button_add_profiles_group.setToolTip(lang['page_database']['tool_add_profiles_group'])
         self.table_statistics.setSortingEnabled(True)
         item = self.table_statistics.horizontalHeaderItem(0)
         item.setText(lang['page_statistic']['table_statistics']['id'])
@@ -934,24 +926,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_start_time.setToolTip(lang['page_statistic']['tool_start_time'])
         self.label_end_time.setText(lang['page_statistic']['label_end_time'])
         self.label_end_time.setToolTip(lang['page_statistic']['tool_end_time'])
-        self.radiobutton_time.setText(lang['page_statistic']['radio_btn_time'])
-        self.radiobutton_temperature.setText(lang['page_statistic']['radio_btn_temp'])
-        self.radiobutton_time.setToolTip(lang['page_statistic']['tool_radio_btn_time'])
-        self.radiobutton_temperature.setToolTip(lang['page_statistic']['tool_radio_btn_temp'])
         self.label_min_temperature.setText(lang['page_statistic']['label_min_temp'])
         self.label_min_temperature.setToolTip(lang['page_statistic']['tool_min_temp'])
         self.label_max_temperature.setText(lang['page_statistic']['label_max_temp'])
         self.label_max_temperature.setToolTip(lang['page_statistic']['tool_max_temp'])
-        self.button_search_statistics.setText(lang['page_statistic']['btn_search'])
-        self.button_person_plot.setText(lang['page_statistic']['btn_charts'])
         self.button_all_statistic.setText(lang['page_statistic']['btn_all_stats'])
-        self.button_report.setText(lang['page_statistic']['btn_report'])
-        self.button_strangers_statistic.setText(lang['page_statistic']['btn_stranger_stats'])
-        self.button_search_statistics.setToolTip(lang['page_statistic']['tool_search'])
-        self.button_person_plot.setToolTip(lang['page_statistic']['tool_charts'])
         self.button_all_statistic.setToolTip(lang['page_statistic']['tool_all_stats'])
-        self.button_report.setToolTip(lang['page_statistic']['tool_report'])
-        self.button_strangers_statistic.setToolTip(lang['page_statistic']['tool_stranger_stats'])
         self.label_statusbar.setText("MetallicAlex")
 
     # NGINX

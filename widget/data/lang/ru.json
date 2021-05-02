@@ -16,8 +16,8 @@
     "page_device": {
       "btn_search": "Поиск",
       "tool_search": "Поиск новых устройств",
-      "btn_configure": "Настроить",
-      "tool_configure": "Настроить устройство(-а)",
+      "btn_configure": "Применить",
+      "tool_configure": "Настроить устройство",
       "btn_delete": "Удалить",
       "tool_delete": "Удалить устройства",
       "table_devices": {
