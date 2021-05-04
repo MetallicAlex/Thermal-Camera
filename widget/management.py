@@ -7,7 +7,7 @@ from datetime import datetime
 import zipfile
 from typing import Union
 import pandas as pd
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from sqlalchemy.orm import load_only
 
 import widget.models as models
@@ -97,17 +97,37 @@ class DBManagement:
         self._departments = None
 
     # PROFILES
-    def exists_profile(self, identifier: str):
+    def is_id_profile_duplicate(self, identifier: int):
         with models.get_session() as session:
-            profile = session.query(models.Profile) \
-                .filter(models.Profile.id == identifier) \
+            profile = session.query(models.Profile)\
+                .filter(models.Profile.id == identifier)\
                 .first()
         if profile:
             self._profiles = profile
             return True
         return False
 
-    def get_profile_name(self, identifier: str):
+    def is_personnel_number_duplicate(self, personnel_number: str):
+        with models.get_session() as session:
+            profile = session.query(models.Profile)\
+                .filter(models.Profile.personnel_number == personnel_number)\
+                .first()
+            if profile:
+                self._profiles = profile
+                return True
+        return False
+
+    def is_passport_duplicate(self, passport: str):
+        with models.get_session() as session:
+            profile = session.query(models.Profile)\
+                .filter(models.Profile.passport == passport)\
+                .first()
+            if profile:
+                self._profiles = profile
+                return True
+        return False
+
+    def get_profile_name(self, identifier: int):
         with models.get_session() as session:
             profile_name = session.query(models.Profile.name) \
                 .filter(models.Profile.id == identifier) \
@@ -115,7 +135,7 @@ class DBManagement:
         self._profile_name = profile_name
         return profile_name
 
-    def get_profile(self, identifier: str):
+    def get_profile(self, identifier: int):
         with models.get_session() as session:
             profile = session.query(models.Profile) \
                 .filter(models.Profile.id == identifier) \
@@ -131,7 +151,7 @@ class DBManagement:
         self._profiles = profile
         return self._profiles
 
-    def get_profiles(self, *identifiers: str):
+    def get_profiles(self, *identifiers: int):
         with models.get_session() as session:
             query = session.query(models.Profile)
             if identifiers:
@@ -205,7 +225,7 @@ class DBManagement:
             session.add_all(profiles)
         self._profiles = profiles
 
-    def update_profile(self, identifier: str, new_profile: Union[models.Profile, dict]):
+    def update_profile(self, identifier: int, new_profile: Union[models.Profile, dict]):
         with models.get_session() as session:
             if isinstance(new_profile, models.Profile):
                 session.query(models.Profile) \
@@ -213,11 +233,14 @@ class DBManagement:
                     .update(
                     {
                         models.Profile.id: new_profile.id,
+                        models.Profile.personnel_number: new_profile.personnel_number,
                         models.Profile.name: new_profile.name,
+                        models.Profile.passport: new_profile.passport,
+                        models.Profile.visitor: new_profile.visitor,
                         models.Profile.face: new_profile.face,
-                        models.Profile.name_department: new_profile.name_department,
+                        models.Profile.id_department: new_profile.id_department,
                         models.Profile.gender: new_profile.gender,
-                        models.Profile.phone_number: new_profile.phone_number
+                        models.Profile.information: new_profile.information
                     }
                 )
             elif isinstance(new_profile, dict):
@@ -226,7 +249,7 @@ class DBManagement:
                     .update(new_profile)
         self._profiles = new_profile
 
-    def remove_profiles(self, *identifiers: str):
+    def remove_profiles(self, *identifiers: int):
         profiles = self.get_profiles(identifiers)
         path = os.path.dirname(os.path.abspath(__file__))
         for profile in profiles:
@@ -237,6 +260,11 @@ class DBManagement:
                 .filter(models.Profile.id.in_(identifiers)) \
                 .delete(synchronize_session=False)
         self._profiles = None
+
+    @staticmethod
+    def reset_autoincrement():
+        with models.get_session() as session:
+            session.execute('ALTER TABLE thermalcamera.profiles AUTO_INCREMENT = 1;')
 
     # STATISTICS
     def get_statistics(self,
@@ -585,6 +613,7 @@ class DeviceManagement:
             request = requests.get(f'http://{device_ip}:7080/ini.htm',
                                    headers={'Authorization': 'Basic YWRtaW46MTIzNDU='})
             if request.status_code == 200:
+                print(request.text)
                 for information in request.text.split('<br>'):
                     information = information.split('=')
                     if information[0] == 'getdeviceserial':
@@ -603,7 +632,7 @@ class DeviceManagement:
                     identifier=identifier,
                     name=name,
                     model=model,
-                    version=version,
+                    firmware_version=version,
                     mac_address=mac_address,
                     ip_address=ip_address
                 )

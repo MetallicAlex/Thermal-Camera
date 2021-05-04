@@ -5399,8 +5399,8 @@ QDateTimeEdit QAbstractItemView {
               <widget class="QDateTimeEdit" name="dateTimeEdit_end">
                <property name="geometry">
                 <rect>
-                 <x>380</x>
-                 <y>55</y>
+                 <x>90</x>
+                 <y>95</y>
                  <width>180</width>
                  <height>30</height>
                 </rect>
@@ -5472,8 +5472,8 @@ QDateTimeEdit QAbstractItemView {
               <widget class="QLabel" name="label_end_time">
                <property name="geometry">
                 <rect>
-                 <x>310</x>
-                 <y>55</y>
+                 <x>20</x>
+                 <y>95</y>
                  <width>60</width>
                  <height>30</height>
                 </rect>
@@ -6127,8 +6127,8 @@ QLineEdit:focus {
               <widget class="QDoubleSpinBox" name="doubleSpinBox_min_temperature">
                <property name="geometry">
                 <rect>
-                 <x>90</x>
-                 <y>95</y>
+                 <x>380</x>
+                 <y>55</y>
                  <width>120</width>
                  <height>30</height>
                 </rect>
@@ -6283,8 +6283,8 @@ QDoubleSpinBox QAbstractItemView {
               <widget class="QLabel" name="label_min_temperature">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
-                 <y>95</y>
+                 <x>310</x>
+                 <y>55</y>
                  <width>60</width>
                  <height>30</height>
                 </rect>

@@ -72,13 +72,13 @@
       }
     },
     "page_statistic": {
-      "label_start_time": "Нач.",
+      "label_start_time": "От",
       "tool_start_time": "Начальное",
-      "label_end_time": "Посл.",
+      "label_end_time": "До",
       "tool_end_time": "Последнее",
-      "label_min_temp": "Мин.",
+      "label_min_temp": "От",
       "tool_min_temp": "Минимальная",
-      "label_max_temp": "Макс.",
+      "label_max_temp": "До",
       "tool_max_temp": "Максимальная",
       "radio_btn_time": "Время",
       "tool_radio_btn_time": "Время",

@@ -3,11 +3,11 @@ from typing import Union
 
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import null
+from sqlalchemy import null, Sequence
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 import enum
-from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Enum
+from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Enum, Boolean
 
 engine = sqlalchemy.create_engine('mysql+pymysql://root:admin@localhost/thermalcamera')
 Base = declarative_base()
@@ -18,12 +18,14 @@ Session = sessionmaker(bind=engine)
 class Device(Base):
     __tablename__ = 'devices'
 
-    id = Column('ID', String(32), primary_key=True, unique=True)
+    id = Column('ID', Integer, primary_key=True, unique=True, autoincrement=True)
+    serial_number = Column('SerialNumber', unique=True)
     name = Column('Name', String(32), nullable=True)
+    device_type = Column('Type', String(32), nullable=True)
     model = Column('Model', String(32), nullable=True)
-    version = Column('Version', String(32), nullable=True)
-    mac_address = Column('MAC-Address', String(32), nullable=True)
-    ip_address = Column('IP-Address', String(32), nullable=True)
+    firmware_version = Column('FirmwareVersion', String(32), nullable=True)
+    mac_address = Column('MacAddress', String(32), nullable=True)
+    ip_address = Column('IpAddress', String(32), nullable=True)
     token = Column('Token', String(32), nullable=True)
     _online = False
     _volume = 0
@@ -38,18 +40,21 @@ class Device(Base):
     _record_save_time = -1
     _save_jpeg = False
 
-    def __init__(self, identifier: str,
+    def __init__(self,
+                 # identifier: null(),
                  name: str = null(),
+                 device_type: str = null(),
                  model: str = null(),
-                 version: str = null(),
+                 firmware_version: str = null(),
                  mac_address: str = null(),
                  ip_address: str = null(),
                  token: str = null()
                  ):
-        self.id = identifier
+        # self.id = identifier
         self.name = name
+        self.device_type = device_type
         self.model = model
-        self.version = version
+        self.firmware_version = firmware_version
         self.mac_address = mac_address
         self.ip_address = ip_address
         self.token = token
@@ -178,7 +183,8 @@ class Device(Base):
                 self._record_save_time = -1
 
     def __repr__(self):
-        return f'[ID: {self.id}, Name: {self.name}, Model: {self.model}, Version: {self.version},' \
+        return f'[ID: {self.id}, Ser.Number: {self.serial_number}, Name: {self.name}, Type: {self.device_type},' \
+               f' Model: {self.model}, Firmware Version: {self.firmware_version},' \
                f' MAC-Address: {self.mac_address}, IP-Address: {self.ip_address}, Token: {self.token}]'
 
     def __eq__(self, other):
@@ -195,13 +201,16 @@ class Device(Base):
 class Department(Base):
     __tablename__ = 'departments'
 
-    name = Column('Name', String(32), primary_key=True)
+    id = Column('ID', Integer, primary_key=True, unique=True, autoincrement=True)
+    name = Column('Name', String(32))
+    location = Column('Location', String(64), nullable=True)
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, location: str = null()):
         self.name = name
+        self.location = location
 
     def __repr__(self):
-        return f'[Department] {self.name}'
+        return f'[ID {self.id}, Department: {self.name}, Location: {self.location}]'
 
 
 class GenderEnum(enum.Enum):
@@ -217,35 +226,56 @@ class GenderEnum(enum.Enum):
             return 'unknow'
 
 
+class Gender(Base):
+    __tablename__ = 'genders'
+
+    id = Column('ID', Integer, primary_key=True, unique=True)
+    value = Column('Gender', String(16))
+    description = Column('Description', String(64))
+
+
 class Profile(Base):
     __tablename__ = 'profiles'
 
-    id = Column('ID', String(32), primary_key=True, unique=True)
-    name = Column('Name', String(32), primary_key=True, unique=True)
+    id = Column('ID', Integer, primary_key=True, unique=True, autoincrement=True)
+    personnel_number = Column('PersonnelNumber', String(32), unique=True)
+    name = Column('Name', String(64))
+    visitor = Column('Visitor', Boolean, default=False)
+    passport = Column('Passport', String(32), nullable=True)
     face = Column('Face', String(128), nullable=True)
-    name_department = Column('NameDepartment', String(32),
-                             ForeignKey('departments.Name', onupdate='CASCADE', ondelete='SET NULL'),
-                             nullable=True)
-    gender = Column('Gender', Enum(GenderEnum), nullable=True)
-    phone_number = Column('PhoneNumber', String(32), nullable=True)
+    id_department = Column('IdDepartment', Integer,
+                           ForeignKey('departments.ID', onupdate='CASCADE', ondelete='SET NULL'),
+                           nullable=True)
+    gender = Column('Gender', Integer,
+                    ForeignKey('genders.ID', onupdate='NO ACTION', ondelete='NO ACTION'), default=0)
+    information = Column('Information', String(512), nullable=True)
 
-    def __init__(self, identifier: str,
-                 name: str,
-                 name_department: str = null(),
+    def __init__(self,
+                 identifier: int = null(),
+                 personnel_number: str = null(),
+                 name: str = null(),
+                 passport: str = null(),
+                 visitor: bool = False,
+                 id_department: int = null(),
                  face: str = null(),
-                 gender: Union[str, GenderEnum] = null(),
-                 phone_number: str = null()
+                 gender: int = 0,
+                 information: str = null()
                  ):
         self.id = identifier
+        self.personnel_number = personnel_number
         self.name = name
-        self.name_department = name_department
+        self.passport = passport
+        self.visitor = visitor
+        self.id_department = id_department
         self.face = face
         self.gender = gender
-        self.phone_number = phone_number
+        self.information = information
 
     def __repr__(self):
-        return f'[PROFILE] ID: {self.id}, Name: {self.name}, Face: {self.face}, Department: {self.name_department}, ' \
-               f'Gender: {self.gender}, Phone Number: {self.phone_number}\n'
+        return f'[ID: {self.id}, Pers.Number: {self.personnel_number}, Name: {self.name}, ' \
+               f'Passport: {self.passport}, Visitor: {self.visitor}, ' \
+               f'Face: {self.face}, Department: {self.id_department}, ' \
+               f'Gender: {self.gender}, Information: {self.information}]\n'
 
     def __eq__(self, other):
         if not isinstance(other, Profile):
