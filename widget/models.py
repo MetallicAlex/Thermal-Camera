@@ -205,7 +205,10 @@ class Department(Base):
     name = Column('Name', String(32))
     location = Column('Location', String(64), nullable=True)
 
-    def __init__(self, name: str, location: str = null()):
+    def __init__(self, identifier: int = null(),
+                 name: str = null(),
+                 location: str = null()):
+        self.id = identifier
         self.name = name
         self.location = location
 
@@ -232,6 +235,9 @@ class Gender(Base):
     id = Column('ID', Integer, primary_key=True, unique=True)
     value = Column('Gender', String(16))
     description = Column('Description', String(64))
+
+    def __repr__(self):
+        return f'{self.id}: {self.value} - {self.description}'
 
 
 class Profile(Base):

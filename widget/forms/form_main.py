@@ -52,6 +52,19 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.last_page = False
         self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
+        departments = [
+            department.name
+            for department in self.database_management.get_departments()
+        ]
+        self.comboBox_gender.addItems([])
+        self.comboBox_department.addItems(['---', *departments])
+        self.comboBox_gender.addItems(
+            [
+                self.setting.lang['form_main']['page_database']['combobox_gender']['unknown'],
+                self.setting.lang['form_main']['page_database']['combobox_gender']['male'],
+                self.setting.lang['form_main']['page_database']['combobox_gender']['female']
+            ]
+        )
         # self.database_visualization = DBVisualization(width=10, height=6)
         # self.database_visualization.create_pie_chart_temperatures(
         #     title='Passage of people for the current day',
@@ -105,6 +118,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
         self.button_device_database_view.clicked.connect(self._button_device_database_view_clicked)
         self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
+        self.table_profiles.itemSelectionChanged.connect(self._profile_selected_row)
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         # PAGE STATISTIC
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
@@ -163,6 +177,35 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentWidget(self.page_settings)
 
     # EVENTS-DATABASE
+    def _profile_selected_row(self):
+        row_position = self.table_profiles.selectedIndexes()[0].row()
+        if self.table_profiles.item(row_position, 1).text() == '---':
+            self.lineEdit_id.setText('')
+        else:
+            self.lineEdit_id.setText(self.table_profiles.item(row_position, 1).text())
+        if self.table_profiles.item(row_position, 2).text() == '---':
+            self.lineEdit_profile_name.setText('')
+        else:
+            self.lineEdit_profile_name.setText(self.table_profiles.item(row_position, 2).text())
+        if self.table_profiles.item(row_position, 5).text() == '---':
+            self.lineEdit_passport.setText('')
+        else:
+            self.lineEdit_passport.setText(self.table_profiles.item(row_position, 5).text())
+        if self.table_profiles.item(row_position, 6).text() == '---':
+            self.comboBox_department.setCurrentText('---')
+        else:
+            self.comboBox_department.setCurrentText(self.table_profiles.item(row_position, 6).text())
+        if self.table_profiles.item(row_position, 7).text()[0] == self.setting.lang['form_main']['page_database']['table_profiles']['unknown'][0]:
+            self.comboBox_gender.setCurrentIndex(0)
+        elif self.table_profiles.item(row_position, 7).text()[0] == self.setting.lang['form_main']['page_database']['table_profiles']['male'][0]:
+            self.comboBox_gender.setCurrentIndex(1)
+        elif self.table_profiles.item(row_position, 7).text()[0] == self.setting.lang['form_main']['page_database']['table_profiles']['female'][0]:
+            self.comboBox_gender.setCurrentIndex(2)
+        if self.table_profiles.item(row_position, 8).text() == '---':
+            self.plainTextEdit_information.setPlainText('')
+        else:
+            self.plainTextEdit_information.setPlainText(self.table_profiles.item(row_position, 8).text())
+
     def _button_add_profile_clicked(self, event):
         form_profile = FormProfile()
         form_profile.exec_()
@@ -634,6 +677,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_profiles.resizeColumnToContents(3)
         self.table_profiles.resizeColumnToContents(4)
         self.table_profiles.resizeColumnToContents(5)
+        self.table_profiles.resizeColumnToContents(6)
         self.table_profiles.resizeColumnToContents(7)
         self.table_profiles.resizeRowsToContents()
         print(f'[VISUAL][PROFILES] {time.time() - start}')
@@ -708,17 +752,39 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = QTableWidgetItem(user)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_profiles.setItem(row_position, 4, item)
-        item = QTableWidgetItem(profile.passport)
+        print(profile.passport)
+        if profile.passport is not None:
+            passport = profile.passport
+        else:
+            passport = '---'
+        item = QTableWidgetItem(passport)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_profiles.setItem(row_position, 5, item)
-        # if profile.gender is None:
-        #     gender = self.setting.lang['form_main']['page_database']['table_profiles']['unknown']
-        # elif profile.gender.value == 1:
-        #     gender = self.setting.lang['form_main']['page_database']['table_profiles']['male']
-        # else:
-        #     gender = self.setting.lang['form_main']['page_database']['table_profiles']['female']
-        # self.table_profiles.setItem(row_position, 5, QTableWidgetItem(gender))
-        self.table_profiles.setItem(row_position, 8, QTableWidgetItem(profile.information))
+        gender = self.database_management.get_gender(profile.gender)
+        if gender.id == 0:
+            gender = self.setting.lang['form_main']['page_database']['table_profiles']['unknown']
+        elif gender.id == 1:
+            gender = self.setting.lang['form_main']['page_database']['table_profiles']['male']
+        elif gender.id == 2:
+            gender = self.setting.lang['form_main']['page_database']['table_profiles']['female']
+        item = QTableWidgetItem(gender)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_profiles.setItem(row_position, 7, item)
+        department = self.database_management.get_department(profile.id_department)
+        if department:
+            department_name = department.name
+        else:
+            department_name = '---'
+        item = QTableWidgetItem(department_name)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_profiles.setItem(row_position, 6, item)
+        if profile.information is not None and profile.information != '':
+            information = profile.information
+        else:
+            information = '---'
+        item = QTableWidgetItem(information)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_profiles.setItem(row_position, 8, item)
 
     @QtCore.pyqtSlot(object)
     def _get_profiles_from_device(self, data):

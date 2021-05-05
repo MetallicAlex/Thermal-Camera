@@ -4068,11 +4068,19 @@ QLineEdit:focus {
                    <height>30</height>
                   </rect>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QComboBox{
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
+	color: #FFFFFF;
+	text-align:center;
 	padding: 5px;
 	padding-left: 10px;
 }
@@ -4080,10 +4088,10 @@ QComboBox:hover{
 	border: 2px solid #0C5DB9;
 }
 QComboBox QAbstractItemView {
-	color: rgb(85, 170, 255);	
-	background-color: rgb(27, 29, 35);
+	color: #FFFFFF;
+	background-color: #0C5DB9;
 	padding: 10px;
-	selection-background-color: rgb(39, 44, 54);
+	selection-background-color: #91D1EE;
 }
 QComboBox::drop-down {
 	subcontrol-origin: padding;
@@ -4158,11 +4166,18 @@ QComboBox::drop-down {
                    <height>30</height>
                   </rect>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QComboBox{
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
+	color: #FFFFFF;
 	padding: 5px;
 	padding-left: 10px;
 }
@@ -4170,10 +4185,10 @@ QComboBox:hover{
 	border: 2px solid #0C5DB9;
 }
 QComboBox QAbstractItemView {
-	color: rgb(85, 170, 255);	
-	background-color: rgb(27, 29, 35);
+	color: #FFFFFF;
+	background-color: #0C5DB9;
 	padding: 10px;
-	selection-background-color: rgb(39, 44, 54);
+	selection-background-color: #91D1EE;
 }
 QComboBox::drop-down {
 	subcontrol-origin: padding;

@@ -2,7 +2,7 @@
 "form_main": {
     "window_title": "Thermal Camera's Manager",
     "label_title": "Thermal Camera's Manager",
-      "text_all_profiles": "Все профили",
+    "text_all_profiles": "Все профили",
     "btn_minimize": "Свернуть",
     "btn_close": "Закрыть",
     "btn_device": "Устройства",
@@ -49,6 +49,11 @@
       "tool_send_device": "Отправить на устройства",
       "btn_device_db_view": "Просмотр БД",
       "tool_device_db_view": "Просмотр БД устройства",
+      "combobox_gender": {
+        "male": "мужской",
+        "female": "женский",
+        "unknown": "неизвестен"
+      },
       "table_profiles": {
         "id": "ИД",
         "image": "Изображение",
@@ -58,9 +63,9 @@
         "phone_number": "Номер телефона",
         "tool_image_false": "Нет такого изображения",
         "text_image_item": "Посмотреть",
-        "male": "мужской",
-        "female": "женский",
-        "unknown": "неизвестен"
+        "male": "м",
+        "female": "ж",
+        "unknown": "---"
       },
       "label_department_db": "БД Отделов",
       "btn_add_department": "Добавить",
@@ -118,9 +123,9 @@
       "text_name": "Введите ФИО",
       "department": "Не выбран",
       "gender": {
-        "male": "Мужской",
-        "female": "Женский",
-        "unknown": "Не выбран"
+        "male": "м",
+        "female": "ж",
+        "unknown": "---"
       },
       "phone_number": "Номер телефона",
       "text_phone_number": "+3753312345678"

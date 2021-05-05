@@ -68,39 +68,70 @@ class DBManagement:
                 .delete(synchronize_session=False)
         self._devices = None
 
-    # DEPARTMENTS
-    def get_departments(self):
+    # GENDERS
+    @staticmethod
+    def get_genders():
         with models.get_session() as session:
-            self._departments = session.query(models.Department) \
-                .all()
+            genders = session.query(models.Gender).all()
+            return genders
+
+    @staticmethod
+    def get_gender(identifier: int):
+        with models.get_session() as session:
+            genders = session.query(models.Gender).filter(models.Gender.id == identifier).scalar()
+            return genders
+
+    # DEPARTMENTS
+    def get_departments(self, *identifiers: int):
+        with models.get_session() as session:
+            query = session.query(models.Department)
+            if identifiers:
+                query = query.filter(models.Department.id.in_(identifiers))
+            self._departments = query.all()
             return self._departments
 
-    def add_departments(self, *departments: Union[models.Department, str]):
-        if isinstance(departments[0], str):
-            departments = [models.Department(department) for department in departments]
+    def get_department(self, identifier: int):
+        with models.get_session() as session:
+            self._departments = session.query(models.Department)\
+                .filter(models.Department.id == identifier)\
+                .scalar()
+            return self._departments
+
+    def add_departments(self, *departments: models.Department):
         with models.get_session() as session:
             session.add_all(departments)
         self._departments = departments
 
-    def edit_department(self, old_name: str, new_name: str):
+    def update_department(self, identifier, new_department: models.Department):
         with models.get_session() as session:
             session.query(models.Department) \
-                .filter(models.Department.name == old_name) \
-                .update({models.Department.name: new_name})
+                .filter(models.Department.id == identifier) \
+                .update(
+                {
+                    models.Department.id: new_department.id,
+                    models.Department.name: new_department.name,
+                    models.Department.location: new_department.location
+                }
+            )
         self._departments = None
 
-    def remove_departments(self, *names: str):
+    def remove_departments(self, *identifiers: int):
         with models.get_session() as session:
             session.query(models.Department) \
-                .filter(models.Department.name.in_(names)) \
+                .filter(models.Department.id.in_(identifiers)) \
                 .delete(synchronize_session=False)
         self._departments = None
+
+    @staticmethod
+    def reset_department_autoincrement():
+        with models.get_session() as session:
+            session.execute('ALTER TABLE thermalcamera.departments AUTO_INCREMENT = 1;')
 
     # PROFILES
     def is_id_profile_duplicate(self, identifier: int):
         with models.get_session() as session:
-            profile = session.query(models.Profile)\
-                .filter(models.Profile.id == identifier)\
+            profile = session.query(models.Profile) \
+                .filter(models.Profile.id == identifier) \
                 .first()
         if profile:
             self._profiles = profile
@@ -109,8 +140,8 @@ class DBManagement:
 
     def is_personnel_number_duplicate(self, personnel_number: str):
         with models.get_session() as session:
-            profile = session.query(models.Profile)\
-                .filter(models.Profile.personnel_number == personnel_number)\
+            profile = session.query(models.Profile) \
+                .filter(models.Profile.personnel_number == personnel_number) \
                 .first()
             if profile:
                 self._profiles = profile
@@ -119,8 +150,8 @@ class DBManagement:
 
     def is_passport_duplicate(self, passport: str):
         with models.get_session() as session:
-            profile = session.query(models.Profile)\
-                .filter(models.Profile.passport == passport)\
+            profile = session.query(models.Profile) \
+                .filter(models.Profile.passport == passport) \
                 .first()
             if profile:
                 self._profiles = profile
@@ -260,7 +291,7 @@ class DBManagement:
         self._profiles = None
 
     @staticmethod
-    def reset_autoincrement():
+    def reset_profile_autoincrement():
         with models.get_session() as session:
             session.execute('ALTER TABLE thermalcamera.profiles AUTO_INCREMENT = 1;')
 
