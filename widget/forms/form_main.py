@@ -50,6 +50,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.theme = self._get_theme('dark theme')
         self.number_device_profiles = 0
         self.last_page = False
+        self.image_filename = None
         self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
         departments = [
@@ -113,6 +114,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_add_profile.clicked.connect(self._button_add_profile_clicked)
         self.button_edit_profile.clicked.connect(self._button_edit_profile_clicked)
         self.button_delete_profile.clicked.connect(self._button_delete_profile_clicked)
+        self.button_load_photo.clicked.connect(self._button_load_photo_clicked)
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
         self.button_add_department.clicked.connect(self._button_add_department_clicked)
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
@@ -187,6 +189,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.lineEdit_profile_name.setText('')
         else:
             self.lineEdit_profile_name.setText(self.table_profiles.item(row_position, 2).text())
+        self.label_show_photo.setToolTip(self.table_profiles.item(row_position, 3).toolTip())
         if self.table_profiles.item(row_position, 5).text() == '---':
             self.lineEdit_passport.setText('')
         else:
@@ -195,11 +198,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.comboBox_department.setCurrentText('---')
         else:
             self.comboBox_department.setCurrentText(self.table_profiles.item(row_position, 6).text())
-        if self.table_profiles.item(row_position, 7).text()[0] == self.setting.lang['form_main']['page_database']['table_profiles']['unknown'][0]:
+        if self.table_profiles.item(row_position, 7).text()[0]\
+                == self.setting.lang['form_main']['page_database']['table_profiles']['unknown'][0]:
             self.comboBox_gender.setCurrentIndex(0)
-        elif self.table_profiles.item(row_position, 7).text()[0] == self.setting.lang['form_main']['page_database']['table_profiles']['male'][0]:
+        elif self.table_profiles.item(row_position, 7).text()[0]\
+                == self.setting.lang['form_main']['page_database']['table_profiles']['male'][0]:
             self.comboBox_gender.setCurrentIndex(1)
-        elif self.table_profiles.item(row_position, 7).text()[0] == self.setting.lang['form_main']['page_database']['table_profiles']['female'][0]:
+        elif self.table_profiles.item(row_position, 7).text()[0]\
+                == self.setting.lang['form_main']['page_database']['table_profiles']['female'][0]:
             self.comboBox_gender.setCurrentIndex(2)
         if self.table_profiles.item(row_position, 8).text() == '---':
             self.plainTextEdit_information.setPlainText('')
@@ -243,6 +249,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.table_profiles.removeRow(row_position)
                     self.comboBox_profiles.removeItem(row_position + 1)
             self.database_management.remove_profiles(*id_profiles)
+
+    def _button_load_photo_clicked(self, event):
+        self.image_filename, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self, 'Выберите фото', '',
+            'Image File (*.bmp | *.jpg | *.jpeg | *.jfif | *.png);;'
+        )
+        if self.image_filename:
+            self.label_show_photo.setToolTip(f'<br><img src="{self.image_filename}" width="360" alt="lorem"')
 
     def _button_send_device_clicked(self, event):
         if self.comboBox_databases.currentText() == '':
