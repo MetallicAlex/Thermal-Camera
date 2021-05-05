@@ -125,19 +125,22 @@ class Ui_MainWindow(object):
 " }\n"
 "\n"
 "/* CHECKBOX */\n"
+"QCheckbox {\n"
+"    background: #91D1EE;\n"
+"}\n"
 "QCheckBox::indicator {\n"
-"    border: 3px solid rgb(52, 59, 72);\n"
+"    border: 3px solid rgb(255,255,255,221);\n"
 "    width: 15px;\n"
 "    height: 15px;\n"
 "    border-radius: 10px;\n"
-"    background: rgb(44, 49, 60);\n"
+"    background: #91D1EE;\n"
 "}\n"
 "QCheckBox::indicator:hover {\n"
-"    border: 3px solid rgb(58, 66, 81);\n"
+"    border: 3px solid rgb(255,255,255,221);\n"
 "}\n"
 "QCheckBox::indicator:checked {\n"
-"    background: 3px solid rgb(52, 59, 72);\n"
-"    border: 3px solid rgb(52, 59, 72);    \n"
+"    background: 1px solid #91D1EE;\n"
+"    border: 1px solid rgb(255,255,255,221);\n"
 "    background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);\n"
 "}\n"
 "\n"
@@ -1776,7 +1779,7 @@ class Ui_MainWindow(object):
         self.table_profiles.setTextElideMode(QtCore.Qt.ElideMiddle)
         self.table_profiles.setShowGrid(False)
         self.table_profiles.setRowCount(0)
-        self.table_profiles.setColumnCount(8)
+        self.table_profiles.setColumnCount(9)
         self.table_profiles.setObjectName("table_profiles")
         item = QtWidgets.QTableWidgetItem()
         item.setIcon(icon7)
@@ -1802,6 +1805,9 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_profiles.setHorizontalHeaderItem(7, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.table_profiles.setHorizontalHeaderItem(8, item)
         self.table_profiles.horizontalHeader().setVisible(True)
         self.table_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_profiles.horizontalHeader().setDefaultSectionSize(200)
@@ -1908,7 +1914,7 @@ class Ui_MainWindow(object):
         self.button_send_device.setIcon(icon12)
         self.button_send_device.setObjectName("button_send_device")
         self.button_import_data = QtWidgets.QPushButton(self.tab_profiles)
-        self.button_import_data.setGeometry(QtCore.QRect(948, 20, 150, 30))
+        self.button_import_data.setGeometry(QtCore.QRect(948, 15, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1933,7 +1939,7 @@ class Ui_MainWindow(object):
         self.button_import_data.setIcon(icon13)
         self.button_import_data.setObjectName("button_import_data")
         self.button_example_data = QtWidgets.QPushButton(self.tab_profiles)
-        self.button_example_data.setGeometry(QtCore.QRect(778, 20, 150, 30))
+        self.button_example_data.setGeometry(QtCore.QRect(778, 15, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -2175,7 +2181,7 @@ class Ui_MainWindow(object):
 " }")
         self.comboBox_gender.setObjectName("comboBox_gender")
         self.label_information = QtWidgets.QLabel(self.tab_profiles)
-        self.label_information.setGeometry(QtCore.QRect(440, 60, 300, 30))
+        self.label_information.setGeometry(QtCore.QRect(440, 100, 300, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -2185,7 +2191,7 @@ class Ui_MainWindow(object):
         self.label_information.setStyleSheet("color: #09376B;")
         self.label_information.setObjectName("label_information")
         self.plainTextEdit_information = QtWidgets.QPlainTextEdit(self.tab_profiles)
-        self.plainTextEdit_information.setGeometry(QtCore.QRect(440, 100, 480, 150))
+        self.plainTextEdit_information.setGeometry(QtCore.QRect(440, 140, 480, 110))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -2234,6 +2240,16 @@ class Ui_MainWindow(object):
 "border-radius: 10px;")
         self.label_show_photo.setAlignment(QtCore.Qt.AlignCenter)
         self.label_show_photo.setObjectName("label_show_photo")
+        self.label_visitor = QtWidgets.QLabel(self.tab_profiles)
+        self.label_visitor.setGeometry(QtCore.QRect(440, 60, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_visitor.setFont(font)
+        self.label_visitor.setStyleSheet("color: #09376B;")
+        self.label_visitor.setObjectName("label_visitor")
         self.tabWidget.addTab(self.tab_profiles, "")
         self.tab_departments = QtWidgets.QWidget()
         self.tab_departments.setObjectName("tab_departments")
@@ -3249,7 +3265,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -3328,18 +3344,20 @@ class Ui_MainWindow(object):
         self.button_add_devices.setText(_translate("MainWindow", "Добавить"))
         self.table_profiles.setSortingEnabled(False)
         item = self.table_profiles.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "ИД"))
+        item.setText(_translate("MainWindow", "Таб. номер"))
         item = self.table_profiles.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Паспорт"))
-        item = self.table_profiles.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "ФИО"))
-        item = self.table_profiles.horizontalHeaderItem(4)
+        item = self.table_profiles.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Фото"))
+        item = self.table_profiles.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "Пользователь"))
         item = self.table_profiles.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "Отдел"))
+        item.setText(_translate("MainWindow", "Паспорт"))
         item = self.table_profiles.horizontalHeaderItem(6)
-        item.setText(_translate("MainWindow", "Пол"))
+        item.setText(_translate("MainWindow", "Отдел"))
         item = self.table_profiles.horizontalHeaderItem(7)
+        item.setText(_translate("MainWindow", "Пол"))
+        item = self.table_profiles.horizontalHeaderItem(8)
         item.setText(_translate("MainWindow", "Доп. информация"))
         self.button_import_photos.setText(_translate("MainWindow", "Импорт фото"))
         self.button_add_profile.setText(_translate("MainWindow", "Добавить"))
@@ -3356,6 +3374,7 @@ class Ui_MainWindow(object):
         self.label_information.setText(_translate("MainWindow", "Дополнительная информация"))
         self.button_load_photo.setText(_translate("MainWindow", "Загрузить фото"))
         self.label_show_photo.setText(_translate("MainWindow", "Посмотреть фото"))
+        self.label_visitor.setText(_translate("MainWindow", "Посетитель"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_profiles), _translate("MainWindow", "Профили"))
         item = self.table_departments.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Department"))

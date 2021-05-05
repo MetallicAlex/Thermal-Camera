@@ -153,19 +153,22 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
  }
 
 /* CHECKBOX */
+QCheckbox {
+	background: #91D1EE;
+}
 QCheckBox::indicator {
-    border: 3px solid rgb(52, 59, 72);
+    border: 3px solid rgb(255,255,255,221);
 	width: 15px;
 	height: 15px;
 	border-radius: 10px;
-    background: rgb(44, 49, 60);
+    background: #91D1EE;
 }
 QCheckBox::indicator:hover {
-    border: 3px solid rgb(58, 66, 81);
+    border: 3px solid rgb(255,255,255,221);
 }
 QCheckBox::indicator:checked {
-    background: 3px solid rgb(52, 59, 72);
-	border: 3px solid rgb(52, 59, 72);	
+    background: 1px solid #91D1EE;
+	border: 1px solid rgb(255,255,255,221);
 	background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);
 }
 
@@ -1201,7 +1204,7 @@ QPushButton:pressed {
               <string notr="true"/>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="page_control">
               <widget class="QTableWidget" name="table_control">
@@ -3472,7 +3475,7 @@ QHeaderView::section:horizontal
                   <number>0</number>
                  </property>
                  <property name="columnCount">
-                  <number>8</number>
+                  <number>9</number>
                  </property>
                  <attribute name="horizontalHeaderVisible">
                   <bool>false</bool>
@@ -3506,15 +3509,7 @@ QHeaderView::section:horizontal
                  </column>
                  <column>
                   <property name="text">
-                   <string>ИД</string>
-                  </property>
-                  <property name="textAlignment">
-                   <set>AlignCenter</set>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Паспорт</string>
+                   <string>Таб. номер</string>
                   </property>
                   <property name="textAlignment">
                    <set>AlignCenter</set>
@@ -3531,6 +3526,22 @@ QHeaderView::section:horizontal
                  <column>
                   <property name="text">
                    <string>Фото</string>
+                  </property>
+                  <property name="textAlignment">
+                   <set>AlignCenter</set>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Пользователь</string>
+                  </property>
+                  <property name="textAlignment">
+                   <set>AlignCenter</set>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Паспорт</string>
                   </property>
                   <property name="textAlignment">
                    <set>AlignCenter</set>
@@ -3725,7 +3736,7 @@ QPushButton:pressed {
                  <property name="geometry">
                   <rect>
                    <x>948</x>
-                   <y>20</y>
+                   <y>15</y>
                    <width>150</width>
                    <height>30</height>
                   </rect>
@@ -3765,7 +3776,7 @@ QPushButton:pressed {
                  <property name="geometry">
                   <rect>
                    <x>778</x>
-                   <y>20</y>
+                   <y>15</y>
                    <width>150</width>
                    <height>30</height>
                   </rect>
@@ -4184,7 +4195,7 @@ QComboBox::drop-down {
                  <property name="geometry">
                   <rect>
                    <x>440</x>
-                   <y>60</y>
+                   <y>100</y>
                    <width>300</width>
                    <height>30</height>
                   </rect>
@@ -4208,9 +4219,9 @@ QComboBox::drop-down {
                  <property name="geometry">
                   <rect>
                    <x>440</x>
-                   <y>100</y>
+                   <y>140</y>
                    <width>480</width>
-                   <height>150</height>
+                   <height>110</height>
                   </rect>
                  </property>
                  <property name="font">
@@ -4294,6 +4305,30 @@ border-radius: 10px;</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="label_visitor">
+                 <property name="geometry">
+                  <rect>
+                   <x>440</x>
+                   <y>60</y>
+                   <width>150</width>
+                   <height>30</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">color: #09376B;</string>
+                 </property>
+                 <property name="text">
+                  <string>Посетитель</string>
                  </property>
                 </widget>
                </widget>
@@ -5931,7 +5966,7 @@ QHeaderView::section:horizontal
                 <number>8</number>
                </property>
                <attribute name="horizontalHeaderVisible">
-                <bool>true</bool>
+                <bool>false</bool>
                </attribute>
                <attribute name="horizontalHeaderCascadingSectionResizes">
                 <bool>true</bool>

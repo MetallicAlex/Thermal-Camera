@@ -135,20 +135,18 @@ class DBManagement:
         self._profile_name = profile_name
         return profile_name
 
-    def get_profile(self, identifier: int):
+    def get_profile(self, **kwargs):
         with models.get_session() as session:
-            profile = session.query(models.Profile) \
-                .filter(models.Profile.id == identifier) \
-                .scalar()
-        self._profiles = profile
-        return self._profiles
-
-    def get_profile_by_name(self, name: str):
-        with models.get_session() as session:
-            profile = session.query(models.Profile) \
-                .filter(models.Profile.name == name) \
-                .scalar()
-        self._profiles = profile
+            for key, value in kwargs.items():
+                if key == 'identifier':
+                    query = session.query(models.Profile).filter(models.Profile.id == value)
+                elif key == 'personnel_number':
+                    query = session.query(models.Profile).filter(models.Profile.personnel_number == value)
+                elif key == 'passport':
+                    query = session.query(models.Profile).filter(models.Profile.passport == value)
+                elif key == 'name':
+                    query = session.query(models.Profile).filter(models.Profile.name == value)
+        self._profiles = query.scalar()
         return self._profiles
 
     def get_profiles(self, *identifiers: int):

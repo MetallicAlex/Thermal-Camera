@@ -52,30 +52,30 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.last_page = False
         self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
-        self.database_visualization = DBVisualization(width=10, height=6)
-        self.database_visualization.create_pie_chart_temperatures(
-            title='Passage of people for the current day',
-            current_day=datetime.date.today().strftime('%Y-%m-%d')
-        )
-        self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
-        self.label_pie_number_person_day.setPixmap(
-            QPixmap(
-                QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
-            )
-        )
-        self.database_visualization.create_pie_chart_temperatures()
-        self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
-        self.label_pie_number_person_all_time.setPixmap(
-            QPixmap(
-                QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
-            )
-        )
-        self.label_pie_number_person_day.setScaledContents(True)
-        self.label_pie_number_person_all_time.setScaledContents(True)
+        # self.database_visualization = DBVisualization(width=10, height=6)
+        # self.database_visualization.create_pie_chart_temperatures(
+        #     title='Passage of people for the current day',
+        #     current_day=datetime.date.today().strftime('%Y-%m-%d')
+        # )
+        # self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
+        # self.label_pie_number_person_day.setPixmap(
+        #     QPixmap(
+        #         QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
+        #     )
+        # )
+        # self.database_visualization.create_pie_chart_temperatures()
+        # self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
+        # self.label_pie_number_person_all_time.setPixmap(
+        #     QPixmap(
+        #         QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
+        #     )
+        # )
+        # self.label_pie_number_person_day.setScaledContents(True)
+        # self.label_pie_number_person_all_time.setScaledContents(True)
         self._load_profiles_to_table()
-        self._load_departments_to_table()
-        self._load_statistics_to_table(low=str(datetime.datetime.now().replace(hour=0, minute=0, second=0)),
-                                       high=str(datetime.datetime.now().replace(hour=23, minute=59, second=59)))
+        # self._load_departments_to_table()
+        # self._load_statistics_to_table(low=str(datetime.datetime.now().replace(hour=0, minute=0, second=0)),
+        #                                high=str(datetime.datetime.now().replace(hour=23, minute=59, second=59)))
         self.stackedWidget.setCurrentWidget(self.page_control)
         # self.button_device.setStyleSheet(self.theme['system-button'] +
         #                                  "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
@@ -122,7 +122,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.subscribe_platform.token.connect(self._get_token)
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
-        self._load_devices_info_to_table()
+        # self._load_devices_info_to_table()
         print(time.time() - start)
 
     # EVENTS
@@ -631,8 +631,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self._add_update_profile_row(row_position, profile)
         self.table_profiles.resizeColumnToContents(0)
         self.table_profiles.resizeColumnToContents(1)
-        self.table_profiles.resizeColumnToContents(2)
+        self.table_profiles.resizeColumnToContents(3)
+        self.table_profiles.resizeColumnToContents(4)
         self.table_profiles.resizeColumnToContents(5)
+        self.table_profiles.resizeColumnToContents(7)
         self.table_profiles.resizeRowsToContents()
         print(f'[VISUAL][PROFILES] {time.time() - start}')
 
@@ -685,26 +687,38 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if row_position > self.table_profiles.rowCount() - 1:
             self.table_profiles.insertRow(row_position)
         item = QCheckBox()
+        item.setStyleSheet('background-color: #91D1EE;')
         item.setCheckState(Qt.Unchecked)
         self.table_profiles.setCellWidget(row_position, 0, item)
-        self.table_profiles.setItem(row_position, 1, QTableWidgetItem(profile.id))
+        item = QTableWidgetItem(profile.personnel_number)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_profiles.setItem(row_position, 1, item)
+        self.table_profiles.setItem(row_position, 2, QTableWidgetItem(profile.name))
         item = QTableWidgetItem(self.setting.lang['form_main']['page_database']['table_profiles']['text_image_item'])
         if os.path.isfile(f'nginx/html{profile.face}'):
             image = f'<br><img src="nginx/html{profile.face}" width="360" alt="lorem"'
         else:
             image = self.setting.lang['form_main']['page_database']['table_profiles']['tool_image_false']
         item.setToolTip(image)
-        self.table_profiles.setItem(row_position, 2, item)
-        self.table_profiles.setItem(row_position, 3, QTableWidgetItem(profile.name))
-        self.table_profiles.setItem(row_position, 4, QTableWidgetItem(str(profile.name_department)))
-        if profile.gender is None:
-            gender = self.setting.lang['form_main']['page_database']['table_profiles']['unknown']
-        elif profile.gender.value == 1:
-            gender = self.setting.lang['form_main']['page_database']['table_profiles']['male']
+        self.table_profiles.setItem(row_position, 3, item)
+        if profile.visitor:
+            user = 'Посетитель'
         else:
-            gender = self.setting.lang['form_main']['page_database']['table_profiles']['female']
-        self.table_profiles.setItem(row_position, 5, QTableWidgetItem(gender))
-        self.table_profiles.setItem(row_position, 6, QTableWidgetItem(str(profile.phone_number)))
+            user = 'Сотрудник'
+        item = QTableWidgetItem(user)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_profiles.setItem(row_position, 4, item)
+        item = QTableWidgetItem(profile.passport)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_profiles.setItem(row_position, 5, item)
+        # if profile.gender is None:
+        #     gender = self.setting.lang['form_main']['page_database']['table_profiles']['unknown']
+        # elif profile.gender.value == 1:
+        #     gender = self.setting.lang['form_main']['page_database']['table_profiles']['male']
+        # else:
+        #     gender = self.setting.lang['form_main']['page_database']['table_profiles']['female']
+        # self.table_profiles.setItem(row_position, 5, QTableWidgetItem(gender))
+        self.table_profiles.setItem(row_position, 8, QTableWidgetItem(profile.information))
 
     @QtCore.pyqtSlot(object)
     def _get_profiles_from_device(self, data):
@@ -883,18 +897,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_delete_device.setText(lang['page_device']['btn_delete'])
         self.button_delete_device.setToolTip(lang['page_device']['tool_delete'])
         self.table_profiles.setSortingEnabled(False)
-        item = self.table_profiles.horizontalHeaderItem(1)
-        item.setText(lang['page_database']['table_profiles']['id'])
-        item = self.table_profiles.horizontalHeaderItem(2)
-        item.setText(lang['page_database']['table_profiles']['image'])
-        item = self.table_profiles.horizontalHeaderItem(3)
-        item.setText(lang['page_database']['table_profiles']['name'])
-        item = self.table_profiles.horizontalHeaderItem(4)
-        item.setText(lang['page_database']['table_profiles']['department'])
-        item = self.table_profiles.horizontalHeaderItem(5)
-        item.setText(lang['page_database']['table_profiles']['gender'])
-        item = self.table_profiles.horizontalHeaderItem(6)
-        item.setText(lang['page_database']['table_profiles']['phone_number'])
+        # item = self.table_profiles.horizontalHeaderItem(1)
+        # item.setText(lang['page_database']['table_profiles']['id'])
+        # item = self.table_profiles.horizontalHeaderItem(2)
+        # item.setText(lang['page_database']['table_profiles']['image'])
+        # item = self.table_profiles.horizontalHeaderItem(3)
+        # item.setText(lang['page_database']['table_profiles']['name'])
+        # item = self.table_profiles.horizontalHeaderItem(4)
+        # item.setText(lang['page_database']['table_profiles']['department'])
+        # item = self.table_profiles.horizontalHeaderItem(5)
+        # item.setText(lang['page_database']['table_profiles']['gender'])
+        # item = self.table_profiles.horizontalHeaderItem(6)
+        # item.setText(lang['page_database']['table_profiles']['phone_number'])
         self.button_delete_profile.setText(lang['page_database']['btn_delete_profile'])
         self.button_edit_profile.setText(lang['page_database']['btn_edit_profile'])
         self.button_add_profile.setText(lang['page_database']['btn_add_profile'])
