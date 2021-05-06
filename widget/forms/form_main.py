@@ -16,10 +16,10 @@ from PyQt5.QtCore import Qt
 
 from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_profile import FormProfile
-from widget.forms.form_devices import FormDevices
 from widget.forms.form_device_database_view import FormDeviceDBView
 from widget.forms.form_stranger_table import FormStrangerTable
 from widget.forms.messagebox import DepartmentMessageBox, ReportMessageBox, WarningMessageBox, InformationMessageBox
+from widget.forms.toggle_button import AnimatedToggle
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
 from widget.database_visualization import DBVisualization
@@ -34,7 +34,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         start = time.time()
         super().__init__()
         self.setupUi(self)
+        self.blur_effect = QtWidgets.QGraphicsBlurEffect()
+        self.blur_effect.setBlurRadius(15)
+        self.blur_effect.setEnabled(False)
+        self.setGraphicsEffect(self.blur_effect)
         self._hide_buttons_search_device()
+        self._create_toggle_buttons()
         # APPLICATIONS
         # self.start_nginx()
         # DATA
@@ -213,15 +218,69 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.plainTextEdit_information.setPlainText(self.table_profiles.item(row_position, 8).text())
 
     def _button_add_profile_clicked(self, event):
-        form_profile = FormProfile()
-        form_profile.exec_()
-        if form_profile.dialog_result == 0:
-            self.database_management.add_profiles(form_profile.profile)
-            row_position = self.table_profiles.rowCount()
-            self._add_update_profile_row(row_position, form_profile.profile)
-            self.comboBox_profiles.addItem(form_profile.profile.name)
-            self.table_profiles.resizeColumnsToContents()
-            self.table_profiles.resizeRowsToContents()
+        text = ''
+        personnel_number = None
+        profile_name = None
+        passport = None
+        image = None
+        department = None
+        information = None
+        if not self.toggle_visitor.isChecked():
+            if self.database_management.is_personnel_number_duplicate(self.lineEdit_id.text()):
+                text = 'Такой табельный номер уже существует.\n'
+            elif self.lineEdit_id.text() == '':
+                text = 'Не введен табельный номер.\n'
+            else:
+                personnel_number = self.lineEdit_id.text()
+        else:
+            if self.lineEdit_passport.text() == '':
+                text = 'Не введен паспорт.\n'
+        if self.lineEdit_passport.text() != ''\
+                and self.database_management.is_passport_duplicate(self.lineEdit_passport.text()):
+            text += 'Такой номер паспорта уже существует.\n'
+        else:
+            passport = self.lineEdit_passport.text()
+        if self.lineEdit_profile_name.text() == '':
+            text += 'Не введено ФИО.\n'
+        else:
+            profile_name = self.lineEdit_profile_name.text()
+        if self.comboBox_department.currentText() != '---':
+            department = self.comboBox_department.currentText()
+        gender = self.comboBox_gender.currentIndex()
+        if self.plainTextEdit_information.toPlainText() != '':
+            information = self.plainTextEdit_information.toPlainText()
+        if text == '':
+            if self.image_filename:
+                rng = np.random.default_rng()
+                image = '/static/images/' + np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                while os.path.exists(f'{self.app_path}/{self.setting.paths["nginx"]}/html{image}'):
+                    image = '/static/images/' + np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                pixmap = QPixmap(
+                    QImage(self.image_filename)
+                )
+                pixmap.save(f'{self.app_path}/{self.setting.paths["nginx"]}/html{image}', 'jpg')
+            profile = models.Profile()
+            profile.name = profile_name
+            profile.gender = gender
+            if personnel_number:
+                profile.personnel_number = personnel_number
+            if passport:
+                profile.passport = passport
+            if image:
+                profile.face = image
+            if department:
+                profile.id_department = self.database_management.get_department_by_name(department).id
+            if information:
+                profile.information = information
+            self.database_management.add_profiles(profile)
+            self._add_update_profile_row(self.table_profiles.rowCount(), profile)
+        else:
+            self.blur_effect.setEnabled(True)
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Добавление профиля')
+            messagebox.label_info.setText(text)
+            messagebox.exec_()
+            self.blur_effect.setEnabled(False)
 
     def _button_edit_profile_clicked(self, event):
         for row_position in range(self.table_profiles.rowCount()):
@@ -237,18 +296,21 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_profiles.resizeRowsToContents()
 
     def _button_delete_profile_clicked(self, event):
+        self.blur_effect.setEnabled(True)
         messagebox = WarningMessageBox()
-        messagebox.label_title.setText('Warning - Delete Profiles')
-        messagebox.label_info.setText('Are you sure you want to delete profiles?')
+        messagebox.label_title.setText('Удаление профилей')
+        messagebox.label_info.setText('Вы точно хотите удалить профили?')
         messagebox.exec_()
+        self.blur_effect.setEnabled(False)
         if messagebox.dialog_result == 0:
+            profiles = self.database_management.get_profiles()
             id_profiles = []
             for row_position in range(self.table_profiles.rowCount() - 1, -1, -1):
                 if self.table_profiles.cellWidget(row_position, 0).isChecked():
-                    id_profiles.append(self.table_profiles.item(row_position, 1).text())
+                    id_profiles.append(profiles[row_position].id)
                     self.table_profiles.removeRow(row_position)
-                    self.comboBox_profiles.removeItem(row_position + 1)
             self.database_management.remove_profiles(*id_profiles)
+            self.database_management.reset_profile_autoincrement()
 
     def _button_load_photo_clicked(self, event):
         self.image_filename, _ = QtWidgets.QFileDialog.getOpenFileName(
@@ -1027,6 +1089,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_all_statistic.setText(lang['page_statistic']['btn_all_stats'])
         self.button_all_statistic.setToolTip(lang['page_statistic']['tool_all_stats'])
         self.label_statusbar.setText("MetallicAlex")
+
+    def _create_toggle_buttons(self):
+        # PAGE DATABASE #91D1EE
+        self.toggle_visitor = AnimatedToggle(self.tab_profiles, checked_color='#309ED9')
+        self.toggle_visitor.setGeometry(QtCore.QRect(560, 60, 60, 40))
 
     # NGINX
     def start_nginx(self):

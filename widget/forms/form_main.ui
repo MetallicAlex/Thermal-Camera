@@ -1699,7 +1699,7 @@ QHeaderView::section:horizontal
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2438,7 +2438,7 @@ QPushButton:pressed {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2501,7 +2501,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2542,7 +2542,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2605,7 +2605,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2668,7 +2668,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2868,7 +2868,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -3045,7 +3045,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -3576,7 +3576,7 @@ QHeaderView::section:horizontal
                  <property name="geometry">
                   <rect>
                    <x>948</x>
-                   <y>60</y>
+                   <y>100</y>
                    <width>150</width>
                    <height>30</height>
                   </rect>
@@ -3736,7 +3736,7 @@ QPushButton:pressed {
                  <property name="geometry">
                   <rect>
                    <x>948</x>
-                   <y>15</y>
+                   <y>60</y>
                    <width>150</width>
                    <height>30</height>
                   </rect>
@@ -3775,7 +3775,7 @@ QPushButton:pressed {
                 <widget class="QPushButton" name="button_example_data">
                  <property name="geometry">
                   <rect>
-                   <x>778</x>
+                   <x>948</x>
                    <y>15</y>
                    <width>150</width>
                    <height>30</height>
@@ -3875,7 +3875,7 @@ QPushButton:pressed {
                  <property name="styleSheet">
                   <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -3967,7 +3967,7 @@ QLineEdit:focus {
                  <property name="styleSheet">
                   <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -4011,7 +4011,7 @@ QLineEdit:focus {
                  <property name="styleSheet">
                   <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -4256,8 +4256,8 @@ QComboBox::drop-down {
                 <widget class="QPushButton" name="button_load_photo">
                  <property name="geometry">
                   <rect>
-                   <x>948</x>
-                   <y>180</y>
+                   <x>770</x>
+                   <y>60</y>
                    <width>150</width>
                    <height>30</height>
                   </rect>
@@ -4296,8 +4296,8 @@ QPushButton:pressed {
                 <widget class="QLabel" name="label_show_photo">
                  <property name="geometry">
                   <rect>
-                   <x>948</x>
-                   <y>220</y>
+                   <x>770</x>
+                   <y>100</y>
                    <width>150</width>
                    <height>30</height>
                   </rect>
@@ -4327,7 +4327,7 @@ border-radius: 10px;</string>
                   <rect>
                    <x>440</x>
                    <y>60</y>
-                   <width>150</width>
+                   <width>120</width>
                    <height>30</height>
                   </rect>
                  </property>
@@ -4344,6 +4344,46 @@ border-radius: 10px;</string>
                  </property>
                  <property name="text">
                   <string>Посетитель</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="button_export_profiles_data">
+                 <property name="geometry">
+                  <rect>
+                   <x>948</x>
+                   <y>140</y>
+                   <width>150</width>
+                   <height>30</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+	border-radius: 10px;	
+	background-color: #0C5DB9;
+	color: rgb(255, 255, 255, 221);
+}
+QPushButton:hover {
+	background-color: #91D1EE;
+	color: rgb(255, 255, 255, 221);
+}
+QPushButton:pressed {	
+	background-color: #87B9E0;
+	color: rgb(255, 255, 255);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Экспорт данных</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../files.qrc">
+                   <normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</normaloff>:/16x16/data/resources/icons/16x16/cil-notes.png</iconset>
                  </property>
                 </widget>
                </widget>
@@ -5397,7 +5437,7 @@ QPushButton:pressed {
                <property name="font">
                 <font>
                  <family>Segoe UI</family>
-                 <pointsize>9</pointsize>
+                 <pointsize>10</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -5458,7 +5498,7 @@ QDateTimeEdit QAbstractItemView {
                <property name="font">
                 <font>
                  <family>Segoe UI</family>
-                 <pointsize>9</pointsize>
+                 <pointsize>10</pointsize>
                 </font>
                </property>
                <property name="styleSheet">
@@ -5620,7 +5660,7 @@ QPushButton:pressed {
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</iconset>
                </property>
               </widget>
-              <widget class="QPushButton" name="button_export_data">
+              <widget class="QPushButton" name="button_export_statistics_data">
                <property name="geometry">
                 <rect>
                  <x>190</x>
@@ -6126,7 +6166,7 @@ QHeaderView::section:horizontal
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #FFFFFF;
 	border-radius: 10px;
 	padding-left: 10px;
 }

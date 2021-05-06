@@ -23,7 +23,7 @@ class Ui_WarningMessageBox(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_center = QtWidgets.QFrame(WarningMessageBox)
-        self.frame_center.setStyleSheet("background-color: rgb(27, 29, 35);\n"
+        self.frame_center.setStyleSheet("background-color: #0C5DB9;\n"
                                         "")
         self.frame_center.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_center.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -34,7 +34,7 @@ class Ui_WarningMessageBox(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame_title = QtWidgets.QFrame(self.frame_center)
         self.frame_title.setMaximumSize(QtCore.QSize(400, 42))
-        self.frame_title.setStyleSheet("background-color: rgb(27, 29, 35);")
+        self.frame_title.setStyleSheet("background-color: #0C5DB9;")
         self.frame_title.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_title.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_title.setLineWidth(0)
@@ -45,16 +45,16 @@ class Ui_WarningMessageBox(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_title = QtWidgets.QLabel(self.frame_title)
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -63,16 +63,16 @@ class Ui_WarningMessageBox(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -81,16 +81,16 @@ class Ui_WarningMessageBox(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -106,7 +106,8 @@ class Ui_WarningMessageBox(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_title.setFont(font)
-        self.label_title.setStyleSheet("background: transparent;")
+        self.label_title.setStyleSheet("background: transparent;\n"
+                                       "color: rgb(255, 255, 255, 221);")
         self.label_title.setObjectName("label_title")
         self.horizontalLayout_3.addWidget(self.label_title)
         self.button_close = QtWidgets.QPushButton(self.frame_title)
@@ -126,14 +127,7 @@ class Ui_WarningMessageBox(object):
                                         "}\n"
                                         "QPushButton:pressed {    \n"
                                         "    background-color: rgb(85, 170, 255);\n"
-                                        "}"
-                                        "QToolTip {"
-                                        "color: #ffffff;"
-                                        "background-color: rgba(27, 29, 35, 160);"
-                                        "border: 1px solid rgb(40, 40, 40);"
-                                        "border-radius: 2px;"
-                                        "}"
-                                        )
+                                        "}")
         self.button_close.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal,
@@ -143,69 +137,23 @@ class Ui_WarningMessageBox(object):
         self.horizontalLayout_3.addWidget(self.button_close)
         self.verticalLayout_2.addWidget(self.frame_title)
         self.frame_contains = QtWidgets.QFrame(self.frame_center)
-        self.frame_contains.setStyleSheet("background-color: rgb(40, 44, 52);")
+        self.frame_contains.setStyleSheet("background-color: #EFF7FD;")
         self.frame_contains.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_contains.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_contains.setObjectName("frame_contains")
-        self.button_yes = QtWidgets.QPushButton(self.frame_contains)
-        self.button_yes.setGeometry(QtCore.QRect(60, 90, 131, 41))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        self.button_yes.setFont(font)
-        self.button_yes.setStyleSheet("QPushButton {\n"
-                                      "    border: 2px solid rgb(52, 59, 72);\n"
-                                      "    border-radius: 10px;    \n"
-                                      "    background-color: rgb(52, 59, 72);\n"
-                                      "    color: rgb(255, 255, 255);\n"
-                                      "}\n"
-                                      "QPushButton:hover {\n"
-                                      "    background-color: rgb(57, 65, 80);\n"
-                                      "    color: rgb(227, 227, 227);\n"
-                                      "    border: 2px solid rgb(61, 70, 86);\n"
-                                      "}\n"
-                                      "QPushButton:pressed {    \n"
-                                      "    background-color: rgb(35, 40, 49);\n"
-                                      "    color: rgb(255, 255, 255);\n"
-                                      "    border: 2px solid rgb(43, 50, 61);\n"
-                                      "}")
-        self.button_yes.setObjectName("button_yes")
-        self.button_no = QtWidgets.QPushButton(self.frame_contains)
-        self.button_no.setGeometry(QtCore.QRect(210, 90, 131, 41))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        self.button_no.setFont(font)
-        self.button_no.setStyleSheet("QPushButton {\n"
-                                     "    border: 2px solid rgb(52, 59, 72);\n"
-                                     "    border-radius: 10px;    \n"
-                                     "    background-color: rgb(52, 59, 72);\n"
-                                     "    color: rgb(255, 255, 255);\n"
-                                     "}\n"
-                                     "QPushButton:hover {\n"
-                                     "    background-color: rgb(57, 65, 80);\n"
-                                     "    color: rgb(227, 227, 227);\n"
-                                     "    border: 2px solid rgb(61, 70, 86);\n"
-                                     "}\n"
-                                     "QPushButton:pressed {    \n"
-                                     "    background-color: rgb(35, 40, 49);\n"
-                                     "    color: rgb(255, 255, 255);\n"
-                                     "    border: 2px solid rgb(43, 50, 61);\n"
-                                     "}")
-        self.button_no.setObjectName("button_no")
         self.label_info = QtWidgets.QLabel(self.frame_contains)
-        self.label_info.setGeometry(QtCore.QRect(10, 0, 371, 81))
+        self.label_info.setGeometry(QtCore.QRect(10, 0, 370, 90))
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -214,16 +162,16 @@ class Ui_WarningMessageBox(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -232,16 +180,16 @@ class Ui_WarningMessageBox(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -253,14 +201,59 @@ class Ui_WarningMessageBox(object):
         self.label_info.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
-        font.setBold(True)
-        font.setItalic(True)
-        font.setWeight(75)
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_info.setFont(font)
-        self.label_info.setStyleSheet("background: transparent;")
-        self.label_info.setAlignment(QtCore.Qt.AlignJustify | QtCore.Qt.AlignVCenter)
+        self.label_info.setStyleSheet("background: transparent;\n"
+                                      "color: #09376B;")
+        self.label_info.setAlignment(QtCore.Qt.AlignCenter)
         self.label_info.setObjectName("label_info")
+        self.button_yes = QtWidgets.QPushButton(self.frame_contains)
+        self.button_yes.setGeometry(QtCore.QRect(221, 110, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_yes.setFont(font)
+        self.button_yes.setStyleSheet("QPushButton {\n"
+                                      "    border-radius: 10px;    \n"
+                                      "    background-color: #0CB53B;\n"
+                                      "    color: rgb(255, 255, 255, 221);\n"
+                                      "}\n"
+                                      "QPushButton:hover {\n"
+                                      "    background-color: #009229;\n"
+                                      "    color: rgb(255, 255, 255, 221);\n"
+                                      "}\n"
+                                      "QPushButton:pressed {    \n"
+                                      "    background-color: #00C838;\n"
+                                      "    color: rgb(255, 255, 255);\n"
+                                      "}")
+        self.button_yes.setObjectName("button_yes")
+        self.button_no = QtWidgets.QPushButton(self.frame_contains)
+        self.button_no.setGeometry(QtCore.QRect(23, 110, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_no.setFont(font)
+        self.button_no.setStyleSheet("QPushButton {\n"
+                                     "    border-radius: 10px;    \n"
+                                     "    background-color: #B9400C;\n"
+                                     "    color: rgb(255, 255, 255, 221);\n"
+                                     "}\n"
+                                     "QPushButton:hover {\n"
+                                     "    background-color: #8A0000;\n"
+                                     "    color: rgb(255, 255, 255, 221);\n"
+                                     "}\n"
+                                     "QPushButton:pressed {    \n"
+                                     "    background-color: #D04B4B;\n"
+                                     "    color: rgb(255, 255, 255);\n"
+                                     "}")
+        self.button_no.setObjectName("button_no")
         self.verticalLayout_2.addWidget(self.frame_contains)
         self.verticalLayout.addWidget(self.frame_center)
 
@@ -269,13 +262,13 @@ class Ui_WarningMessageBox(object):
 
     def retranslateUi(self, WarningMessageBox):
         _translate = QtCore.QCoreApplication.translate
-        WarningMessageBox.setWindowTitle(_translate("WarningMessageBox", "Form"))
-        self.label_title.setText(_translate("WarningMessageBox", "Warning"))
+        WarningMessageBox.setWindowTitle(_translate("WarningMessageBox", "Предупреждение"))
+        self.label_title.setText(_translate("WarningMessageBox", "Предупреждение"))
         self.button_close.setToolTip(_translate("WarningMessageBox", "Close"))
-        self.button_yes.setText(_translate("WarningMessageBox", "Yes"))
-        self.button_no.setText(_translate("WarningMessageBox", "No"))
         self.label_info.setText(_translate("WarningMessageBox", "Some text\n"
                                                                 "Delete device?"))
+        self.button_yes.setText(_translate("WarningMessageBox", "Да"))
+        self.button_no.setText(_translate("WarningMessageBox", "Нет"))
 
 
 import files_rc

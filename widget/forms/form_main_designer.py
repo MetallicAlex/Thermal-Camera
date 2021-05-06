@@ -898,7 +898,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_control.setHorizontalHeaderItem(7, item)
-        self.table_control.horizontalHeader().setVisible(True)
+        self.table_control.horizontalHeader().setVisible(False)
         self.table_control.horizontalHeader().setCascadingSectionResizes(True)
         self.table_control.horizontalHeader().setDefaultSectionSize(200)
         self.table_control.horizontalHeader().setStretchLastSection(True)
@@ -935,7 +935,7 @@ class Ui_MainWindow(object):
         self.lineEdit_email.setFont(font)
         self.lineEdit_email.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1199,7 +1199,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(6, item)
-        self.table_devices.horizontalHeader().setVisible(True)
+        self.table_devices.horizontalHeader().setVisible(False)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(True)
@@ -1304,7 +1304,7 @@ class Ui_MainWindow(object):
         self.lineEdit_ip_address.setFont(font)
         self.lineEdit_ip_address.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1334,7 +1334,7 @@ class Ui_MainWindow(object):
         self.lineEdit_subnet_mask.setFont(font)
         self.lineEdit_subnet_mask.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1356,7 +1356,7 @@ class Ui_MainWindow(object):
         self.lineEdit_gateway.setFont(font)
         self.lineEdit_gateway.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1386,7 +1386,7 @@ class Ui_MainWindow(object):
         self.lineEdit_ddns1.setFont(font)
         self.lineEdit_ddns1.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1416,7 +1416,7 @@ class Ui_MainWindow(object):
         self.lineEdit_ddns2.setFont(font)
         self.lineEdit_ddns2.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1500,7 +1500,7 @@ class Ui_MainWindow(object):
         self.lineEdit_device_name.setFont(font)
         self.lineEdit_device_name.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1573,7 +1573,7 @@ class Ui_MainWindow(object):
         self.lineEdit_record_time.setFont(font)
         self.lineEdit_record_time.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1808,15 +1808,15 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_profiles.setHorizontalHeaderItem(8, item)
-        self.table_profiles.horizontalHeader().setVisible(True)
+        self.table_profiles.horizontalHeader().setVisible(False)
         self.table_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_profiles.horizontalHeader().setDefaultSectionSize(200)
-        self.table_profiles.horizontalHeader().setStretchLastSection(True)
+        self.table_profiles.horizontalHeader().setStretchLastSection(False)
         self.table_profiles.verticalHeader().setVisible(False)
         self.table_profiles.verticalHeader().setHighlightSections(False)
-        self.table_profiles.verticalHeader().setStretchLastSection(False)
+        self.table_profiles.verticalHeader().setStretchLastSection(True)
         self.button_import_photos = QtWidgets.QPushButton(self.tab_profiles)
-        self.button_import_photos.setGeometry(QtCore.QRect(948, 60, 150, 30))
+        self.button_import_photos.setGeometry(QtCore.QRect(948, 100, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1914,7 +1914,7 @@ class Ui_MainWindow(object):
         self.button_send_device.setIcon(icon12)
         self.button_send_device.setObjectName("button_send_device")
         self.button_import_data = QtWidgets.QPushButton(self.tab_profiles)
-        self.button_import_data.setGeometry(QtCore.QRect(948, 15, 150, 30))
+        self.button_import_data.setGeometry(QtCore.QRect(948, 60, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1939,7 +1939,7 @@ class Ui_MainWindow(object):
         self.button_import_data.setIcon(icon13)
         self.button_import_data.setObjectName("button_import_data")
         self.button_example_data = QtWidgets.QPushButton(self.tab_profiles)
-        self.button_example_data.setGeometry(QtCore.QRect(778, 15, 150, 30))
+        self.button_example_data.setGeometry(QtCore.QRect(948, 15, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1999,7 +1999,7 @@ class Ui_MainWindow(object):
         self.lineEdit_id.setFont(font)
         self.lineEdit_id.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2044,7 +2044,7 @@ class Ui_MainWindow(object):
         self.lineEdit_profile_name.setFont(font)
         self.lineEdit_profile_name.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2069,7 +2069,7 @@ class Ui_MainWindow(object):
         self.lineEdit_passport.setFont(font)
         self.lineEdit_passport.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2214,7 +2214,7 @@ class Ui_MainWindow(object):
 "}")
         self.plainTextEdit_information.setObjectName("plainTextEdit_information")
         self.button_load_photo = QtWidgets.QPushButton(self.tab_profiles)
-        self.button_load_photo.setGeometry(QtCore.QRect(948, 180, 150, 30))
+        self.button_load_photo.setGeometry(QtCore.QRect(770, 60, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -2239,7 +2239,7 @@ class Ui_MainWindow(object):
         self.button_load_photo.setIcon(icon16)
         self.button_load_photo.setObjectName("button_load_photo")
         self.label_show_photo = QtWidgets.QLabel(self.tab_profiles)
-        self.label_show_photo.setGeometry(QtCore.QRect(948, 220, 150, 30))
+        self.label_show_photo.setGeometry(QtCore.QRect(770, 100, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -2252,7 +2252,7 @@ class Ui_MainWindow(object):
         self.label_show_photo.setAlignment(QtCore.Qt.AlignCenter)
         self.label_show_photo.setObjectName("label_show_photo")
         self.label_visitor = QtWidgets.QLabel(self.tab_profiles)
-        self.label_visitor.setGeometry(QtCore.QRect(440, 60, 150, 30))
+        self.label_visitor.setGeometry(QtCore.QRect(440, 60, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -2261,6 +2261,29 @@ class Ui_MainWindow(object):
         self.label_visitor.setFont(font)
         self.label_visitor.setStyleSheet("color: #09376B;")
         self.label_visitor.setObjectName("label_visitor")
+        self.button_export_profiles_data = QtWidgets.QPushButton(self.tab_profiles)
+        self.button_export_profiles_data.setGeometry(QtCore.QRect(948, 140, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_export_profiles_data.setFont(font)
+        self.button_export_profiles_data.setStyleSheet("QPushButton {\n"
+"    border-radius: 10px;    \n"
+"    background-color: #0C5DB9;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: #87B9E0;\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.button_export_profiles_data.setIcon(icon13)
+        self.button_export_profiles_data.setObjectName("button_export_profiles_data")
         self.tabWidget.addTab(self.tab_profiles, "")
         self.tab_departments = QtWidgets.QWidget()
         self.tab_departments.setObjectName("tab_departments")
@@ -2393,7 +2416,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_departments.setHorizontalHeaderItem(1, item)
-        self.table_departments.horizontalHeader().setVisible(True)
+        self.table_departments.horizontalHeader().setVisible(False)
         self.table_departments.horizontalHeader().setCascadingSectionResizes(True)
         self.table_departments.horizontalHeader().setDefaultSectionSize(200)
         self.table_departments.horizontalHeader().setStretchLastSection(False)
@@ -2656,7 +2679,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_device_profiles.setHorizontalHeaderItem(7, item)
-        self.table_device_profiles.horizontalHeader().setVisible(True)
+        self.table_device_profiles.horizontalHeader().setVisible(False)
         self.table_device_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_device_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_device_profiles.horizontalHeader().setStretchLastSection(False)
@@ -2756,7 +2779,7 @@ class Ui_MainWindow(object):
         self.dateTimeEdit_start.setGeometry(QtCore.QRect(90, 55, 180, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(10)
         self.dateTimeEdit_start.setFont(font)
         self.dateTimeEdit_start.setStyleSheet("QDateTimeEdit{\n"
 "    color: #FFFFFF;\n"
@@ -2784,7 +2807,7 @@ class Ui_MainWindow(object):
         self.dateTimeEdit_end.setGeometry(QtCore.QRect(90, 95, 180, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font.setPointSize(10)
         self.dateTimeEdit_end.setFont(font)
         self.dateTimeEdit_end.setStyleSheet("QDateTimeEdit{\n"
 "    color: #FFFFFF;\n"
@@ -2870,13 +2893,13 @@ class Ui_MainWindow(object):
         icon18.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_all_statistic.setIcon(icon18)
         self.button_all_statistic.setObjectName("button_all_statistic")
-        self.button_export_data = QtWidgets.QPushButton(self.page_statistic)
-        self.button_export_data.setGeometry(QtCore.QRect(190, 15, 150, 30))
+        self.button_export_statistics_data = QtWidgets.QPushButton(self.page_statistic)
+        self.button_export_statistics_data.setGeometry(QtCore.QRect(190, 15, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
-        self.button_export_data.setFont(font)
-        self.button_export_data.setStyleSheet("QPushButton {\n"
+        self.button_export_statistics_data.setFont(font)
+        self.button_export_statistics_data.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
 "    background-color: #0C5DB9;\n"
 "    color: rgb(255, 255, 255, 221);\n"
@@ -2889,8 +2912,8 @@ class Ui_MainWindow(object):
 "    background-color: #87B9E0;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
-        self.button_export_data.setIcon(icon13)
-        self.button_export_data.setObjectName("button_export_data")
+        self.button_export_statistics_data.setIcon(icon13)
+        self.button_export_statistics_data.setObjectName("button_export_statistics_data")
         self.label_chart1 = QtWidgets.QLabel(self.page_statistic)
         self.label_chart1.setGeometry(QtCore.QRect(636, 35, 500, 300))
         self.label_chart1.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -3074,7 +3097,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_statistics.setHorizontalHeaderItem(7, item)
-        self.table_statistics.horizontalHeader().setVisible(True)
+        self.table_statistics.horizontalHeader().setVisible(False)
         self.table_statistics.horizontalHeader().setCascadingSectionResizes(True)
         self.table_statistics.horizontalHeader().setDefaultSectionSize(200)
         self.table_statistics.horizontalHeader().setStretchLastSection(True)
@@ -3091,7 +3114,7 @@ class Ui_MainWindow(object):
         self.lineEdit_profile_name_2.setFont(font)
         self.lineEdit_profile_name_2.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -3386,6 +3409,7 @@ class Ui_MainWindow(object):
         self.button_load_photo.setText(_translate("MainWindow", "Загрузить фото"))
         self.label_show_photo.setText(_translate("MainWindow", "Посмотреть фото"))
         self.label_visitor.setText(_translate("MainWindow", "Посетитель"))
+        self.button_export_profiles_data.setText(_translate("MainWindow", "Экспорт данных"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_profiles), _translate("MainWindow", "Профили"))
         item = self.table_departments.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Department"))
@@ -3418,7 +3442,7 @@ class Ui_MainWindow(object):
         self.label_end_time.setText(_translate("MainWindow", "До"))
         self.button_statistics_filter.setText(_translate("MainWindow", "Фильтр"))
         self.button_all_statistic.setText(_translate("MainWindow", "All Statistic"))
-        self.button_export_data.setText(_translate("MainWindow", "Экспорт данных"))
+        self.button_export_statistics_data.setText(_translate("MainWindow", "Экспорт данных"))
         item = self.table_statistics.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "ИД"))
         item = self.table_statistics.horizontalHeaderItem(2)

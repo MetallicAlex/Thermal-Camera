@@ -1,7 +1,7 @@
 from widget.management import DBManagement
 
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QPointF
 
 from widget.forms.messagebox_department import Ui_DepartmentMessageBox
 from widget.forms.messagebox_warning import Ui_WarningMessageBox
@@ -79,6 +79,13 @@ class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
     def __init__(self, parent=None):
         super().__init__()
         self.setupUi(self)
+        # SETTINGS
+        # shadow = QtWidgets.QGraphicsDropShadowEffect(
+        #     self,
+        #     blurRadius=9.0,
+        #     offset=QPointF(8.0, 8.0)
+        # )
+        # self.frame_center.setGraphicsEffect(shadow)
         # DATA
         self.dialog_result = -1
         self.department = None

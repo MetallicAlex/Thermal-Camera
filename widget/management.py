@@ -90,6 +90,13 @@ class DBManagement:
             self._departments = query.all()
             return self._departments
 
+    def get_department_by_name(self, name: str):
+        with models.get_session() as session:
+            self._departments = session.query(models.Department)\
+                .filter(models.Department.name == name)\
+                .scalar()
+            return self._departments
+
     def get_department(self, identifier: int):
         with models.get_session() as session:
             self._departments = session.query(models.Department)\

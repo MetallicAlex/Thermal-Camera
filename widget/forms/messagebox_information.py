@@ -23,7 +23,7 @@ class Ui_InforamtionMessageBox(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_center = QtWidgets.QFrame(InforamtionMessageBox)
-        self.frame_center.setStyleSheet("background-color: rgb(27, 29, 35);\n"
+        self.frame_center.setStyleSheet("background-color: #0C5DB9;\n"
                                         "")
         self.frame_center.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_center.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -34,7 +34,7 @@ class Ui_InforamtionMessageBox(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.frame_title = QtWidgets.QFrame(self.frame_center)
         self.frame_title.setMaximumSize(QtCore.QSize(400, 42))
-        self.frame_title.setStyleSheet("background-color: rgb(27, 29, 35);")
+        self.frame_title.setStyleSheet("background-color: #0C5DB9;")
         self.frame_title.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_title.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_title.setLineWidth(0)
@@ -45,16 +45,16 @@ class Ui_InforamtionMessageBox(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_title = QtWidgets.QLabel(self.frame_title)
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -63,16 +63,16 @@ class Ui_InforamtionMessageBox(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -81,16 +81,16 @@ class Ui_InforamtionMessageBox(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255, 221))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -106,7 +106,8 @@ class Ui_InforamtionMessageBox(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_title.setFont(font)
-        self.label_title.setStyleSheet("background: transparent;")
+        self.label_title.setStyleSheet("background: transparent;\n"
+                                       "color: rgb(255, 255, 255, 221);")
         self.label_title.setObjectName("label_title")
         self.horizontalLayout_3.addWidget(self.label_title)
         self.button_close = QtWidgets.QPushButton(self.frame_title)
@@ -126,14 +127,7 @@ class Ui_InforamtionMessageBox(object):
                                         "}\n"
                                         "QPushButton:pressed {    \n"
                                         "    background-color: rgb(85, 170, 255);\n"
-                                        "}"
-                                        "QToolTip {"
-                                        "color: #ffffff;"
-                                        "background-color: rgba(27, 29, 35, 160);"
-                                        "border: 1px solid rgb(40, 40, 40);"
-                                        "border-radius: 2px;"
-                                        "}"
-                                        )
+                                        "}")
         self.button_close.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal,
@@ -143,46 +137,45 @@ class Ui_InforamtionMessageBox(object):
         self.horizontalLayout_3.addWidget(self.button_close)
         self.verticalLayout_2.addWidget(self.frame_title)
         self.frame_contains = QtWidgets.QFrame(self.frame_center)
-        self.frame_contains.setStyleSheet("background-color: rgb(40, 44, 52);")
+        self.frame_contains.setStyleSheet("background-color: #EFF7FD;")
         self.frame_contains.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_contains.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_contains.setObjectName("frame_contains")
         self.button_ok = QtWidgets.QPushButton(self.frame_contains)
-        self.button_ok.setGeometry(QtCore.QRect(130, 90, 131, 41))
+        self.button_ok.setGeometry(QtCore.QRect(122, 110, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
         self.button_ok.setFont(font)
         self.button_ok.setStyleSheet("QPushButton {\n"
-                                     "    border: 2px solid rgb(52, 59, 72);\n"
                                      "    border-radius: 10px;    \n"
-                                     "    background-color: rgb(52, 59, 72);\n"
-                                     "    color: rgb(255, 255, 255);\n"
+                                     "    background-color: #0C5DB9;\n"
+                                     "    color: rgb(255, 255, 255, 221);\n"
                                      "}\n"
                                      "QPushButton:hover {\n"
-                                     "    background-color: rgb(57, 65, 80);\n"
-                                     "    color: rgb(227, 227, 227);\n"
-                                     "    border: 2px solid rgb(61, 70, 86);\n"
+                                     "    background-color: #91D1EE;\n"
+                                     "    color: rgb(255, 255, 255, 221);\n"
                                      "}\n"
                                      "QPushButton:pressed {    \n"
-                                     "    background-color: rgb(35, 40, 49);\n"
+                                     "    background-color: #87B9E0;\n"
                                      "    color: rgb(255, 255, 255);\n"
-                                     "    border: 2px solid rgb(43, 50, 61);\n"
                                      "}")
         self.button_ok.setObjectName("button_ok")
         self.label_info = QtWidgets.QLabel(self.frame_contains)
-        self.label_info.setGeometry(QtCore.QRect(10, 0, 371, 81))
+        self.label_info.setGeometry(QtCore.QRect(10, 0, 370, 90))
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -191,16 +184,16 @@ class Ui_InforamtionMessageBox(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -209,16 +202,16 @@ class Ui_InforamtionMessageBox(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(210, 210, 210))
+        brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 0))
@@ -230,13 +223,14 @@ class Ui_InforamtionMessageBox(object):
         self.label_info.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(9)
-        font.setBold(True)
-        font.setItalic(True)
-        font.setWeight(75)
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label_info.setFont(font)
-        self.label_info.setStyleSheet("background: transparent;")
-        self.label_info.setAlignment(QtCore.Qt.AlignJustify | QtCore.Qt.AlignVCenter)
+        self.label_info.setStyleSheet("background: transparent;\n"
+                                      "color: #09376B;")
+        self.label_info.setAlignment(QtCore.Qt.AlignCenter)
         self.label_info.setObjectName("label_info")
         self.verticalLayout_2.addWidget(self.frame_contains)
         self.verticalLayout.addWidget(self.frame_center)
@@ -246,22 +240,9 @@ class Ui_InforamtionMessageBox(object):
 
     def retranslateUi(self, InforamtionMessageBox):
         _translate = QtCore.QCoreApplication.translate
-        InforamtionMessageBox.setWindowTitle(_translate("InforamtionMessageBox", "Form"))
-        self.label_title.setText(_translate("InforamtionMessageBox", "Information"))
+        InforamtionMessageBox.setWindowTitle(_translate("InforamtionMessageBox", "Информация"))
+        self.label_title.setText(_translate("InforamtionMessageBox", "Информация"))
         self.button_close.setToolTip(_translate("InforamtionMessageBox", "Close"))
         self.button_ok.setText(_translate("InforamtionMessageBox", "OK"))
         self.label_info.setText(_translate("InforamtionMessageBox", "Some text\n"
-                                                                    "Device deleted"))
-
-
-import files_rc
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    InforamtionMessageBox = QtWidgets.QWidget()
-    ui = Ui_InforamtionMessageBox()
-    ui.setupUi(InforamtionMessageBox)
-    InforamtionMessageBox.show()
-    sys.exit(app.exec_())
+                                                                    "Delete device?"))
