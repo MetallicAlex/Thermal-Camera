@@ -43,6 +43,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # APPLICATIONS
         # self.start_nginx()
         # DATA
+        self.selected_profile = None
         self.is_all_statistics = False
         self.app_path = os.path.dirname(os.getcwd())
         self.setting = Setting(f'{self.app_path}/widget/setting.json')
@@ -185,11 +186,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-DATABASE
     def _profile_selected_row(self):
+        self.image_filename = None
         row_position = self.table_profiles.selectedIndexes()[0].row()
         if self.table_profiles.item(row_position, 1).text() == '---':
-            self.lineEdit_id.setText('')
+            self.lineEdit_personnel_number.setText('')
         else:
-            self.lineEdit_id.setText(self.table_profiles.item(row_position, 1).text())
+            self.lineEdit_personnel_number.setText(self.table_profiles.item(row_position, 1).text())
         if self.table_profiles.item(row_position, 2).text() == '---':
             self.lineEdit_profile_name.setText('')
         else:
@@ -216,6 +218,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.plainTextEdit_information.setPlainText('')
         else:
             self.plainTextEdit_information.setPlainText(self.table_profiles.item(row_position, 8).text())
+        if self.table_profiles.item(row_position, 4).text() == 'Сотрудник':
+            self.selected_profile = self.database_management.get_profile(
+                personnel_number=self.table_profiles.item(row_position, 1).text()
+            )
+            self.toggle_visitor.setChecked(False)
+        else:
+            self.selected_profile = self.database_management.get_profile(
+                passport=self.table_profiles.item(row_position, 5).text()
+            )
+            self.toggle_visitor.setChecked(True)
 
     def _button_add_profile_clicked(self, event):
         text = ''
@@ -226,12 +238,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         department = None
         information = None
         if not self.toggle_visitor.isChecked():
-            if self.database_management.is_personnel_number_duplicate(self.lineEdit_id.text()):
+            if self.database_management.is_personnel_number_duplicate(self.lineEdit_personnel_number.text()):
                 text = 'Такой табельный номер уже существует.\n'
-            elif self.lineEdit_id.text() == '':
+            elif self.lineEdit_personnel_number.text() == '':
                 text = 'Не введен табельный номер.\n'
             else:
-                personnel_number = self.lineEdit_id.text()
+                personnel_number = self.lineEdit_personnel_number.text()
         else:
             if self.lineEdit_passport.text() == '':
                 text = 'Не введен паспорт.\n'
@@ -283,17 +295,84 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.blur_effect.setEnabled(False)
 
     def _button_edit_profile_clicked(self, event):
-        for row_position in range(self.table_profiles.rowCount()):
-            if self.table_profiles.cellWidget(row_position, 0).isChecked():
-                profile = self.database_management.get_profile(self.table_profiles.item(row_position, 1).text())
-                form_profile = FormProfile(profile=profile)
-                form_profile.exec_()
-                if form_profile.dialog_result == 0:
-                    self.database_management.update_profile(profile.id, form_profile.profile)
-                    self._add_update_profile_row(row_position, form_profile.profile)
-                    self.comboBox_profiles.setItemText(row_position + 1, form_profile.profile.name)
-        self.table_profiles.resizeColumnsToContents()
-        self.table_profiles.resizeRowsToContents()
+        personnel_number = None
+        profile_name = None
+        passport = None
+        image = None
+        department = None
+        information = None
+        text = ''
+        if self.selected_profile is not None:
+            if not self.toggle_visitor.isChecked():
+                if self.database_management.is_personnel_number_duplicate(self.lineEdit_personnel_number.text())\
+                        and self.selected_profile.personnel_number != self.lineEdit_personnel_number.text():
+                    text = 'Такой табельный номер уже существует.\n'
+                elif self.lineEdit_personnel_number.text() == '':
+                    text = 'Не введен табельный номер.\n'
+                else:
+                    personnel_number = self.lineEdit_personnel_number.text()
+            else:
+                if self.lineEdit_passport.text() == '':
+                    text = 'Не введен паспорт.\n'
+            if self.lineEdit_passport.text() != '' \
+                    and self.database_management.is_passport_duplicate(self.lineEdit_passport.text())\
+                    and self.selected_profile.passport != self.lineEdit_passport.text():
+                text += 'Такой номер паспорта уже существует.\n'
+            else:
+                passport = self.lineEdit_passport.text()
+            if self.lineEdit_profile_name.text() == '':
+                text += 'Не введено ФИО.\n'
+            else:
+                profile_name = self.lineEdit_profile_name.text()
+            if self.comboBox_department.currentText() != '---':
+                department = self.comboBox_department.currentText()
+            gender = self.comboBox_gender.currentIndex()
+            if self.plainTextEdit_information.toPlainText() != '':
+                information = self.plainTextEdit_information.toPlainText()
+        else:
+            text = 'Не выбран профиль для изменения.'
+        if text == '':
+            if self.image_filename:
+                rng = np.random.default_rng()
+                image = '/static/images/' + np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                while os.path.exists(f'{self.app_path}/{self.setting.paths["nginx"]}/html{image}'):
+                    image = '/static/images/' + np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                pixmap = QPixmap(
+                    QImage(self.image_filename)
+                )
+                pixmap.save(f'{self.app_path}/{self.setting.paths["nginx"]}/html{image}', 'jpg')
+            profile = {
+                'name': profile_name,
+                'gender': gender,
+                'visitor': self.toggle_visitor.isChecked()
+            }
+            self.selected_profile.name = profile_name
+            self.selected_profile.gender = gender
+            self.selected_profile.visitor = self.toggle_visitor.isChecked()
+            if personnel_number:
+                self.selected_profile.personnel_number = personnel_number
+                profile['personnel_number'] = personnel_number
+            if passport:
+                self.selected_profile.passport = passport
+                profile['passport'] = passport
+            if image:
+                self.selected_profile.face = image
+                profile['face'] = image
+            if department:
+                self.selected_profile.id_department = self.database_management.get_department_by_name(department).id
+                profile['id_department'] = self.database_management.get_department_by_name(department).id
+            if information:
+                self.selected_profile.information = information
+                profile['information'] = information
+            self.database_management.update_profile(self.selected_profile.id, profile)
+            self._add_update_profile_row(self.table_profiles.selectedIndexes()[0].row(), self.selected_profile)
+        else:
+            self.blur_effect.setEnabled(True)
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Изменение профиля')
+            messagebox.label_info.setText(text)
+            messagebox.exec_()
+            self.blur_effect.setEnabled(False)
 
     def _button_delete_profile_clicked(self, event):
         self.blur_effect.setEnabled(True)
@@ -828,7 +907,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = QTableWidgetItem(user)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_profiles.setItem(row_position, 4, item)
-        print(profile.passport)
         if profile.passport is not None:
             passport = profile.passport
         else:

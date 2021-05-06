@@ -1989,15 +1989,15 @@ class Ui_MainWindow(object):
         icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_edit_profile.setIcon(icon15)
         self.button_edit_profile.setObjectName("button_edit_profile")
-        self.lineEdit_id = QtWidgets.QLineEdit(self.tab_profiles)
-        self.lineEdit_id.setGeometry(QtCore.QRect(190, 60, 210, 30))
+        self.lineEdit_personnel_number = QtWidgets.QLineEdit(self.tab_profiles)
+        self.lineEdit_personnel_number.setGeometry(QtCore.QRect(190, 60, 210, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         font.setBold(False)
         font.setWeight(50)
-        self.lineEdit_id.setFont(font)
-        self.lineEdit_id.setStyleSheet("QLineEdit {\n"
+        self.lineEdit_personnel_number.setFont(font)
+        self.lineEdit_personnel_number.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
 "    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
@@ -2009,11 +2009,11 @@ class Ui_MainWindow(object):
 "QLineEdit:focus {\n"
 "    border: 2px solid #0C5DB9;\n"
 "}")
-        self.lineEdit_id.setInputMask("")
-        self.lineEdit_id.setText("")
-        self.lineEdit_id.setMaxLength(32)
-        self.lineEdit_id.setAlignment(QtCore.Qt.AlignCenter)
-        self.lineEdit_id.setObjectName("lineEdit_id")
+        self.lineEdit_personnel_number.setInputMask("")
+        self.lineEdit_personnel_number.setText("")
+        self.lineEdit_personnel_number.setMaxLength(32)
+        self.lineEdit_personnel_number.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_personnel_number.setObjectName("lineEdit_id")
         self.label_id = QtWidgets.QLabel(self.tab_profiles)
         self.label_id.setGeometry(QtCore.QRect(20, 60, 150, 30))
         font = QtGui.QFont()
