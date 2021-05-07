@@ -92,15 +92,15 @@ class DBManagement:
 
     def get_department_by_name(self, name: str):
         with models.get_session() as session:
-            self._departments = session.query(models.Department)\
-                .filter(models.Department.name == name)\
+            self._departments = session.query(models.Department) \
+                .filter(models.Department.name == name) \
                 .scalar()
             return self._departments
 
     def get_department(self, identifier: int):
         with models.get_session() as session:
-            self._departments = session.query(models.Department)\
-                .filter(models.Department.id == identifier)\
+            self._departments = session.query(models.Department) \
+                .filter(models.Department.id == identifier) \
                 .scalar()
             return self._departments
 
@@ -196,12 +196,15 @@ class DBManagement:
         return self._profiles
 
     def create_profiles_pattern(self, filename):
-        data = [['xxx', 'Ivanov Ivan', 'No Group', 'male', ''],
-                ['yyy', 'Ivanov Ilia', '', '', '+375(33)9999999']]
-        self._pattern = pd.DataFrame(data=data, columns=['ID', 'Name', 'Department', 'Gender', 'Phone Number'])
+        data = [['xxx', 'Ivanov Ivan', '', False, 'No Group', 'male', ''],
+                ['', 'Ivanov Ilia', 'AB12332', True, '', '', 'Some text']]
+        self._pattern = pd.DataFrame(
+            data=data,
+            columns=['Personnel Number', 'Name', 'Passport', 'Visitor', 'Department', 'Gender', 'Information']
+        )
         self._pattern.to_csv(filename, sep=';', index=False)
 
-    def add_profiles_from_pattern(self, filename):
+    def import_profiles_data(self, filename):
         self._pattern = pd.read_csv(filename, sep=';')
         self._pattern = self._pattern.where(pd.notnull(self._pattern), None)
         profiles = [
@@ -230,7 +233,7 @@ class DBManagement:
                 del profile['face']
             self.update_profile(profile['id'], profile)
 
-    def add_profiles_from_images(self, filename):
+    def import_photos(self, filename):
         if zipfile.is_zipfile(filename):
             file = zipfile.ZipFile(filename)
             application_path = f'{os.path.dirname(os.path.abspath(__file__))}/nginx/html/static/images'
@@ -255,6 +258,9 @@ class DBManagement:
             for profile in update_profiles:
                 values = profile.to_dict()
                 self.update_profile(profile.id, values)
+
+    def export_profiles_data(self):
+        pass
 
     def add_profiles(self, *profiles: models.Profile):
         with models.get_session() as session:

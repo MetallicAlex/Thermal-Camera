@@ -122,6 +122,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_delete_profile.clicked.connect(self._button_delete_profile_clicked)
         self.button_load_photo.clicked.connect(self._button_load_photo_clicked)
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
+        self.button_example_data.clicked.connect(self._button_create_pattern_clicked)
         self.button_add_department.clicked.connect(self._button_add_department_clicked)
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
         self.button_device_database_view.clicked.connect(self._button_device_database_view_clicked)
@@ -286,6 +287,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 profile.information = information
             self.database_management.add_profiles(profile)
             self._add_update_profile_row(self.table_profiles.rowCount(), profile)
+            self.table_profiles.resizeRowsToContents()
+            self.table_profiles.resizeColumnToContents(1)
+            self.table_profiles.resizeColumnToContents(2)
+            self.table_profiles.resizeColumnToContents(3)
+            self.table_profiles.resizeColumnToContents(4)
+            self.table_profiles.resizeColumnToContents(5)
+            self.table_profiles.resizeColumnToContents(6)
+            self.table_profiles.resizeColumnToContents(7)
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
@@ -366,6 +375,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 profile['information'] = information
             self.database_management.update_profile(self.selected_profile.id, profile)
             self._add_update_profile_row(self.table_profiles.selectedIndexes()[0].row(), self.selected_profile)
+            self.table_profiles.resizeRowsToContents()
+            self.table_profiles.resizeColumnToContents(1)
+            self.table_profiles.resizeColumnToContents(2)
+            self.table_profiles.resizeColumnToContents(3)
+            self.table_profiles.resizeColumnToContents(4)
+            self.table_profiles.resizeColumnToContents(5)
+            self.table_profiles.resizeColumnToContents(6)
+            self.table_profiles.resizeColumnToContents(7)
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
@@ -458,13 +475,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _button_add_profiles_group_clicked(self, event):
         filename, _ = QFileDialog.getOpenFileName(self, 'Open Profiles Group', '', 'CSV File (*.csv)')
         if filename:
-            self.database_management.add_profiles_from_pattern(filename)
+            self.database_management.import_profiles_data(filename)
             self._load_profiles_to_table()
 
     def _button_add_profile_images_clicked(self, event):
         filename, _ = QFileDialog.getOpenFileName(self, 'Open Profile Images', '', 'ZIP File (*.zip)')
         if filename:
-            self.database_management.add_profiles_from_images(filename)
+            self.database_management.import_photos(filename)
             self._load_profiles_to_table()
 
     def _button_device_database_view_clicked(self, event):
@@ -829,6 +846,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self._add_update_profile_row(row_position, profile)
         self.table_profiles.resizeColumnToContents(0)
         self.table_profiles.resizeColumnToContents(1)
+        self.table_profiles.resizeColumnToContents(2)
         self.table_profiles.resizeColumnToContents(3)
         self.table_profiles.resizeColumnToContents(4)
         self.table_profiles.resizeColumnToContents(5)
@@ -1169,9 +1187,27 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_statusbar.setText("MetallicAlex")
 
     def _create_toggle_buttons(self):
-        # PAGE DATABASE #91D1EE
+        # PAGE DATABASE
         self.toggle_visitor = AnimatedToggle(self.tab_profiles, checked_color='#309ED9')
         self.toggle_visitor.setGeometry(QtCore.QRect(560, 60, 60, 40))
+        # PAGE CONTROL
+        self.toggle_notice = AnimatedToggle(self.page_control, checked_color='#309ED9')
+        self.toggle_notice.setGeometry(QtCore.QRect(160, 70, 60, 40))
+        # PAGE DEVICE
+        self.toggle_light = AnimatedToggle(self.page_device, checked_color='#309ED9')
+        self.toggle_light.setGeometry(QtCore.QRect(200, 610, 60, 40))
+        self.toggle_dhcp = AnimatedToggle(self.page_device, checked_color='#309ED9')
+        self.toggle_dhcp.setGeometry(QtCore.QRect(555, 650, 60, 40))
+        self.toggle_check_temperature = AnimatedToggle(self.page_device, checked_color='#309ED9')
+        self.toggle_check_temperature.setGeometry(QtCore.QRect(990, 440, 60, 40))
+        self.toggle_check_mask = AnimatedToggle(self.page_device, checked_color='#309ED9')
+        self.toggle_check_mask.setGeometry(QtCore.QRect(990, 480, 60, 40))
+        self.toggle_strangers_passage = AnimatedToggle(self.page_device, checked_color='#309ED9')
+        self.toggle_strangers_passage.setGeometry(QtCore.QRect(990, 520, 60, 40))
+        self.toggle_save_record = AnimatedToggle(self.page_device, checked_color='#309ED9')
+        self.toggle_save_record.setGeometry(QtCore.QRect(990, 560, 60, 40))
+        self.toggle_save_face = AnimatedToggle(self.page_device, checked_color='#309ED9')
+        self.toggle_save_face.setGeometry(QtCore.QRect(990, 600, 60, 40))
 
     # NGINX
     def start_nginx(self):

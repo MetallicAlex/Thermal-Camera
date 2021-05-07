@@ -16,6 +16,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1366, 768)
         MainWindow.setMinimumSize(QtCore.QSize(1366, 768))
+        MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         MainWindow.setToolTipDuration(-1)
         MainWindow.setStyleSheet("QMainWindow {background: transparent; }\n"
 "QToolTip {\n"
@@ -898,7 +899,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_control.setHorizontalHeaderItem(7, item)
-        self.table_control.horizontalHeader().setVisible(False)
+        self.table_control.horizontalHeader().setVisible(True)
         self.table_control.horizontalHeader().setCascadingSectionResizes(True)
         self.table_control.horizontalHeader().setDefaultSectionSize(200)
         self.table_control.horizontalHeader().setStretchLastSection(True)
@@ -1199,7 +1200,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(6, item)
-        self.table_devices.horizontalHeader().setVisible(False)
+        self.table_devices.horizontalHeader().setVisible(True)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(True)
@@ -1808,10 +1809,10 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_profiles.setHorizontalHeaderItem(8, item)
-        self.table_profiles.horizontalHeader().setVisible(False)
+        self.table_profiles.horizontalHeader().setVisible(True)
         self.table_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_profiles.horizontalHeader().setDefaultSectionSize(200)
-        self.table_profiles.horizontalHeader().setStretchLastSection(False)
+        self.table_profiles.horizontalHeader().setStretchLastSection(True)
         self.table_profiles.verticalHeader().setVisible(False)
         self.table_profiles.verticalHeader().setHighlightSections(False)
         self.table_profiles.verticalHeader().setStretchLastSection(True)
@@ -2416,10 +2417,10 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_departments.setHorizontalHeaderItem(1, item)
-        self.table_departments.horizontalHeader().setVisible(False)
+        self.table_departments.horizontalHeader().setVisible(True)
         self.table_departments.horizontalHeader().setCascadingSectionResizes(True)
         self.table_departments.horizontalHeader().setDefaultSectionSize(200)
-        self.table_departments.horizontalHeader().setStretchLastSection(False)
+        self.table_departments.horizontalHeader().setStretchLastSection(True)
         self.table_departments.verticalHeader().setVisible(False)
         self.table_departments.verticalHeader().setHighlightSections(False)
         self.table_departments.verticalHeader().setStretchLastSection(True)
@@ -2679,7 +2680,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_device_profiles.setHorizontalHeaderItem(7, item)
-        self.table_device_profiles.horizontalHeader().setVisible(False)
+        self.table_device_profiles.horizontalHeader().setVisible(True)
         self.table_device_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_device_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_device_profiles.horizontalHeader().setStretchLastSection(False)
@@ -2874,20 +2875,17 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.button_all_statistic.setFont(font)
         self.button_all_statistic.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
+"    background-color: #0C5DB9;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
+"    background-color: #87B9E0;\n"
 "    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
 "}")
         icon18 = QtGui.QIcon()
         icon18.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -3097,7 +3095,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_statistics.setHorizontalHeaderItem(7, item)
-        self.table_statistics.horizontalHeader().setVisible(False)
+        self.table_statistics.horizontalHeader().setVisible(True)
         self.table_statistics.horizontalHeader().setCascadingSectionResizes(True)
         self.table_statistics.horizontalHeader().setDefaultSectionSize(200)
         self.table_statistics.horizontalHeader().setStretchLastSection(True)
@@ -3461,14 +3459,3 @@ class Ui_MainWindow(object):
         self.label_min_temperature.setText(_translate("MainWindow", "От"))
         self.label_max_temperature.setText(_translate("MainWindow", "До"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
-import files_rc
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
