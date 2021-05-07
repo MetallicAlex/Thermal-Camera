@@ -302,6 +302,7 @@ class Profile(Base):
         return values
 
 
+
 class MaskEnum(enum.Enum):
     unknow = 1
     true = 2

@@ -259,8 +259,26 @@ class DBManagement:
                 values = profile.to_dict()
                 self.update_profile(profile.id, values)
 
-    def export_profiles_data(self):
-        pass
+    def export_profiles_data(self, filename: str):
+        file_format = filename.split('.')[-1]
+        if file_format == 'json':
+            self.export_profiles_data_to_json(filename)
+        elif file_format == 'csv':
+            self.export_profiles_data_to_csv(filename)
+
+    def export_profiles_data_to_json(self, filename: str):
+        data = []
+        for profile in self.get_profiles():
+            data.append(profile.to_dict())
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+
+    def export_profiles_data_to_csv(self, filename: str):
+        data = []
+        for profile in self.get_profiles():
+            data.append(profile.to_dict())
+        df = pd.DataFrame(data=data)
+        df.to_csv(filename, sep=';', header=True, encoding='cp1251')
 
     def add_profiles(self, *profiles: models.Profile):
         with models.get_session() as session:

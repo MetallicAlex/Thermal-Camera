@@ -123,6 +123,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_load_photo.clicked.connect(self._button_load_photo_clicked)
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
         self.button_example_data.clicked.connect(self._button_create_pattern_clicked)
+        self.button_export_profiles_data.clicked.connect(self._button_export_profiles_data)
         self.button_add_department.clicked.connect(self._button_add_department_clicked)
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
         self.button_device_database_view.clicked.connect(self._button_device_database_view_clicked)
@@ -206,13 +207,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.comboBox_department.setCurrentText('---')
         else:
             self.comboBox_department.setCurrentText(self.table_profiles.item(row_position, 6).text())
-        if self.table_profiles.item(row_position, 7).text()[0]\
+        if self.table_profiles.item(row_position, 7).text()[0] \
                 == self.setting.lang['form_main']['page_database']['table_profiles']['unknown'][0]:
             self.comboBox_gender.setCurrentIndex(0)
-        elif self.table_profiles.item(row_position, 7).text()[0]\
+        elif self.table_profiles.item(row_position, 7).text()[0] \
                 == self.setting.lang['form_main']['page_database']['table_profiles']['male'][0]:
             self.comboBox_gender.setCurrentIndex(1)
-        elif self.table_profiles.item(row_position, 7).text()[0]\
+        elif self.table_profiles.item(row_position, 7).text()[0] \
                 == self.setting.lang['form_main']['page_database']['table_profiles']['female'][0]:
             self.comboBox_gender.setCurrentIndex(2)
         if self.table_profiles.item(row_position, 8).text() == '---':
@@ -248,7 +249,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             if self.lineEdit_passport.text() == '':
                 text = 'Не введен паспорт.\n'
-        if self.lineEdit_passport.text() != ''\
+        if self.lineEdit_passport.text() != '' \
                 and self.database_management.is_passport_duplicate(self.lineEdit_passport.text()):
             text += 'Такой номер паспорта уже существует.\n'
         else:
@@ -313,7 +314,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         text = ''
         if self.selected_profile is not None:
             if not self.toggle_visitor.isChecked():
-                if self.database_management.is_personnel_number_duplicate(self.lineEdit_personnel_number.text())\
+                if self.database_management.is_personnel_number_duplicate(self.lineEdit_personnel_number.text()) \
                         and self.selected_profile.personnel_number != self.lineEdit_personnel_number.text():
                     text = 'Такой табельный номер уже существует.\n'
                 elif self.lineEdit_personnel_number.text() == '':
@@ -324,7 +325,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.lineEdit_passport.text() == '':
                     text = 'Не введен паспорт.\n'
             if self.lineEdit_passport.text() != '' \
-                    and self.database_management.is_passport_duplicate(self.lineEdit_passport.text())\
+                    and self.database_management.is_passport_duplicate(self.lineEdit_passport.text()) \
                     and self.selected_profile.passport != self.lineEdit_passport.text():
                 text += 'Такой номер паспорта уже существует.\n'
             else:
@@ -501,9 +502,17 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             messagebox.exec_()
 
     def _button_create_pattern_clicked(self, event):
-        filename, _ = QFileDialog.getSaveFileName(self, 'Save Pattern', '', 'CSV File (*.csv)')
+        filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить пример данных', '', 'CSV File (*.csv)')
         if filename:
             self.database_management.create_profiles_pattern(filename)
+
+    def _button_export_profiles_data(self, event):
+        filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить файл данных профиля', '',
+                                                  'JSON File (*.json);;'
+                                                  'CSV File (*.csv);'
+                                                  )
+        if filename:
+            self.database_management.export_profiles_data(filename)
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
