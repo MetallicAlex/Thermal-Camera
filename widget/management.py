@@ -5,16 +5,19 @@ import socket
 import requests
 from datetime import datetime
 import zipfile
+import numpy as np
 from typing import Union
 import pandas as pd
 from sqlalchemy import func, or_
 from sqlalchemy.orm import load_only
 
+from widget.setting import Setting
 import widget.models as models
 
 
 class DBManagement:
     def __init__(self):
+        self._setting = None
         self._number_profile_passages = int
         self._number_stranger_passages = int
         self._number_normal_temperature_profile_passages = int
@@ -26,6 +29,15 @@ class DBManagement:
         self._profiles = models.Profile
         self._statistics = models.Statistic
         self._stranger_statistics = models.StrangerStatistic
+
+    @property
+    def setting(self):
+        return self._setting
+
+    @setting.setter
+    def setting(self, value):
+        if isinstance(value, Setting):
+            self._setting = value
 
     # DEVICES
     def get_devices(self):
@@ -207,26 +219,49 @@ class DBManagement:
     def import_profiles_data(self, filename):
         self._pattern = pd.read_csv(filename, sep=';')
         self._pattern = self._pattern.where(pd.notnull(self._pattern), None)
-        profiles = [
-            models.Profile(
-                identifier=row['ID'],
-                name=row['Name'],
-                name_department=row['Department'],
-                gender=row['Gender'],
-                phone_number=row['Phone Number']
-            )
-            for index, row in self._pattern.iterrows()
-        ]
-        profiles = set(profiles)
-        identifiers = [identifier for index, identifier in enumerate(self._pattern['ID'])]
-        current_profiles = set(self.get_profiles(*identifiers))
+        profiles = set()
+        current_profiles = set()
+        for index, row in self._pattern.iterrows():
+            if bool(row['Visitor']) and row['Passport'] == '':
+                continue
+            else:
+                profile = self.get_profile(passport=row['Passport'])
+                if profile:
+                    current_profiles.add(profile)
+            if row['Personnel Number'] == '':
+                continue
+            else:
+                profile = self.get_profile(personnel_number=row['Personnel Number'])
+                if profile:
+                    current_profiles.add(profile)
+            profile = models.Profile()
+            if row['Personnel Number'] != '':
+                profile.personnel_number = row['Personnel Number']
+            if row['Name'] != '':
+                profile.name = row['Name']
+            if row['Passport'] != '':
+                profile.passport = row['Passport']
+            profile.visitor = row['Visitor']
+            if row['Department'] != '':
+                department = self.get_department_by_name(row['Department'])
+                if department is None:
+                    department = models.Department(name=row['Department'])
+                    self.add_departments(department)
+                profile.id_department = department.id
+            if row['Gender'] != '':
+                profile.gender = int(row['Gender'])
+            if row['Information'] != '':
+                profile.information = row['Information']
+            profiles.add(profile)
         insert_profiles = list(profiles - current_profiles)
         # update_profiles = list(profiles & current_profiles)
         update_profiles = []
         for current_profile in current_profiles:
             for profile in profiles:
                 if current_profile == profile:
-                    update_profiles.append(profile.to_dict())
+                    profile = profile.to_dict()
+                    profile['id'] = current_profile.id
+                    update_profiles.append(profile)
         self.add_profiles(*insert_profiles)
         for profile in update_profiles:
             if 'face' in profile:
@@ -236,28 +271,38 @@ class DBManagement:
     def import_photos(self, filename):
         if zipfile.is_zipfile(filename):
             file = zipfile.ZipFile(filename)
-            application_path = f'{os.path.dirname(os.path.abspath(__file__))}/nginx/html/static/images'
-            identifiers = []
+            application_path = f'{self.setting.paths["nginx"]}/html/static/images'
+            # application_path = f'{os.path.dirname(os.path.abspath(__file__))}/nginx/html/static/images'
             profiles = []
             for name in file.namelist():
                 file.extract(name, application_path)
                 data = name.split(sep='_')
-                identifiers.append(data[0])
-                profiles.append(
-                    models.Profile(
-                        identifier=data[0],
-                        name=data[1].replace('.jpg', ''),
-                        face=f'/static/images/{name}'
-                    )
-                )
-            profiles = set(profiles)
-            current_profiles = set(self.get_profiles(*identifiers))
-            insert_profiles = list(profiles - current_profiles)
-            update_profiles = list(current_profiles & profiles)
-            self.add_profiles(*insert_profiles)
-            for profile in update_profiles:
-                values = profile.to_dict()
-                self.update_profile(profile.id, values)
+                if data[2] == '0':
+                    profile = self.get_profile(personnel_number=data[0])
+                elif data[2] == '1':
+                    profile = self.get_profile(passport=data[0])
+                if profile:
+                    if data[1] != '':
+                        profile.name = data[1]
+                    rng = np.random.default_rng()
+                    image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                    while os.path.exists(f'{application_path}/{image}'):
+                        image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                    os.rename(f'{application_path}/{name}', f'{application_path}/{image}')
+                    profile.face = f'/static/images/{image}'
+                    self.update_profile(profile.id, profile)
+                else:
+                    profile = models.Profile()
+                    if data[1] != '':
+                        profile.name = data[1]
+                    rng = np.random.default_rng()
+                    image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                    while os.path.exists(f'{application_path}/{image}'):
+                        image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                    os.rename(f'{application_path}/{name}', f'{application_path}/{image}')
+                    profile.face = f'/static/images/{image}'
+                    profiles.append(profile)
+            self.add_profiles(*profiles)
 
     def export_profiles_data(self, filename: str):
         file_format = filename.split('.')[-1]

@@ -52,6 +52,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.device_management.find_host_info()
         self.device_management.port = 7777
         self.database_management = DBManagement()
+        self.database_management.setting = self.setting
         self.devices = self.database_management.get_devices()
         self.theme = self._get_theme('dark theme')
         self.number_device_profiles = 0
@@ -448,6 +449,31 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.publish_platform.add_profiles_data()
 
+    def _button_create_pattern_clicked(self, event):
+        filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить пример данных', '', 'CSV File (*.csv)')
+        if filename:
+            self.database_management.create_profiles_pattern(filename)
+
+    def _button_export_profiles_data(self, event):
+        filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить файл данных профиля', '',
+                                                  'JSON File (*.json);;'
+                                                  'CSV File (*.csv);'
+                                                  )
+        if filename:
+            self.database_management.export_profiles_data(filename)
+
+    def _button_import_profiles_data_clicked(self, event):
+        filename, _ = QFileDialog.getOpenFileName(self, 'Open Profiles Group', '', 'CSV File (*.csv)')
+        if filename:
+            self.database_management.import_profiles_data(filename)
+            self._load_profiles_to_table()
+
+    def _button_import_photos_clicked(self, event):
+        filename, _ = QFileDialog.getOpenFileName(self, 'Open Profile Images', '', 'ZIP File (*.zip)')
+        if filename:
+            self.database_management.import_photos(filename)
+            self._load_profiles_to_table()
+
     def _button_add_department_clicked(self, event):
         messagebox = DepartmentMessageBox()
         messagebox.exec_()
@@ -473,18 +499,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.table_departments.removeRow(row_position)
             self.database_management.remove_departments(*remove_departments)
 
-    def _button_add_profiles_group_clicked(self, event):
-        filename, _ = QFileDialog.getOpenFileName(self, 'Open Profiles Group', '', 'CSV File (*.csv)')
-        if filename:
-            self.database_management.import_profiles_data(filename)
-            self._load_profiles_to_table()
-
-    def _button_add_profile_images_clicked(self, event):
-        filename, _ = QFileDialog.getOpenFileName(self, 'Open Profile Images', '', 'ZIP File (*.zip)')
-        if filename:
-            self.database_management.import_photos(filename)
-            self._load_profiles_to_table()
-
     def _button_device_database_view_clicked(self, event):
         self.profile_ids = []
         self.last_page = False
@@ -500,19 +514,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             messagebox.label_title.setText('Information - Database View')
             messagebox.label_info.setText('No connected devices')
             messagebox.exec_()
-
-    def _button_create_pattern_clicked(self, event):
-        filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить пример данных', '', 'CSV File (*.csv)')
-        if filename:
-            self.database_management.create_profiles_pattern(filename)
-
-    def _button_export_profiles_data(self, event):
-        filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить файл данных профиля', '',
-                                                  'JSON File (*.json);;'
-                                                  'CSV File (*.csv);'
-                                                  )
-        if filename:
-            self.database_management.export_profiles_data(filename)
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):

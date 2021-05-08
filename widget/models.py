@@ -286,10 +286,17 @@ class Profile(Base):
     def __eq__(self, other):
         if not isinstance(other, Profile):
             return NotImplemented
-        return self.id == other.id
+        elif not self.visitor and not other.visitor:
+            return self.personnel_number == other.personnel_number
+        elif self.visitor and other.visitor:
+            return self.passport == other.passport
+        return False
 
     def __hash__(self):
-        return hash(self.id)
+        if self.visitor:
+            return hash(self.passport)
+        else:
+            return hash(self.personnel_number)
 
     def to_dict(self):
         values = {}
