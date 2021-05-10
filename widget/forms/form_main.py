@@ -7,6 +7,7 @@ import time
 import natsort
 from typing import Union
 import numpy as np
+from sqlalchemy import null
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect, \
@@ -44,6 +45,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.start_nginx()
         # DATA
         self.selected_profile = None
+        self.selected_department = None
         self.is_all_statistics = False
         self.app_path = os.path.dirname(os.getcwd())
         self.setting = Setting(f'{self.app_path}/widget/setting.json')
@@ -94,7 +96,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.label_pie_number_person_day.setScaledContents(True)
         # self.label_pie_number_person_all_time.setScaledContents(True)
         self._load_profiles_to_table()
-        # self._load_departments_to_table()
+        self._load_departments_to_table()
         # self._load_statistics_to_table(low=str(datetime.datetime.now().replace(hour=0, minute=0, second=0)),
         #                                high=str(datetime.datetime.now().replace(hour=23, minute=59, second=59)))
         self.stackedWidget.setCurrentWidget(self.page_control)
@@ -126,11 +128,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_example_data.clicked.connect(self._button_create_pattern_clicked)
         self.button_export_profiles_data.clicked.connect(self._button_export_profiles_data)
         self.button_add_department.clicked.connect(self._button_add_department_clicked)
+        self.button_edit_department.clicked.connect(self._button_edit_department_clicked)
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
         self.button_device_database_view.clicked.connect(self._button_device_database_view_clicked)
         self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
         self.table_profiles.itemSelectionChanged.connect(self._profile_selected_row)
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
+        self.table_departments.itemSelectionChanged.connect(self._department_selected_row)
         # PAGE STATISTIC
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
         # self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
@@ -474,30 +478,63 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.database_management.import_photos(filename)
             self._load_profiles_to_table()
 
+    def _department_selected_row(self):
+        row_position = self.table_departments.selectedIndexes()[0].row()
+        self.selected_department = self.database_management.get_department_by_name(
+            self.table_departments.item(row_position, 1).text()
+        )
+        self.lineEdit_department_name.setText(self.selected_department.name)
+        self.lineEdit_department_location.setText(self.selected_department.location)
+
     def _button_add_department_clicked(self, event):
-        messagebox = DepartmentMessageBox()
-        messagebox.exec_()
-        if messagebox.dialog_result == 0:
-            row_position = self.table_departments.rowCount()
-            self.table_departments.insertRow(row_position)
-            item = QCheckBox()
-            item.setCheckState(Qt.Unchecked)
-            self.table_departments.setCellWidget(row_position, 0, item)
-            self.table_departments.setItem(row_position, 1, QTableWidgetItem(messagebox.department))
-            self.database_management.add_departments(messagebox.department)
+        department = models.Department()
+        if self.lineEdit_department_name.text() != '':
+            department.name = self.lineEdit_department_name.text()
+        if self.lineEdit_department_location.text() != '':
+            department.location = self.lineEdit_department_location.text()
+        self.database_management.add_departments(department)
+        self._add_update_department_row(self.table_departments.rowCount(), department)
+
+    def _button_edit_department_clicked(self, event):
+        text = ''
+        if self.selected_department is not None:
+            if self.lineEdit_department_name.text() != '':
+                self.selected_department.name = self.lineEdit_department_name.text()
+            else:
+                self.selected_department.name = null()
+            if self.lineEdit_department_location.text() != '':
+                self.selected_department.location = self.lineEdit_department_location.text()
+            else:
+                self.selected_department.location = null()
+        else:
+            text = 'Не выбран профиль для изменения.'
+        if text == '':
+            self.database_management.update_department(self.selected_department.id, self.selected_department)
+            self._add_update_department_row(self.table_departments.selectedIndexes()[0].row(), self.selected_department)
+        else:
+            self.blur_effect.setEnabled(True)
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Изменение отдела')
+            messagebox.label_info.setText(text)
+            messagebox.exec_()
+            self.blur_effect.setEnabled(False)
 
     def _button_delete_department_clicked(self, event):
+        self.blur_effect.setEnabled(True)
         messagebox = WarningMessageBox()
-        messagebox.label_title.setText('Warning - Department')
-        messagebox.label_info.setText('Are you sure you want to delete departments?')
+        messagebox.label_title.setText('Удаление отделов')
+        messagebox.label_info.setText('Вы точно хотите удалить отделы?')
         messagebox.exec_()
+        self.blur_effect.setEnabled(False)
         if messagebox.dialog_result == 0:
-            remove_departments = []
+            departments = self.database_management.get_departments()
+            id_departments = []
             for row_position in range(self.table_departments.rowCount() - 1, -1, -1):
                 if self.table_departments.cellWidget(row_position, 0).isChecked():
-                    remove_departments.append(self.table_departments.item(row_position, 1).text())
+                    id_departments.append(departments[row_position].id)
                     self.table_departments.removeRow(row_position)
-            self.database_management.remove_departments(*remove_departments)
+            self.database_management.remove_departments(*id_departments)
+            self.database_management.reset_department_autoincrement()
 
     def _button_device_database_view_clicked(self, event):
         self.profile_ids = []
@@ -866,14 +903,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         print(f'[VISUAL][PROFILES] {time.time() - start}')
 
     def _load_departments_to_table(self):
+        start = time.time()
         for row_position, department in enumerate(self.database_management.get_departments()):
-            self.table_departments.insertRow(row_position)
-            item = QCheckBox()
-            item.setCheckState(Qt.Unchecked)
-            self.table_departments.setCellWidget(row_position, 0, item)
-            self.table_departments.setItem(row_position, 1, QTableWidgetItem(department.name))
+            self._add_update_department_row(row_position, department)
         self.table_departments.resizeColumnToContents(0)
         self.table_departments.resizeRowsToContents()
+        print(f'[VISUAL][DEPARTMENTS] {time.time() - start}')
 
     def _load_statistics_to_table(self, low: Union[str, float] = None,
                                   high: Union[str, float] = None,
@@ -909,6 +944,20 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_statistics.setItem(row_position, 2, item)
         self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
         self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
+
+    def _add_update_department_row(self, row_position: int, department: models.Department):
+        if row_position > self.table_departments.rowCount() - 1:
+            self.table_departments.insertRow(row_position)
+        item = QCheckBox()
+        item.setStyleSheet('background-color: #91D1EE;')
+        item.setCheckState(Qt.Unchecked)
+        self.table_departments.setCellWidget(row_position, 0, item)
+        item = QTableWidgetItem(department.name)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_departments.setItem(row_position, 1, item)
+        item = QTableWidgetItem(department.location)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_departments.setItem(row_position, 2, item)
 
     def _add_update_profile_row(self, row_position: int, profile: models.Profile):
         if row_position > self.table_profiles.rowCount() - 1:

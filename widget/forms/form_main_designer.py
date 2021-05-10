@@ -16,7 +16,6 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1366, 768)
         MainWindow.setMinimumSize(QtCore.QSize(1366, 768))
-        MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         MainWindow.setToolTipDuration(-1)
         MainWindow.setStyleSheet("QMainWindow {background: transparent; }\n"
 "QToolTip {\n"
@@ -899,7 +898,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_control.setHorizontalHeaderItem(7, item)
-        self.table_control.horizontalHeader().setVisible(True)
+        self.table_control.horizontalHeader().setVisible(False)
         self.table_control.horizontalHeader().setCascadingSectionResizes(True)
         self.table_control.horizontalHeader().setDefaultSectionSize(200)
         self.table_control.horizontalHeader().setStretchLastSection(True)
@@ -1200,7 +1199,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(6, item)
-        self.table_devices.horizontalHeader().setVisible(True)
+        self.table_devices.horizontalHeader().setVisible(False)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(True)
@@ -1815,7 +1814,7 @@ class Ui_MainWindow(object):
         self.table_profiles.horizontalHeader().setStretchLastSection(True)
         self.table_profiles.verticalHeader().setVisible(False)
         self.table_profiles.verticalHeader().setHighlightSections(False)
-        self.table_profiles.verticalHeader().setStretchLastSection(True)
+        self.table_profiles.verticalHeader().setStretchLastSection(False)
         self.button_import_photos = QtWidgets.QPushButton(self.tab_profiles)
         self.button_import_photos.setGeometry(QtCore.QRect(948, 100, 150, 30))
         font = QtGui.QFont()
@@ -1990,15 +1989,15 @@ class Ui_MainWindow(object):
         icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_edit_profile.setIcon(icon15)
         self.button_edit_profile.setObjectName("button_edit_profile")
-        self.lineEdit_personnel_number = QtWidgets.QLineEdit(self.tab_profiles)
-        self.lineEdit_personnel_number.setGeometry(QtCore.QRect(190, 60, 210, 30))
+        self.lineEdit_id = QtWidgets.QLineEdit(self.tab_profiles)
+        self.lineEdit_id.setGeometry(QtCore.QRect(190, 60, 210, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         font.setBold(False)
         font.setWeight(50)
-        self.lineEdit_personnel_number.setFont(font)
-        self.lineEdit_personnel_number.setStyleSheet("QLineEdit {\n"
+        self.lineEdit_id.setFont(font)
+        self.lineEdit_id.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
 "    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
@@ -2010,11 +2009,11 @@ class Ui_MainWindow(object):
 "QLineEdit:focus {\n"
 "    border: 2px solid #0C5DB9;\n"
 "}")
-        self.lineEdit_personnel_number.setInputMask("")
-        self.lineEdit_personnel_number.setText("")
-        self.lineEdit_personnel_number.setMaxLength(32)
-        self.lineEdit_personnel_number.setAlignment(QtCore.Qt.AlignCenter)
-        self.lineEdit_personnel_number.setObjectName("lineEdit_id")
+        self.lineEdit_id.setInputMask("")
+        self.lineEdit_id.setText("")
+        self.lineEdit_id.setMaxLength(32)
+        self.lineEdit_id.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_id.setObjectName("lineEdit_id")
         self.label_id = QtWidgets.QLabel(self.tab_profiles)
         self.label_id.setGeometry(QtCore.QRect(20, 60, 150, 30))
         font = QtGui.QFont()
@@ -2289,7 +2288,7 @@ class Ui_MainWindow(object):
         self.tab_departments = QtWidgets.QWidget()
         self.tab_departments.setObjectName("tab_departments")
         self.table_departments = QtWidgets.QTableWidget(self.tab_departments)
-        self.table_departments.setGeometry(QtCore.QRect(20, 110, 490, 570))
+        self.table_departments.setGeometry(QtCore.QRect(20, 149, 1078, 531))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -2404,12 +2403,12 @@ class Ui_MainWindow(object):
         self.table_departments.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.table_departments.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.table_departments.setAlternatingRowColors(True)
-        self.table_departments.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.table_departments.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.table_departments.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_departments.setTextElideMode(QtCore.Qt.ElideMiddle)
         self.table_departments.setShowGrid(False)
         self.table_departments.setRowCount(0)
-        self.table_departments.setColumnCount(2)
+        self.table_departments.setColumnCount(3)
         self.table_departments.setObjectName("table_departments")
         item = QtWidgets.QTableWidgetItem()
         item.setIcon(icon7)
@@ -2417,13 +2416,16 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_departments.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.table_departments.setHorizontalHeaderItem(2, item)
         self.table_departments.horizontalHeader().setVisible(True)
         self.table_departments.horizontalHeader().setCascadingSectionResizes(True)
         self.table_departments.horizontalHeader().setDefaultSectionSize(200)
         self.table_departments.horizontalHeader().setStretchLastSection(True)
         self.table_departments.verticalHeader().setVisible(False)
         self.table_departments.verticalHeader().setHighlightSections(False)
-        self.table_departments.verticalHeader().setStretchLastSection(True)
+        self.table_departments.verticalHeader().setStretchLastSection(False)
         self.button_delete_department = QtWidgets.QPushButton(self.tab_departments)
         self.button_delete_department.setGeometry(QtCore.QRect(360, 15, 150, 30))
         font = QtGui.QFont()
@@ -2528,9 +2530,129 @@ class Ui_MainWindow(object):
         self.lineEdit_department_name.setMaxLength(32)
         self.lineEdit_department_name.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_department_name.setObjectName("lineEdit_department_name")
+        self.label_department_location = QtWidgets.QLabel(self.tab_departments)
+        self.label_department_location.setGeometry(QtCore.QRect(20, 105, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_department_location.setFont(font)
+        self.label_department_location.setStyleSheet("color: #09376B;")
+        self.label_department_location.setObjectName("label_department_location")
+        self.lineEdit_department_location = QtWidgets.QLineEdit(self.tab_departments)
+        self.lineEdit_department_location.setGeometry(QtCore.QRect(190, 105, 320, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_department_location.setFont(font)
+        self.lineEdit_department_location.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255,255,255,221);\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_department_location.setInputMask("")
+        self.lineEdit_department_location.setText("")
+        self.lineEdit_department_location.setMaxLength(64)
+        self.lineEdit_department_location.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_department_location.setObjectName("lineEdit_department_location")
         self.tabWidget.addTab(self.tab_departments, "")
         self.tab_device_database = QtWidgets.QWidget()
         self.tab_device_database.setObjectName("tab_device_database")
+        self.button_device_database_view = QtWidgets.QPushButton(self.tab_device_database)
+        self.button_device_database_view.setGeometry(QtCore.QRect(270, 15, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_device_database_view.setFont(font)
+        self.button_device_database_view.setStyleSheet("QPushButton {\n"
+"    border-radius: 10px;    \n"
+"    background-color: #0C5DB9;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: #87B9E0;\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        icon17 = QtGui.QIcon()
+        icon17.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-user.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_device_database_view.setIcon(icon17)
+        self.button_device_database_view.setObjectName("button_device_database_view")
+        self.comboBox_databases = QtWidgets.QComboBox(self.tab_device_database)
+        self.comboBox_databases.setGeometry(QtCore.QRect(20, 15, 240, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.comboBox_databases.setFont(font)
+        self.comboBox_databases.setStyleSheet("QComboBox{\n"
+"    background-color: #91D1EE;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid #0C5DB9;\n"
+"    padding: 5px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QComboBox:hover{\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QComboBox QAbstractItemView {\n"
+"    color: rgb(85, 170, 255);    \n"
+"    background-color: rgb(27, 29, 35);\n"
+"    padding: 10px;\n"
+"    selection-background-color: rgb(39, 44, 54);\n"
+"}\n"
+"QComboBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 25px;\n"
+"    background-color: #0C5DB9; \n"
+"    border-left-width: 3px;\n"
+"    border-left-color: #0C5DB9;\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;    \n"
+"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+" }")
+        self.comboBox_databases.setObjectName("comboBox_databases")
+        self.button_delete_device_profiles = QtWidgets.QPushButton(self.tab_device_database)
+        self.button_delete_device_profiles.setGeometry(QtCore.QRect(430, 15, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_delete_device_profiles.setFont(font)
+        self.button_delete_device_profiles.setStyleSheet("QPushButton {\n"
+"    border-radius: 10px;    \n"
+"    background-color: #0C5DB9;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: #87B9E0;\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.button_delete_device_profiles.setIcon(icon9)
+        self.button_delete_device_profiles.setObjectName("button_delete_device_profiles")
         self.table_device_profiles = QtWidgets.QTableWidget(self.tab_device_database)
         self.table_device_profiles.setGeometry(QtCore.QRect(20, 70, 1081, 610))
         palette = QtGui.QPalette()
@@ -2654,7 +2776,7 @@ class Ui_MainWindow(object):
         self.table_device_profiles.setTextElideMode(QtCore.Qt.ElideMiddle)
         self.table_device_profiles.setShowGrid(False)
         self.table_device_profiles.setRowCount(0)
-        self.table_device_profiles.setColumnCount(8)
+        self.table_device_profiles.setColumnCount(9)
         self.table_device_profiles.setObjectName("table_device_profiles")
         item = QtWidgets.QTableWidgetItem()
         item.setIcon(icon7)
@@ -2680,98 +2802,16 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_device_profiles.setHorizontalHeaderItem(7, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.table_device_profiles.setHorizontalHeaderItem(8, item)
         self.table_device_profiles.horizontalHeader().setVisible(True)
         self.table_device_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_device_profiles.horizontalHeader().setDefaultSectionSize(200)
-        self.table_device_profiles.horizontalHeader().setStretchLastSection(False)
+        self.table_device_profiles.horizontalHeader().setStretchLastSection(True)
         self.table_device_profiles.verticalHeader().setVisible(False)
         self.table_device_profiles.verticalHeader().setHighlightSections(False)
-        self.table_device_profiles.verticalHeader().setStretchLastSection(True)
-        self.button_device_database_view = QtWidgets.QPushButton(self.tab_device_database)
-        self.button_device_database_view.setGeometry(QtCore.QRect(270, 15, 150, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.button_device_database_view.setFont(font)
-        self.button_device_database_view.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
-        icon17 = QtGui.QIcon()
-        icon17.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-user.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_device_database_view.setIcon(icon17)
-        self.button_device_database_view.setObjectName("button_device_database_view")
-        self.comboBox_databases = QtWidgets.QComboBox(self.tab_device_database)
-        self.comboBox_databases.setGeometry(QtCore.QRect(20, 15, 240, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(9)
-        self.comboBox_databases.setFont(font)
-        self.comboBox_databases.setStyleSheet("QComboBox{\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QComboBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px;\n"
-"    background-color: #0C5DB9; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }")
-        self.comboBox_databases.setObjectName("comboBox_databases")
-        self.button_delete_device_profiles = QtWidgets.QPushButton(self.tab_device_database)
-        self.button_delete_device_profiles.setGeometry(QtCore.QRect(430, 15, 150, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.button_delete_device_profiles.setFont(font)
-        self.button_delete_device_profiles.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
-        self.button_delete_device_profiles.setIcon(icon9)
-        self.button_delete_device_profiles.setObjectName("button_delete_device_profiles")
+        self.table_device_profiles.verticalHeader().setStretchLastSection(False)
         self.tabWidget.addTab(self.tab_device_database, "")
         self.stackedWidget.addWidget(self.page_database)
         self.page_statistic = QtWidgets.QWidget()
@@ -2875,17 +2915,20 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.button_all_statistic.setFont(font)
         self.button_all_statistic.setStyleSheet("QPushButton {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
+"    background-color: rgb(52, 59, 72);\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
+"    background-color: rgb(57, 65, 80);\n"
+"    color: rgb(227, 227, 227);\n"
+"    border: 2px solid rgb(61, 70, 86);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
+"    background-color: rgb(35, 40, 49);\n"
 "    color: rgb(255, 255, 255);\n"
+"    border: 2px solid rgb(43, 50, 61);\n"
 "}")
         icon18 = QtGui.QIcon()
         icon18.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -3095,7 +3138,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_statistics.setHorizontalHeaderItem(7, item)
-        self.table_statistics.horizontalHeader().setVisible(True)
+        self.table_statistics.horizontalHeader().setVisible(False)
         self.table_statistics.horizontalHeader().setCascadingSectionResizes(True)
         self.table_statistics.horizontalHeader().setDefaultSectionSize(200)
         self.table_statistics.horizontalHeader().setStretchLastSection(True)
@@ -3298,7 +3341,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(2)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -3410,29 +3453,34 @@ class Ui_MainWindow(object):
         self.button_export_profiles_data.setText(_translate("MainWindow", "Экспорт данных"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_profiles), _translate("MainWindow", "Профили"))
         item = self.table_departments.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Department"))
+        item.setText(_translate("MainWindow", "Отдел"))
+        item = self.table_departments.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Местонахождение"))
         self.button_delete_department.setText(_translate("MainWindow", "Удалить"))
         self.button_add_department.setText(_translate("MainWindow", "Добавить"))
         self.button_edit_department.setText(_translate("MainWindow", "Изменить"))
         self.label_department_name.setText(_translate("MainWindow", "Отдел"))
+        self.label_department_location.setText(_translate("MainWindow", "Местонахождение"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_departments), _translate("MainWindow", "Отделы"))
-        self.table_device_profiles.setSortingEnabled(False)
-        item = self.table_device_profiles.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "ИД"))
-        item = self.table_device_profiles.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Паспорт"))
-        item = self.table_device_profiles.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "ФИО"))
-        item = self.table_device_profiles.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Фото"))
-        item = self.table_device_profiles.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "Отдел"))
-        item = self.table_device_profiles.horizontalHeaderItem(6)
-        item.setText(_translate("MainWindow", "Пол"))
-        item = self.table_device_profiles.horizontalHeaderItem(7)
-        item.setText(_translate("MainWindow", "Доп. информация"))
         self.button_device_database_view.setText(_translate("MainWindow", "Посмотреть"))
         self.button_delete_device_profiles.setText(_translate("MainWindow", "Удалить"))
+        self.table_device_profiles.setSortingEnabled(False)
+        item = self.table_device_profiles.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Таб. номер"))
+        item = self.table_device_profiles.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "ФИО"))
+        item = self.table_device_profiles.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "Фото"))
+        item = self.table_device_profiles.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "Пользователь"))
+        item = self.table_device_profiles.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "Паспорт"))
+        item = self.table_device_profiles.horizontalHeaderItem(6)
+        item.setText(_translate("MainWindow", "Отдел"))
+        item = self.table_device_profiles.horizontalHeaderItem(7)
+        item.setText(_translate("MainWindow", "Пол"))
+        item = self.table_device_profiles.horizontalHeaderItem(8)
+        item.setText(_translate("MainWindow", "Доп. информация"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_device_database), _translate("MainWindow", "БД Устройства"))
         self.dateTimeEdit_start.setDisplayFormat(_translate("MainWindow", "yyyy-MM-dd HH:mm"))
         self.dateTimeEdit_end.setDisplayFormat(_translate("MainWindow", "yyyy-MM-dd HH:mm"))
@@ -3459,3 +3507,14 @@ class Ui_MainWindow(object):
         self.label_min_temperature.setText(_translate("MainWindow", "От"))
         self.label_max_temperature.setText(_translate("MainWindow", "До"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
+import files_rc
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

@@ -3,7 +3,7 @@ from typing import Union
 
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import null, Sequence
+from sqlalchemy import null
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 import enum
