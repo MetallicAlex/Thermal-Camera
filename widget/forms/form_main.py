@@ -487,13 +487,27 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_department_location.setText(self.selected_department.location)
 
     def _button_add_department_clicked(self, event):
-        department = models.Department()
+        text = ''
         if self.lineEdit_department_name.text() != '':
-            department.name = self.lineEdit_department_name.text()
-        if self.lineEdit_department_location.text() != '':
-            department.location = self.lineEdit_department_location.text()
-        self.database_management.add_departments(department)
-        self._add_update_department_row(self.table_departments.rowCount(), department)
+            if not self.database_management.is_department_duplicate(self.lineEdit_department_name.text()):
+                department = models.Department()
+                department.name = self.lineEdit_department_name.text()
+                if self.lineEdit_department_location.text() != '':
+                    department.location = self.lineEdit_department_location.text()
+            else:
+                text = 'Такой отдел уже существует.'
+        else:
+            text = 'Не введено название отдела.'
+        if text == '':
+            self.database_management.add_departments(department)
+            self._add_update_department_row(self.table_departments.rowCount(), department)
+        else:
+            self.blur_effect.setEnabled(True)
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Добавление отдела')
+            messagebox.label_info.setText(text)
+            messagebox.exec_()
+            self.blur_effect.setEnabled(False)
 
     def _button_edit_department_clicked(self, event):
         text = ''

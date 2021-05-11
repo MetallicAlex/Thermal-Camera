@@ -94,6 +94,18 @@ class DBManagement:
             return genders
 
     # DEPARTMENTS
+    def is_department_duplicate(self, department: Union[models.Department, str]):
+        with models.get_session() as session:
+            query = session.query(models.Department)
+            if isinstance(department, models.Department):
+                query = query.filter(models.Department.name == department.name)
+            else:
+                query = query.filter(models.Department.name == department)
+            self._departments = query.first()
+            if self._departments:
+                return True
+        return False
+
     def get_departments(self, *identifiers: int):
         with models.get_session() as session:
             query = session.query(models.Department)
