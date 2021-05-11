@@ -3,44 +3,9 @@ from widget.management import DBManagement
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QPointF
 
-from widget.forms.messagebox_department import Ui_DepartmentMessageBox
 from widget.forms.messagebox_warning import Ui_WarningMessageBox
 from widget.forms.messagebox_information import Ui_InforamtionMessageBox
-from widget.forms.messagebox_report import Ui_ReportMessageBox
-
-
-class DepartmentMessageBox(QtWidgets.QDialog, Ui_DepartmentMessageBox):
-    def __init__(self, parent=None):
-        super().__init__()
-        self.setupUi(self)
-        # DATA
-        self.dialog_result = -1
-        self.department = None
-        # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
-        self.button_close.clicked.connect(lambda: self.close())
-        self.button_accept.clicked.connect(self._button_accept_clicked)
-        self.button_cancel.clicked.connect(self._button_cancel_clicked)
-        self.frame_title.mouseMoveEvent = self._frame_header_move_window
-        self.frame_title.mousePressEvent = self._frame_header_mouse_press
-
-    def _frame_header_mouse_press(self, event):
-        self.dragPos = event.globalPos()
-
-    def _frame_header_move_window(self, event):
-        if event.buttons() == Qt.LeftButton:
-            self.move(self.pos() + event.globalPos() - self.dragPos)
-            self.dragPos = event.globalPos()
-            event.accept()
-
-    def _button_accept_clicked(self, event):
-        self.dialog_result = 0
-        self.department = self.lineEdit_department.text()
-        self.close()
-
-    def _button_cancel_clicked(self, event):
-        self.dialog_result = -1
-        self.department = None
-        self.close()
+from widget.forms.messagebox_export import Ui_ExportMessageBox
 
 
 class WarningMessageBox(QtWidgets.QDialog, Ui_WarningMessageBox):
@@ -109,7 +74,7 @@ class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
         self.close()
 
 
-class ReportMessageBox(QtWidgets.QDialog, Ui_ReportMessageBox):
+class ExportMessageBox(QtWidgets.QDialog, Ui_ExportMessageBox):
     def __init__(self, parent=None):
         super().__init__()
         self.setupUi(self)
@@ -118,8 +83,9 @@ class ReportMessageBox(QtWidgets.QDialog, Ui_ReportMessageBox):
         self.filename = None
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())
-        self.button_passage.clicked.connect(self.button_passage_clicked)
-        self.button_temperature.clicked.connect(self.button_temperature_clicked)
+        self.button_all.clicked.connect(self._button_all_clicked)
+        self.button_passage.clicked.connect(self._button_passage_clicked)
+        self.button_temperature.clicked.connect(self._button_temperature_clicked)
         self.frame_title.mouseMoveEvent = self._frame_header_move_window
         self.frame_title.mousePressEvent = self._frame_header_mouse_press
 
@@ -132,8 +98,8 @@ class ReportMessageBox(QtWidgets.QDialog, Ui_ReportMessageBox):
             self.dragPos = event.globalPos()
             event.accept()
 
-    def button_passage_clicked(self, event):
-        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save Passage Report',
+    def _button_all_clicked(self, event):
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Экспорт всех данных по статистике',
                                                                  '',
                                                                  'JSON File (*.json);;'
                                                                  'CSV File (*.csv);')
@@ -141,11 +107,20 @@ class ReportMessageBox(QtWidgets.QDialog, Ui_ReportMessageBox):
             self.dialog_result = 1
             self.close()
 
-    def button_temperature_clicked(self, event):
-        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Save Temperature Report',
+    def _button_passage_clicked(self, event):
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Экспорт время прохода по статистике',
                                                                  '',
                                                                  'JSON File (*.json);;'
                                                                  'CSV File (*.csv);')
         if self.filename:
             self.dialog_result = 2
+            self.close()
+
+    def _button_temperature_clicked(self, event):
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Экспорт температуры по статистике',
+                                                                 '',
+                                                                 'JSON File (*.json);;'
+                                                                 'CSV File (*.csv);')
+        if self.filename:
+            self.dialog_result = 3
             self.close()

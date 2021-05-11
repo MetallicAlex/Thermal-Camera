@@ -216,19 +216,6 @@ class Department(Base):
         return f'[ID {self.id}, Department: {self.name}, Location: {self.location}]'
 
 
-class GenderEnum(enum.Enum):
-    male = 1
-    female = 2
-
-    def __str__(self):
-        if self.value == 1:
-            return 'male'
-        elif self.value == 2:
-            return 'female'
-        else:
-            return 'unknow'
-
-
 class Gender(Base):
     __tablename__ = 'genders'
 
@@ -309,37 +296,33 @@ class Profile(Base):
         return values
 
 
+class Mask(Base):
+    __tablename__ = 'masks'
 
-class MaskEnum(enum.Enum):
-    unknow = 1
-    true = 2
-    false = 3
+    id = Column('ID', Integer, primary_key=True, unique=True)
+    mask = Column('Mask', String(16))
 
-    def __str__(self):
-        if self.value == 3:
-            return 'false'
-        elif self.value == 2:
-            return 'true'
-        else:
-            return 'unknow'
+    def __repr__(self):
+        return f'{self.id}: {self.mask}'
 
 
 class Statistic(Base):
     __tablename__ = 'statistics'
 
-    id_profile = Column('IdProfile', String(32),
+    id_profile = Column('IdProfile', Integer,
                         ForeignKey('profiles.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
-    mask = Column('Mask', Enum(MaskEnum))
+    mask = Column('Mask', Integer,
+                  ForeignKey('masks.ID', onupdate='NO ACTION', ondelete='NO ACTION'), default=0)
     similar = Column('Similar', DECIMAL(4, 2))
     face = Column('Face', String(128))
 
-    def __init__(self, identifier: str,
+    def __init__(self, identifier: int,
                  time: str,
-                 temperature: float,
-                 similar: float,
-                 mask: Union[str, MaskEnum] = MaskEnum.unknow,
+                 temperature: float = 0.0,
+                 similar: float = 0.0,
+                 mask: int = 0,
                  face: str = null()
                  ):
         self.id_profile = identifier
@@ -359,10 +342,10 @@ class StrangerStatistic(Base):
 
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
-    mask = Column('Mask', Enum(MaskEnum))
+    mask = Column('Mask',)
     face = Column('Face', String(64))
 
-    def __init__(self, time: str, temperature: float, mask: Union[str, MaskEnum] = MaskEnum.unknow, face: str = null()):
+    def __init__(self, time: str, temperature: float, mask: Union[str] = 0, face: str = null()):
         self.time = time
         self.temperature = temperature
         self.mask = mask

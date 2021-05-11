@@ -80,6 +80,19 @@ class DBManagement:
                 .delete(synchronize_session=False)
         self._devices = None
 
+    # MASKS
+    @staticmethod
+    def get_masks():
+        with models.get_session() as session:
+            masks = session.query(models.Mask).all()
+            return masks
+
+    @staticmethod
+    def get_mask(identifier: int):
+        with models.get_session() as session:
+            mask = session.query(models.Mask).filter(models.Mask.id == identifier).scalar()
+            return mask
+
     # GENDERS
     @staticmethod
     def get_genders():
@@ -385,27 +398,32 @@ class DBManagement:
 
     # STATISTICS
     def get_statistics(self,
-                       low: Union[str, float] = None,
-                       high: Union[str, float] = None,
-                       identifiers: list = None,
-                       profile_name: bool = False):
+                       time: tuple = None,
+                       temperature: float = None,
+                       name: str = None,
+                       identifiers: list = None
+                       ):
+        """
+        :param time: (start, end)
+        :param temperature: (min, max)
+        :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
+        :param identifiers: list[int]
+        :return: list[models.Statistics]
+        """
         with models.get_session() as session:
-            if profile_name:
-                query = session.query(models.Statistic, models.Profile.name) \
-                    .join(models.Profile,
-                          models.Profile.id == models.Statistic.id_profile,
-                          isouter=True)
-            else:
-                query = session.query(models.Statistic)
-            if isinstance(low, str) and isinstance(high, str):
-                query = query.filter(models.Statistic.time >= low,
-                                     models.Statistic.time <= high)
-            elif isinstance(low, float) and isinstance(high, float):
-                query = query.filter(models.Statistic.temperature >= low,
-                                     models.Statistic.temperature <= high)
+            query = session.query(models.Statistic, models.Profile.name) \
+                .join(models.Profile, models.Profile.id == models.Statistic.id_profile, isouter=True)
+            if name:
+                query = query.filter(models.Profile.name.like(f'%{name}%'))
+            if time:
+                query = query.filter(models.Statistic.time >= time[0],
+                                     models.Statistic.time <= time[1])
+            if temperature:
+                query = query.filter(models.Statistic.temperature >= temperature[0],
+                                     models.Statistic.temperature <= temperature[1])
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
-            self._statistics = query.order_by(func.abs(models.Statistic.id_profile)).all()
+            self._statistics = query.all()
         return self._statistics
 
     def add_statistics(self, *statistics: models.Statistic):
@@ -414,17 +432,29 @@ class DBManagement:
         self._statistics = statistics
 
     def get_number_statistics(self,
-                              low: Union[str, float] = None,
-                              high: Union[str, float] = None,
-                              identifiers: list = None):
+                              time: tuple = None,
+                              temperature: float = None,
+                              name: str = None,
+                              identifiers: list = None
+                              ):
+        """
+        :param time: (start, end)
+        :param temperature: (min, max)
+        :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
+        :param identifiers: list[int]
+        :return: list[models.Statistics]
+        """
         with models.get_session() as session:
-            query = session.query(models.Statistic)
-            if isinstance(low, str) and isinstance(high, str):
-                query = query.filter(models.Statistic.time >= low,
-                                     models.Statistic.time <= high)
-            elif isinstance(low, float) and isinstance(high, float):
-                query = query.filter(models.Statistic.temperature >= low,
-                                     models.Statistic.temperature <= high)
+            query = session.query(models.Statistic, models.Profile.name) \
+                .join(models.Profile, models.Profile.id == models.Statistic.id_profile, isouter=True)
+            if name:
+                query = query.filter(models.Profile.name.like(f'%{name}%'))
+            if time:
+                query = query.filter(models.Statistic.time >= time[0],
+                                     models.Statistic.time <= time[1])
+            if temperature:
+                query = query.filter(models.Statistic.temperature >= temperature[0],
+                                     models.Statistic.temperature <= temperature[1])
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
             self._number_profile_passages = query.count()
@@ -432,15 +462,30 @@ class DBManagement:
 
     def get_number_normal_temperature_statistics(self,
                                                  threshold: float,
-                                                 low: str = None,
-                                                 high: str = None,
+                                                 time: tuple = None,
+                                                 temperature: Union[str, float] = None,
+                                                 name: str = None,
                                                  identifiers: list = None
                                                  ):
+        """
+        :param threshold: max normal temperature
+        :param time: (start, end)
+        :param temperature: (min, max)
+        :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
+        :param identifiers: list[int]
+        :return: list[models.Statistics]
+        """
         with models.get_session() as session:
-            query = session.query(models.Statistic)
-            if isinstance(low, str) and isinstance(high, str):
-                query = query.filter(models.Statistic.time >= low,
-                                     models.Statistic.time <= high)
+            query = session.query(models.Statistic, models.Profile.name) \
+                .join(models.Profile, models.Profile.id == models.Statistic.id_profile, isouter=True)
+            if name:
+                query = query.filter(models.Profile.name.like(f'%{name}%'))
+            if time:
+                query = query.filter(models.Statistic.time >= time[0],
+                                     models.Statistic.time <= time[1])
+            if temperature:
+                query = query.filter(models.Statistic.temperature >= temperature[0],
+                                     models.Statistic.temperature <= temperature[1])
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
             self._number_normal_temperature_profile_passages = query.filter(models.Statistic.temperature <= threshold) \
@@ -452,8 +497,15 @@ class DBManagement:
         :param times: tuple[identifier, datetime]
         :return: None
         """
+        path = os.path.dirname(os.path.abspath(__file__))
         with models.get_session() as session:
             for time in times:
+                statistic = session.query(models.Statistic) \
+                    .filter(models.Statistic.time == time[1],
+                            models.Statistic.id_profile == time[0]) \
+                    .scalar()
+                if statistic.face is not None and os.path.exists(f'{path}/snapshot{statistic.face}'):
+                    os.remove(f'{path}/snapshot{statistic.face}')
                 session.query(models.Statistic) \
                     .filter(models.Statistic.time == time[1],
                             models.Statistic.id_profile == time[0]
@@ -464,39 +516,167 @@ class DBManagement:
     def remove_statistic_duplicates(self):
         statistics = self.get_statistics()
         removable_statistics = set()
-        for row_position, comparable_statistic in enumerate(statistics):
-            for statistic in statistics[row_position:]:
+        for row_position, (comparable_statistic, _) in enumerate(statistics):
+            for (statistic, _) in statistics[row_position:]:
                 if comparable_statistic.id_profile == statistic.id_profile:
                     time_difference = (abs(statistic.time - comparable_statistic.time)).total_seconds()
                     if 0 < time_difference <= 60:
                         removable_statistics.add((statistic.id_profile, str(statistic.time)))
         self.remove_statistics(*list(removable_statistics))
 
-    def create_temperatures_report(self, filename: str,
-                                   identifiers: list = None,
-                                   low: Union[str, float] = None,
-                                   high: Union[str, float] = None):
+    def export_stats_data(self,
+                          filename: str,
+                          time: tuple = None,
+                          temperature: float = None,
+                          name: str = None,
+                          identifiers: list = None):
         file_format = filename.split('.')[-1]
         if file_format == 'json':
-            self.create_report_temperatures_json(filename, identifiers, low, high)
+            self.export_stats_data_json(
+                filename,
+                time=time,
+                temperature=temperature,
+                name=name,
+                identifiers=identifiers
+            )
         elif file_format == 'csv':
-            self.create_report_temperatures_csv(filename, identifiers, low, high)
+            self.export_stats_data_csv(
+                filename,
+                time=time,
+                temperature=temperature,
+                name=name,
+                identifiers=identifiers
+            )
 
-    def create_passage_report(self, filename: str, identifiers: list = None, low: str = None, high: str = None):
+    def export_stats_data_passage(self,
+                                  filename: str,
+                                  time: tuple = None,
+                                  temperature: float = None,
+                                  name: str = None,
+                                  identifiers: list = None):
         file_format = filename.split('.')[-1]
         if file_format == 'json':
-            self.create_passage_report_json(filename, identifiers, low, high)
+            self.export_stats_data_passage_json(
+                filename,
+                time=time,
+                temperature=temperature,
+                name=name,
+                identifiers=identifiers
+            )
         elif file_format == 'csv':
-            self.create_passage_report_csv(filename, identifiers, low, high)
+            self.export_stats_data_passage_csv(
+                filename,
+                time=time,
+                temperature=temperature,
+                name=name,
+                identifiers=identifiers
+            )
 
-    def create_passage_report_json(self, filename: str = None,
-                                   identifiers: list = None,
-                                   low: str = None,
-                                   high: str = None):
+    def export_stats_data_temperatures(self,
+                                       filename: str,
+                                       time: tuple = None,
+                                       temperature: float = None,
+                                       name: str = None,
+                                       identifiers: list = None):
+        file_format = filename.split('.')[-1]
+        if file_format == 'json':
+            self.export_stats_data_temperatures_json(
+                filename,
+                time=time,
+                temperature=temperature,
+                name=name,
+                identifiers=identifiers
+            )
+        elif file_format == 'csv':
+            self.export_stats_data_temperatures_csv(
+                filename,
+                time=time,
+                temperature=temperature,
+                name=name,
+                identifiers=identifiers
+            )
+
+    def export_stats_data_json(self,
+                               filename: str = None,
+                               time: tuple = None,
+                               temperature: float = None,
+                               name: str = None,
+                               identifiers: list = None):
+        report = {}
+        for (statistic, name) in self.get_statistics(
+                identifiers=identifiers,
+                time=time,
+                temperature=temperature,
+                name=name
+        ):
+            statistic_datetime = str(statistic.time).split(' ')
+            if name in report:
+                if statistic_datetime[0] in report[name]:
+                    report[name][statistic_datetime[0]][statistic_datetime[1]] = \
+                        {
+                            'temperature': float(statistic.temperature),
+                            'similar': float(statistic.similar),
+                            'mask': self.get_mask(statistic.mask).mask
+                        }
+                else:
+                    report[name][statistic_datetime[0]] = {
+                        statistic_datetime[1]: {
+                            'temperature': float(statistic.temperature),
+                            'similar': float(statistic.similar),
+                            'mask': self.get_mask(statistic.mask).mask
+                        }
+                    }
+            else:
+                report[name] = {
+                    statistic_datetime[0]: {
+                        statistic_datetime[1]: {
+                            'temperature': float(statistic.temperature),
+                            'similar': float(statistic.similar),
+                            'mask': self.get_mask(statistic.mask).mask
+                        }
+                    }
+                }
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(report, file, ensure_ascii=False, indent=4)
+
+    def export_stats_data_csv(self,
+                              filename: str,
+                              time: tuple = None,
+                              temperature: float = None,
+                              name: str = None,
+                              identifiers: list = None):
+        report = pd.DataFrame(columns=['Name', 'Date', 'Time', 'Temperature', 'Mask', 'Similar'])
+        for (statistic, profile_name) in self.get_statistics(
+                identifiers=identifiers,
+                time=time,
+                temperature=temperature,
+                name=name
+        ):
+            statistic_datetime = str(statistic.time).split(' ')
+            report = report.append({
+                'Name': profile_name,
+                'Date': statistic_datetime[0],
+                'Time': statistic_datetime[1],
+                'Temperature': float(statistic.temperature),
+                'Mask': self.get_mask(statistic.mask).mask,
+                'Similar': float(statistic.similar)
+            }, ignore_index=True)
+        report.to_csv(filename, sep=';', header=True, encoding='cp1251')
+
+    def export_stats_data_passage_json(self,
+                                       filename: str = None,
+                                       time: tuple = None,
+                                       temperature: float = None,
+                                       name: str = None,
+                                       identifiers: list = None):
         report = {}
         number_statistic = 0
-        for statistic in self.get_statistics(identifiers=identifiers, low=low, high=high):
-            name = self.get_profile_name(statistic.id_profile)
+        for (statistic, name) in self.get_statistics(
+                identifiers=identifiers,
+                time=time,
+                temperature=temperature,
+                name=name
+        ):
             statistic_datetime = str(statistic.time).split(' ')
             if name in report:
                 if statistic_datetime[0] in report[name]:
@@ -531,30 +711,36 @@ class DBManagement:
         with open(filename, 'w', encoding='utf-8') as file:
             json.dump(report, file, ensure_ascii=False, indent=4)
 
-    def create_passage_report_csv(self, filename: str,
-                                  identifiers: list = None,
-                                  low: str = None,
-                                  high: str = None):
+    def export_stats_data_passage_csv(self,
+                                      filename: str,
+                                      time: tuple = None,
+                                      temperature: float = None,
+                                      name: str = None,
+                                      identifiers: list = None):
         report = pd.DataFrame(columns=['Name', 'Date', 'Came', 'Gone'])
         number_statistic = 0
-        for statistic in self.get_statistics(identifiers=identifiers, low=low, high=high):
+        for (statistic, profile_name) in self.get_statistics(
+                identifiers=identifiers,
+                time=time,
+                temperature=temperature,
+                name=name
+        ):
             statistic_datetime = str(statistic.time).split(' ')
-            name = self.get_profile_name(statistic.id_profile)
             if number_statistic % 2 == 0:
                 row = {
-                    'Name': name,
+                    'Name': profile_name,
                     'Date': statistic_datetime[0],
                     'Came': statistic_datetime[1],
                     'Gone': statistic_datetime[1]
                 }
                 report = report.append(row, ignore_index=True)
                 number_statistic += 1
-            elif row['Name'] == name and row['Date'] == statistic_datetime[0]:
+            elif row['Name'] == profile_name and row['Date'] == statistic_datetime[0]:
                 report.iloc[-1]['Gone'] = statistic_datetime[1]
                 number_statistic = 0
             else:
                 row = {
-                    'Name': name,
+                    'Name': profile_name,
                     'Date': statistic_datetime[0],
                     'Came': statistic_datetime[1],
                     'Gone': statistic_datetime[1]
@@ -563,13 +749,19 @@ class DBManagement:
                 number_statistic += 1
         report.to_csv(filename, sep=';', header=True, encoding='cp1251')
 
-    def create_report_temperatures_json(self, filename: str,
-                                        identifiers: list = None,
-                                        low: Union[str, float] = None,
-                                        high: Union[str, float] = None):
+    def export_stats_data_temperatures_json(self,
+                                            filename: str,
+                                            time: tuple = None,
+                                            temperature: float = None,
+                                            name: str = None,
+                                            identifiers: list = None):
         report = {}
-        for statistic in self.get_statistics(low=low, high=high, identifiers=identifiers):
-            name = self.get_profile_name(statistic.id_profile)
+        for (statistic, name) in self.get_statistics(
+                identifiers=identifiers,
+                time=time,
+                temperature=temperature,
+                name=name
+        ):
             statistic_datetime = str(statistic.time).split(' ')
             if name in report:
                 if statistic_datetime[0] in report[name]:
@@ -587,12 +779,19 @@ class DBManagement:
         with open(filename, 'w', encoding='utf-8') as file:
             json.dump(report, file, ensure_ascii=False, indent=4)
 
-    def create_report_temperatures_csv(self, filename: str,
-                                       identifiers: list = None,
-                                       low: Union[str, float] = None,
-                                       high: Union[str, float] = None):
+    def export_stats_data_temperatures_csv(self,
+                                           filename: str,
+                                           time: tuple = None,
+                                           temperature: float = None,
+                                           name: str = None,
+                                           identifiers: list = None):
         report = pd.DataFrame(columns=['Name', 'Date', 'Time', 'Temperature'])
-        for statistic in self.get_statistics(identifiers=identifiers, low=low, high=high):
+        for (statistic, name) in self.get_statistics(
+                identifiers=identifiers,
+                time=time,
+                temperature=temperature,
+                name=name
+        ):
             statistic_datetime = str(statistic.time).split(' ')
             report = report.append({
                 'Name': self.get_profile_name(statistic.id_profile),

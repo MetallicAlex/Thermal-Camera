@@ -19,7 +19,7 @@ from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_profile import FormProfile
 from widget.forms.form_device_database_view import FormDeviceDBView
 from widget.forms.form_stranger_table import FormStrangerTable
-from widget.forms.messagebox import DepartmentMessageBox, ReportMessageBox, WarningMessageBox, InformationMessageBox
+from widget.forms.messagebox import ExportMessageBox, WarningMessageBox, InformationMessageBox
 from widget.forms.toggle_button import AnimatedToggle
 import widget.models as models
 from widget.management import DBManagement, DeviceManagement
@@ -46,6 +46,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # DATA
         self.selected_profile = None
         self.selected_department = None
+        self.filter_params = {
+            'start': None,
+            'end': None,
+            'min': self.doubleSpinBox_min_temperature.value(),
+            'max': self.doubleSpinBox_max_temperature.value(),
+            'name': None
+        }
         self.is_all_statistics = False
         self.app_path = os.path.dirname(os.getcwd())
         self.setting = Setting(f'{self.app_path}/widget/setting.json')
@@ -95,8 +102,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # )
         # self.label_pie_number_person_day.setScaledContents(True)
         # self.label_pie_number_person_all_time.setScaledContents(True)
+        self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59, second=59))
+        self.filter_params['start'] = self.dateTimeEdit_start.text()
+        self.filter_params['end'] = self.dateTimeEdit_end.text()
         self._load_profiles_to_table()
         self._load_departments_to_table()
+        self._load_statistics_to_table(
+            stat_time=(self.dateTimeEdit_start.text(), self.dateTimeEdit_end.text())
+        )
         # self._load_statistics_to_table(low=str(datetime.datetime.now().replace(hour=0, minute=0, second=0)),
         #                                high=str(datetime.datetime.now().replace(hour=23, minute=59, second=59)))
         self.stackedWidget.setCurrentWidget(self.page_control)
@@ -136,6 +149,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         self.table_departments.itemSelectionChanged.connect(self._department_selected_row)
         # PAGE STATISTIC
+        self.button_statistics_filter.clicked.connect(self._button_statistics_filter_clicked)
+        self.button_export_statistics_data.clicked.connect(self._button_export_statistics_data_clicked)
         self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
         # self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
         # self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
@@ -691,24 +706,36 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.lineEdit_record_time.setText('')
 
     # EVENTS-STATISTICS
-    def _button_search_statistics_clicked(self, event):
-        if self.comboBox_profiles.currentText() == self.setting.lang['form_main']['text_all_profiles']:
-            identifier = None
+    def _button_statistics_filter_clicked(self, event):
+        self.filter_params['start'] = self.dateTimeEdit_start.text()
+        self.filter_params['end'] = self.dateTimeEdit_end.text()
+        self.filter_params['min'] = self.doubleSpinBox_min_temperature.value()
+        self.filter_params['max'] = self.doubleSpinBox_max_temperature.value()
+        if self.lineEdit_profile_name_filter.text() != '':
+            self.filter_params['name'] = self.lineEdit_profile_name_filter.text()
         else:
-            profile = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
-            identifier = profile.id
-        if self.radiobutton_time.isChecked():
-            low = self.dateTimeEdit_start.text()
-            high = self.dateTimeEdit_end.text()
-        elif self.radiobutton_temperature.isChecked():
-            low = self.doubleSpinBox_min_temperature.value()
-            high = self.doubleSpinBox_max_temperature.value()
+            self.filter_params['name'] = None
         self._load_statistics_to_table(
-            low=low,
-            high=high,
-            identifiers=identifier
+            stat_time=(self.filter_params['start'], self.filter_params['end']),
+            temperature=(self.filter_params['min'], self.filter_params['max']),
+            name=self.filter_params['name']
         )
-        self.is_all_statistics = False
+
+    def _button_export_statistics_data_clicked(self, event):
+        self.blur_effect.setEnabled(True)
+        messagebox = ExportMessageBox()
+        messagebox.label_title.setText('Экспорт статистики')
+        messagebox.exec_()
+        start = time.time()
+        if messagebox.dialog_result != -1:
+            process = multiprocessing.Process(
+                target=MainForm._create_report,
+                args=(messagebox.dialog_result, messagebox.filename, self.filter_params)
+            )
+            process.start()
+            process.join()
+        self.blur_effect.setEnabled(False)
+        print(f'[EXPORT][STATISTIC] {time.time() - start}')
 
     def _button_all_statistic_clicked(self, event):
         if self.comboBox_profiles.currentText() == self.setting.lang['form_main']['text_all_profiles']:
@@ -718,43 +745,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             identifier = profile.id
         self._load_statistics_to_table(identifiers=identifier)
         self.is_all_statistics = True
-
-    def _button_report_clicked(self, event):
-        messagebox = ReportMessageBox()
-        messagebox.exec_()
-        start = time.time()
-        if messagebox.dialog_result != -1:
-            if self.comboBox_profiles.currentText() != self.setting.lang['form_main']['text_all_profiles']:
-                identifier = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
-                identifier = [identifier.id]
-            else:
-                identifier = None
-            if self.radiobutton_time.isChecked() and not self.is_all_statistics:
-                low = self.dateTimeEdit_start.dateTime().toPyDateTime()
-                low = low.replace(second=0).strftime('%Y-%m-%d %H:%M:%S')
-                high = self.dateTimeEdit_end.dateTime().toPyDateTime()
-                high = high.replace(second=59).strftime('%Y-%m-%d %H:%M:%S')
-            elif self.radiobutton_temperature.isChecked() \
-                    and not self.is_all_statistics \
-                    and messagebox.dialog_result == 2:
-                low = self.doubleSpinBox_min_temperature.value()
-                high = self.doubleSpinBox_max_temperature.value()
-            else:
-                low = None
-                high = None
-            process = multiprocessing.Process(
-                target=MainForm._create_report,
-                args=(messagebox.dialog_result, messagebox.filename, identifier, low, high,)
-            )
-            process.start()
-            process.join()
-        print(time.time() - start)
-
-    def _button_stranger_statistics_clicked(self, event):
-        statistics = self.database_management.get_stranger_statistics()
-        print(statistics)
-        form_stranger_table = FormStrangerTable(statistics)
-        form_stranger_table.exec_()
 
     def _checkbox_header_persons_pressed(self, index):
         if index == 0:
@@ -924,40 +914,53 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_departments.resizeRowsToContents()
         print(f'[VISUAL][DEPARTMENTS] {time.time() - start}')
 
-    def _load_statistics_to_table(self, low: Union[str, float] = None,
-                                  high: Union[str, float] = None,
-                                  identifiers: list = None):
+    def _load_statistics_to_table(self,
+                                  stat_time: tuple = None,
+                                  temperature: float = None,
+                                  name: str = None,
+                                  identifiers: list = None
+                                  ):
         start = time.time()
-        self.table_statistics.setRowCount(0)
+        for row_position in range(self.table_statistics.rowCount() - 1, -1, -1):
+            self.table_statistics.removeRow(row_position)
+        # self.table_statistics.setRowCount(0)
         statistics = self.database_management.get_statistics(
-            low=low,
-            high=high,
+            time=stat_time,
+            temperature=temperature,
             identifiers=identifiers,
-            profile_name=True
+            name=name
         )
         print(f'[DATABASE][STATISTICS] {time.time() - start}')
         start = time.time()
-        for row_position, statistic in enumerate(statistics):
-            statistic, name = statistic
+        for row_position, (statistic, name) in enumerate(statistics):
             self._add_statistic_row(row_position, statistic, name)
-        # self.table_statistics.sortByColumn(2, Qt.DescendingOrder)
+        # self.table_statistics.sortByColumn(0, Qt.DescendingOrder)
         self.table_statistics.resizeColumnsToContents()
         self.table_statistics.resizeRowsToContents()
-        # self.table_statistics.viewport().update()
         print(f'[VISUAL][STATISTICS] {time.time() - start}')
 
     def _add_statistic_row(self, row_position: int, statistic: models.Statistic, name: str):
         self.table_statistics.insertRow(row_position)
-        self.table_statistics.setItem(row_position, 0, self._get_item_to_cell(statistic.id_profile))
-        self.table_statistics.setItem(row_position, 1, QTableWidgetItem(name))
-        item = QTableWidgetItem(str(statistic.time))
+        self.table_statistics.setItem(row_position, 0, QTableWidgetItem(str(statistic.time)))
+        item = QTableWidgetItem(name)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_statistics.setItem(row_position, 1, item)
+        item = QTableWidgetItem(self.setting.lang['form_main']['page_database']['table_profiles']['text_image_item'])
         if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
             item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
         else:
             item.setToolTip(self.setting.lang['form_main']['page_statistic']['table_statistics']['tool_image_false'])
         self.table_statistics.setItem(row_position, 2, item)
-        self.table_statistics.setItem(row_position, 3, self._get_item_to_cell(float(statistic.temperature)))
-        self.table_statistics.setItem(row_position, 4, self._get_item_to_cell(float(statistic.similar)))
+        item = QTableWidgetItem(str(statistic.temperature))
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_statistics.setItem(row_position, 3, item)
+        mask = self.database_management.get_mask(statistic.mask)
+        item = QTableWidgetItem(mask.mask)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_statistics.setItem(row_position, 4, item)
+        item = QTableWidgetItem(f'{int(statistic.similar*100)} %')
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_statistics.setItem(row_position, 5, item)
 
     def _add_update_department_row(self, row_position: int, department: models.Department):
         if row_position > self.table_departments.rowCount() - 1:
@@ -1113,14 +1116,30 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     @staticmethod
     def _create_report(dialog_result: int,
                        filename: str,
-                       identifiers: list = None,
-                       low: Union[str, float] = None,
-                       high: Union[str, float] = None):
+                       parameters: dict
+                       ):
         db_management = DBManagement()
         if dialog_result == 1:
-            db_management.create_passage_report(filename, identifiers, low, high)
+            db_management.export_stats_data(
+                filename,
+                time=(parameters['start'], parameters['end']),
+                temperature=(parameters['min'], parameters['max']),
+                name=parameters['name']
+            )
         elif dialog_result == 2:
-            db_management.create_temperatures_report(filename, identifiers, low, high)
+            db_management.export_stats_data_passage(
+                filename,
+                time=(parameters['start'], parameters['end']),
+                temperature=(parameters['min'], parameters['max']),
+                name=parameters['name']
+            )
+        elif dialog_result == 3:
+            db_management.export_stats_data_temperatures(
+                filename,
+                time=(parameters['start'], parameters['end']),
+                temperature=(parameters['min'], parameters['max']),
+                name=parameters['name']
+            )
 
     @staticmethod
     def _update_plots(app_path: str):
@@ -1237,16 +1256,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_device_database_view.setText(lang['page_database']['btn_device_db_view'])
         self.button_device_database_view.setToolTip(lang['page_database']['tool_device_db_view'])
         self.table_statistics.setSortingEnabled(True)
-        item = self.table_statistics.horizontalHeaderItem(0)
-        item.setText(lang['page_statistic']['table_statistics']['id'])
-        item = self.table_statistics.horizontalHeaderItem(1)
-        item.setText(lang['page_statistic']['table_statistics']['name'])
-        item = self.table_statistics.horizontalHeaderItem(2)
-        item.setText(lang['page_statistic']['table_statistics']['datetime'])
-        item = self.table_statistics.horizontalHeaderItem(3)
-        item.setText(lang['page_statistic']['table_statistics']['temp'])
-        item = self.table_statistics.horizontalHeaderItem(4)
-        item.setText(lang['page_statistic']['table_statistics']['similar'])
+        # item = self.table_statistics.horizontalHeaderItem(0)
+        # item.setText(lang['page_statistic']['table_statistics']['id'])
+        # item = self.table_statistics.horizontalHeaderItem(1)
+        # item.setText(lang['page_statistic']['table_statistics']['name'])
+        # item = self.table_statistics.horizontalHeaderItem(2)
+        # item.setText(lang['page_statistic']['table_statistics']['datetime'])
+        # item = self.table_statistics.horizontalHeaderItem(3)
+        # item.setText(lang['page_statistic']['table_statistics']['temp'])
+        # item = self.table_statistics.horizontalHeaderItem(4)
+        # item.setText(lang['page_statistic']['table_statistics']['similar'])
         self.label_start_time.setText(lang['page_statistic']['label_start_time'])
         self.label_start_time.setToolTip(lang['page_statistic']['tool_start_time'])
         self.label_end_time.setText(lang['page_statistic']['label_end_time'])
