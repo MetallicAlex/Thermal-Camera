@@ -42,6 +42,7 @@ class Device(Base):
 
     def __init__(self,
                  # identifier: null(),
+                 serial_number: str,
                  name: str = null(),
                  device_type: str = null(),
                  model: str = null(),
@@ -51,6 +52,7 @@ class Device(Base):
                  token: str = null()
                  ):
         # self.id = identifier
+        self.serial_number = serial_number
         self.name = name
         self.device_type = device_type
         self.model = model

@@ -12,7 +12,7 @@ import widget.models as models
 class SubscribePlatform(QtCore.QObject):
     statistic = QtCore.pyqtSignal(object)
     device = QtCore.pyqtSignal(dict)
-    token = QtCore.pyqtSignal(str)
+    token = QtCore.pyqtSignal(tuple)
     profiles = QtCore.pyqtSignal(object)
 
     running = False
@@ -25,7 +25,7 @@ class SubscribePlatform(QtCore.QObject):
     _client = mqtt.Client(client_name)
     code_result = 0
     _data = dict
-    _prev_statistic = models.Statistic('-1', '2021/01/01 00:00:00', '37.5', '0.0')
+    _prev_statistic = models.Statistic(-1, '2021/01/01 00:00:00')
     _prev_statistic.time = datetime.now()
     _database_management = DBManagement()
 
@@ -90,7 +90,7 @@ class SubscribePlatform(QtCore.QObject):
                 self.profiles.emit(self.data['datas'])
             elif self.data['tag'] == 'bind_control':
                 if 'device_token' in self.data['datas']:
-                    self.token.emit(f"{self.data['device_id']}_{self.data['datas']['device_token']}")
+                    self.token.emit((self.data['device_id'], self.data['datas']['device_token']))
             elif self.data['tag'] == 'device_info':
                 self.device.emit(self.data)
 
@@ -102,7 +102,7 @@ class SubscribePlatform(QtCore.QObject):
 
     def record_profile_information(self):
         statistic = models.Statistic(
-            identifier=self.data['datas']['user_id'],
+            identifier=int(self.data['datas']['user_id']),
             time=self.data['datas']['time'],
             temperature=self.data['datas']['temperature'],
             similar=self.data['datas']['similar'],
@@ -147,11 +147,11 @@ class SubscribePlatform(QtCore.QObject):
 
     def is_mask_on(self):
         if self.data['datas']['mask'] == 1:
-            mask = 'true'
+            mask = 1
         elif self.data['datas']['mask_excep'] == 0:
-            mask = 'false'
+            mask = 2
         else:
-            mask = 'unknow'
+            mask = 0
         return mask
 
     def is_duplicate_statistic(self, statistic: models.Statistic):

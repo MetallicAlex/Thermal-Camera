@@ -17,18 +17,16 @@ class Ui_MainWindow(object):
         MainWindow.resize(1366, 768)
         MainWindow.setMinimumSize(QtCore.QSize(1366, 768))
         MainWindow.setToolTipDuration(-1)
-        MainWindow.setStyleSheet("QMainWindow {background: transparent; }\n"
-"QToolTip {\n"
-"    color: #ffffff;\n"
-"    background-color: rgba(27, 29, 35, 160);\n"
-"    border: 1px solid rgb(40, 40, 40);\n"
-"    border-radius: 2px;\n"
-"}")
+        MainWindow.setStyleSheet("QToolTip { \n"
+"                           background-color: black; \n"
+"                           color: white; \n"
+"                           border: black solid 1px\n"
+"                           }")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setMinimumSize(QtCore.QSize(1366, 768))
         self.centralwidget.setToolTipDuration(-1)
         self.centralwidget.setStyleSheet("background: transparent;\n"
-"color: rgb(210, 210, 210);")
+"color: rgba(255, 255, 255, 221);")
         self.centralwidget.setObjectName("centralwidget")
         self.frame_main = QtWidgets.QFrame(self.centralwidget)
         self.frame_main.setGeometry(QtCore.QRect(0, 0, 1366, 768))
@@ -265,7 +263,7 @@ class Ui_MainWindow(object):
 " }\n"
 "QDateTimeEdit QAbstractItemView {\n"
 "    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
+"    background-color: #0C5DB9;\n"
 "    padding: 10px;\n"
 "    selection-background-color: rgb(39, 44, 54);\n"
 "}\n"
@@ -335,33 +333,13 @@ class Ui_MainWindow(object):
 "QCalendarWidget QToolButton {\n"
 "    height: 40px;\n"
 "    width: 120px;\n"
-"    color: rgb(180,180,180);\n"
+"    color: #FFFFFF;\n"
 "    font-size: 16px;\n"
 "    font: \"Segoe UI\";\n"
 "    icon-size:20px, 20px;\n"
-"    background-color:black;\n"
+"    background-color: #0C5DB9;\n"
 "}\n"
-"\n"
-"  /* header row */\n"
-"QCalendarWidget  QWidget\n"
-"{\n"
-"    alternate-background-color: rgb(52, 59, 72);\n"
-"}\n"
-"  /*normal days */\n"
-"QCalendarWidget QAbstractItemView:enabled {\n"
-"    font-size:12px;\n"
-"    font: \"Segoe UI\";\n"
-"    color: rgb(180,180,180);\n"
-"    background-color: black;\n"
-"    selection-background-color: rgb(52, 59, 72); \n"
-"    selection-color:rgb(85, 170, 255);\n"
-"}\n"
-"#qt_calendar_prevmonth{\n"
-"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);\n"
-"}\n"
-"#qt_calendar_nextmonth{\n"
-"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);\n"
-"}")
+"")
         self.frame_main.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_main.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_main.setObjectName("frame_main")
@@ -536,7 +514,6 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_center.sizePolicy().hasHeightForWidth())
         self.frame_center.setSizePolicy(sizePolicy)
-        self.frame_center.setStyleSheet("")
         self.frame_center.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_center.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_center.setObjectName("frame_center")
@@ -885,7 +862,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_control.setHorizontalHeaderItem(5, item)
-        self.table_control.horizontalHeader().setVisible(False)
+        self.table_control.horizontalHeader().setVisible(True)
         self.table_control.horizontalHeader().setCascadingSectionResizes(True)
         self.table_control.horizontalHeader().setDefaultSectionSize(200)
         self.table_control.horizontalHeader().setStretchLastSection(True)
@@ -991,7 +968,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_alarm_temperature.setMinimum(35.0)
         self.doubleSpinBox_alarm_temperature.setMaximum(40.0)
         self.doubleSpinBox_alarm_temperature.setSingleStep(0.1)
-        self.doubleSpinBox_alarm_temperature.setProperty("value", 35.5)
+        self.doubleSpinBox_alarm_temperature.setProperty("value", 37.5)
         self.doubleSpinBox_alarm_temperature.setObjectName("doubleSpinBox_alarm_temperature")
         self.label_notice = QtWidgets.QLabel(self.page_control)
         self.label_notice.setGeometry(QtCore.QRect(20, 70, 120, 30))
@@ -1138,7 +1115,7 @@ class Ui_MainWindow(object):
         self.table_devices.setTextElideMode(QtCore.Qt.ElideMiddle)
         self.table_devices.setShowGrid(False)
         self.table_devices.setRowCount(0)
-        self.table_devices.setColumnCount(7)
+        self.table_devices.setColumnCount(9)
         self.table_devices.setObjectName("table_devices")
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignVCenter)
@@ -1169,10 +1146,6 @@ class Ui_MainWindow(object):
         self.table_devices.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(9)
-        item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -1183,12 +1156,22 @@ class Ui_MainWindow(object):
         self.table_devices.setHorizontalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.table_devices.setHorizontalHeaderItem(6, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         item.setFont(font)
-        self.table_devices.setHorizontalHeaderItem(6, item)
-        self.table_devices.horizontalHeader().setVisible(False)
+        self.table_devices.setHorizontalHeaderItem(7, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        item.setFont(font)
+        self.table_devices.setHorizontalHeaderItem(8, item)
+        self.table_devices.horizontalHeader().setVisible(True)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(True)
@@ -1978,15 +1961,15 @@ class Ui_MainWindow(object):
         icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_edit_profile.setIcon(icon15)
         self.button_edit_profile.setObjectName("button_edit_profile")
-        self.lineEdit_id = QtWidgets.QLineEdit(self.tab_profiles)
-        self.lineEdit_id.setGeometry(QtCore.QRect(190, 60, 210, 30))
+        self.lineEdit_personnel_number = QtWidgets.QLineEdit(self.tab_profiles)
+        self.lineEdit_personnel_number.setGeometry(QtCore.QRect(190, 60, 210, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         font.setBold(False)
         font.setWeight(50)
-        self.lineEdit_id.setFont(font)
-        self.lineEdit_id.setStyleSheet("QLineEdit {\n"
+        self.lineEdit_personnel_number.setFont(font)
+        self.lineEdit_personnel_number.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
 "    color: #FFFFFF;\n"
 "    border-radius: 10px;\n"
@@ -1998,21 +1981,21 @@ class Ui_MainWindow(object):
 "QLineEdit:focus {\n"
 "    border: 2px solid #0C5DB9;\n"
 "}")
-        self.lineEdit_id.setInputMask("")
-        self.lineEdit_id.setText("")
-        self.lineEdit_id.setMaxLength(32)
-        self.lineEdit_id.setAlignment(QtCore.Qt.AlignCenter)
-        self.lineEdit_id.setObjectName("lineEdit_id")
-        self.label_id = QtWidgets.QLabel(self.tab_profiles)
-        self.label_id.setGeometry(QtCore.QRect(20, 60, 150, 30))
+        self.lineEdit_personnel_number.setInputMask("")
+        self.lineEdit_personnel_number.setText("")
+        self.lineEdit_personnel_number.setMaxLength(32)
+        self.lineEdit_personnel_number.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_personnel_number.setObjectName("lineEdit_personnel_number")
+        self.label_personnel_number = QtWidgets.QLabel(self.tab_profiles)
+        self.label_personnel_number.setGeometry(QtCore.QRect(20, 60, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
-        self.label_id.setFont(font)
-        self.label_id.setStyleSheet("color: #09376B;")
-        self.label_id.setObjectName("label_id")
+        self.label_personnel_number.setFont(font)
+        self.label_personnel_number.setStyleSheet("color: #09376B;")
+        self.label_personnel_number.setObjectName("label_personnel_number")
         self.label_profile_name = QtWidgets.QLabel(self.tab_profiles)
         self.label_profile_name.setGeometry(QtCore.QRect(20, 100, 60, 30))
         font = QtGui.QFont()
@@ -2823,10 +2806,31 @@ class Ui_MainWindow(object):
 "    border: 2px solid #0C5DB9;\n"
 "}\n"
 "QDateTimeEdit QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
+"    color: #FFFFFF;\n"
+"    background-color: #0C5DB9;\n"
 "    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
+"    selection-background-color: #91D1EE;\n"
+"}\n"
+"  /* header row */\n"
+"QCalendarWidget  QWidget\n"
+"{\n"
+"    background-color: #0C5DB9;\n"
+"    alternate-background-color: #0C5DB9;\n"
+"}\n"
+"  /*normal days */\n"
+"QCalendarWidget QAbstractItemView:enabled {\n"
+"    font-size:12px;\n"
+"    font: \"Segoe UI\";\n"
+"    color: #FFFFFF;\n"
+"    background-color: #0C5DB9;\n"
+"    selection-background-color:  #91D1EE;\n"
+"    selection-color: #FFFFFF;\n"
+"}\n"
+"#qt_calendar_prevmonth{\n"
+"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);\n"
+"}\n"
+"#qt_calendar_nextmonth{\n"
+"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);\n"
 "}")
         self.dateTimeEdit_start.setAlignment(QtCore.Qt.AlignCenter)
         self.dateTimeEdit_start.setDateTime(QtCore.QDateTime(QtCore.QDate(2020, 1, 1), QtCore.QTime(0, 0, 0)))
@@ -2851,10 +2855,31 @@ class Ui_MainWindow(object):
 "    border: 2px solid #0C5DB9;\n"
 "}\n"
 "QDateTimeEdit QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
+"    color: #FFFFFF;\n"
+"    background-color: #0C5DB9;\n"
 "    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
+"    selection-background-color: #91D1EE;\n"
+"}\n"
+"  /* header row */\n"
+"QCalendarWidget  QWidget\n"
+"{\n"
+"    background-color: #0C5DB9;\n"
+"    alternate-background-color: #0C5DB9;\n"
+"}\n"
+"  /*normal days */\n"
+"QCalendarWidget QAbstractItemView:enabled {\n"
+"    font-size:12px;\n"
+"    font: \"Segoe UI\";\n"
+"    color: #FFFFFF;\n"
+"    background-color: #0C5DB9;\n"
+"    selection-background-color:  #91D1EE;\n"
+"    selection-color: #FFFFFF;\n"
+"}\n"
+"#qt_calendar_prevmonth{\n"
+"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);\n"
+"}\n"
+"#qt_calendar_nextmonth{\n"
+"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);\n"
 "}")
         self.dateTimeEdit_end.setAlignment(QtCore.Qt.AlignCenter)
         self.dateTimeEdit_end.setMinimumDate(QtCore.QDate(2020, 1, 1))
@@ -2897,32 +2922,6 @@ class Ui_MainWindow(object):
 "}")
         self.button_statistics_filter.setIcon(icon8)
         self.button_statistics_filter.setObjectName("button_statistics_filter")
-        self.button_all_statistic = QtWidgets.QPushButton(self.page_statistic)
-        self.button_all_statistic.setGeometry(QtCore.QRect(380, 15, 150, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        self.button_all_statistic.setFont(font)
-        self.button_all_statistic.setStyleSheet("QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 10px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    color: rgb(227, 227, 227);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
-        icon18 = QtGui.QIcon()
-        icon18.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_all_statistic.setIcon(icon18)
-        self.button_all_statistic.setObjectName("button_all_statistic")
         self.button_export_statistics_data = QtWidgets.QPushButton(self.page_statistic)
         self.button_export_statistics_data.setGeometry(QtCore.QRect(190, 15, 150, 30))
         font = QtGui.QFont()
@@ -3304,6 +3303,22 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.progressBar = QtWidgets.QProgressBar(self.frame_statusbar)
+        self.progressBar.setMaximumSize(QtCore.QSize(300, 16777215))
+        self.progressBar.setStyleSheet("QProgressBar\n"
+"{\n"
+"    border: solid grey;\n"
+"    border-radius: 15px;\n"
+"    color: #FFFFFF;\n"
+"    text-align: center\n"
+"}\n"
+"QProgressBar::chunk \n"
+"{\n"
+"    background-color: #91D1EE;\n"
+"}    ")
+        self.progressBar.setProperty("value", 24)
+        self.progressBar.setObjectName("progressBar")
+        self.horizontalLayout_4.addWidget(self.progressBar)
         self.label_statusbar = QtWidgets.QLabel(self.frame_statusbar)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
@@ -3318,7 +3333,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -3357,11 +3372,15 @@ class Ui_MainWindow(object):
         item = self.table_devices.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Серийный номер"))
         item = self.table_devices.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Модель"))
+        item.setText(_translate("MainWindow", "Тип"))
         item = self.table_devices.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "MAC-адрес"))
+        item.setText(_translate("MainWindow", "Модель"))
         item = self.table_devices.horizontalHeaderItem(6)
-        item.setText(_translate("MainWindow", "MAC-Address"))
+        item.setText(_translate("MainWindow", "Версия прошивки"))
+        item = self.table_devices.horizontalHeaderItem(7)
+        item.setText(_translate("MainWindow", "MAC-адрес"))
+        item = self.table_devices.horizontalHeaderItem(8)
+        item.setText(_translate("MainWindow", "IP-адрес"))
         self.button_search_device.setText(_translate("MainWindow", "Поиск"))
         self.button_configure_device.setText(_translate("MainWindow", "Применить"))
         self.button_delete_device.setText(_translate("MainWindow", "Удалить"))
@@ -3418,7 +3437,7 @@ class Ui_MainWindow(object):
         self.button_import_data.setText(_translate("MainWindow", "Импорт данных"))
         self.button_example_data.setText(_translate("MainWindow", "Пример данных"))
         self.button_edit_profile.setText(_translate("MainWindow", "Изменить"))
-        self.label_id.setText(_translate("MainWindow", "Идентификатор"))
+        self.label_personnel_number.setText(_translate("MainWindow", "Табельный номер"))
         self.label_profile_name.setText(_translate("MainWindow", "ФИО"))
         self.label_passport.setText(_translate("MainWindow", "Паспорт"))
         self.label_department.setText(_translate("MainWindow", "Отдел"))
@@ -3464,7 +3483,6 @@ class Ui_MainWindow(object):
         self.label_start_time.setText(_translate("MainWindow", "От"))
         self.label_end_time.setText(_translate("MainWindow", "До"))
         self.button_statistics_filter.setText(_translate("MainWindow", "Фильтр"))
-        self.button_all_statistic.setText(_translate("MainWindow", "All Statistic"))
         self.button_export_statistics_data.setText(_translate("MainWindow", "Экспорт данных"))
         self.table_statistics.setSortingEnabled(False)
         item = self.table_statistics.horizontalHeaderItem(0)

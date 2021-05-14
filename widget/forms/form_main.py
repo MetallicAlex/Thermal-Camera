@@ -10,13 +10,11 @@ import numpy as np
 from sqlalchemy import null
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem, QSizeGrip, QGraphicsDropShadowEffect, \
-    QTableWidgetItem, QLabel, QCheckBox, QHeaderView
-from PyQt5.QtGui import QPixmap, QImage, QIcon, QColor
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QCheckBox
+from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 
 from widget.forms.form_main_designer import Ui_MainWindow
-from widget.forms.form_profile import FormProfile
 from widget.forms.form_device_database_view import FormDeviceDBView
 from widget.forms.form_stranger_table import FormStrangerTable
 from widget.forms.messagebox import ExportMessageBox, WarningMessageBox, InformationMessageBox
@@ -35,15 +33,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         start = time.time()
         super().__init__()
         self.setupUi(self)
+        self._create_toggle_buttons()
         self.blur_effect = QtWidgets.QGraphicsBlurEffect()
         self.blur_effect.setBlurRadius(15)
         self.blur_effect.setEnabled(False)
         self.setGraphicsEffect(self.blur_effect)
         self._hide_buttons_search_device()
-        self._create_toggle_buttons()
         # APPLICATIONS
         # self.start_nginx()
         # DATA
+        self.is_new_devices_table = False
         self.selected_profile = None
         self.selected_department = None
         self.filter_params = {
@@ -53,10 +52,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             'max': self.doubleSpinBox_max_temperature.value(),
             'name': None
         }
-        self.is_all_statistics = False
         self.app_path = os.path.dirname(os.getcwd())
         self.setting = Setting(f'{self.app_path}/widget/setting.json')
-        self.translate_ui(self.setting.lang['form_main'])
+        self.translate_ui()
         self.device_management = DeviceManagement()
         self.device_management.find_host_info()
         self.device_management.port = 7777
@@ -77,9 +75,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.comboBox_department.addItems(['---', *departments])
         self.comboBox_gender.addItems(
             [
-                self.setting.lang['form_main']['page_database']['combobox_gender']['unknown'],
-                self.setting.lang['form_main']['page_database']['combobox_gender']['male'],
-                self.setting.lang['form_main']['page_database']['combobox_gender']['female']
+                self.setting.lang['gender']['unknown'],
+                self.setting.lang['gender']['male'],
+                self.setting.lang['gender']['female']
             ]
         )
         # self.database_visualization = DBVisualization(width=10, height=6)
@@ -110,8 +108,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self._load_statistics_to_table(
             stat_time=(self.dateTimeEdit_start.text(), self.dateTimeEdit_end.text())
         )
-        # self._load_statistics_to_table(low=str(datetime.datetime.now().replace(hour=0, minute=0, second=0)),
-        #                                high=str(datetime.datetime.now().replace(hour=23, minute=59, second=59)))
         self.stackedWidget.setCurrentWidget(self.page_control)
         # self.button_device.setStyleSheet(self.theme['system-button'] +
         #                                  "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
@@ -130,6 +126,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_search_device.clicked.connect(self._button_search_device_clicked)
         self.button_configure_device.clicked.connect(self._button_configure_device_clicked)
         self.button_delete_device.clicked.connect(self._button_delete_device_clicked)
+        self.button_cancel_new_devices.clicked.connect(self._button_cancel_new_devices_clicked)
+        self.button_add_devices.clicked.connect(self._button_add_new_devices_clicked)
         self.table_devices.itemSelectionChanged.connect(self._device_selected_row)
         self.table_devices.horizontalHeader().sectionPressed.connect(self._checkbox_header_devices_pressed)
         # PAGE DATABASE
@@ -151,7 +149,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE STATISTIC
         self.button_statistics_filter.clicked.connect(self._button_statistics_filter_clicked)
         self.button_export_statistics_data.clicked.connect(self._button_export_statistics_data_clicked)
-        self.button_all_statistic.clicked.connect(self._button_all_statistic_clicked)
         # self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
         # self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
         # DATA
@@ -166,7 +163,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.subscribe_platform.token.connect(self._get_token)
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
-        # self._load_devices_info_to_table()
+        self._load_devices_info_to_table()
         print(time.time() - start)
 
     # EVENTS
@@ -192,10 +189,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_database_clicked(self, event):
         self._update_system_buttons(self.button_database)
-        self.comboBox_databases.clear()
-        self.comboBox_databases.addItems([
-            device.id for device in self.devices if device.online
-        ])
+        # self.comboBox_databases.clear()
+        # self.comboBox_databases.addItems([
+        #     device.id for device in self.devices if device.online
+        # ])
         self.stackedWidget.setCurrentWidget(self.page_database)
 
     def _button_statistic_clicked(self, event):
@@ -228,13 +225,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.comboBox_department.setCurrentText(self.table_profiles.item(row_position, 6).text())
         if self.table_profiles.item(row_position, 7).text()[0] \
-                == self.setting.lang['form_main']['page_database']['table_profiles']['unknown'][0]:
+                == self.setting.lang['table_profiles']['unknown'][0]:
             self.comboBox_gender.setCurrentIndex(0)
         elif self.table_profiles.item(row_position, 7).text()[0] \
-                == self.setting.lang['form_main']['page_database']['table_profiles']['male'][0]:
+                == self.setting.lang['table_profiles']['male'][0]:
             self.comboBox_gender.setCurrentIndex(1)
         elif self.table_profiles.item(row_position, 7).text()[0] \
-                == self.setting.lang['form_main']['page_database']['table_profiles']['female'][0]:
+                == self.setting.lang['table_profiles']['female'][0]:
             self.comboBox_gender.setCurrentIndex(2)
         if self.table_profiles.item(row_position, 8).text() == '---':
             self.plainTextEdit_information.setPlainText('')
@@ -583,45 +580,49 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
+        self.is_new_devices_table = True
         devices = self.database_management.get_devices()
+        self.device_management.clear_devices()
         result = self.device_management.find_devices(binding_devices=devices)
         if result == -1:
+            self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_info.setText('Ethernet is not connected')
-            messagebox.setWindowTitle('Information')
+            messagebox.label_info.setText('Ethernet не подключен.')
             messagebox.exec_()
+            self.blur_effect.setEnabled(False)
         elif result == 0 and len(self.device_management.devices) == 0:
+            self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_info.setText('Device is not found')
-            messagebox.setWindowTitle('Information')
+            messagebox.label_info.setText('Устройства не найдены.')
             messagebox.exec_()
+            self.blur_effect.setEnabled(False)
         else:
             self._show_buttons_search_device()
             self.table_devices.setRowCount(0)
             for device in self.device_management.devices:
                 self._add_device_row(device)
-            if self.form_devices.dialog_result == 0:
-                self.device_management.devices = self.form_devices.devices
-                for device in self.device_management.devices:
-                    self.publish_platform.set_device(device.id)
-                    self.publish_platform.bind_device()
 
     def _button_add_new_devices_clicked(self, event):
         self._hide_buttons_search_device()
         devices = [
             device
             for row_position, device in enumerate(self.device_management.devices)
-            if self.table_devices.item(row_position, 0).isChecked()
+            if self.table_devices.cellWidget(row_position, 0).isChecked()
         ]
+        self.table_devices.setRowCount(0)
         self._load_devices_info_to_table()
+        self.is_new_devices_table = False
         for device in devices:
             self.devices.append(device)
-            self._add_device_row(device)
             self.publish_platform.set_device(device.id)
             self.publish_platform.bind_device()
 
     def _button_cancel_new_devices_clicked(self, event):
         self._hide_buttons_search_device()
+        self.device_management.clear_devices()
+        self.table_devices.setRowCount(0)
+        self._load_devices_info_to_table()
+        self.is_new_devices_table = False
 
     def _button_configure_device_clicked(self, event):
         row_position = self.table_devices.selectedIndexes()[0].row()
@@ -654,11 +655,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         remove_rows = []
         for row_position, device in enumerate(self.devices):
             if self.table_devices.cellWidget(row_position, 0).isChecked():
+                messagebox = WarningMessageBox()
+                messagebox.setWindowTitle(f'Удаление {device.serial_number}')
+                messagebox.label_title.setText(f'Удаление {device.serial_number}')
                 if device.online:
-                    messagebox = WarningMessageBox()
-                    messagebox.setWindowTitle(device.id)
-                    messagebox.label_title.setText(device.id)
-                    messagebox.label_info.setText('Are you sure want to delete this device?')
+                    text = 'Вы точно хотите удалить устройство?'
+                    messagebox.label_info.setText(text)
                     messagebox.exec_()
                     if messagebox.dialog_result == 0:
                         self.publish_platform.set_device(device.id, device.token)
@@ -667,13 +669,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                         remove_rows.append(row_position)
                         self.database_management.remove_devices(device.id)
                 else:
-                    messagebox = WarningMessageBox()
-                    messagebox.setWindowTitle(device.id)
-                    messagebox.label_title.setText(device.id)
-                    messagebox.label_info.setText('This device is not connected.\n'
-                                                  'If you delete device now, then you need'
-                                                  ' to reset it to factory settings later\n'
-                                                  'Are you sure want to delete this device?')
+                    text = 'Устройство не подключено.\n' \
+                           'Если удалите устройство, то нужно будет\nсбросить устройство к заводским настройкам.\n' \
+                           'Вы точно хотите удалить устройство?'
+                    messagebox.label_info.setText(text)
                     messagebox.exec_()
                     if messagebox.dialog_result == 0:
                         remove_devices.append(device)
@@ -685,25 +684,26 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.table_devices.removeRow(remove_row)
 
     def _device_selected_row(self):
-        row_position = self.table_devices.selectedIndexes()[0].row()
-        self.lineEdit_device_name.setText(self.devices[row_position].name)
-        self.lineEdit_ip_address.setText(self.devices[row_position].ip_address)
-        if self.devices[row_position].online:
-            self.lineEdit_subnet_mask.setText('')
-            self.lineEdit_gateway.setText('')
-            self.lineEdit_ddns1.setText('')
-            self.lineEdit_ddns2.setText('')
-            self.horizontalSlider_volume.setValue(self.devices[row_position].volume)
-            self.horizontalSlider_brightness.setValue(self.devices[row_position].brightness)
-            self.lineEdit_record_time.setText(self.devices[row_position].record_save_time)
-        else:
-            self.lineEdit_subnet_mask.setText('')
-            self.lineEdit_gateway.setText('')
-            self.lineEdit_ddns1.setText('')
-            self.lineEdit_ddns2.setText('')
-            self.horizontalSlider_volume.setValue(0)
-            self.horizontalSlider_brightness.setValue(45)
-            self.lineEdit_record_time.setText('')
+        if not self.is_new_devices_table:
+            row_position = self.table_devices.selectedIndexes()[0].row()
+            self.lineEdit_device_name.setText(self.devices[row_position].name)
+            self.lineEdit_ip_address.setText(self.devices[row_position].ip_address)
+            if self.devices[row_position].online:
+                self.lineEdit_subnet_mask.setText('')
+                self.lineEdit_gateway.setText('')
+                self.lineEdit_ddns1.setText('')
+                self.lineEdit_ddns2.setText('')
+                self.horizontalSlider_volume.setValue(self.devices[row_position].volume)
+                self.horizontalSlider_brightness.setValue(self.devices[row_position].brightness)
+                self.lineEdit_record_time.setText(str(self.devices[row_position].record_save_time))
+            else:
+                self.lineEdit_subnet_mask.setText('')
+                self.lineEdit_gateway.setText('')
+                self.lineEdit_ddns1.setText('')
+                self.lineEdit_ddns2.setText('')
+                self.horizontalSlider_volume.setValue(0)
+                self.horizontalSlider_brightness.setValue(45)
+                self.lineEdit_record_time.setText('')
 
     # EVENTS-STATISTICS
     def _button_statistics_filter_clicked(self, event):
@@ -736,15 +736,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             process.join()
         self.blur_effect.setEnabled(False)
         print(f'[EXPORT][STATISTIC] {time.time() - start}')
-
-    def _button_all_statistic_clicked(self, event):
-        if self.comboBox_profiles.currentText() == self.setting.lang['form_main']['text_all_profiles']:
-            identifier = None
-        else:
-            profile = self.database_management.get_profile_by_name(self.comboBox_profiles.currentText())
-            identifier = profile.id
-        self._load_statistics_to_table(identifiers=identifier)
-        self.is_all_statistics = True
 
     def _checkbox_header_persons_pressed(self, index):
         if index == 0:
@@ -796,25 +787,25 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _update_device_info(self, data):
         for row_position in range(self.table_devices.rowCount()):
             if self.table_devices.item(row_position, 3).text() == data['device_id']:
-                self.devices[row_position].name = data['datas']['basic_parameters']['dev_name']
-                item = QTableWidgetItem(data['datas']['basic_parameters']['dev_name'])
+                item = QTableWidgetItem(self.setting.lang['table_devices']['online'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 1, item)
-                self.devices[row_position].model = data['datas']['version_info']['dev_model']
-                item = QTableWidgetItem(data['datas']['version_info']['dev_model'])
+                self.devices[row_position].online = True
+                self.devices[row_position].name = data['datas']['basic_parameters']['dev_name']
+                item = QTableWidgetItem(data['datas']['basic_parameters']['dev_name'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 2, item)
                 item = QTableWidgetItem(data['device_id'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 3, item)
+                self.devices[row_position].type_device = data['datas']['version_info']['dev_model']
+                item = QTableWidgetItem(data['datas']['version_info']['dev_model'])
+                item.setTextAlignment(Qt.AlignCenter)
+                self.table_devices.setItem(row_position, 4, item)
                 self.devices[row_position].ip_address = data['datas']['network_cofnig']['ip_addr']
                 item = QTableWidgetItem(data['datas']['network_cofnig']['ip_addr'])
                 item.setTextAlignment(Qt.AlignCenter)
-                self.table_devices.setItem(row_position, 5, item)
-                item = QTableWidgetItem(self.setting.lang['form_main']['page_device']['table_devices']['state_online'])
-                item.setTextAlignment(Qt.AlignCenter)
-                self.table_devices.setItem(row_position, 6, item)
-                self.devices[row_position].online = True
+                self.table_devices.setItem(row_position, 8, item)
                 # REMOTE CONFIG
                 self.devices[row_position].volume = data['datas']['remote_config']['volume_cur']
                 self.devices[row_position].brightness = data['datas']['remote_config']['screen_brightness_cur']
@@ -831,60 +822,86 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.database_management.update_device(self.devices[row_position].id, self.devices[row_position])
                 break
 
-    @QtCore.pyqtSlot(str)
-    def _get_token(self, token: str):
-        token = token.split('_')
+    @QtCore.pyqtSlot(tuple)
+    def _get_token(self, token: tuple):
         device_id = token[0]
         token = token[1]
         for device in self.device_management.devices:
-            if device_id == device.id:
+            if device_id == device.serial_number:
                 device.token = token
                 device.online = True
                 self.database_management.add_devices(device)
                 self.devices.append(device)
                 self.device_management.remove_device(device)
                 self._add_device_row(device)
-                self.publish_platform.set_device(device.id, device.token)
+                self.publish_platform.set_device(device.serial_number, device.token)
                 self.publish_platform.get_device_info()
 
     def _load_devices_info_to_table(self):
         for device in self.devices:
             self._add_device_row(device)
-            self.publish_platform.set_device(device.id, device.token)
+            self.publish_platform.set_device(device.serial_number, device.token)
             self.publish_platform.get_device_info()
         self.table_devices.resizeColumnToContents(0)
         self.table_devices.resizeColumnToContents(1)
+        self.table_devices.resizeColumnToContents(2)
+        self.table_devices.resizeColumnToContents(3)
+        self.table_devices.resizeColumnToContents(4)
+        self.table_devices.resizeColumnToContents(5)
         self.table_devices.resizeColumnToContents(6)
+        self.table_devices.resizeColumnToContents(7)
         self.table_devices.resizeRowsToContents()
 
     def _add_device_row(self, device: models.Device):
         row_position = self.table_devices.rowCount()
         self.table_devices.insertRow(row_position)
         item = QCheckBox()
+        item.setStyleSheet('background-color: #91D1EE;')
         item.setCheckState(Qt.Unchecked)
         self.table_devices.setCellWidget(row_position, 0, item)
         if device.online:
-            state = self.setting.lang['form_main']['page_device']['table_devices']['state_online']
+            state = self.setting.lang['table_devices']['online']
         else:
-            state = self.setting.lang['form_main']['page_device']['table_devices']['state_offline']
+            state = self.setting.lang['table_devices']['offline']
         item = QTableWidgetItem(state)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 1, item)
-        item = QTableWidgetItem(device.name)
+        name = device.name
+        if name == '' or name is None:
+            name = '---'
+        item = QTableWidgetItem(name)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 2, item)
-        item = QTableWidgetItem(device.id)
+        serial_number = device.serial_number
+        if serial_number == '' or serial_number is None:
+            serial_number = '---'
+        item = QTableWidgetItem(serial_number)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 3, item)
-        item = QTableWidgetItem(device.model)
+        device_type = device.device_type
+        if device_type == '' or device_type is None:
+            device_type = '---'
+        item = QTableWidgetItem(device_type)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 4, item)
-        item = QTableWidgetItem(device.ip_address)
+        model = device.model
+        if model == '' or model is None:
+            model = '---'
+        item = QTableWidgetItem(model)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 5, item)
-        item = QTableWidgetItem(device.mac_address)
+        version = device.firmware_version
+        if version == '' or version is None:
+            version = '---'
+        item = QTableWidgetItem(version)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 6, item)
+        item = QTableWidgetItem(device.mac_address)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 7, item)
+        item = QTableWidgetItem(device.ip_address)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_devices.setItem(row_position, 8, item)
 
     # DATABASE
     def _load_profiles_to_table(self):
@@ -930,10 +947,17 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             identifiers=identifiers,
             name=name
         )
+        if len(statistics) > 0:
+            self.progressBar.setMaximum(len(statistics))
+            self.progressBar.setValue(0)
+        else:
+            self.progressBar.setMaximum(1)
+            self.progressBar.setValue(1)
         print(f'[DATABASE][STATISTICS] {time.time() - start}')
         start = time.time()
         for row_position, (statistic, name) in enumerate(statistics):
             self._add_statistic_row(row_position, statistic, name)
+            self.progressBar.setValue(row_position + 1)
         # self.table_statistics.sortByColumn(0, Qt.DescendingOrder)
         self.table_statistics.resizeColumnsToContents()
         self.table_statistics.resizeRowsToContents()
@@ -945,11 +969,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = QTableWidgetItem(name)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_statistics.setItem(row_position, 1, item)
-        item = QTableWidgetItem(self.setting.lang['form_main']['page_database']['table_profiles']['text_image_item'])
+        item = QTableWidgetItem(self.setting.lang['image'])
         if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
             item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
         else:
-            item.setToolTip(self.setting.lang['form_main']['page_statistic']['table_statistics']['tool_image_false'])
+            item.setToolTip(self.setting.lang['no_image'])
         self.table_statistics.setItem(row_position, 2, item)
         item = QTableWidgetItem(str(statistic.temperature))
         item.setTextAlignment(Qt.AlignCenter)
@@ -987,7 +1011,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setTextAlignment(Qt.AlignCenter)
         self.table_profiles.setItem(row_position, 1, item)
         self.table_profiles.setItem(row_position, 2, QTableWidgetItem(profile.name))
-        item = QTableWidgetItem(self.setting.lang['form_main']['page_database']['table_profiles']['text_image_item'])
+        item = QTableWidgetItem(self.setting.lang['image'])
         if os.path.isfile(f'nginx/html{profile.face}'):
             image = f'<br><img src="nginx/html{profile.face}" width="360" alt="lorem"'
         else:
@@ -1010,11 +1034,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_profiles.setItem(row_position, 5, item)
         gender = self.database_management.get_gender(profile.gender)
         if gender.id == 0:
-            gender = self.setting.lang['form_main']['page_database']['table_profiles']['unknown']
+            gender = self.setting.lang['table_profiles']['unknown']
         elif gender.id == 1:
-            gender = self.setting.lang['form_main']['page_database']['table_profiles']['male']
+            gender = self.setting.lang['table_profiles']['male']
         elif gender.id == 2:
-            gender = self.setting.lang['form_main']['page_database']['table_profiles']['female']
+            gender = self.setting.lang['table_profiles']['female']
         item = QTableWidgetItem(gender)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_profiles.setItem(row_position, 7, item)
@@ -1152,25 +1176,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         )
         db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/pie_day.png')
 
-    def _get_item_image(self, path_image=str):
-        item = QTableWidgetItem()
-        if os.path.isfile(f'nginx/html{path_image}'):
-            pixmap = QPixmap(QImage(f'nginx/html{path_image}'))
-            image = f'<br><img src="nginx/html{path_image}" width="360" alt="lorem"'
-        else:
-            pixmap = QPixmap(QImage('data/resources/icons/user.png'))
-            image = 'No Image'
-        pixmap = pixmap.scaled(100, 100, Qt.KeepAspectRatio)
-        item.setData(Qt.DecorationRole, pixmap)
-        item.setToolTip(image)
-        return item
-
-    def _get_item_to_cell(self, value):
-        item = QTableWidgetItem()
-        item.setData(Qt.EditRole, value)
-        item.setTextAlignment(Qt.AlignCenter)
-        return item
-
     def _set_header_column_icon(self, table: QtWidgets.QTableWidget, checked: bool):
         item = QtWidgets.QTableWidgetItem()
         icon = QtGui.QIcon()
@@ -1188,94 +1193,130 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _hide_buttons_search_device(self):
         self.button_cancel_new_devices.hide()
         self.button_add_devices.hide()
+        self.button_configure_device.show()
+        self.label_device_name.show()
+        self.lineEdit_device_name.show()
+        self.label_volume.show()
+        self.horizontalSlider_volume.show()
+        self.label_brightness.show()
+        self.horizontalSlider_brightness.show()
+        self.label_light.show()
+        self.toggle_light.show()
+        self.label_ip_address.show()
+        self.lineEdit_ip_address.show()
+        self.label_subnet_mask.show()
+        self.lineEdit_subnet_mask.show()
+        self.label_gateway.show()
+        self.lineEdit_gateway.show()
+        self.label_ddns1.show()
+        self.lineEdit_ddns1.show()
+        self.label_ddns2.show()
+        self.lineEdit_ddns2.show()
+        self.label_dhcp.show()
+        self.toggle_dhcp.show()
+        self.label_check_temperature.show()
+        self.toggle_check_temperature.show()
+        self.label_check_mask.show()
+        self.toggle_check_mask.show()
+        self.label_strangers_passage.show()
+        self.toggle_strangers_passage.show()
+        self.label_save_face.show()
+        self.toggle_save_face.show()
+        self.label_save_record.show()
+        self.toggle_save_record.show()
+        self.label_record_time.show()
+        self.lineEdit_record_time.show()
 
     def _show_buttons_search_device(self):
         self.button_cancel_new_devices.show()
         self.button_add_devices.show()
+        self.button_configure_device.hide()
+        self.label_device_name.hide()
+        self.lineEdit_device_name.hide()
+        self.label_volume.hide()
+        self.horizontalSlider_volume.hide()
+        self.label_brightness.hide()
+        self.horizontalSlider_brightness.hide()
+        self.label_light.hide()
+        self.toggle_light.hide()
+        self.label_ip_address.hide()
+        self.lineEdit_ip_address.hide()
+        self.label_subnet_mask.hide()
+        self.lineEdit_subnet_mask.hide()
+        self.label_gateway.hide()
+        self.lineEdit_gateway.hide()
+        self.label_ddns1.hide()
+        self.lineEdit_ddns1.hide()
+        self.label_ddns2.hide()
+        self.lineEdit_ddns2.hide()
+        self.label_dhcp.hide()
+        self.toggle_dhcp.hide()
+        self.label_check_temperature.hide()
+        self.toggle_check_temperature.hide()
+        self.label_check_mask.hide()
+        self.toggle_check_mask.hide()
+        self.label_strangers_passage.hide()
+        self.toggle_strangers_passage.hide()
+        self.label_save_face.hide()
+        self.toggle_save_face.hide()
+        self.label_save_record.hide()
+        self.toggle_save_record.hide()
+        self.label_record_time.hide()
+        self.lineEdit_record_time.hide()
 
-    def translate_ui(self, lang: dict):
+    def translate_ui(self):
         self.dateTimeEdit_start.setDisplayFormat('yyyy-MM-dd HH:mm')
         self.dateTimeEdit_end.setDisplayFormat('yyyy-MM-dd HH:mm')
-        self.setWindowTitle(lang['window_title'])
-        self.label_title.setText(lang['label_title'])
-        self.button_minimize.setToolTip(lang['btn_minimize'])
-        self.button_close.setToolTip(lang['btn_close'])
-        self.button_database.setText(lang['btn_database'])
-        self.button_database.setToolTip(lang['tool_database'])
-        self.button_device.setText(lang['btn_device'])
-        self.button_device.setToolTip(lang['tool_device'])
-        self.button_statistic.setText(lang['btn_statistic'])
-        self.button_statistic.setToolTip(lang['tool_statistic'])
-        self.button_settings.setText(lang['btn_settings'])
-        self.button_settings.setToolTip(lang['tool_settings'])
-        item = self.table_devices.horizontalHeaderItem(1)
-        item.setText(lang['page_device']['table_devices']['state'])
-        item = self.table_devices.horizontalHeaderItem(2)
-        item.setText(lang['page_device']['table_devices']['name'])
-        item = self.table_devices.horizontalHeaderItem(3)
-        item.setText(lang['page_device']['table_devices']['serial_number'])
-        item = self.table_devices.horizontalHeaderItem(4)
-        item.setText(lang['page_device']['table_devices']['model'])
-        item = self.table_devices.horizontalHeaderItem(5)
-        item.setText(lang['page_device']['table_devices']['ip_address'])
-        item = self.table_devices.horizontalHeaderItem(6)
-        item.setText(lang['page_device']['table_devices']['mac_address'])
-        self.button_search_device.setText(lang['page_device']['btn_search'])
-        self.button_search_device.setToolTip(lang['page_device']['tool_search'])
-        self.button_configure_device.setText(lang['page_device']['btn_configure'])
-        self.button_configure_device.setToolTip(lang['page_device']['tool_configure'])
-        self.button_delete_device.setText(lang['page_device']['btn_delete'])
-        self.button_delete_device.setToolTip(lang['page_device']['tool_delete'])
-        self.table_profiles.setSortingEnabled(False)
-        # item = self.table_profiles.horizontalHeaderItem(1)
-        # item.setText(lang['page_database']['table_profiles']['id'])
-        # item = self.table_profiles.horizontalHeaderItem(2)
-        # item.setText(lang['page_database']['table_profiles']['image'])
-        # item = self.table_profiles.horizontalHeaderItem(3)
-        # item.setText(lang['page_database']['table_profiles']['name'])
-        # item = self.table_profiles.horizontalHeaderItem(4)
-        # item.setText(lang['page_database']['table_profiles']['department'])
-        # item = self.table_profiles.horizontalHeaderItem(5)
-        # item.setText(lang['page_database']['table_profiles']['gender'])
-        # item = self.table_profiles.horizontalHeaderItem(6)
-        # item.setText(lang['page_database']['table_profiles']['phone_number'])
-        self.button_delete_profile.setText(lang['page_database']['btn_delete_profile'])
-        self.button_edit_profile.setText(lang['page_database']['btn_edit_profile'])
-        self.button_add_profile.setText(lang['page_database']['btn_add_profile'])
-        self.button_send_device.setText(lang['page_database']['btn_send_device'])
-        self.button_delete_profile.setToolTip(lang['page_database']['tool_delete_profile'])
-        self.button_edit_profile.setToolTip(lang['page_database']['tool_edit_profile'])
-        self.button_add_profile.setToolTip(lang['page_database']['tool_add_profile'])
-        self.button_send_device.setToolTip(lang['page_database']['tool_send_device'])
-        item = self.table_departments.horizontalHeaderItem(1)
-        item.setText(lang['page_database']['table_departments']['name'])
-        self.button_delete_department.setText(lang['page_database']['btn_delete_department'])
-        self.button_add_department.setText(lang['page_database']['btn_add_department'])
-        self.button_delete_department.setToolTip(lang['page_database']['tool_delete_department'])
-        self.button_add_department.setToolTip(lang['page_database']['tool_add_department'])
-        self.button_device_database_view.setText(lang['page_database']['btn_device_db_view'])
-        self.button_device_database_view.setToolTip(lang['page_database']['tool_device_db_view'])
-        self.table_statistics.setSortingEnabled(True)
-        # item = self.table_statistics.horizontalHeaderItem(0)
-        # item.setText(lang['page_statistic']['table_statistics']['id'])
-        # item = self.table_statistics.horizontalHeaderItem(1)
-        # item.setText(lang['page_statistic']['table_statistics']['name'])
-        # item = self.table_statistics.horizontalHeaderItem(2)
-        # item.setText(lang['page_statistic']['table_statistics']['datetime'])
-        # item = self.table_statistics.horizontalHeaderItem(3)
-        # item.setText(lang['page_statistic']['table_statistics']['temp'])
-        # item = self.table_statistics.horizontalHeaderItem(4)
-        # item.setText(lang['page_statistic']['table_statistics']['similar'])
-        self.label_start_time.setText(lang['page_statistic']['label_start_time'])
-        self.label_start_time.setToolTip(lang['page_statistic']['tool_start_time'])
-        self.label_end_time.setText(lang['page_statistic']['label_end_time'])
-        self.label_end_time.setToolTip(lang['page_statistic']['tool_end_time'])
-        self.label_min_temperature.setText(lang['page_statistic']['label_min_temp'])
-        self.label_min_temperature.setToolTip(lang['page_statistic']['tool_min_temp'])
-        self.label_max_temperature.setText(lang['page_statistic']['label_max_temp'])
-        self.label_max_temperature.setToolTip(lang['page_statistic']['tool_max_temp'])
-        self.button_all_statistic.setText(lang['page_statistic']['btn_all_stats'])
-        self.button_all_statistic.setToolTip(lang['page_statistic']['tool_all_stats'])
+        # SYSTEM
+        self.setWindowTitle(self.setting.lang['title'])
+        self.label_title.setText(self.setting.lang['title'])
+        self.button_close.setToolTip(self.setting.lang['btn_close'])
+        self.button_minimize.setToolTip(self.setting.lang['btn_minimize'])
+        self.button_control.setText(self.setting.lang['btn_control'])
+        self.button_device.setText(self.setting.lang['btn_devices'])
+        self.button_database.setText(self.setting.lang['btn_database'])
+        self.button_statistic.setText(self.setting.lang['btn_statistic'])
+        self.button_settings.setText(self.setting.lang['btn_settings'])
+        # PAGE CONTROL
+        self.label_alarm_temperature.setText(self.setting.lang['alarm_temp'])
+        self.label_notice.setText(self.setting.lang['notice'])
+        self.label_email.setText(self.setting.lang['email'])
+        self.table_control.horizontalHeaderItem(0).setText(self.setting.lang['table_control']['datetime'])
+        self.table_control.horizontalHeaderItem(1).setText(self.setting.lang['table_control']['name'])
+        self.table_control.horizontalHeaderItem(2).setText(self.setting.lang['table_control']['photo'])
+        self.table_control.horizontalHeaderItem(3).setText(self.setting.lang['table_control']['temp'])
+        self.table_control.horizontalHeaderItem(4).setText(self.setting.lang['table_control']['mask'])
+        self.table_control.horizontalHeaderItem(5).setText(self.setting.lang['table_control']['similar'])
+        # PAGE DEVICES
+        self.button_search_device.setText(self.setting.lang['btn_search_device'])
+        self.button_delete_device.setText(self.setting.lang['btn_delete_device'])
+        self.button_configure_device.setText(self.setting.lang['btn_configure_device'])
+        self.button_cancel_new_devices.setText(self.setting.lang['btn_cancel_new_device'])
+        self.button_add_devices.setText(self.setting.lang['btn_add_new_device'])
+        self.label_device_name.setText(self.setting.lang['device_name'])
+        self.label_volume.setText(self.setting.lang['volume'])
+        self.label_brightness.setText(self.setting.lang['brightness'])
+        self.label_light.setText(self.setting.lang['light'])
+        self.label_ip_address.setText(self.setting.lang['ip_address'])
+        self.label_subnet_mask.setText(self.setting.lang['subnet_mask'])
+        self.label_gateway.setText(self.setting.lang['gateway'])
+        self.label_ddns1.setText(self.setting.lang['ddns1'])
+        self.label_ddns2.setText(self.setting.lang['ddns2'])
+        self.label_dhcp.setText(self.setting.lang['dhcp'])
+        self.label_check_temperature.setText(self.setting.lang['check_temp'])
+        self.label_check_mask.setText(self.setting.lang['check_mask'])
+        self.label_strangers_passage.setText(self.setting.lang['strangers_passage'])
+        self.label_save_record.setText(self.setting.lang['save_record'])
+        self.label_save_face.setText(self.setting.lang['save_face'])
+        self.label_record_time.setText(self.setting.lang['record_time'])
+        self.table_devices.horizontalHeaderItem(1).setText(self.setting.lang['table_devices']['state'])
+        self.table_devices.horizontalHeaderItem(2).setText(self.setting.lang['table_devices']['name'])
+        self.table_devices.horizontalHeaderItem(3).setText(self.setting.lang['table_devices']['serial_number'])
+        self.table_devices.horizontalHeaderItem(4).setText(self.setting.lang['table_devices']['type'])
+        self.table_devices.horizontalHeaderItem(5).setText(self.setting.lang['table_devices']['model'])
+        self.table_devices.horizontalHeaderItem(6).setText(self.setting.lang['table_devices']['firmware'])
+        self.table_devices.horizontalHeaderItem(7).setText(self.setting.lang['table_devices']['mac_address'])
+        self.table_devices.horizontalHeaderItem(8).setText(self.setting.lang['table_devices']['ip_address'])
         self.label_statusbar.setText("MetallicAlex")
 
     def _create_toggle_buttons(self):

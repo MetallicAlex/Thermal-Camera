@@ -45,12 +45,6 @@ class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
         super().__init__()
         self.setupUi(self)
         # SETTINGS
-        # shadow = QtWidgets.QGraphicsDropShadowEffect(
-        #     self,
-        #     blurRadius=9.0,
-        #     offset=QPointF(8.0, 8.0)
-        # )
-        # self.frame_center.setGraphicsEffect(shadow)
         # DATA
         self.dialog_result = -1
         self.department = None

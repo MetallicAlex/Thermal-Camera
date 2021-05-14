@@ -51,19 +51,19 @@ class DBManagement:
             session.add_all(devices)
         self._devices = devices
 
-    def update_device(self, identifier: str, new_device: Union[models.Device, dict]):
+    def update_device(self, identifier: int, new_device: Union[models.Device, dict]):
         with models.get_session() as session:
             if isinstance(new_device, models.Device):
                 session.query(models.Device) \
                     .filter(models.Device.id == identifier) \
                     .update(
                     {
-                        models.Device.id: new_device.id,
+                        models.Device.serial_number: new_device.serial_number,
                         models.Device.name: new_device.name,
                         models.Device.model: new_device.model,
                         models.Device.mac_address: new_device.mac_address,
                         models.Device.ip_address: new_device.ip_address,
-                        models.Device.version: new_device.version,
+                        models.Device.firmware_version: new_device.firmware_version,
                         models.Device.token: new_device.token
                     }
                 )
@@ -73,7 +73,7 @@ class DBManagement:
                     .update(new_device)
         self._devices = new_device
 
-    def remove_devices(self, *identifiers: str):
+    def remove_devices(self, *identifiers: int):
         with models.get_session() as session:
             session.query(models.Device) \
                 .filter(models.Device.id.in_(identifiers)) \
@@ -908,6 +908,9 @@ class DeviceManagement:
     def remove_device(self, device: models.Device):
         self.devices.remove(device)
 
+    def clear_devices(self):
+        self.devices.clear()
+
     def find_devices(self, binding_devices: list = None):
         os.popen('chcp 437')
         with os.popen(f'arp -a -N {self.host}') as file:
@@ -933,10 +936,12 @@ class DeviceManagement:
                 for information in request.text.split('<br>'):
                     information = information.split('=')
                     if information[0] == 'getdeviceserial':
-                        identifier = information[1]
+                        serial_number = information[1]
                     elif information[0] == 'getdevname':
                         name = information[1]
                     elif information[0] == 'getdevicetype':
+                        device_type = information[1]
+                    elif information[0] == 'getdevicemodel':
                         model = information[1]
                     elif information[0] == 'getsoftwareversion':
                         version = information[1]
@@ -945,13 +950,15 @@ class DeviceManagement:
                     elif information[0] == 'netip':
                         ip_address = information[1]
                 device = models.Device(
-                    identifier=identifier,
+                    serial_number=serial_number,
                     name=name,
+                    device_type=device_type,
                     model=model,
                     firmware_version=version,
                     mac_address=mac_address,
                     ip_address=ip_address
                 )
+                print(device)
                 self.add_device(device)
         except requests.exceptions.ConnectionError as e:
             pass

@@ -23,13 +23,11 @@
    <number>-1</number>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {background: transparent; }
-QToolTip {
-	color: #ffffff;
-	background-color: rgba(27, 29, 35, 160);
-	border: 1px solid rgb(40, 40, 40);
-	border-radius: 2px;
-}</string>
+   <string notr="true">QToolTip { 
+                           background-color: black; 
+                           color: white; 
+                           border: black solid 1px
+                           }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
@@ -43,7 +41,7 @@ QToolTip {
    </property>
    <property name="styleSheet">
     <string notr="true">background: transparent;
-color: rgb(210, 210, 210);</string>
+color: rgba(255, 255, 255, 221);</string>
    </property>
    <widget class="QFrame" name="frame_main">
     <property name="geometry">
@@ -293,7 +291,7 @@ QDateTimeEdit::drop-down {
  }
 QDateTimeEdit QAbstractItemView {
 	color: rgb(85, 170, 255);	
-	background-color: rgb(27, 29, 35);
+	background-color: #0C5DB9;
 	padding: 10px;
 	selection-background-color: rgb(39, 44, 54);
 }
@@ -363,33 +361,13 @@ QDoubleSpinBox QAbstractItemView {
 QCalendarWidget QToolButton {
 	height: 40px;
 	width: 120px;
-	color: rgb(180,180,180);
+	color: #FFFFFF;
 	font-size: 16px;
 	font: &quot;Segoe UI&quot;;
 	icon-size:20px, 20px;
-	background-color:black;
+	background-color: #0C5DB9;
 }
-
-  /* header row */
-QCalendarWidget  QWidget
-{
-	alternate-background-color: rgb(52, 59, 72);
-}
-  /*normal days */
-QCalendarWidget QAbstractItemView:enabled {
-	font-size:12px;
-	font: &quot;Segoe UI&quot;;
-	color: rgb(180,180,180);
-	background-color: black;
-	selection-background-color: rgb(52, 59, 72); 
-	selection-color:rgb(85, 170, 255);
-}
-#qt_calendar_prevmonth{
-	qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);
-}
-#qt_calendar_nextmonth{
-	qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);
-}</string>
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>
@@ -839,9 +817,6 @@ QPushButton:pressed {
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
@@ -1204,7 +1179,7 @@ QPushButton:pressed {
               <string notr="true"/>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="page_control">
               <widget class="QTableWidget" name="table_control">
@@ -1775,7 +1750,7 @@ QDoubleSpinBox QAbstractItemView {
                 <double>0.100000000000000</double>
                </property>
                <property name="value">
-                <double>35.500000000000000</double>
+                <double>37.500000000000000</double>
                </property>
               </widget>
               <widget class="QLabel" name="label_notice">
@@ -2116,7 +2091,7 @@ QHeaderView::section:horizontal
                 <number>0</number>
                </property>
                <property name="columnCount">
-                <number>7</number>
+                <number>9</number>
                </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
@@ -2195,6 +2170,14 @@ QHeaderView::section:horizontal
                </column>
                <column>
                 <property name="text">
+                 <string>Тип</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
                  <string>Модель</string>
                 </property>
                 <property name="font">
@@ -2202,6 +2185,14 @@ QHeaderView::section:horizontal
                   <family>Segoe UI</family>
                   <pointsize>9</pointsize>
                  </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Версия прошивки</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -2223,7 +2214,7 @@ QHeaderView::section:horizontal
                </column>
                <column>
                 <property name="text">
-                 <string>MAC-Address</string>
+                 <string>IP-адрес</string>
                 </property>
                 <property name="font">
                  <font>
@@ -3832,7 +3823,7 @@ QPushButton:pressed {
                    <normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</normaloff>:/16x16/data/resources/icons/16x16/cil-pencil.png</iconset>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_id">
+                <widget class="QLineEdit" name="lineEdit_personnel_number">
                  <property name="geometry">
                   <rect>
                    <x>190</x>
@@ -3876,7 +3867,7 @@ QLineEdit:focus {
                   <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
-                <widget class="QLabel" name="label_id">
+                <widget class="QLabel" name="label_personnel_number">
                  <property name="geometry">
                   <rect>
                    <x>20</x>
@@ -3897,7 +3888,7 @@ QLineEdit:focus {
                   <string notr="true">color: #09376B;</string>
                  </property>
                  <property name="text">
-                  <string>Идентификатор</string>
+                  <string>Табельный номер</string>
                  </property>
                 </widget>
                 <widget class="QLabel" name="label_profile_name">
@@ -5514,10 +5505,31 @@ QDateTimeEdit:hover{
 	border: 2px solid #0C5DB9;
 }
 QDateTimeEdit QAbstractItemView {
-	color: rgb(85, 170, 255);	
-	background-color: rgb(27, 29, 35);
+	color: #FFFFFF;
+	background-color: #0C5DB9;
 	padding: 10px;
-	selection-background-color: rgb(39, 44, 54);
+	selection-background-color: #91D1EE;
+}
+  /* header row */
+QCalendarWidget  QWidget
+{
+	background-color: #0C5DB9;
+	alternate-background-color: #0C5DB9;
+}
+  /*normal days */
+QCalendarWidget QAbstractItemView:enabled {
+	font-size:12px;
+	font: &quot;Segoe UI&quot;;
+	color: #FFFFFF;
+	background-color: #0C5DB9;
+	selection-background-color:  #91D1EE;
+	selection-color: #FFFFFF;
+}
+#qt_calendar_prevmonth{
+	qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);
+}
+#qt_calendar_nextmonth{
+	qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);
 }</string>
                </property>
                <property name="alignment">
@@ -5575,10 +5587,31 @@ QDateTimeEdit:hover{
 	border: 2px solid #0C5DB9;
 }
 QDateTimeEdit QAbstractItemView {
-	color: rgb(85, 170, 255);	
-	background-color: rgb(27, 29, 35);
+	color: #FFFFFF;
+	background-color: #0C5DB9;
 	padding: 10px;
-	selection-background-color: rgb(39, 44, 54);
+	selection-background-color: #91D1EE;
+}
+  /* header row */
+QCalendarWidget  QWidget
+{
+	background-color: #0C5DB9;
+	alternate-background-color: #0C5DB9;
+}
+  /*normal days */
+QCalendarWidget QAbstractItemView:enabled {
+	font-size:12px;
+	font: &quot;Segoe UI&quot;;
+	color: #FFFFFF;
+	background-color: #0C5DB9;
+	selection-background-color:  #91D1EE;
+	selection-color: #FFFFFF;
+}
+#qt_calendar_prevmonth{
+	qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);
+}
+#qt_calendar_nextmonth{
+	qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);
 }</string>
                </property>
                <property name="alignment">
@@ -5678,47 +5711,6 @@ QPushButton:pressed {
                <property name="icon">
                 <iconset resource="../files.qrc">
                  <normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</iconset>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="button_all_statistic">
-               <property name="geometry">
-                <rect>
-                 <x>380</x>
-                 <y>15</y>
-                 <width>150</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border: 2px solid rgb(52, 59, 72);
-	border-radius: 10px;	
-	background-color: rgb(52, 59, 72);
-	color: rgb(255, 255, 255, 221);
-}
-QPushButton:hover {
-	background-color: rgb(57, 65, 80);
-	color: rgb(227, 227, 227);
-	border: 2px solid rgb(61, 70, 86);
-}
-QPushButton:pressed {	
-	background-color: rgb(35, 40, 49);
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(43, 50, 61);
-}</string>
-               </property>
-               <property name="text">
-                <string>All Statistic</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</iconset>
                </property>
               </widget>
               <widget class="QPushButton" name="button_export_statistics_data">
@@ -6495,6 +6487,32 @@ QDoubleSpinBox QAbstractItemView {
               <property name="bottomMargin">
                <number>0</number>
               </property>
+              <item>
+               <widget class="QProgressBar" name="progressBar">
+                <property name="maximumSize">
+                 <size>
+                  <width>300</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QProgressBar
+{
+	border: solid grey;
+	border-radius: 15px;
+	color: #FFFFFF;
+	text-align: center
+}
+QProgressBar::chunk 
+{
+	background-color: #91D1EE;
+}    </string>
+                </property>
+                <property name="value">
+                 <number>24</number>
+                </property>
+               </widget>
+              </item>
               <item>
                <widget class="QLabel" name="label_statusbar">
                 <property name="font">
