@@ -14,6 +14,7 @@ class SubscribePlatform(QtCore.QObject):
     device = QtCore.pyqtSignal(dict)
     token = QtCore.pyqtSignal(tuple)
     profiles = QtCore.pyqtSignal(object)
+    information = QtCore.pyqtSignal(tuple)
 
     running = False
     _host = None
@@ -93,12 +94,15 @@ class SubscribePlatform(QtCore.QObject):
                     self.token.emit((self.data['device_id'], self.data['datas']['device_token']))
             elif self.data['tag'] == 'device_info':
                 self.device.emit(self.data)
+            elif self.data['tag'] == 'remote_config':
+                self.information.emit((self.data['tag'], self.data['msg']))
 
     def record_person_information(self):
         if self.data['datas']['matched'] == '1':
             self.record_profile_information()
         elif self.data['datas']['matched'] == '0':
-            self.record_stranger_information()
+            pass
+            # self.record_stranger_information()
 
     def record_profile_information(self):
         statistic = models.Statistic(

@@ -130,6 +130,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_add_devices.clicked.connect(self._button_add_new_devices_clicked)
         self.table_devices.itemSelectionChanged.connect(self._device_selected_row)
         self.table_devices.horizontalHeader().sectionPressed.connect(self._checkbox_header_devices_pressed)
+        self.horizontalSlider_volume.valueChanged.connect(self._horizontal_slider_volume_value_changed)
+        self.horizontalSlider_brightness.valueChanged.connect(self._horizontal_slider_brightness_value_changed)
         # PAGE DATABASE
         self.button_add_profile.clicked.connect(self._button_add_profile_clicked)
         self.button_edit_profile.clicked.connect(self._button_edit_profile_clicked)
@@ -161,6 +163,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.subscribe_platform.device.connect(self._update_device_info)
             self.subscribe_platform.profiles.connect(self._get_profiles_from_device)
             self.subscribe_platform.token.connect(self._get_token)
+            self.subscribe_platform.information.connect(self._get_information)
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
         self._load_devices_info_to_table()
@@ -178,6 +181,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_close_clicked(self, event):
         pass
+
+    def _horizontal_slider_volume_value_changed(self):
+        self.label_volume.setText(f'{self.setting.lang["volume"]}: {self.horizontalSlider_volume.value()}')
+
+    def _horizontal_slider_brightness_value_changed(self):
+        self.label_brightness.setText(f'{self.setting.lang["brightness"]}: {self.horizontalSlider_brightness.value()}')
 
     def _button_control_clicked(self, event):
         self._update_system_buttons(self.button_control)
@@ -628,11 +637,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         row_position = self.table_devices.selectedIndexes()[0].row()
         device = self.devices[row_position]
         if device.online:
-            self.publish_platform.set_device(device.id, device.token)
+            self.publish_platform.set_device(device.serial_number, device.token)
             if device.name != self.lineEdit_device_name.text():
                 pass
             if device.volume != self.horizontalSlider_volume.value() \
-                    or device.brightness != self.horizontalSlider_brightness.value():
+                    or device.brightness != self.horizontalSlider_brightness.value()\
+                    or device.light_supplementary != self.toggle_light.isChecked():
+                device.volume = self.horizontalSlider_volume.value()
+                device.brightness = self.horizontalSlider_brightness.value()
+                device.light_supplementary = self.toggle_light.isChecked()
                 self.publish_platform.update_remote_configuration(
                     volume=device.volume,
                     screen_brightness=device.brightness,
@@ -695,6 +708,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.lineEdit_ddns2.setText('')
                 self.horizontalSlider_volume.setValue(self.devices[row_position].volume)
                 self.horizontalSlider_brightness.setValue(self.devices[row_position].brightness)
+                self.toggle_light.setChecked(self.devices[row_position].light_supplementary)
+                self.toggle_check_mask.setChecked(self.devices[row_position].mask_detection)
+                self.toggle_check_temperature.setChecked(self.devices[row_position].temperature_check)
+                self.toggle_strangers_passage.setChecked(self.devices[row_position].stranger_passage)
+                self.toggle_save_record.setChecked(self.devices[row_position].record_save)
+                self.toggle_save_face.setChecked(self.devices[row_position].save_jpeg)
                 self.lineEdit_record_time.setText(str(self.devices[row_position].record_save_time))
             else:
                 self.lineEdit_subnet_mask.setText('')
@@ -703,6 +722,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.lineEdit_ddns2.setText('')
                 self.horizontalSlider_volume.setValue(0)
                 self.horizontalSlider_brightness.setValue(45)
+                self.toggle_light.setChecked(False)
+                self.toggle_check_mask.setChecked(False)
+                self.toggle_check_temperature.setChecked(False)
+                self.toggle_strangers_passage.setChecked(False)
+                self.toggle_save_record.setChecked(False)
+                self.toggle_save_face.setChecked(False)
                 self.lineEdit_record_time.setText('')
 
     # EVENTS-STATISTICS
@@ -821,6 +846,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.devices[row_position].save_jpeg = data['datas']['fun_param']['save_jpeg']
                 self.database_management.update_device(self.devices[row_position].id, self.devices[row_position])
                 break
+
+    @QtCore.pyqtSlot(tuple)
+    def _get_information(self, text: tuple):
+        self.blur_effect.setEnabled(True)
+        messagebox = InformationMessageBox()
+        messagebox.label_title.setText(text[0])
+        messagebox.label_info.setText(text[1])
+        messagebox.exec_()
+        self.blur_effect.setEnabled(False)
 
     @QtCore.pyqtSlot(tuple)
     def _get_token(self, token: tuple):
@@ -1294,8 +1328,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_cancel_new_devices.setText(self.setting.lang['btn_cancel_new_device'])
         self.button_add_devices.setText(self.setting.lang['btn_add_new_device'])
         self.label_device_name.setText(self.setting.lang['device_name'])
-        self.label_volume.setText(self.setting.lang['volume'])
-        self.label_brightness.setText(self.setting.lang['brightness'])
+        self.label_volume.setText(f'{self.setting.lang["volume"]}: 0')
+        self.label_brightness.setText(f'{self.setting.lang["brightness"]}: 45')
         self.label_light.setText(self.setting.lang['light'])
         self.label_ip_address.setText(self.setting.lang['ip_address'])
         self.label_subnet_mask.setText(self.setting.lang['subnet_mask'])
