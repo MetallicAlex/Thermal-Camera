@@ -1,4 +1,5 @@
 from datetime import datetime
+import base64
 import json
 import paho.mqtt.client as mqtt
 
@@ -87,6 +88,27 @@ class PublishPlatform:
             'device_id': self.device_id,
             'tag': 'unbind_control',
             'bind_ctrl': 0
+        }
+        self._publish_data()
+
+    def update_basic_configuration(self,
+                                   name: str,
+                                   password: str = '12345',
+                                   sync_server: bool = False,
+                                   sync_time: str = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+                                   ):
+        self.data = {
+            'mqtt_cmd': 1,
+            'mqtt_operate_id': 1,
+            'device_token': self.device_token,
+            'device_id': self.device_id,
+            'tag': 'basic_config',
+            'basic_config': {
+                'dev_name': name,
+                'dev_pwd': base64.standard_b64encode(password.encode('utf-8')).decode('utf-8'),
+                'sync_server_pts_en': sync_server,
+                'server_cur_pts': sync_time
+            }
         }
         self._publish_data()
 

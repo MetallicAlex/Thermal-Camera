@@ -639,7 +639,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if device.online:
             self.publish_platform.set_device(device.serial_number, device.token)
             if device.name != self.lineEdit_device_name.text():
-                pass
+                device.name = self.lineEdit_device_name.text()
+                self.table_devices.item(row_position, 2).setText(device.name)
+                self.publish_platform.update_basic_configuration(name=device.name)
             if device.volume != self.horizontalSlider_volume.value() \
                     or device.brightness != self.horizontalSlider_brightness.value()\
                     or device.light_supplementary != self.toggle_light.isChecked():

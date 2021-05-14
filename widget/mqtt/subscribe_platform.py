@@ -94,7 +94,7 @@ class SubscribePlatform(QtCore.QObject):
                     self.token.emit((self.data['device_id'], self.data['datas']['device_token']))
             elif self.data['tag'] == 'device_info':
                 self.device.emit(self.data)
-            elif self.data['tag'] == 'remote_config':
+            elif self.data['tag'] in ('remote_config', 'basic_config'):
                 self.information.emit((self.data['tag'], self.data['msg']))
 
     def record_person_information(self):
