@@ -635,91 +635,100 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.is_new_devices_table = False
 
     def _button_configure_device_clicked(self, event):
-        row_position = self.table_devices.selectedIndexes()[0].row()
-        device = self.devices[row_position]
-        self.device_configuration = {
-            'row': row_position,
-            'basic_config': {},
-            'network_config': {},
-            'remote_config': {},
-            'temperature_config': {}
-        }
-        if device.online:
-            self.publish_platform.set_device(device.serial_number, device.token)
-            if device.name != self.lineEdit_device_name.text():
-                self.device_configuration['basic_config']['name'] = copy.copy(device.name)
-                device.name = self.lineEdit_device_name.text()
-                self.table_devices.item(row_position, 2).setText(device.name)
-                self.publish_platform.update_basic_configuration(name=device.name)
-            if device.volume != self.horizontalSlider_volume.value() \
-                    or device.brightness != self.horizontalSlider_brightness.value()\
-                    or device.light_supplementary != self.toggle_light.isChecked():
-                self.device_configuration['remote_config']['volume'] = copy.copy(device.volume)
-                self.device_configuration['remote_config']['brightness'] = copy.copy(device.brightness)
-                self.device_configuration['remote_config']['light'] = copy.copy(device.light_supplementary)
-                device.volume = self.horizontalSlider_volume.value()
-                device.brightness = self.horizontalSlider_brightness.value()
-                device.light_supplementary = self.toggle_light.isChecked()
-                self.publish_platform.update_remote_configuration(
-                    volume=device.volume,
-                    screen_brightness=device.brightness,
-                    light_supplementary=device.light_supplementary
-                )
-            if device.record_save_time != int(self.lineEdit_record_time.text()) \
-                    or device.temperature_check != self.toggle_check_temperature.isChecked()\
-                    or device.mask_detection != self.toggle_check_mask.isChecked()\
-                    or device.stranger_passage != self.toggle_strangers_passage.isChecked()\
-                    or device.save_jpeg != self.toggle_save_face.isChecked()\
-                    or device.record_save != self.toggle_save_record.isChecked():
-                self.device_configuration['temperature_config']['check_temp'] = copy.copy(device.temperature_check)
-                self.device_configuration['temperature_config']['check_mask'] = copy.copy(device.mask_detection)
-                self.device_configuration['temperature_config']['stranger_passage'] = copy.copy(device.stranger_passage)
-                self.device_configuration['temperature_config']['face_save'] = copy.copy(device.save_jpeg)
-                self.device_configuration['temperature_config']['record_save'] = copy.copy(device.record_save)
-                self.device_configuration['temperature_config']['record_time'] = copy.copy(device.record_save_time)
-                device.temperature_check = self.toggle_check_temperature.isChecked()
-                device.mask_detection = self.toggle_check_mask.isChecked()
-                device.stranger_passage = self.toggle_strangers_passage.isChecked()
-                device.save_jpeg = self.toggle_save_face.isChecked()
-                device.record_save = self.toggle_save_record.isChecked()
-                device.record_save_time = int(self.lineEdit_record_time.text())
-                device.temperature_alarm = self.doubleSpinBox_alarm_temperature.value()
-                self.publish_platform.update_temperature_configuration(
-                    temperature_check=device.temperature_check,
-                    stranger_passage=device.stranger_passage,
-                    mask_detection=device.mask_detection,
-                    alarm_temperature=device.temperature_alarm,
-                    temperature_compensation=device.temperature_compensation,
-                    record_save_time=device.record_save_time,
-                    save_record=device.record_save,
-                    save_jpeg=device.save_jpeg
-                )
-            if device.ip_address != self.lineEdit_ip_address.text()\
-                    or device.subnet_mask != self.lineEdit_subnet_mask.text()\
-                    or device.gateway != self.lineEdit_gateway.text()\
-                    or device.ddns1 != self.lineEdit_ddns1.text()\
-                    or device.ddns2 != self.lineEdit_ddns2.text()\
-                    or device.dhcp != self.toggle_dhcp.isChecked():
-                self.device_configuration['network_config']['ip_address'] = copy.copy(device.ip_address)
-                self.device_configuration['network_config']['subnet_mask'] = copy.copy(device.subnet_mask)
-                self.device_configuration['network_config']['gateway'] = copy.copy(device.gateway)
-                self.device_configuration['network_config']['ddns1'] = copy.copy(device.ddns1)
-                self.device_configuration['network_config']['ddns2'] = copy.copy(device.ddns2)
-                self.device_configuration['network_config']['dhcp'] = copy.copy(device.dhcp)
-                device.ip_address = self.lineEdit_ip_address.text()
-                device.subnet_mask = self.lineEdit_subnet_mask.text()
-                device.gateway = self.lineEdit_gateway.text()
-                device.ddns1 = self.lineEdit_ddns1.text()
-                device.ddns2 = self.lineEdit_ddns2.text()
-                device.dhcp = self.toggle_dhcp.isChecked()
-                self.publish_platform.update_network_configuration(
-                    ip_address=device.ip_address,
-                    gateway=device.gateway,
-                    net_mask=device.subnet_mask,
-                    DDNS1=device.ddns1,
-                    DDNS2=device.ddns2,
-                    DHCP=device.dhcp
-                )
+        rows = self.table_devices.selectedIndexes()
+        if rows:
+            row_position = rows[0].row()
+            device = self.devices[row_position]
+            self.device_configuration = {
+                'row': row_position,
+                'basic_config': {},
+                'network_config': {},
+                'remote_config': {},
+                'temperature_config': {}
+            }
+            if device.online:
+                self.publish_platform.set_device(device.serial_number, device.token)
+                if device.name != self.lineEdit_device_name.text():
+                    self.device_configuration['basic_config']['name'] = copy.copy(device.name)
+                    device.name = self.lineEdit_device_name.text()
+                    self.table_devices.item(row_position, 2).setText(device.name)
+                    self.publish_platform.update_basic_configuration(name=device.name)
+                if device.volume != self.horizontalSlider_volume.value() \
+                        or device.brightness != self.horizontalSlider_brightness.value()\
+                        or device.light_supplementary != self.toggle_light.isChecked():
+                    self.device_configuration['remote_config']['volume'] = copy.copy(device.volume)
+                    self.device_configuration['remote_config']['brightness'] = copy.copy(device.brightness)
+                    self.device_configuration['remote_config']['light'] = copy.copy(device.light_supplementary)
+                    device.volume = self.horizontalSlider_volume.value()
+                    device.brightness = self.horizontalSlider_brightness.value()
+                    device.light_supplementary = self.toggle_light.isChecked()
+                    self.publish_platform.update_remote_configuration(
+                        volume=device.volume,
+                        screen_brightness=device.brightness,
+                        light_supplementary=device.light_supplementary
+                    )
+                if device.record_save_time != int(self.lineEdit_record_time.text()) \
+                        or device.temperature_check != self.toggle_check_temperature.isChecked()\
+                        or device.mask_detection != self.toggle_check_mask.isChecked()\
+                        or device.stranger_passage != self.toggle_strangers_passage.isChecked()\
+                        or device.save_jpeg != self.toggle_save_face.isChecked()\
+                        or device.record_save != self.toggle_save_record.isChecked():
+                    self.device_configuration['temperature_config']['check_temp'] = copy.copy(device.temperature_check)
+                    self.device_configuration['temperature_config']['check_mask'] = copy.copy(device.mask_detection)
+                    self.device_configuration['temperature_config']['stranger_passage'] = copy.copy(device.stranger_passage)
+                    self.device_configuration['temperature_config']['face_save'] = copy.copy(device.save_jpeg)
+                    self.device_configuration['temperature_config']['record_save'] = copy.copy(device.record_save)
+                    self.device_configuration['temperature_config']['record_time'] = copy.copy(device.record_save_time)
+                    device.temperature_check = self.toggle_check_temperature.isChecked()
+                    device.mask_detection = self.toggle_check_mask.isChecked()
+                    device.stranger_passage = self.toggle_strangers_passage.isChecked()
+                    device.save_jpeg = self.toggle_save_face.isChecked()
+                    device.record_save = self.toggle_save_record.isChecked()
+                    device.record_save_time = int(self.lineEdit_record_time.text())
+                    device.temperature_alarm = self.doubleSpinBox_alarm_temperature.value()
+                    self.publish_platform.update_temperature_configuration(
+                        temperature_check=device.temperature_check,
+                        stranger_passage=device.stranger_passage,
+                        mask_detection=device.mask_detection,
+                        alarm_temperature=device.temperature_alarm,
+                        temperature_compensation=device.temperature_compensation,
+                        record_save_time=device.record_save_time,
+                        save_record=device.record_save,
+                        save_jpeg=device.save_jpeg
+                    )
+                if device.ip_address != self.lineEdit_ip_address.text()\
+                        or device.subnet_mask != self.lineEdit_subnet_mask.text()\
+                        or device.gateway != self.lineEdit_gateway.text()\
+                        or device.ddns1 != self.lineEdit_ddns1.text()\
+                        or device.ddns2 != self.lineEdit_ddns2.text()\
+                        or device.dhcp != self.toggle_dhcp.isChecked():
+                    self.device_configuration['network_config']['ip_address'] = copy.copy(device.ip_address)
+                    self.device_configuration['network_config']['subnet_mask'] = copy.copy(device.subnet_mask)
+                    self.device_configuration['network_config']['gateway'] = copy.copy(device.gateway)
+                    self.device_configuration['network_config']['ddns1'] = copy.copy(device.ddns1)
+                    self.device_configuration['network_config']['ddns2'] = copy.copy(device.ddns2)
+                    self.device_configuration['network_config']['dhcp'] = copy.copy(device.dhcp)
+                    device.ip_address = self.lineEdit_ip_address.text()
+                    device.subnet_mask = self.lineEdit_subnet_mask.text()
+                    device.gateway = self.lineEdit_gateway.text()
+                    device.ddns1 = self.lineEdit_ddns1.text()
+                    device.ddns2 = self.lineEdit_ddns2.text()
+                    device.dhcp = self.toggle_dhcp.isChecked()
+                    self.publish_platform.update_network_configuration(
+                        ip_address=device.ip_address,
+                        gateway=device.gateway,
+                        net_mask=device.subnet_mask,
+                        DDNS1=device.ddns1,
+                        DDNS2=device.ddns2,
+                        DHCP=device.dhcp
+                    )
+        else:
+            self.blur_effect.setEnabled(True)
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Настройка устройства')
+            messagebox.label_info.setText('Не выделено устройство.')
+            messagebox.exec_()
+            self.blur_effect.setEnabled(False)
 
     def _button_delete_device_clicked(self, event):
         remove_devices = []
