@@ -198,18 +198,16 @@ class PublishPlatform:
     def update_network_configuration(self, ip_address: str,
                                      gateway: str,
                                      net_mask: str = '255.255.255.0',
-                                     DDNS1: str = None,
+                                     DDNS1: str = '4.4.4.4',
                                      DDNS2: str = '8.8.8.8',
                                      DHCP: bool = False
                                      ):
-        if not DDNS1:
-            DDNS1 = gateway
         self.data = {
             'mqtt_cmd': 1,
             'mqtt_operate_id': 2,
             'device_token': self.device_token,
             'device_id': self.device_id,
-            'tag': 'platform define',
+            'tag': 'network_config',
             'network_cofnig': {
                 'id_addr': ip_address,
                 'net_mask': net_mask,

@@ -81,6 +81,8 @@ class SubscribePlatform(QtCore.QObject):
         self.define_message()
 
     def define_message(self):
+        if self.data['tag'] in ('remote_config', 'basic_config', 'temperature_config', 'network_config'):
+            self.information.emit((self.data['tag'], self.data['device_id'], self.data['code']))
         if self.data['code'] == -1:
             self.log('error.log',
                      f'[{datetime.now()}][{self.data["device_id"]}] {self.data["tag"]}: {self.data["msg"]}\n')
@@ -94,8 +96,6 @@ class SubscribePlatform(QtCore.QObject):
                     self.token.emit((self.data['device_id'], self.data['datas']['device_token']))
             elif self.data['tag'] == 'device_info':
                 self.device.emit(self.data)
-            elif self.data['tag'] in ('remote_config', 'basic_config'):
-                self.information.emit((self.data['tag'], self.data['msg']))
 
     def record_person_information(self):
         if self.data['datas']['matched'] == '1':

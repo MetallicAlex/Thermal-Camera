@@ -6,8 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import null
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.attributes import InstrumentedAttribute
-import enum
-from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Enum, Boolean
+from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Boolean
 
 engine = sqlalchemy.create_engine('mysql+pymysql://root:admin@localhost/thermalcamera')
 Base = declarative_base()
@@ -39,9 +38,13 @@ class Device(Base):
     _record_save = False
     _record_save_time = -1
     _save_jpeg = False
+    _subnet_mask = '255.255.255.0'
+    _gateway = '127.0.0.1'
+    _ddns1 = '127.0.0.1'
+    _ddns2 = '8.8.8.8'
+    _dhcp = False
 
     def __init__(self,
-                 # identifier: null(),
                  serial_number: str,
                  name: str = null(),
                  device_type: str = null(),
@@ -51,7 +54,6 @@ class Device(Base):
                  ip_address: str = null(),
                  token: str = null()
                  ):
-        # self.id = identifier
         self.serial_number = serial_number
         self.name = name
         self.device_type = device_type
@@ -183,6 +185,47 @@ class Device(Base):
                 self._record_save_time = value
             else:
                 self._record_save_time = -1
+
+    @property
+    def subnet_mask(self):
+        return self._subnet_mask
+
+    @subnet_mask.setter
+    def subnet_mask(self, value):
+        self._subnet_mask = value
+
+    @property
+    def gateway(self):
+        return self._gateway
+
+    @gateway.setter
+    def gateway(self, value):
+        self._gateway = value
+
+    @property
+    def ddns1(self):
+        return self._ddns1
+
+    @ddns1.setter
+    def ddns1(self, value):
+        self._ddns1 = value
+
+    @property
+    def ddns2(self):
+        return self._ddns2
+
+    @ddns2.setter
+    def ddns2(self, value):
+        self._ddns2 = value
+
+    @property
+    def dhcp(self):
+        return self._dhcp
+
+    @dhcp.setter
+    def dhcp(self, value):
+        if isinstance(value, bool):
+            self._dhcp = value
 
     def __repr__(self):
         return f'[ID: {self.id}, Ser.Number: {self.serial_number}, Name: {self.name}, Type: {self.device_type},' \

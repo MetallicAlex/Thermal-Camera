@@ -5,6 +5,7 @@ import multiprocessing
 import datetime
 import time
 import natsort
+import copy
 from typing import Union
 import numpy as np
 from sqlalchemy import null
@@ -636,15 +637,26 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _button_configure_device_clicked(self, event):
         row_position = self.table_devices.selectedIndexes()[0].row()
         device = self.devices[row_position]
+        self.device_configuration = {
+            'row': row_position,
+            'basic_config': {},
+            'network_config': {},
+            'remote_config': {},
+            'temperature_config': {}
+        }
         if device.online:
             self.publish_platform.set_device(device.serial_number, device.token)
             if device.name != self.lineEdit_device_name.text():
+                self.device_configuration['basic_config']['name'] = copy.copy(device.name)
                 device.name = self.lineEdit_device_name.text()
                 self.table_devices.item(row_position, 2).setText(device.name)
                 self.publish_platform.update_basic_configuration(name=device.name)
             if device.volume != self.horizontalSlider_volume.value() \
                     or device.brightness != self.horizontalSlider_brightness.value()\
                     or device.light_supplementary != self.toggle_light.isChecked():
+                self.device_configuration['remote_config']['volume'] = copy.copy(device.volume)
+                self.device_configuration['remote_config']['brightness'] = copy.copy(device.brightness)
+                self.device_configuration['remote_config']['light'] = copy.copy(device.light_supplementary)
                 device.volume = self.horizontalSlider_volume.value()
                 device.brightness = self.horizontalSlider_brightness.value()
                 device.light_supplementary = self.toggle_light.isChecked()
@@ -653,7 +665,25 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     screen_brightness=device.brightness,
                     light_supplementary=device.light_supplementary
                 )
-            if device.record_save_time != int(self.lineEdit_record_time.text()):
+            if device.record_save_time != int(self.lineEdit_record_time.text()) \
+                    or device.temperature_check != self.toggle_check_temperature.isChecked()\
+                    or device.mask_detection != self.toggle_check_mask.isChecked()\
+                    or device.stranger_passage != self.toggle_strangers_passage.isChecked()\
+                    or device.save_jpeg != self.toggle_save_face.isChecked()\
+                    or device.record_save != self.toggle_save_record.isChecked():
+                self.device_configuration['temperature_config']['check_temp'] = copy.copy(device.temperature_check)
+                self.device_configuration['temperature_config']['check_mask'] = copy.copy(device.mask_detection)
+                self.device_configuration['temperature_config']['stranger_passage'] = copy.copy(device.stranger_passage)
+                self.device_configuration['temperature_config']['face_save'] = copy.copy(device.save_jpeg)
+                self.device_configuration['temperature_config']['record_save'] = copy.copy(device.record_save)
+                self.device_configuration['temperature_config']['record_time'] = copy.copy(device.record_save_time)
+                device.temperature_check = self.toggle_check_temperature.isChecked()
+                device.mask_detection = self.toggle_check_mask.isChecked()
+                device.stranger_passage = self.toggle_strangers_passage.isChecked()
+                device.save_jpeg = self.toggle_save_face.isChecked()
+                device.record_save = self.toggle_save_record.isChecked()
+                device.record_save_time = int(self.lineEdit_record_time.text())
+                device.temperature_alarm = self.doubleSpinBox_alarm_temperature.value()
                 self.publish_platform.update_temperature_configuration(
                     temperature_check=device.temperature_check,
                     stranger_passage=device.stranger_passage,
@@ -663,6 +693,32 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     record_save_time=device.record_save_time,
                     save_record=device.record_save,
                     save_jpeg=device.save_jpeg
+                )
+            if device.ip_address != self.lineEdit_ip_address.text()\
+                    or device.subnet_mask != self.lineEdit_subnet_mask.text()\
+                    or device.gateway != self.lineEdit_gateway.text()\
+                    or device.ddns1 != self.lineEdit_ddns1.text()\
+                    or device.ddns2 != self.lineEdit_ddns2.text()\
+                    or device.dhcp != self.toggle_dhcp.isChecked():
+                self.device_configuration['network_config']['ip_address'] = copy.copy(device.ip_address)
+                self.device_configuration['network_config']['subnet_mask'] = copy.copy(device.subnet_mask)
+                self.device_configuration['network_config']['gateway'] = copy.copy(device.gateway)
+                self.device_configuration['network_config']['ddns1'] = copy.copy(device.ddns1)
+                self.device_configuration['network_config']['ddns2'] = copy.copy(device.ddns2)
+                self.device_configuration['network_config']['dhcp'] = copy.copy(device.dhcp)
+                device.ip_address = self.lineEdit_ip_address.text()
+                device.subnet_mask = self.lineEdit_subnet_mask.text()
+                device.gateway = self.lineEdit_gateway.text()
+                device.ddns1 = self.lineEdit_ddns1.text()
+                device.ddns2 = self.lineEdit_ddns2.text()
+                device.dhcp = self.toggle_dhcp.isChecked()
+                self.publish_platform.update_network_configuration(
+                    ip_address=device.ip_address,
+                    gateway=device.gateway,
+                    net_mask=device.subnet_mask,
+                    DDNS1=device.ddns1,
+                    DDNS2=device.ddns2,
+                    DHCP=device.dhcp
                 )
 
     def _button_delete_device_clicked(self, event):
@@ -704,10 +760,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.lineEdit_device_name.setText(self.devices[row_position].name)
             self.lineEdit_ip_address.setText(self.devices[row_position].ip_address)
             if self.devices[row_position].online:
-                self.lineEdit_subnet_mask.setText('')
-                self.lineEdit_gateway.setText('')
-                self.lineEdit_ddns1.setText('')
-                self.lineEdit_ddns2.setText('')
+                self.lineEdit_subnet_mask.setText(self.devices[row_position].subnet_mask)
+                self.lineEdit_gateway.setText(self.devices[row_position].gateway)
+                self.lineEdit_ddns1.setText(self.devices[row_position].ddns1)
+                self.lineEdit_ddns2.setText(self.devices[row_position].ddns2)
+                self.toggle_dhcp.setChecked(self.devices[row_position].dhcp)
                 self.horizontalSlider_volume.setValue(self.devices[row_position].volume)
                 self.horizontalSlider_brightness.setValue(self.devices[row_position].brightness)
                 self.toggle_light.setChecked(self.devices[row_position].light_supplementary)
@@ -833,6 +890,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 item = QTableWidgetItem(data['datas']['network_cofnig']['ip_addr'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 8, item)
+                # NETWORK CONFIG
+                self.devices[row_position].gateway = data['datas']['network_cofnig']['gateway']
+                self.devices[row_position].subnet_mask = data['datas']['network_cofnig']['net_mask']
+                self.devices[row_position].ddns1 = data['datas']['network_cofnig']['DDNS1']
+                self.devices[row_position].ddns2 = data['datas']['network_cofnig']['DDNS2']
+                self.devices[row_position].dhcp = data['datas']['network_cofnig']['DHCP']
                 # REMOTE CONFIG
                 self.devices[row_position].volume = data['datas']['remote_config']['volume_cur']
                 self.devices[row_position].brightness = data['datas']['remote_config']['screen_brightness_cur']
@@ -853,8 +916,55 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _get_information(self, text: tuple):
         self.blur_effect.setEnabled(True)
         messagebox = InformationMessageBox()
-        messagebox.label_title.setText(text[0])
-        messagebox.label_info.setText(text[1])
+        device = self.devices[self.device_configuration['row']]
+        if text[2] == -1:
+            color = 'background-color: #B9400C;'
+            information = self.setting.lang['message'][text[0]]['failure']
+            if text[0] == 'basic_config':
+                device.name = self.device_configuration['basic_config']['name']
+                self.lineEdit_device_name.text(self.device_configuration['basic_config']['name'])
+            elif text[0] == 'remote_config':
+                device.volume = self.device_configuration['remote_config']['volume']
+                self.horizontalSlider_volume.setValue(self.device_configuration['remote_config']['volume'])
+                device.brightness = self.device_configuration['remote_config']['brightness']
+                self.horizontalSlider_brightness.setValue(self.device_configuration['remote_config']['brightness'])
+                device.light_supplementary = self.device_configuration['remote_config']['light']
+                self.toggle_light.setChecked(self.device_configuration['remote_config']['light'])
+            elif text[0] == 'temperature_config':
+                device.temperature_check = self.device_configuration['temperature_config']['check_temp']
+                self.toggle_check_temperature.setChecked(self.device_configuration['temperature_config']['check_temp'])
+                device.mask_detection = self.device_configuration['temperature_config']['check_mask']
+                self.toggle_check_mask.setChecked(self.device_configuration['temperature_config']['check_mask'])
+                device.stranger_passage = self.device_configuration['temperature_config']['stranger_passage']
+                self.toggle_strangers_passage.setChecked(
+                    self.device_configuration['temperature_config']['stranger_passage']
+                )
+                device.save_jpeg = self.device_configuration['temperature_config']['face_save']
+                self.toggle_save_face.setChecked(self.device_configuration['temperature_config']['face_save'])
+                device.record_save = self.device_configuration['temperature_config']['record_save']
+                self.toggle_save_record.setChecked(self.device_configuration['temperature_config']['record_save'])
+                device.record_save_time = self.device_configuration['temperature_config']['record_time']
+                self.lineEdit_record_time.setText(str(self.device_configuration['temperature_config']['record_time']))
+            elif text[0] == 'network_config':
+                device.ip_address = self.device_configuration['network_config']['ip_address']
+                self.lineEdit_ip_address.setText(self.device_configuration['network_config']['ip_address'])
+                device.subnet_mask = self.device_configuration['network_config']['subnet_mask']
+                self.lineEdit_subnet_mask.setText(self.device_configuration['network_config']['subnet_mask'])
+                device.gateway = self.device_configuration['network_config']['gateway']
+                self.lineEdit_gateway.setText(self.device_configuration['network_config']['gateway'])
+                device.ddns1 = self.device_configuration['network_config']['ddns1']
+                self.lineEdit_ddns1.setText(self.device_configuration['network_config']['ddns1'])
+                device.ddns2 = self.device_configuration['network_config']['ddns2']
+                self.lineEdit_ddns2.setText(self.device_configuration['network_config']['ddns2'])
+                device.dhcp = self.device_configuration['network_config']['dhcp']
+                self.toggle_dhcp.setChecked(self.device_configuration['network_config']['dhcp'])
+        else:
+            color = 'background-color: #0CB53B;'
+            information = self.setting.lang['message'][text[0]]['success']
+        messagebox.label_title.setText(f"{self.setting.lang['message'][text[0]]['title']}: {text[1]}")
+        messagebox.label_info.setText(information)
+        messagebox.frame_center.setStyleSheet(color)
+        messagebox.frame_title.setStyleSheet(color)
         messagebox.exec_()
         self.blur_effect.setEnabled(False)
 
