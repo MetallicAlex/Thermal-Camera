@@ -229,7 +229,7 @@ class DBManagement:
             query = session.query(models.Profile)
             if identifiers:
                 query = query.filter(models.Profile.id.in_(identifiers))
-            self._profiles = query.order_by(func.abs(models.Profile.id)).all()
+            self._profiles = query.all()
         return self._profiles
 
     def create_profiles_pattern(self, filename):

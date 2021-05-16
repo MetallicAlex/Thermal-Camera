@@ -18,6 +18,7 @@ from PyQt5.QtCore import Qt
 from widget.forms.form_main_designer import Ui_MainWindow
 from widget.forms.form_device_database_view import FormDeviceDBView
 from widget.forms.form_stranger_table import FormStrangerTable
+from widget.forms.form_list_device import FormDeviceList
 from widget.forms.messagebox import ExportMessageBox, WarningMessageBox, InformationMessageBox
 from widget.forms.toggle_button import AnimatedToggle
 import widget.models as models
@@ -145,7 +146,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_edit_department.clicked.connect(self._button_edit_department_clicked)
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
         self.button_device_database_view.clicked.connect(self._button_device_database_view_clicked)
-        self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_persons_pressed)
+        self.button_delete_device_profiles.clicked.connect(self._button_delete_device_profiles)
+        self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_profiles_pressed)
         self.table_profiles.itemSelectionChanged.connect(self._profile_selected_row)
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         self.table_departments.itemSelectionChanged.connect(self._department_selected_row)
@@ -165,6 +167,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.subscribe_platform.profiles.connect(self._get_profiles_from_device)
             self.subscribe_platform.token.connect(self._get_token)
             self.subscribe_platform.information.connect(self._get_information)
+            self.subscribe_platform.profiles_loading.connect(self._get_loading_photos_result)
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
         self._load_devices_info_to_table()
@@ -199,10 +202,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_database_clicked(self, event):
         self._update_system_buttons(self.button_database)
-        # self.comboBox_databases.clear()
-        # self.comboBox_databases.addItems([
-        #     device.id for device in self.devices if device.online
-        # ])
+        self.comboBox_databases.clear()
+        devices = [device.serial_number for device in self.devices if device.online]
+        self.comboBox_databases.addItems(devices)
         self.stackedWidget.setCurrentWidget(self.page_database)
 
     def _button_statistic_clicked(self, event):
@@ -445,35 +447,40 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_show_photo.setToolTip(f'<br><img src="{self.image_filename}" width="360" alt="lorem"')
 
     def _button_send_device_clicked(self, event):
-        if self.comboBox_databases.currentText() == '':
+        devices = [
+            device
+            for device in self.devices
+            if device.online
+        ]
+        profiles = self.database_management.get_profiles()
+        profile_identifiers = [
+            profiles[row_position].id
+            for row_position in range(self.table_profiles.rowCount())
+            if self.table_profiles.cellWidget(row_position, 0).isChecked()
+        ]
+        if self.table_profiles.horizontalHeaderItem(0).checkState() == Qt.Unchecked and len(profile_identifiers) <= 0:
+            self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.setWindowTitle('Information')
-            messagebox.label_title.setText('Information - Send to Device')
-            messagebox.label_info.setText('No connected devices')
+            messagebox.label_title.setText('Отправка данных')
+            messagebox.label_info.setText('Не выбраны пользователи\nдля отправки на устройство.')
             messagebox.exec_()
+            self.blur_effect.setEnabled(False)
+        elif len(devices) > 0:
+            self.blur_effect.setEnabled(True)
+            form_device_list = FormDeviceList(devices)
+            form_device_list.exec_()
+            self.blur_effect.setEnabled(False)
+            if form_device_list.dialog_result == 0:
+                for device in form_device_list.devices:
+                    self.publish_platform.set_device(device.serial_number, device.token)
+                    self.publish_platform.add_profiles_data(profile_identifiers)
         else:
-            for dev in self.devices:
-                if dev.id == self.comboBox_databases.currentText():
-                    device = dev
-                    break
-            self.publish_platform.set_device(device.id, device.token)
-            if not self.table_profiles.horizontalHeaderItem(0).checkState():
-                profile_ids = [
-                    self.table_profiles.item(row_position, 1).text()
-                    for row_position in range(self.table_profiles.rowCount())
-                    if self.table_profiles.cellWidget(row_position, 0).isChecked()
-                ]
-                if len(profile_ids) <= 0:
-                    messagebox = InformationMessageBox()
-                    messagebox.setWindowTitle('Information')
-                    messagebox.label_title.setText('Information - Send to Device')
-                    messagebox.label_info.setText(f'Choose who to add to the device'
-                                                  f' {self.comboBox_databases.currentText()}.')
-                    messagebox.exec_()
-                else:
-                    self.publish_platform.add_profiles_data(profile_ids)
-            else:
-                self.publish_platform.add_profiles_data()
+            self.blur_effect.setEnabled(True)
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Отправка данных')
+            messagebox.label_info.setText('Нет подключенных устройств')
+            messagebox.exec_()
+            self.blur_effect.setEnabled(False)
 
     def _button_create_pattern_clicked(self, event):
         filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить пример данных', '', 'CSV File (*.csv)')
@@ -573,20 +580,46 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.database_management.reset_department_autoincrement()
 
     def _button_device_database_view_clicked(self, event):
-        self.profile_ids = []
-        self.last_page = False
         if self.comboBox_databases.currentText() != '':
             for device in self.devices:
-                if device.id == self.comboBox_databases.currentText():
+                if device.serial_number == self.comboBox_databases.currentText():
                     self.publish_platform.set_device(device.id, device.token)
                     self.publish_platform.query_profiles_data(-1)
                     break
         else:
+            self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.setWindowTitle('Information')
-            messagebox.label_title.setText('Information - Database View')
-            messagebox.label_info.setText('No connected devices')
+            messagebox.label_title.setText('Просмотр БД устройства')
+            messagebox.label_info.setText('Нет подключенных устройств.')
             messagebox.exec_()
+            self.blur_effect.setEnabled(False)
+
+    def _button_delete_device_profiles(self, event):
+        if self.comboBox_databases.currentText() != '':
+            for device in self.devices:
+                if device.serial_number == self.comboBox_databases.currentText():
+                    self.blur_effect.setEnabled(True)
+                    messagebox = WarningMessageBox()
+                    messagebox.label_title.setText('Удаление профилей устройства')
+                    messagebox.label_info.setText('Вы точно хотите удалить профили?')
+                    messagebox.exec_()
+                    self.blur_effect.setEnabled(False)
+                    if messagebox.dialog_result == 0:
+                        remove_profiles = []
+                        for row_position in range(self.table_device_profiles.rowCount() - 1, -1, -1):
+                            if self.table_device_profiles.cellWidget(row_position, 0).isChecked():
+                                remove_profiles.append(str(self.profile_identifiers.pop(row_position)))
+                                self.table_device_profiles.removeRow(row_position)
+                    self.publish_platform.set_device(device.id, device.token)
+                    self.publish_platform.remove_profiles_data(*remove_profiles)
+                    break
+        else:
+            self.blur_effect.setEnabled(True)
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Просмотр БД устройства')
+            messagebox.label_info.setText('Нет подключенных устройств.')
+            messagebox.exec_()
+            self.blur_effect.setEnabled(False)
 
     # EVENTS-DEVICE
     def _button_search_device_clicked(self, event):
@@ -830,7 +863,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.blur_effect.setEnabled(False)
         print(f'[EXPORT][STATISTIC] {time.time() - start}')
 
-    def _checkbox_header_persons_pressed(self, index):
+    def _checkbox_header_profiles_pressed(self, index):
         if index == 0:
             list_checked_buttons = np.array([self.table_profiles.cellWidget(row_position, 0).isChecked()
                                              for row_position in range(self.table_profiles.rowCount())])
@@ -1213,9 +1246,80 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setTextAlignment(Qt.AlignCenter)
         self.table_profiles.setItem(row_position, 8, item)
 
+    def _add_device_profile_row(self, profile: models.Profile):
+        row_position = self.table_device_profiles.rowCount()
+        self.table_device_profiles.insertRow(row_position)
+        item = QCheckBox()
+        item.setStyleSheet('background-color: #91D1EE;')
+        item.setCheckState(Qt.Unchecked)
+        self.table_device_profiles.setCellWidget(row_position, 0, item)
+        item = QTableWidgetItem(profile.personnel_number)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_device_profiles.setItem(row_position, 1, item)
+        self.table_device_profiles.setItem(row_position, 2, QTableWidgetItem(profile.name))
+        item = QTableWidgetItem(self.setting.lang['image'])
+        if os.path.isfile(f'nginx/html{profile.face}'):
+            image = f'<br><img src="nginx/html{profile.face}" width="360" alt="lorem"'
+        else:
+            image = self.setting.lang['form_main']['page_database']['table_profiles']['tool_image_false']
+        item.setToolTip(image)
+        self.table_device_profiles.setItem(row_position, 3, item)
+        if profile.visitor:
+            user = 'Посетитель'
+        else:
+            user = 'Сотрудник'
+        item = QTableWidgetItem(user)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_device_profiles.setItem(row_position, 4, item)
+        if profile.passport is not None:
+            passport = profile.passport
+        else:
+            passport = '---'
+        item = QTableWidgetItem(passport)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_device_profiles.setItem(row_position, 5, item)
+        gender = self.database_management.get_gender(profile.gender)
+        if gender.id == 0:
+            gender = self.setting.lang['table_profiles']['unknown']
+        elif gender.id == 1:
+            gender = self.setting.lang['table_profiles']['male']
+        elif gender.id == 2:
+            gender = self.setting.lang['table_profiles']['female']
+        item = QTableWidgetItem(gender)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_device_profiles.setItem(row_position, 7, item)
+        department = self.database_management.get_department(profile.id_department)
+        if department:
+            department_name = department.name
+        else:
+            department_name = '---'
+        item = QTableWidgetItem(department_name)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_device_profiles.setItem(row_position, 6, item)
+        if profile.information is not None and profile.information != '':
+            information = profile.information
+        else:
+            information = '---'
+        item = QTableWidgetItem(information)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_device_profiles.setItem(row_position, 8, item)
+
+    @QtCore.pyqtSlot(tuple)
+    def _get_loading_photos_result(self, result: tuple):
+        self.blur_effect.setEnabled(True)
+        messagebox = InformationMessageBox()
+        messagebox.label_title.setText('Результат загрузки фото')
+        messagebox.label_info.setText(f'Кол-во успешных загрузок: {result[0]}\n'
+                                      f'Кол-во провальных загрузок: {result[1]}\n'
+                                      f'{result[2]}')
+        messagebox.exec_()
+        self.blur_effect.setEnabled(False)
+
     @QtCore.pyqtSlot(object)
     def _get_profiles_from_device(self, data):
         if isinstance(data, dict):
+            self.profile_identifiers = []
+            self.table_device_profiles.setRowCount(0)
             self.number_device_profiles = data['total_num']
             number_pages = np.int(np.ceil(self.number_device_profiles / 100))
             for page in range(number_pages):
@@ -1223,28 +1327,29 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.last_page = True
         elif isinstance(data, list):
             for profile in data:
-                self.profile_ids.append(profile['user_id'])
+                self.profile_identifiers.append(int(profile['user_id']))
             if self.last_page:
-                profiles = [
-                    models.Profile(identifier=profile_id,
-                                   name='User')
-                    for profile_id in self.profile_ids
-                ]
-                current_profiles = set(self.database_management.get_profiles(*self.profile_ids))
-                profiles = set(profiles)
-                remove_profiles = list(profiles - current_profiles)
+                remove_profiles = []
+                self.progressBar.setValue(0)
+                self.progressBar.setMaximum(len(self.profile_identifiers))
+                for identifier in self.profile_identifiers:
+                    profile = self.database_management.get_profile(identifier=identifier)
+                    if profile:
+                        self._add_device_profile_row(profile)
+                    else:
+                        remove_profiles.append(str(identifier))
+                    self.progressBar.setValue(self.progressBar.value() + 1)
                 if len(remove_profiles) > 0:
-                    self.publish_platform.remove_profiles_data(*[
-                        profile.id
-                        for profile in remove_profiles
-                    ])
-                current_profiles = natsort.natsorted(list(current_profiles), key=lambda x: x.id)
-                form_device_db_view = FormDeviceDBView(list(current_profiles))
-                form_device_db_view.label_title.setText(f'DB View - Device {self.comboBox_databases.currentText()}')
-                form_device_db_view.exec_()
-                if form_device_db_view.dialog_result == 0:
-                    if len(form_device_db_view.remove_profile_ids) > 0:
-                        self.publish_platform.remove_profiles_data(*form_device_db_view.remove_profile_ids)
+                    self.publish_platform.remove_profiles_data(*remove_profiles)
+                self.table_device_profiles.resizeColumnToContents(0)
+                self.table_device_profiles.resizeColumnToContents(1)
+                self.table_device_profiles.resizeColumnToContents(2)
+                self.table_device_profiles.resizeColumnToContents(3)
+                self.table_device_profiles.resizeColumnToContents(4)
+                self.table_device_profiles.resizeColumnToContents(5)
+                self.table_device_profiles.resizeColumnToContents(6)
+                self.table_device_profiles.resizeColumnToContents(7)
+                self.table_device_profiles.resizeRowsToContents()
 
     # STATISTIC
     @QtCore.pyqtSlot(object)

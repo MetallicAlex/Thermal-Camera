@@ -471,10 +471,10 @@ class Ui_MainWindow(object):
 "    background-color: transparent;\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(52, 59, 72);\n"
+"    background-color: #2B8CDC;\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: rgb(85, 170, 255);\n"
+"    background-color: #87B9E0;\n"
 "}")
         self.button_minimize.setText("")
         icon = QtGui.QIcon()
@@ -495,10 +495,10 @@ class Ui_MainWindow(object):
 "    background-color: transparent;\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(52, 59, 72);\n"
+"    background-color: #B9400C;\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: rgb(85, 170, 255);\n"
+"    background-color: #D04B4B;\n"
 "}")
         self.button_close.setText("")
         icon1 = QtGui.QIcon()
@@ -1780,7 +1780,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_profiles.setHorizontalHeaderItem(8, item)
-        self.table_profiles.horizontalHeader().setVisible(False)
+        self.table_profiles.horizontalHeader().setVisible(True)
         self.table_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_profiles.horizontalHeader().setStretchLastSection(True)
@@ -2391,7 +2391,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_departments.setHorizontalHeaderItem(2, item)
-        self.table_departments.horizontalHeader().setVisible(False)
+        self.table_departments.horizontalHeader().setVisible(True)
         self.table_departments.horizontalHeader().setCascadingSectionResizes(True)
         self.table_departments.horizontalHeader().setDefaultSectionSize(200)
         self.table_departments.horizontalHeader().setStretchLastSection(True)
@@ -2575,6 +2575,8 @@ class Ui_MainWindow(object):
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
+"    color: #FFFFFF;\n"
+"    text-align:center;\n"
 "    padding: 5px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2582,10 +2584,10 @@ class Ui_MainWindow(object):
 "    border: 2px solid #0C5DB9;\n"
 "}\n"
 "QComboBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
+"    color: #FFFFFF;\n"
+"    background-color: #0C5DB9;\n"
 "    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
+"    selection-background-color: #91D1EE;\n"
 "}\n"
 "QComboBox::drop-down {\n"
 "    subcontrol-origin: padding;\n"
@@ -2777,7 +2779,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_device_profiles.setHorizontalHeaderItem(8, item)
-        self.table_device_profiles.horizontalHeader().setVisible(False)
+        self.table_device_profiles.horizontalHeader().setVisible(True)
         self.table_device_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_device_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_device_profiles.horizontalHeader().setStretchLastSection(True)
@@ -3115,7 +3117,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_statistics.setHorizontalHeaderItem(5, item)
-        self.table_statistics.horizontalHeader().setVisible(False)
+        self.table_statistics.horizontalHeader().setVisible(True)
         self.table_statistics.horizontalHeader().setCascadingSectionResizes(True)
         self.table_statistics.horizontalHeader().setDefaultSectionSize(200)
         self.table_statistics.horizontalHeader().setStretchLastSection(True)
@@ -3333,7 +3335,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

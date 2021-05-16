@@ -15,6 +15,7 @@ class SubscribePlatform(QtCore.QObject):
     token = QtCore.pyqtSignal(tuple)
     profiles = QtCore.pyqtSignal(object)
     information = QtCore.pyqtSignal(tuple)
+    profiles_loading = QtCore.pyqtSignal(tuple)
 
     running = False
     _host = None
@@ -96,6 +97,8 @@ class SubscribePlatform(QtCore.QObject):
                     self.token.emit((self.data['device_id'], self.data['datas']['device_token']))
             elif self.data['tag'] == 'device_info':
                 self.device.emit(self.data)
+            elif self.data['tag'] == 'add_profiles':
+                self.calculate_unloaded_images_number()
 
     def record_person_information(self):
         if self.data['datas']['matched'] == '1':
@@ -168,3 +171,18 @@ class SubscribePlatform(QtCore.QObject):
         if self._prev_statistic.id_profile == statistic.id_profile and 0 < time_difference <= 60:
             return True
         return False
+
+    def calculate_unloaded_images_number(self):
+        unloaded_images_number = 0
+        unloaded_profiles_list = []
+        for data in self.data['datas']:
+            if data['picture_statues'] == 20:
+                unloaded_images_number += 1
+                unloaded_profiles_list.append(int(data['user_id']))
+        self.profiles_loading.emit(
+            (
+                len(self.data['datas']) - unloaded_images_number,
+                unloaded_images_number,
+                unloaded_profiles_list
+            )
+        )

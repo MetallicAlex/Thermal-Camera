@@ -112,7 +112,7 @@ class PublishPlatform:
         }
         self._publish_data()
 
-    def add_profiles_data(self, *identifiers):
+    def add_profiles_data(self, identifiers: list = None):
         self.data = {
             'mqtt_cmd': 1,
             'mqtt_operate_id': 7,
@@ -129,7 +129,7 @@ class PublishPlatform:
             }
         }
         if identifiers:
-            profiles = self._database_management.get_profiles(identifiers)
+            profiles = self._database_management.get_profiles(*identifiers)
         else:
             profiles = self._database_management.get_profiles()
         for profile in profiles:
@@ -137,7 +137,7 @@ class PublishPlatform:
             index = len(self.data['param']['pictures']) - 1
             self.data['param']['pictures'][index]['active_time'] \
                 = f"{datetime.strftime(datetime.now(), '%Y')}/01/1 00:00:01"
-            self.data['param']['pictures'][index]['user_id'] = profile.id
+            self.data['param']['pictures'][index]['user_id'] = str(profile.id)
             self.data['param']['pictures'][index]['user_name'] = profile.name
             self.data['param']['pictures'][index]['end_time'] \
                 = f"{datetime.strftime(datetime.now(), '%Y')}/12/30 23:59:59"
@@ -156,7 +156,7 @@ class PublishPlatform:
         }
         self._publish_data()
 
-    def remove_profiles_data(self, *identifiers):
+    def remove_profiles_data(self, *identifiers: str):
         self.data = {
             'mqtt_cmd': 1,
             'mqtt_operate_id': 7,
