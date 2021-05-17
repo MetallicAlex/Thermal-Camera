@@ -45,6 +45,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.start_nginx()
         # DATA
         self.is_new_devices_table = False
+        self.is_table_device_profiles_loaded = False
         self.selected_profile = None
         self.selected_department = None
         self.filter_params = {
@@ -149,6 +150,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_delete_device_profiles.clicked.connect(self._button_delete_device_profiles)
         self.table_profiles.horizontalHeader().sectionPressed.connect(self._checkbox_header_profiles_pressed)
         self.table_profiles.itemSelectionChanged.connect(self._profile_selected_row)
+        self.table_device_profiles.horizontalHeader().sectionPressed.connect(
+            self._checkbox_header_device_profiles_pressed
+        )
         self.table_departments.horizontalHeader().sectionPressed.connect(self._checkbox_header_departments_pressed)
         self.table_departments.itemSelectionChanged.connect(self._department_selected_row)
         # PAGE STATISTIC
@@ -166,8 +170,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.subscribe_platform.device.connect(self._update_device_info)
             self.subscribe_platform.profiles.connect(self._get_profiles_from_device)
             self.subscribe_platform.token.connect(self._get_token)
-            self.subscribe_platform.information.connect(self._get_information)
+            self.subscribe_platform.information.connect(self._get_update_device_information)
             self.subscribe_platform.profiles_loading.connect(self._get_loading_photos_result)
+            self.subscribe_platform.removed_profiles.connect(self._get_remove_profiles_information)
             self.thread.started.connect(self.subscribe_platform.run)
             self.thread.start()
         self._load_devices_info_to_table()
@@ -595,7 +600,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.blur_effect.setEnabled(False)
 
     def _button_delete_device_profiles(self, event):
-        if self.comboBox_databases.currentText() != '':
+        text = ''
+        if not self.is_table_device_profiles_loaded:
+            text = 'БД устройства не загружена.\n' \
+                   'Выберите устройство\n' \
+                   'и нажмите на кн. "Посмотреть"'
+        elif self.comboBox_databases.currentText() == '':
+            text = 'Нет подключенных устройств.'
+        if text == '':
             for device in self.devices:
                 if device.serial_number == self.comboBox_databases.currentText():
                     self.blur_effect.setEnabled(True)
@@ -610,14 +622,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                             if self.table_device_profiles.cellWidget(row_position, 0).isChecked():
                                 remove_profiles.append(str(self.profile_identifiers.pop(row_position)))
                                 self.table_device_profiles.removeRow(row_position)
-                    self.publish_platform.set_device(device.id, device.token)
-                    self.publish_platform.remove_profiles_data(*remove_profiles)
+                        self.publish_platform.set_device(device.id, device.token)
+                        self.publish_platform.remove_profiles_data(*remove_profiles)
                     break
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Просмотр БД устройства')
-            messagebox.label_info.setText('Нет подключенных устройств.')
+            messagebox.label_title.setText('Удаление профилей устройства')
+            messagebox.label_info.setText(text)
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
 
@@ -876,6 +888,19 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.table_profiles.cellWidget(row_position, 0).setCheckState(Qt.Checked)
                 self._set_header_column_icon(self.table_profiles, True)
 
+    def _checkbox_header_device_profiles_pressed(self, index):
+        if index == 0:
+            list_checked_buttons = np.array([self.table_device_profiles.cellWidget(row_position, 0).isChecked()
+                                             for row_position in range(self.table_device_profiles.rowCount())])
+            if np.all(list_checked_buttons):
+                for row_position in range(self.table_device_profiles.rowCount()):
+                    self.table_device_profiles.cellWidget(row_position, 0).setCheckState(Qt.Unchecked)
+                self._set_header_column_icon(self.table_device_profiles, False)
+            else:
+                for row_position in range(self.table_device_profiles.rowCount()):
+                    self.table_device_profiles.cellWidget(row_position, 0).setCheckState(Qt.Checked)
+                self._set_header_column_icon(self.table_device_profiles, True)
+
     def _checkbox_header_devices_pressed(self, index):
         if index == 0:
             list_checked_buttons = np.array([self.table_devices.cellWidget(row_position, 0).isChecked()
@@ -955,7 +980,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 break
 
     @QtCore.pyqtSlot(tuple)
-    def _get_information(self, text: tuple):
+    def _get_remove_profiles_information(self, result: tuple):
+        self.blur_effect.setEnabled(True)
+        messagebox = InformationMessageBox()
+        messagebox.label_title.setText(f'Результат удаления профилей с {result[3]}')
+        messagebox.label_info.setText(f'Кол-во удаленных профилей: {result[0]}\n'
+                                      f'Кол-во не удаленных профилей: {result[1]}\n'
+                                      f'{result[2]}')
+        messagebox.exec_()
+        self.blur_effect.setEnabled(False)
+
+    @QtCore.pyqtSlot(tuple)
+    def _get_update_device_information(self, text: tuple):
         self.blur_effect.setEnabled(True)
         messagebox = InformationMessageBox()
         device = self.devices[self.device_configuration['row']]
@@ -1151,6 +1187,38 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_statistics.resizeRowsToContents()
         print(f'[VISUAL][STATISTICS] {time.time() - start}')
 
+    def _load_statistics_to_control(self,
+                                    stat_time: tuple = None,
+                                    temperature: float = None,
+                                    name: str = None,
+                                    identifiers: list = None
+                                    ):
+        start = time.time()
+        # for row_position in range(self.table_statistics.rowCount() - 1, -1, -1):
+        #     self.table_statistics.removeRow(row_position)
+        self.table_statistics.setRowCount(0)
+        statistics = self.database_management.get_statistics(
+            time=stat_time,
+            temperature=temperature,
+            identifiers=identifiers,
+            name=name
+        )
+        if len(statistics) > 0:
+            self.progressBar.setMaximum(len(statistics))
+            self.progressBar.setValue(0)
+        else:
+            self.progressBar.setMaximum(1)
+            self.progressBar.setValue(1)
+        print(f'[DATABASE][STATISTICS] {time.time() - start}')
+        start = time.time()
+        for row_position, (statistic, name) in enumerate(statistics):
+            self._add_statistic_row(row_position, statistic, name)
+            self.progressBar.setValue(row_position + 1)
+        # self.table_statistics.sortByColumn(0, Qt.DescendingOrder)
+        self.table_statistics.resizeColumnsToContents()
+        self.table_statistics.resizeRowsToContents()
+        print(f'[VISUAL][CONTROL] {time.time() - start}')
+
     def _add_statistic_row(self, row_position: int, statistic: models.Statistic, name: str):
         self.table_statistics.insertRow(row_position)
         self.table_statistics.setItem(row_position, 0, QTableWidgetItem(str(statistic.time)))
@@ -1339,6 +1407,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     else:
                         remove_profiles.append(str(identifier))
                     self.progressBar.setValue(self.progressBar.value() + 1)
+                self.is_table_device_profiles_loaded = True
                 if len(remove_profiles) > 0:
                     self.publish_platform.remove_profiles_data(*remove_profiles)
                 self.table_device_profiles.resizeColumnToContents(0)
@@ -1353,39 +1422,36 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # STATISTIC
     @QtCore.pyqtSlot(object)
-    def _get_record(self, statistic: models.Statistic):
-        statistic_time = datetime.datetime.strptime(statistic.time, '%Y-%m-%d %H:%M:%S')
-        if self.dateTimeEdit_start.dateTime() <= statistic_time <= self.dateTimeEdit_end.dateTime() \
-                and (statistic.id_profile == self.comboBox_profiles.currentText()
-                     or self.comboBox_profiles.currentText() == self.setting.lang['form_main']['text_all_profiles']):
-            row_position = self.table_statistics.rowCount()
-            self._add_statistic_row(
-                row_position,
-                statistic,
-                self.database_management.get_profile_name(statistic.id_profile)
-            )
-            self.table_statistics.resizeColumnsToContents()
-            self.table_statistics.resizeRowsToContents()
-        start = time.time()
-        process = multiprocessing.Process(
-            target=MainForm._update_plots,
-            args=(
-                copy.copy(self.app_path),
-            )
-        )
-        process.start()
-        process.join()
-        self.label_pie_number_person_day.setPixmap(
-            QPixmap(
-                QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/pie_day.png')
-            )
-        )
-        self.label_pie_number_person_all_time.setPixmap(
-            QPixmap(
-                QImage(f'{self.app_path}/{self.settings["paths"]["temp"]}/pie_all_time.png')
-            )
-        )
-        print(f'[VISUALISATION][PIES] {time.time() - start}')
+    def _get_record(self, statistic: Union[models.Statistic, models.StrangerStatistic]):
+        self.table_control.insertRow(0)
+        if isinstance(statistic, models.Statistic):
+            item = QTableWidgetItem(self.database_management.get_profile_name(statistic.id_profile))
+            item2 = QTableWidgetItem(f'{int(float(statistic.similar) * 100)} %')
+        elif isinstance(statistic, models.StrangerStatistic):
+            item = QTableWidgetItem('---')
+            item2 = QTableWidgetItem('---')
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 1, item)
+        item = QTableWidgetItem(statistic.time)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 0, item)
+        item = QTableWidgetItem(self.setting.lang['image'])
+        if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
+            item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
+        else:
+            item.setToolTip(self.setting.lang['no_image'])
+        self.table_control.setItem(0, 2, item)
+        item = QTableWidgetItem(str(statistic.temperature))
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 3, item)
+        mask = self.database_management.get_mask(statistic.mask)
+        item = QTableWidgetItem(self.setting.lang['mask'][mask.mask])
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 4, item)
+        item2.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 5, item2)
+        self.table_control.resizeColumnsToContents()
+        self.table_control.resizeRowsToContents()
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):

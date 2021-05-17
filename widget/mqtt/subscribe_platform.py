@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from datetime import datetime
 import base64
 import json
@@ -16,6 +17,7 @@ class SubscribePlatform(QtCore.QObject):
     profiles = QtCore.pyqtSignal(object)
     information = QtCore.pyqtSignal(tuple)
     profiles_loading = QtCore.pyqtSignal(tuple)
+    removed_profiles = QtCore.pyqtSignal(tuple)
 
     running = False
     _host = None
@@ -99,13 +101,14 @@ class SubscribePlatform(QtCore.QObject):
                 self.device.emit(self.data)
             elif self.data['tag'] == 'add_profiles':
                 self.calculate_unloaded_images_number()
+            elif self.data['tag'] == 'remove_profiles':
+                self.calculate_removed_profiles_number()
 
     def record_person_information(self):
         if self.data['datas']['matched'] == '1':
             self.record_profile_information()
         elif self.data['datas']['matched'] == '0':
-            pass
-            # self.record_stranger_information()
+            self.record_stranger_information()
 
     def record_profile_information(self):
         statistic = models.Statistic(
@@ -117,35 +120,35 @@ class SubscribePlatform(QtCore.QObject):
         )
         if not self.is_duplicate_statistic(statistic):
             if 'imageFile' in self.data['datas']:
-                face = self.record_face_person()
-                statistic.face = face
+                statistic.face = self.record_face_person()
             self._database_management.add_statistics(statistic)
             self.statistic.emit(statistic)
             self._prev_statistic = statistic
 
     def record_stranger_information(self):
-        face = None
-        if 'imageFile' in self.data['datas']:
-            face = self.record_face_person()
         statistic = models.StrangerStatistic(
             time=self.data['datas']['time'],
             temperature=self.data['datas']['temperature'],
             mask=self.is_mask_on(),
-            face=face
         )
+        if 'imageFile' in self.data['datas']:
+            statistic.face = self.record_face_person()
         self._database_management.add_stranger_statistics(statistic)
+        self.statistic.emit(statistic)
 
     def record_face_person(self):
         snapshot_path = os.path.abspath('snapshot')
         file_path = f"{snapshot_path}/{self.data['datas']['time'].split(' ')[0]}"
         if not os.path.exists(file_path):
             os.mkdir(file_path)
-        filename = f"{file_path}/{self.data['datas']['time'].replace(':', '-')}" \
-                   f"_{self.data['datas']['name']}" \
-                   f"_{self.data['datas']['temperature']}.jpg"
+        rng = np.random.default_rng()
+        image = np.array2string(rng.integers(10, size=32), separator='')[1:-1] + '.jpg'
+        while os.path.exists(f'{file_path}/{image}'):
+            image = np.array2string(rng.integers(10, size=32), separator='')[1:-1] + '.jpg'
+        filename = f"{file_path}/{image}"
         with open(filename, 'wb') as file:
             file.write(base64.standard_b64decode(self.data['datas']['imageFile'].replace('data:image/jpg;base64,', '')))
-        return filename.replace(snapshot_path, '')
+        return f'/{self.data["datas"]["time"].split(" ")[0]}/{image}'
 
     def log(self, filename: str, information: str):
         dir_path = os.path.abspath('logs')
@@ -184,5 +187,22 @@ class SubscribePlatform(QtCore.QObject):
                 len(self.data['datas']) - unloaded_images_number,
                 unloaded_images_number,
                 unloaded_profiles_list
+            )
+        )
+
+    def calculate_removed_profiles_number(self):
+        removed_profiles_number = 0
+        unremoved_profiles = []
+        for data in self.data['datas']:
+            if data['status'] == 0:
+                removed_profiles_number += 1
+            else:
+                unremoved_profiles.append(int(data['user_id']))
+        self.removed_profiles.emit(
+            (
+                removed_profiles_number,
+                len(self.data['datas']) - removed_profiles_number,
+                unremoved_profiles,
+                self.data['device_id']
             )
         )

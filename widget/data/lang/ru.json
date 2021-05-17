@@ -65,6 +65,11 @@
     "male": "мужской",
     "female": "женский"
   },
+  "mask": {
+    "unknown": "---",
+    "true": "Да",
+    "false": "Нет"
+  },
   "table_profiles": {
     "unknown": "---",
     "male": "м",

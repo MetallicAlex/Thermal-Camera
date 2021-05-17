@@ -3,13 +3,10 @@ import re
 import json
 import socket
 import requests
-from datetime import datetime
 import zipfile
 import numpy as np
 from typing import Union
 import pandas as pd
-from sqlalchemy import func, or_
-from sqlalchemy.orm import load_only
 
 from widget.setting import Setting
 import widget.models as models
@@ -802,15 +799,23 @@ class DBManagement:
         report.to_csv(filename, sep=';', header=True, encoding='cp1251')
 
     # STRANGER STATISTICS
-    def get_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
+    def get_stranger_statistics(self,
+                                time: tuple = None,
+                                temperature: float = None,
+                                ):
+        """
+        :param time: (start, end)
+        :param temperature: (min, max)
+        :return: list[models.StrangerStatistic]
+        """
         with models.get_session() as session:
             query = session.query(models.StrangerStatistic)
-            if isinstance(low, str) and isinstance(high, str):
-                query = query.filter(models.StrangerStatistic.time >= low,
-                                     models.StrangerStatistic.time <= high)
-            elif isinstance(low, float) and isinstance(high, float):
-                query = query.filter(models.StrangerStatistic.temperature >= low,
-                                     models.StrangerStatistic.temperature <= high)
+            if time:
+                query = query.filter(models.StrangerStatistic.time >= time[0],
+                                     models.StrangerStatistic.time <= time[1])
+            if temperature:
+                query = query.filter(models.StrangerStatistic.temperature >= temperature[0],
+                                     models.StrangerStatistic.temperature <= temperature[1])
             self._stranger_statistics = query.all()
         return self._stranger_statistics
 

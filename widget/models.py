@@ -363,7 +363,8 @@ class Statistic(Base):
     similar = Column('Similar', DECIMAL(4, 2))
     face = Column('Face', String(128))
 
-    def __init__(self, identifier: int,
+    def __init__(self,
+                 identifier: int,
                  time: str,
                  temperature: float = 0.0,
                  similar: float = 0.0,
@@ -387,10 +388,15 @@ class StrangerStatistic(Base):
 
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
-    mask = Column('Mask',)
+    mask = Column('StrangerMask', Integer,
+                  ForeignKey('masks.ID', onupdate='NO ACTION', ondelete='NO ACTION'), default=0)
     face = Column('Face', String(64))
 
-    def __init__(self, time: str, temperature: float, mask: Union[str] = 0, face: str = null()):
+    def __init__(self,
+                 time: str,
+                 temperature: float = 0.0,
+                 mask: int = 0,
+                 face: str = null()):
         self.time = time
         self.temperature = temperature
         self.mask = mask
