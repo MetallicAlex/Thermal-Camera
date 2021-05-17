@@ -221,6 +221,12 @@ class DBManagement:
         self._profiles = query.scalar()
         return self._profiles
 
+    def get_profiles_by_department(self, department: int):
+        with models.get_session() as session:
+            query = session.query(models.Profile).filter(models.Profile.id_department == department)
+        self._profiles = query.all()
+        return self._profiles
+
     def get_profiles(self, *identifiers: int):
         with models.get_session() as session:
             query = session.query(models.Profile)
@@ -397,7 +403,6 @@ class DBManagement:
     def get_statistics(self,
                        time: tuple = None,
                        temperature: float = None,
-                       name: str = None,
                        identifiers: list = None
                        ):
         """
@@ -406,6 +411,32 @@ class DBManagement:
         :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
         :param identifiers: list[int]
         :return: list[models.Statistics]
+        """
+        with models.get_session() as session:
+            query = session.query(models.Statistic)
+            if time:
+                query = query.filter(models.Statistic.time >= time[0],
+                                     models.Statistic.time <= time[1])
+            if temperature:
+                query = query.filter(models.Statistic.temperature >= temperature[0],
+                                     models.Statistic.temperature <= temperature[1])
+            if identifiers:
+                query = query.filter(models.Statistic.id_profile.in_(identifiers))
+            self._statistics = query.all()
+        return self._statistics
+
+    def get_statistics_and_name(self,
+                                time: tuple = None,
+                                temperature: float = None,
+                                name: str = None,
+                                identifiers: list = None
+                                ):
+        """
+        :param time: (start, end)
+        :param temperature: (min, max)
+        :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
+        :param identifiers: list[int]
+        :return: list[(models.Statistics, models.Profile.name)]
         """
         with models.get_session() as session:
             query = session.query(models.Statistic, models.Profile.name) \
@@ -511,7 +542,7 @@ class DBManagement:
         self._statistics = None
 
     def remove_statistic_duplicates(self):
-        statistics = self.get_statistics()
+        statistics = self.get_statistics_and_name()
         removable_statistics = set()
         for row_position, (comparable_statistic, _) in enumerate(statistics):
             for (statistic, _) in statistics[row_position:]:
@@ -600,7 +631,7 @@ class DBManagement:
                                name: str = None,
                                identifiers: list = None):
         report = {}
-        for (statistic, name) in self.get_statistics(
+        for (statistic, name) in self.get_statistics_and_name(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -643,7 +674,7 @@ class DBManagement:
                               name: str = None,
                               identifiers: list = None):
         report = pd.DataFrame(columns=['Name', 'Date', 'Time', 'Temperature', 'Mask', 'Similar'])
-        for (statistic, profile_name) in self.get_statistics(
+        for (statistic, profile_name) in self.get_statistics_and_name(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -668,7 +699,7 @@ class DBManagement:
                                        identifiers: list = None):
         report = {}
         number_statistic = 0
-        for (statistic, name) in self.get_statistics(
+        for (statistic, name) in self.get_statistics_and_name(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -716,7 +747,7 @@ class DBManagement:
                                       identifiers: list = None):
         report = pd.DataFrame(columns=['Name', 'Date', 'Came', 'Gone'])
         number_statistic = 0
-        for (statistic, profile_name) in self.get_statistics(
+        for (statistic, profile_name) in self.get_statistics_and_name(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -753,7 +784,7 @@ class DBManagement:
                                             name: str = None,
                                             identifiers: list = None):
         report = {}
-        for (statistic, name) in self.get_statistics(
+        for (statistic, name) in self.get_statistics_and_name(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -783,7 +814,7 @@ class DBManagement:
                                            name: str = None,
                                            identifiers: list = None):
         report = pd.DataFrame(columns=['Name', 'Date', 'Time', 'Temperature'])
-        for (statistic, name) in self.get_statistics(
+        for (statistic, name) in self.get_statistics_and_name(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,

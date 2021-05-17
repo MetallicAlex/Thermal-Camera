@@ -4,6 +4,7 @@ import copy
 import multiprocessing
 import datetime
 import time
+from operator import attrgetter
 import natsort
 import copy
 from typing import Union
@@ -110,6 +111,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self._load_departments_to_table()
         self._load_statistics_to_table(
             stat_time=(self.dateTimeEdit_start.text(), self.dateTimeEdit_end.text())
+        )
+        self._load_statistics_to_control(
+            stat_time=(
+                datetime.datetime.now().replace(hour=0, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S'),
+                datetime.datetime.now().replace(hour=23, minute=59, second=59).strftime('%Y-%m-%d %H:%M:%S')
+            )
         )
         self.stackedWidget.setCurrentWidget(self.page_control)
         # self.button_device.setStyleSheet(self.theme['system-button'] +
@@ -362,7 +369,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     and self.database_management.is_passport_duplicate(self.lineEdit_passport.text()) \
                     and self.selected_profile.passport != self.lineEdit_passport.text():
                 text += 'Такой номер паспорта уже существует.\n'
-            else:
+            elif self.lineEdit_passport.text() != '':
                 passport = self.lineEdit_passport.text()
             if self.lineEdit_profile_name.text() == '':
                 text += 'Не введено ФИО.\n'
@@ -385,30 +392,19 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     QImage(self.image_filename)
                 )
                 pixmap.save(f'{self.app_path}/{self.setting.paths["nginx"]}/html{image}', 'jpg')
-            profile = {
-                'name': profile_name,
-                'gender': gender,
-                'visitor': self.toggle_visitor.isChecked()
-            }
             self.selected_profile.name = profile_name
             self.selected_profile.gender = gender
             self.selected_profile.visitor = self.toggle_visitor.isChecked()
-            if personnel_number:
-                self.selected_profile.personnel_number = personnel_number
-                profile['personnel_number'] = personnel_number
-            if passport:
-                self.selected_profile.passport = passport
-                profile['passport'] = passport
+            self.selected_profile.personnel_number = personnel_number
+            self.selected_profile.passport = passport
             if image:
                 self.selected_profile.face = image
-                profile['face'] = image
             if department:
                 self.selected_profile.id_department = self.database_management.get_department_by_name(department).id
-                profile['id_department'] = self.database_management.get_department_by_name(department).id
-            if information:
-                self.selected_profile.information = information
-                profile['information'] = information
-            self.database_management.update_profile(self.selected_profile.id, profile)
+            else:
+                self.selected_profile.id_department = department
+            self.selected_profile.information = information
+            self.database_management.update_profile(self.selected_profile.id, self.selected_profile)
             self._add_update_profile_row(self.table_profiles.selectedIndexes()[0].row(), self.selected_profile)
             self.table_profiles.resizeRowsToContents()
             self.table_profiles.resizeColumnToContents(1)
@@ -441,7 +437,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     id_profiles.append(profiles[row_position].id)
                     self.table_profiles.removeRow(row_position)
             self.database_management.remove_profiles(*id_profiles)
-            self.database_management.reset_profile_autoincrement()
 
     def _button_load_photo_clicked(self, event):
         self.image_filename, _ = QtWidgets.QFileDialog.getOpenFileName(
@@ -535,6 +530,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if text == '':
             self.database_management.add_departments(department)
             self._add_update_department_row(self.table_departments.rowCount(), department)
+            self.comboBox_department.addItem(department.name)
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
@@ -545,20 +541,30 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_edit_department_clicked(self, event):
         text = ''
+        name = self.selected_department.name
         if self.selected_department is not None:
             if self.lineEdit_department_name.text() != '':
                 self.selected_department.name = self.lineEdit_department_name.text()
             else:
-                self.selected_department.name = null()
+                self.selected_department.name = None
             if self.lineEdit_department_location.text() != '':
                 self.selected_department.location = self.lineEdit_department_location.text()
             else:
-                self.selected_department.location = null()
+                self.selected_department.location = None
         else:
             text = 'Не выбран профиль для изменения.'
         if text == '':
             self.database_management.update_department(self.selected_department.id, self.selected_department)
             self._add_update_department_row(self.table_departments.selectedIndexes()[0].row(), self.selected_department)
+            self.comboBox_department.setItemText(
+                self.table_departments.selectedIndexes()[0].row() + 1,
+                self.selected_department.name
+            )
+            for row in range(self.table_profiles.rowCount()):
+                if self.table_profiles.item(row, 6).text() == name:
+                    item = QTableWidgetItem(self.selected_department.name)
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.table_profiles.setItem(row, 6, item)
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
@@ -573,7 +579,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         messagebox.label_title.setText('Удаление отделов')
         messagebox.label_info.setText('Вы точно хотите удалить отделы?')
         messagebox.exec_()
-        self.blur_effect.setEnabled(False)
         if messagebox.dialog_result == 0:
             departments = self.database_management.get_departments()
             id_departments = []
@@ -581,8 +586,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.table_departments.cellWidget(row_position, 0).isChecked():
                     id_departments.append(departments[row_position].id)
                     self.table_departments.removeRow(row_position)
+                    self.comboBox_department.removeItem(row_position + 1)
+                    for row in range(self.table_profiles.rowCount()):
+                        if self.table_profiles.item(row, 6).text() == departments[row_position].name:
+                            item = QTableWidgetItem('---')
+                            item.setTextAlignment(Qt.AlignCenter)
+                            self.table_profiles.setItem(row, 6, item)
             self.database_management.remove_departments(*id_departments)
-            self.database_management.reset_department_autoincrement()
+        self.blur_effect.setEnabled(False)
 
     def _button_device_database_view_clicked(self, event):
         if self.comboBox_databases.currentText() != '':
@@ -699,7 +710,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.table_devices.item(row_position, 2).setText(device.name)
                     self.publish_platform.update_basic_configuration(name=device.name)
                 if device.volume != self.horizontalSlider_volume.value() \
-                        or device.brightness != self.horizontalSlider_brightness.value()\
+                        or device.brightness != self.horizontalSlider_brightness.value() \
                         or device.light_supplementary != self.toggle_light.isChecked():
                     self.device_configuration['remote_config']['volume'] = copy.copy(device.volume)
                     self.device_configuration['remote_config']['brightness'] = copy.copy(device.brightness)
@@ -713,14 +724,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                         light_supplementary=device.light_supplementary
                     )
                 if device.record_save_time != int(self.lineEdit_record_time.text()) \
-                        or device.temperature_check != self.toggle_check_temperature.isChecked()\
-                        or device.mask_detection != self.toggle_check_mask.isChecked()\
-                        or device.stranger_passage != self.toggle_strangers_passage.isChecked()\
-                        or device.save_jpeg != self.toggle_save_face.isChecked()\
+                        or device.temperature_check != self.toggle_check_temperature.isChecked() \
+                        or device.mask_detection != self.toggle_check_mask.isChecked() \
+                        or device.stranger_passage != self.toggle_strangers_passage.isChecked() \
+                        or device.save_jpeg != self.toggle_save_face.isChecked() \
                         or device.record_save != self.toggle_save_record.isChecked():
                     self.device_configuration['temperature_config']['check_temp'] = copy.copy(device.temperature_check)
                     self.device_configuration['temperature_config']['check_mask'] = copy.copy(device.mask_detection)
-                    self.device_configuration['temperature_config']['stranger_passage'] = copy.copy(device.stranger_passage)
+                    self.device_configuration['temperature_config']['stranger_passage'] = copy.copy(
+                        device.stranger_passage)
                     self.device_configuration['temperature_config']['face_save'] = copy.copy(device.save_jpeg)
                     self.device_configuration['temperature_config']['record_save'] = copy.copy(device.record_save)
                     self.device_configuration['temperature_config']['record_time'] = copy.copy(device.record_save_time)
@@ -741,11 +753,11 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                         save_record=device.record_save,
                         save_jpeg=device.save_jpeg
                     )
-                if device.ip_address != self.lineEdit_ip_address.text()\
-                        or device.subnet_mask != self.lineEdit_subnet_mask.text()\
-                        or device.gateway != self.lineEdit_gateway.text()\
-                        or device.ddns1 != self.lineEdit_ddns1.text()\
-                        or device.ddns2 != self.lineEdit_ddns2.text()\
+                if device.ip_address != self.lineEdit_ip_address.text() \
+                        or device.subnet_mask != self.lineEdit_subnet_mask.text() \
+                        or device.gateway != self.lineEdit_gateway.text() \
+                        or device.ddns1 != self.lineEdit_ddns1.text() \
+                        or device.ddns2 != self.lineEdit_ddns2.text() \
                         or device.dhcp != self.toggle_dhcp.isChecked():
                     self.device_configuration['network_config']['ip_address'] = copy.copy(device.ip_address)
                     self.device_configuration['network_config']['subnet_mask'] = copy.copy(device.subnet_mask)
@@ -1162,10 +1174,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                                   identifiers: list = None
                                   ):
         start = time.time()
-        for row_position in range(self.table_statistics.rowCount() - 1, -1, -1):
-            self.table_statistics.removeRow(row_position)
-        # self.table_statistics.setRowCount(0)
-        statistics = self.database_management.get_statistics(
+        # for row_position in range(self.table_statistics.rowCount() - 1, -1, -1):
+        #     self.table_statistics.removeRow(row_position)
+        self.table_statistics.setRowCount(0)
+        statistics = self.database_management.get_statistics_and_name(
             time=stat_time,
             temperature=temperature,
             identifiers=identifiers,
@@ -1189,35 +1201,66 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _load_statistics_to_control(self,
                                     stat_time: tuple = None,
-                                    temperature: float = None,
-                                    name: str = None,
-                                    identifiers: list = None
+                                    temperature: float = None
                                     ):
         start = time.time()
         # for row_position in range(self.table_statistics.rowCount() - 1, -1, -1):
         #     self.table_statistics.removeRow(row_position)
         self.table_statistics.setRowCount(0)
-        statistics = self.database_management.get_statistics(
-            time=stat_time,
-            temperature=temperature,
-            identifiers=identifiers,
-            name=name
-        )
+        statistics = [
+            *self.database_management.get_statistics(
+                time=stat_time,
+                temperature=temperature
+            ),
+            *self.database_management.get_stranger_statistics(
+                time=stat_time,
+                temperature=temperature
+            )
+        ]
+        statistics.sort(key=lambda x: x.time if isinstance(x, models.Statistic) else x.time)
         if len(statistics) > 0:
             self.progressBar.setMaximum(len(statistics))
             self.progressBar.setValue(0)
         else:
             self.progressBar.setMaximum(1)
             self.progressBar.setValue(1)
-        print(f'[DATABASE][STATISTICS] {time.time() - start}')
+        print(f'[DATABASE][CONTROL] {time.time() - start}')
         start = time.time()
-        for row_position, (statistic, name) in enumerate(statistics):
-            self._add_statistic_row(row_position, statistic, name)
+        for row_position, statistic in enumerate(statistics):
+            self._add_statistic_row_to_control(statistic)
             self.progressBar.setValue(row_position + 1)
-        # self.table_statistics.sortByColumn(0, Qt.DescendingOrder)
-        self.table_statistics.resizeColumnsToContents()
-        self.table_statistics.resizeRowsToContents()
         print(f'[VISUAL][CONTROL] {time.time() - start}')
+
+    def _add_statistic_row_to_control(self, statistic: Union[models.Statistic, models.StrangerStatistic]):
+        self.table_control.insertRow(0)
+        if isinstance(statistic, models.Statistic):
+            item = QTableWidgetItem(self.database_management.get_profile_name(statistic.id_profile))
+            item2 = QTableWidgetItem(f'{int(float(statistic.similar) * 100)} %')
+        elif isinstance(statistic, models.StrangerStatistic):
+            item = QTableWidgetItem('---')
+            item2 = QTableWidgetItem('---')
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 1, item)
+        item = QTableWidgetItem(str(statistic.time))
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 0, item)
+        item = QTableWidgetItem(self.setting.lang['image'])
+        if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
+            item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
+        else:
+            item.setToolTip(self.setting.lang['no_image'])
+        self.table_control.setItem(0, 2, item)
+        item = QTableWidgetItem(str(statistic.temperature))
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 3, item)
+        mask = self.database_management.get_mask(statistic.mask)
+        item = QTableWidgetItem(self.setting.lang['mask'][mask.mask])
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 4, item)
+        item2.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 5, item2)
+        self.table_control.resizeColumnsToContents()
+        self.table_control.resizeRowsToContents()
 
     def _add_statistic_row(self, row_position: int, statistic: models.Statistic, name: str):
         self.table_statistics.insertRow(row_position)
@@ -1238,7 +1281,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = QTableWidgetItem(mask.mask)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_statistics.setItem(row_position, 4, item)
-        item = QTableWidgetItem(f'{int(statistic.similar*100)} %')
+        item = QTableWidgetItem(f'{int(statistic.similar * 100)} %')
         item.setTextAlignment(Qt.AlignCenter)
         self.table_statistics.setItem(row_position, 5, item)
 
@@ -1252,7 +1295,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = QTableWidgetItem(department.name)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_departments.setItem(row_position, 1, item)
-        item = QTableWidgetItem(department.location)
+        if department.location is None:
+            item = QTableWidgetItem('---')
+        else:
+            item = QTableWidgetItem(department.location)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_departments.setItem(row_position, 2, item)
 
@@ -1263,7 +1309,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setStyleSheet('background-color: #91D1EE;')
         item.setCheckState(Qt.Unchecked)
         self.table_profiles.setCellWidget(row_position, 0, item)
-        item = QTableWidgetItem(profile.personnel_number)
+        if profile.personnel_number:
+            item = QTableWidgetItem(profile.personnel_number)
+        else:
+            item = QTableWidgetItem('---')
         item.setTextAlignment(Qt.AlignCenter)
         self.table_profiles.setItem(row_position, 1, item)
         self.table_profiles.setItem(row_position, 2, QTableWidgetItem(profile.name))
@@ -1271,7 +1320,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if os.path.isfile(f'nginx/html{profile.face}'):
             image = f'<br><img src="nginx/html{profile.face}" width="360" alt="lorem"'
         else:
-            image = self.setting.lang['form_main']['page_database']['table_profiles']['tool_image_false']
+            image = self.setting.lang['no_image']
         item.setToolTip(image)
         self.table_profiles.setItem(row_position, 3, item)
         if profile.visitor:
@@ -1423,35 +1472,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # STATISTIC
     @QtCore.pyqtSlot(object)
     def _get_record(self, statistic: Union[models.Statistic, models.StrangerStatistic]):
-        self.table_control.insertRow(0)
-        if isinstance(statistic, models.Statistic):
-            item = QTableWidgetItem(self.database_management.get_profile_name(statistic.id_profile))
-            item2 = QTableWidgetItem(f'{int(float(statistic.similar) * 100)} %')
-        elif isinstance(statistic, models.StrangerStatistic):
-            item = QTableWidgetItem('---')
-            item2 = QTableWidgetItem('---')
-        item.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 1, item)
-        item = QTableWidgetItem(statistic.time)
-        item.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 0, item)
-        item = QTableWidgetItem(self.setting.lang['image'])
-        if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
-            item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
-        else:
-            item.setToolTip(self.setting.lang['no_image'])
-        self.table_control.setItem(0, 2, item)
-        item = QTableWidgetItem(str(statistic.temperature))
-        item.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 3, item)
-        mask = self.database_management.get_mask(statistic.mask)
-        item = QTableWidgetItem(self.setting.lang['mask'][mask.mask])
-        item.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 4, item)
-        item2.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 5, item2)
-        self.table_control.resizeColumnsToContents()
-        self.table_control.resizeRowsToContents()
+        self._add_statistic_row_to_control(statistic)
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):
