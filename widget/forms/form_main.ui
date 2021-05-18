@@ -24,10 +24,10 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QToolTip { 
-                           background-color: black; 
-                           color: white; 
-                           border: black solid 1px
-                           }</string>
+	background-color: black; 
+	color: white; 
+	border: black solid 1px
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
@@ -817,6 +817,9 @@ QPushButton:pressed {
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
@@ -1116,8 +1119,8 @@ QPushButton:pressed {
 	background-repeat: no-reperat;
 	background-origin: content;
     text-align: left;
-	padding-left: 15px;
 	border: none;
+	padding-left: 15px;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:hover {
@@ -1179,7 +1182,7 @@ QPushButton:pressed {
               <string notr="true"/>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_control">
               <widget class="QTableWidget" name="table_control">
@@ -1434,7 +1437,11 @@ QHeaderView::section:horizontal
 	color: rgb(255, 255, 255);
 	border: 1px solid #91D1EE;
 }
-</string>
+QToolTip { 
+	background-color: #0C5DB9;
+	color: #FFFFFF; 
+	border: #FFFFFF solid 1px;
+}</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
@@ -3404,7 +3411,11 @@ QHeaderView::section:horizontal
 	color: rgb(255, 255, 255);
 	border: 1px solid #91D1EE;
 }
-</string>
+QToolTip { 
+	background-color: #0C5DB9;
+	color: #FFFFFF; 
+	border: #FFFFFF solid 1px;
+}</string>
                  </property>
                  <property name="frameShape">
                   <enum>QFrame::NoFrame</enum>
@@ -6037,7 +6048,11 @@ QHeaderView::section:horizontal
 	color: rgb(255, 255, 255);
 	border: 1px solid #91D1EE;
 }
-</string>
+QToolTip { 
+	background-color: #0C5DB9;
+	color: #FFFFFF; 
+	border: #FFFFFF solid 1px;
+}</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>

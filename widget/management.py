@@ -2,6 +2,9 @@ import os
 import re
 import json
 import socket
+import smtplib, ssl
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import requests
 import zipfile
 import numpy as np
@@ -402,13 +405,12 @@ class DBManagement:
     # STATISTICS
     def get_statistics(self,
                        time: tuple = None,
-                       temperature: float = None,
+                       temperature: tuple = None,
                        identifiers: list = None
                        ):
         """
         :param time: (start, end)
         :param temperature: (min, max)
-        :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
         :param identifiers: list[int]
         :return: list[models.Statistics]
         """
@@ -427,7 +429,7 @@ class DBManagement:
 
     def get_statistics_and_name(self,
                                 time: tuple = None,
-                                temperature: float = None,
+                                temperature: tuple = None,
                                 name: str = None,
                                 identifiers: list = None
                                 ):
@@ -1003,3 +1005,52 @@ class DeviceManagement:
         self.host_name = socket.gethostname()
         self.host = socket.gethostbyname(self.host_name)
         self.subnet = self.host[:self.host.rfind('.')]
+
+
+class Notice:
+
+    def __init__(self):
+        self._sender_email = None
+        self._receiver_email = None
+        self._pattern = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
+
+    @property
+    def sender(self):
+        return self._sender_email
+
+    @sender.setter
+    def sender(self, value: str):
+        if re.search(self._pattern, value):
+            self._sender_email = value
+
+    @property
+    def receiver(self):
+        return self._receiver_email
+
+    @receiver.setter
+    def receiver(self, value: str):
+        if re.search(self._pattern, value):
+            self._receiver_email = value
+
+    def send(self):
+        smtp_server = "smtp.gmail.com"
+        port = 587  # For starttls
+        sender_email = "alexburov99@gmail.com"
+        sender = 'alexburov99@gmail.com'
+        receivers = ['metallica010499@gmail.com']
+
+        message = """From: From Person <from@fromdomain.com>
+        To: To Person <to@todomain.com>
+        Subject: SMTP e-mail test
+
+        This is a test e-mail message.
+        """
+
+        try:
+            smtpObj = smtplib.SMTP("smtp.gmail.com")
+            smtpObj.sendmail(sender, receivers, message)
+            print
+            "Successfully sent email"
+        except smtplib.SMTPException:
+            print
+            "Error: unable to send email"

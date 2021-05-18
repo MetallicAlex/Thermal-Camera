@@ -18,10 +18,10 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QtCore.QSize(1366, 768))
         MainWindow.setToolTipDuration(-1)
         MainWindow.setStyleSheet("QToolTip { \n"
-"                           background-color: black; \n"
-"                           color: white; \n"
-"                           border: black solid 1px\n"
-"                           }")
+"    background-color: black; \n"
+"    color: white; \n"
+"    border: black solid 1px\n"
+"}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setMinimumSize(QtCore.QSize(1366, 768))
         self.centralwidget.setToolTipDuration(-1)
@@ -514,6 +514,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_center.sizePolicy().hasHeightForWidth())
         self.frame_center.setSizePolicy(sizePolicy)
+        self.frame_center.setStyleSheet("")
         self.frame_center.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_center.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_center.setObjectName("frame_center")
@@ -669,8 +670,8 @@ class Ui_MainWindow(object):
 "    background-repeat: no-reperat;\n"
 "    background-origin: content;\n"
 "    text-align: left;\n"
-"    padding-left: 15px;\n"
 "    border: none;\n"
+"    padding-left: 15px;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
@@ -810,7 +811,11 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
-"")
+"QToolTip { \n"
+"    background-color: #0C5DB9;\n"
+"    color: #FFFFFF; \n"
+"    border: #FFFFFF solid 1px;\n"
+"}")
         self.table_control.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_control.setFrameShadow(QtWidgets.QFrame.Plain)
         self.table_control.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -862,7 +867,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_control.setHorizontalHeaderItem(5, item)
-        self.table_control.horizontalHeader().setVisible(True)
+        self.table_control.horizontalHeader().setVisible(False)
         self.table_control.horizontalHeader().setCascadingSectionResizes(True)
         self.table_control.horizontalHeader().setDefaultSectionSize(200)
         self.table_control.horizontalHeader().setStretchLastSection(True)
@@ -1171,7 +1176,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(8, item)
-        self.table_devices.horizontalHeader().setVisible(True)
+        self.table_devices.horizontalHeader().setVisible(False)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(True)
@@ -1739,7 +1744,11 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
-"")
+"QToolTip { \n"
+"    background-color: #0C5DB9;\n"
+"    color: #FFFFFF; \n"
+"    border: #FFFFFF solid 1px;\n"
+"}")
         self.table_profiles.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_profiles.setLineWidth(0)
         self.table_profiles.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -1780,7 +1789,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_profiles.setHorizontalHeaderItem(8, item)
-        self.table_profiles.horizontalHeader().setVisible(True)
+        self.table_profiles.horizontalHeader().setVisible(False)
         self.table_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_profiles.horizontalHeader().setStretchLastSection(True)
@@ -2391,7 +2400,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_departments.setHorizontalHeaderItem(2, item)
-        self.table_departments.horizontalHeader().setVisible(True)
+        self.table_departments.horizontalHeader().setVisible(False)
         self.table_departments.horizontalHeader().setCascadingSectionResizes(True)
         self.table_departments.horizontalHeader().setDefaultSectionSize(200)
         self.table_departments.horizontalHeader().setStretchLastSection(True)
@@ -2779,7 +2788,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_device_profiles.setHorizontalHeaderItem(8, item)
-        self.table_device_profiles.horizontalHeader().setVisible(True)
+        self.table_device_profiles.horizontalHeader().setVisible(False)
         self.table_device_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_device_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_device_profiles.horizontalHeader().setStretchLastSection(True)
@@ -3065,7 +3074,11 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
-"")
+"QToolTip { \n"
+"    background-color: #0C5DB9;\n"
+"    color: #FFFFFF; \n"
+"    border: #FFFFFF solid 1px;\n"
+"}")
         self.table_statistics.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_statistics.setFrameShadow(QtWidgets.QFrame.Plain)
         self.table_statistics.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -3117,7 +3130,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_statistics.setHorizontalHeaderItem(5, item)
-        self.table_statistics.horizontalHeader().setVisible(True)
+        self.table_statistics.horizontalHeader().setVisible(False)
         self.table_statistics.horizontalHeader().setCascadingSectionResizes(True)
         self.table_statistics.horizontalHeader().setDefaultSectionSize(200)
         self.table_statistics.horizontalHeader().setStretchLastSection(True)
@@ -3335,7 +3348,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

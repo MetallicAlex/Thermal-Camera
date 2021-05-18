@@ -12,7 +12,7 @@ import numpy as np
 from sqlalchemy import null
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QCheckBox
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QTableWidget, QCheckBox, QProgressBar
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 
@@ -71,6 +71,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image_filename = None
         self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
+        self.style_unpressed_button = self.button_control.styleSheet()
         departments = [
             department.name
             for department in self.database_management.get_departments()
@@ -119,8 +120,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             )
         )
         self.stackedWidget.setCurrentWidget(self.page_control)
-        # self.button_device.setStyleSheet(self.theme['system-button'] +
-        #                                  "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
+        self._update_system_buttons(self.button_control)
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
         self.button_close.clicked.connect(lambda: self.close())
         self.button_minimize.clicked.connect(lambda: self.showMinimized())
@@ -857,6 +857,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # EVENTS-STATISTICS
     def _button_statistics_filter_clicked(self, event):
+        self.table_statistics.setSortingEnabled(False)
         self.filter_params['start'] = self.dateTimeEdit_start.text()
         self.filter_params['end'] = self.dateTimeEdit_end.text()
         self.filter_params['min'] = self.doubleSpinBox_min_temperature.value()
@@ -870,6 +871,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             temperature=(self.filter_params['min'], self.filter_params['max']),
             name=self.filter_params['name']
         )
+        self.table_statistics.setSortingEnabled(True)
 
     def _button_export_statistics_data_clicked(self, event):
         self.blur_effect.setEnabled(True)
@@ -1174,8 +1176,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                                   identifiers: list = None
                                   ):
         start = time.time()
-        # for row_position in range(self.table_statistics.rowCount() - 1, -1, -1):
-        #     self.table_statistics.removeRow(row_position)
         self.table_statistics.setRowCount(0)
         statistics = self.database_management.get_statistics_and_name(
             time=stat_time,
@@ -1206,7 +1206,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         start = time.time()
         # for row_position in range(self.table_statistics.rowCount() - 1, -1, -1):
         #     self.table_statistics.removeRow(row_position)
-        self.table_statistics.setRowCount(0)
+        self.table_control.setRowCount(0)
         statistics = [
             *self.database_management.get_statistics(
                 time=stat_time,
@@ -1476,13 +1476,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):
-        # self.button_device.setStyleSheet(self.theme['system-button'])
-        # self.button_database.setStyleSheet(self.theme['system-button'])
-        # self.button_statistic.setStyleSheet(self.theme['system-button'])
-        # self.button_settings.setStyleSheet(self.theme['system-button'])
-        # button.setStyleSheet(self.theme['system-button'] +
-        #                      "QPushButton{ border-right: 7px solid rgb(85, 170, 255);}")
-        pass
+        self.button_control.setStyleSheet(self.style_unpressed_button)
+        self.button_device.setStyleSheet(self.style_unpressed_button)
+        self.button_database.setStyleSheet(self.style_unpressed_button)
+        self.button_statistic.setStyleSheet(self.style_unpressed_button)
+        self.button_settings.setStyleSheet(self.style_unpressed_button)
+        button.setStyleSheet(button.styleSheet() + 'QPushButton{ border-right: 15px solid #87B9E0;}')
 
     @staticmethod
     def _create_report(dialog_result: int,
@@ -1665,6 +1664,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_devices.horizontalHeaderItem(7).setText(self.setting.lang['table_devices']['mac_address'])
         self.table_devices.horizontalHeaderItem(8).setText(self.setting.lang['table_devices']['ip_address'])
         self.label_statusbar.setText("MetallicAlex")
+        self.table_statistics.setSortingEnabled(True)
 
     def _create_toggle_buttons(self):
         # PAGE DATABASE
