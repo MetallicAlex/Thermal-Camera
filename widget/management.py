@@ -463,7 +463,7 @@ class DBManagement:
 
     def get_number_statistics(self,
                               time: tuple = None,
-                              temperature: float = None,
+                              temperature: tuple = None,
                               name: str = None,
                               identifiers: list = None
                               ):
@@ -493,7 +493,7 @@ class DBManagement:
     def get_number_normal_temperature_statistics(self,
                                                  threshold: float,
                                                  time: tuple = None,
-                                                 temperature: Union[str, float] = None,
+                                                 temperature: tuple = None,
                                                  name: str = None,
                                                  identifiers: list = None
                                                  ):
@@ -834,7 +834,7 @@ class DBManagement:
     # STRANGER STATISTICS
     def get_stranger_statistics(self,
                                 time: tuple = None,
-                                temperature: float = None,
+                                temperature: tuple = None,
                                 ):
         """
         :param time: (start, end)
@@ -852,27 +852,34 @@ class DBManagement:
             self._stranger_statistics = query.all()
         return self._stranger_statistics
 
-    def get_number_stranger_statistics(self, low: Union[str, float] = None, high: Union[str, float] = None):
+    def get_number_stranger_statistics(self,
+                                       time: tuple = None,
+                                       temperature: tuple = None
+                                       ):
         with models.get_session() as session:
             query = session.query(models.StrangerStatistic)
-            if isinstance(low, str) and isinstance(high, str):
-                query = query.filter(models.StrangerStatistic.time >= low,
-                                     models.StrangerStatistic.time <= high)
-            elif isinstance(low, float) and isinstance(high, float):
-                query = query.filter(models.StrangerStatistic.temperature >= low,
-                                     models.StrangerStatistic.temperature <= high)
+            if time:
+                query = query.filter(models.StrangerStatistic.time >= time[0],
+                                     models.StrangerStatistic.time <= time[1])
+            if temperature:
+                query = query.filter(models.StrangerStatistic.temperature >= temperature[0],
+                                     models.StrangerStatistic.temperature <= temperature[1])
             self._number_stranger_passages = query.count()
         return self._number_stranger_passages
 
     def get_number_normal_temperature_stranger_statistics(self,
                                                           threshold: float,
-                                                          low: str = None,
-                                                          high: str = None):
+                                                          time: tuple = None,
+                                                          temperature: tuple = None,
+                                                          ):
         with models.get_session() as session:
             query = session.query(models.StrangerStatistic)
-            if isinstance(low, str) and isinstance(high, str):
-                query = query.filter(models.StrangerStatistic.time >= low,
-                                     models.StrangerStatistic.time <= high)
+            if time:
+                query = query.filter(models.StrangerStatistic.time >= time[0],
+                                     models.StrangerStatistic.time <= time[1])
+            if temperature:
+                query = query.filter(models.StrangerStatistic.temperature >= temperature[0],
+                                     models.StrangerStatistic.temperature <= temperature[1])
             self._number_normal_temperature_stranger_passages = query \
                 .filter(models.StrangerStatistic.temperature <= threshold) \
                 .count()

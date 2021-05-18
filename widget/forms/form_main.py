@@ -37,6 +37,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self._create_toggle_buttons()
+        self._create_shadows()
         self.blur_effect = QtWidgets.QGraphicsBlurEffect()
         self.blur_effect.setBlurRadius(15)
         self.blur_effect.setEnabled(False)
@@ -85,26 +86,32 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.setting.lang['gender']['female']
             ]
         )
-        # self.database_visualization = DBVisualization(width=10, height=6)
-        # self.database_visualization.create_pie_chart_temperatures(
-        #     title='Passage of people for the current day',
-        #     current_day=datetime.date.today().strftime('%Y-%m-%d')
-        # )
-        # self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
-        # self.label_pie_number_person_day.setPixmap(
-        #     QPixmap(
-        #         QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
-        #     )
-        # )
-        # self.database_visualization.create_pie_chart_temperatures()
-        # self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
-        # self.label_pie_number_person_all_time.setPixmap(
-        #     QPixmap(
-        #         QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
-        #     )
-        # )
-        # self.label_pie_number_person_day.setScaledContents(True)
-        # self.label_pie_number_person_all_time.setScaledContents(True)
+        self.database_visualization = DBVisualization(width=10, height=6)
+        self.database_visualization.create_pie_chart_temperatures(
+            title='Passage of people for the current day',
+            threshold=self.doubleSpinBox_alarm_temperature.value(),
+            stat_time=(
+                datetime.datetime.now().replace(hour=0, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S'),
+                datetime.datetime.now().replace(hour=23, minute=59, second=59).strftime('%Y-%m-%d %H:%M:%S')
+            )
+        )
+        self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
+        self.label_pie_number_person_day.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
+            )
+        )
+        self.database_visualization.create_pie_chart_temperatures(
+            threshold=self.doubleSpinBox_alarm_temperature.value()
+        )
+        self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
+        self.label_pie_number_person_all_time.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
+            )
+        )
+        self.label_pie_number_person_day.setScaledContents(True)
+        self.label_pie_number_person_all_time.setScaledContents(True)
         self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59, second=59))
         self.filter_params['start'] = self.dateTimeEdit_start.text()
         self.filter_params['end'] = self.dateTimeEdit_end.text()
@@ -1665,6 +1672,48 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_devices.horizontalHeaderItem(8).setText(self.setting.lang['table_devices']['ip_address'])
         self.label_statusbar.setText("MetallicAlex")
         self.table_statistics.setSortingEnabled(True)
+
+    def _create_shadows(self):
+        shadow = QtWidgets.QGraphicsDropShadowEffect()
+        shadow.setXOffset(0)
+        shadow.setYOffset(5)
+        shadow.setBlurRadius(10)
+        self.label_pie_number_person_day.setGraphicsEffect(shadow)
+        shadow2 = QtWidgets.QGraphicsDropShadowEffect()
+        shadow2.setXOffset(0)
+        shadow2.setYOffset(5)
+        shadow2.setBlurRadius(10)
+        self.label_pie_number_person_all_time.setGraphicsEffect(shadow2)
+        shadow3 = QtWidgets.QGraphicsDropShadowEffect()
+        shadow3.setXOffset(0)
+        shadow3.setYOffset(5)
+        shadow3.setBlurRadius(10)
+        self.table_control.setGraphicsEffect(shadow3)
+        shadow4 = QtWidgets.QGraphicsDropShadowEffect()
+        shadow4.setXOffset(0)
+        shadow4.setYOffset(5)
+        shadow4.setBlurRadius(10)
+        self.table_devices.setGraphicsEffect(shadow4)
+        shadow5 = QtWidgets.QGraphicsDropShadowEffect()
+        shadow5.setXOffset(0)
+        shadow5.setYOffset(5)
+        shadow5.setBlurRadius(10)
+        self.table_profiles.setGraphicsEffect(shadow5)
+        shadow6 = QtWidgets.QGraphicsDropShadowEffect()
+        shadow6.setXOffset(0)
+        shadow6.setYOffset(5)
+        shadow6.setBlurRadius(10)
+        self.table_departments.setGraphicsEffect(shadow6)
+        shadow7 = QtWidgets.QGraphicsDropShadowEffect()
+        shadow7.setXOffset(0)
+        shadow7.setYOffset(5)
+        shadow7.setBlurRadius(10)
+        self.table_device_profiles.setGraphicsEffect(shadow7)
+        shadow8 = QtWidgets.QGraphicsDropShadowEffect()
+        shadow8.setXOffset(0)
+        shadow8.setYOffset(5)
+        shadow8.setBlurRadius(10)
+        self.table_statistics.setGraphicsEffect(shadow8)
 
     def _create_toggle_buttons(self):
         # PAGE DATABASE
