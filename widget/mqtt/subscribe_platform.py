@@ -91,7 +91,7 @@ class SubscribePlatform(QtCore.QObject):
                      f'[{datetime.now()}][{self.data["device_id"]}] {self.data["tag"]}: {self.data["msg"]}\n')
         else:
             if self.data['tag'] == 'UploadPersonInfo':
-                self.record_person_information()
+                self.add_information_record()
             elif self.data['tag'] == 'query_profiles':
                 self.profiles.emit(self.data['datas'])
             elif self.data['tag'] == 'bind_control':
@@ -104,37 +104,22 @@ class SubscribePlatform(QtCore.QObject):
             elif self.data['tag'] == 'remove_profiles':
                 self.calculate_removed_profiles_number()
 
-    def record_person_information(self):
-        if self.data['datas']['matched'] == '1':
-            self.record_profile_information()
-        elif self.data['datas']['matched'] == '0':
-            self.record_stranger_information()
-
-    def record_profile_information(self):
+    def add_information_record(self):
         statistic = models.Statistic(
-            identifier=int(self.data['datas']['user_id']),
+            id_device=self._database_management.get_device_id(self.data['device_id']),
             time=self.data['datas']['time'],
             temperature=self.data['datas']['temperature'],
             similar=self.data['datas']['similar'],
             mask=self.is_mask_on()
         )
+        if self.data['datas']['matched'] == '1':
+            statistic.id_profile = int(self.data['datas']['user_id'])
         if not self.is_duplicate_statistic(statistic):
             if 'imageFile' in self.data['datas']:
                 statistic.face = self.record_face_person()
             self._database_management.add_statistics(statistic)
             self.statistic.emit(statistic)
             self._prev_statistic = statistic
-
-    def record_stranger_information(self):
-        statistic = models.StrangerStatistic(
-            time=self.data['datas']['time'],
-            temperature=self.data['datas']['temperature'],
-            mask=self.is_mask_on(),
-        )
-        if 'imageFile' in self.data['datas']:
-            statistic.face = self.record_face_person()
-        self._database_management.add_stranger_statistics(statistic)
-        self.statistic.emit(statistic)
 
     def record_face_person(self):
         snapshot_path = os.path.abspath('snapshot')

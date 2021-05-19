@@ -37,7 +37,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self._create_toggle_buttons()
-        self._create_shadows()
+        # self._create_shadows()
         self.blur_effect = QtWidgets.QGraphicsBlurEffect()
         self.blur_effect.setBlurRadius(15)
         self.blur_effect.setEnabled(False)
@@ -1184,7 +1184,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                                   ):
         start = time.time()
         self.table_statistics.setRowCount(0)
-        statistics = self.database_management.get_statistics_and_name(
+        statistics = self.database_management.get_statistics_name_serial_number(
             time=stat_time,
             temperature=temperature,
             identifiers=identifiers,
@@ -1198,8 +1198,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.progressBar.setValue(1)
         print(f'[DATABASE][STATISTICS] {time.time() - start}')
         start = time.time()
-        for row_position, (statistic, name) in enumerate(statistics):
-            self._add_statistic_row(row_position, statistic, name)
+        for row_position, (statistic, name, serial_number) in enumerate(statistics):
+            self._add_statistic_row(row_position, statistic, name, serial_number)
             self.progressBar.setValue(row_position + 1)
         # self.table_statistics.sortByColumn(0, Qt.DescendingOrder)
         self.table_statistics.resizeColumnsToContents()
@@ -1211,20 +1211,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                                     temperature: float = None
                                     ):
         start = time.time()
-        # for row_position in range(self.table_statistics.rowCount() - 1, -1, -1):
-        #     self.table_statistics.removeRow(row_position)
         self.table_control.setRowCount(0)
-        statistics = [
-            *self.database_management.get_statistics(
-                time=stat_time,
-                temperature=temperature
-            ),
-            *self.database_management.get_stranger_statistics(
-                time=stat_time,
-                temperature=temperature
-            )
-        ]
-        statistics.sort(key=lambda x: x.time if isinstance(x, models.Statistic) else x.time)
+        statistics = self.database_management.get_statistics(
+            time=stat_time,
+            temperature=temperature
+        )
+        statistics.sort(key=lambda x: x.time)
         if len(statistics) > 0:
             self.progressBar.setMaximum(len(statistics))
             self.progressBar.setValue(0)
@@ -1238,59 +1230,70 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.progressBar.setValue(row_position + 1)
         print(f'[VISUAL][CONTROL] {time.time() - start}')
 
-    def _add_statistic_row_to_control(self, statistic: Union[models.Statistic, models.StrangerStatistic]):
+    def _add_statistic_row_to_control(self, statistic: models.Statistic):
         self.table_control.insertRow(0)
-        if isinstance(statistic, models.Statistic):
-            item = QTableWidgetItem(self.database_management.get_profile_name(statistic.id_profile))
-            item2 = QTableWidgetItem(f'{int(float(statistic.similar) * 100)} %')
-        elif isinstance(statistic, models.StrangerStatistic):
-            item = QTableWidgetItem('---')
-            item2 = QTableWidgetItem('---')
-        item.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 1, item)
         item = QTableWidgetItem(str(statistic.time))
         item.setTextAlignment(Qt.AlignCenter)
         self.table_control.setItem(0, 0, item)
+        item = QTableWidgetItem(self.database_management.get_device_serial_number(statistic.id_device))
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 1, item)
+        if statistic.id_profile:
+            item = QTableWidgetItem(self.database_management.get_profile_name(statistic.id_profile))
+        else:
+            item = QTableWidgetItem('---')
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 2, item)
         item = QTableWidgetItem(self.setting.lang['image'])
         if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
             item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
         else:
             item.setToolTip(self.setting.lang['no_image'])
-        self.table_control.setItem(0, 2, item)
+        self.table_control.setItem(0, 3, item)
         item = QTableWidgetItem(str(statistic.temperature))
         item.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 3, item)
+        self.table_control.setItem(0, 4, item)
         mask = self.database_management.get_mask(statistic.mask)
         item = QTableWidgetItem(self.setting.lang['mask'][mask.mask])
         item.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 4, item)
-        item2.setTextAlignment(Qt.AlignCenter)
-        self.table_control.setItem(0, 5, item2)
+        self.table_control.setItem(0, 5, item)
+        item = QTableWidgetItem(f'{int(float(statistic.similar) * 100)} %')
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_control.setItem(0, 6, item)
         self.table_control.resizeColumnsToContents()
         self.table_control.resizeRowsToContents()
 
-    def _add_statistic_row(self, row_position: int, statistic: models.Statistic, name: str):
+    def _add_statistic_row(self, row_position: int, statistic: models.Statistic, name: str, serial_number: str):
         self.table_statistics.insertRow(row_position)
         self.table_statistics.setItem(row_position, 0, QTableWidgetItem(str(statistic.time)))
-        item = QTableWidgetItem(name)
+        if serial_number:
+            item = QTableWidgetItem(serial_number)
+        else:
+            item = QTableWidgetItem('---')
         item.setTextAlignment(Qt.AlignCenter)
         self.table_statistics.setItem(row_position, 1, item)
+        if name:
+            item = QTableWidgetItem(name)
+        else:
+            item = QTableWidgetItem('---')
+        item.setTextAlignment(Qt.AlignCenter)
+        self.table_statistics.setItem(row_position, 2, item)
         item = QTableWidgetItem(self.setting.lang['image'])
         if statistic.face is not None and os.path.exists(f'snapshot{statistic.face}'):
             item.setToolTip(f'<br><img src="snapshot{statistic.face}" width="240" height="426" alt="lorem"')
         else:
             item.setToolTip(self.setting.lang['no_image'])
-        self.table_statistics.setItem(row_position, 2, item)
+        self.table_statistics.setItem(row_position, 3, item)
         item = QTableWidgetItem(str(statistic.temperature))
         item.setTextAlignment(Qt.AlignCenter)
-        self.table_statistics.setItem(row_position, 3, item)
+        self.table_statistics.setItem(row_position, 4, item)
         mask = self.database_management.get_mask(statistic.mask)
         item = QTableWidgetItem(mask.mask)
         item.setTextAlignment(Qt.AlignCenter)
-        self.table_statistics.setItem(row_position, 4, item)
+        self.table_statistics.setItem(row_position, 5, item)
         item = QTableWidgetItem(f'{int(statistic.similar * 100)} %')
         item.setTextAlignment(Qt.AlignCenter)
-        self.table_statistics.setItem(row_position, 5, item)
+        self.table_statistics.setItem(row_position, 6, item)
 
     def _add_update_department_row(self, row_position: int, department: models.Department):
         if row_position > self.table_departments.rowCount() - 1:
@@ -1478,7 +1481,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # STATISTIC
     @QtCore.pyqtSlot(object)
-    def _get_record(self, statistic: Union[models.Statistic, models.StrangerStatistic]):
+    def _get_record(self, statistic: models.Statistic):
         self._add_statistic_row_to_control(statistic)
 
     # OTHERS

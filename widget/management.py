@@ -25,10 +25,11 @@ class DBManagement:
         self._profile_name = str
         self._pattern = None
         self._devices = models.Device
+        self._device_id = None
+        self._device_serial_number = None
         self._departments = models.Department
         self._profiles = models.Profile
         self._statistics = models.Statistic
-        self._stranger_statistics = models.StrangerStatistic
 
     @property
     def setting(self):
@@ -45,6 +46,20 @@ class DBManagement:
             self._devices = session.query(models.Device) \
                 .all()
             return self._devices
+
+    def get_device_id(self, serial_number: str):
+        with models.get_session() as session:
+            self._device_id = session.query(models.Device.id) \
+                .filter(models.Device.serial_number == serial_number) \
+                .scalar()
+        return self._device_id
+
+    def get_device_serial_number(self, identifier: int):
+        with models.get_session() as session:
+            self._device_id = session.query(models.Device.serial_number) \
+                .filter(models.Device.id == identifier) \
+                .scalar()
+        return self._device_serial_number
 
     def add_devices(self, *devices: models.Device):
         with models.get_session() as session:
@@ -406,12 +421,14 @@ class DBManagement:
     def get_statistics(self,
                        time: tuple = None,
                        temperature: tuple = None,
-                       identifiers: list = None
+                       identifiers: list = None,
+                       devices: list = None
                        ):
         """
         :param time: (start, end)
         :param temperature: (min, max)
         :param identifiers: list[int]
+        :param devices: list[int]
         :return: list[models.Statistics]
         """
         with models.get_session() as session:
@@ -424,25 +441,30 @@ class DBManagement:
                                      models.Statistic.temperature <= temperature[1])
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
+            if devices:
+                query = query.filter(models.Statistic.id_device.in_(devices))
             self._statistics = query.all()
         return self._statistics
 
-    def get_statistics_and_name(self,
-                                time: tuple = None,
-                                temperature: tuple = None,
-                                name: str = None,
-                                identifiers: list = None
-                                ):
+    def get_statistics_name_serial_number(self,
+                                          time: tuple = None,
+                                          temperature: tuple = None,
+                                          name: str = None,
+                                          identifiers: list = None,
+                                          devices: list = None
+                                          ):
         """
         :param time: (start, end)
         :param temperature: (min, max)
         :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
         :param identifiers: list[int]
+        :param devices: list[int]
         :return: list[(models.Statistics, models.Profile.name)]
         """
         with models.get_session() as session:
-            query = session.query(models.Statistic, models.Profile.name) \
-                .join(models.Profile, models.Profile.id == models.Statistic.id_profile, isouter=True)
+            query = session.query(models.Statistic, models.Profile.name, models.Device.serial_number) \
+                .join(models.Profile, models.Profile.id == models.Statistic.id_profile, isouter=True) \
+                .join(models.Device, models.Device.id == models.Statistic.id_device, isouter=True)
             if name:
                 query = query.filter(models.Profile.name.like(f'%{name}%'))
             if time:
@@ -453,26 +475,25 @@ class DBManagement:
                                      models.Statistic.temperature <= temperature[1])
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
+            if devices:
+                query = query.filter(models.Statistic.id_device.in_(devices))
             self._statistics = query.all()
         return self._statistics
-
-    def add_statistics(self, *statistics: models.Statistic):
-        with models.get_session() as session:
-            session.add_all(statistics)
-        self._statistics = statistics
 
     def get_number_statistics(self,
                               time: tuple = None,
                               temperature: tuple = None,
                               name: str = None,
-                              identifiers: list = None
+                              identifiers: list = None,
+                              devices: list = None
                               ):
         """
         :param time: (start, end)
         :param temperature: (min, max)
         :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
         :param identifiers: list[int]
-        :return: list[models.Statistics]
+        :param devices: list[int]
+        :return: (int, int)
         """
         with models.get_session() as session:
             query = session.query(models.Statistic, models.Profile.name) \
@@ -487,15 +508,19 @@ class DBManagement:
                                      models.Statistic.temperature <= temperature[1])
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
-            self._number_profile_passages = query.count()
-        return self._number_profile_passages
+            if devices:
+                query = query.filter(models.Statistic.id_device.in_(devices))
+            self._number_profile_passages = query.filter(models.Statistic.id_profile.isnot(None)).count()
+            self._number_stranger_passages = query.filter(models.Statistic.id_profile.is_(None)).count()
+        return self._number_profile_passages, self._number_stranger_passages
 
     def get_number_normal_temperature_statistics(self,
                                                  threshold: float,
                                                  time: tuple = None,
                                                  temperature: tuple = None,
                                                  name: str = None,
-                                                 identifiers: list = None
+                                                 identifiers: list = None,
+                                                 devices: list = None
                                                  ):
         """
         :param threshold: max normal temperature
@@ -503,7 +528,8 @@ class DBManagement:
         :param temperature: (min, max)
         :param name: example, 'Name' from ['Nma', 'Name1, 1_Name, Name], result is ['Name1, 1_Name, Name]
         :param identifiers: list[int]
-        :return: list[models.Statistics]
+        :param devices: list[int]
+        :return: (int, int)
         """
         with models.get_session() as session:
             query = session.query(models.Statistic, models.Profile.name) \
@@ -518,13 +544,24 @@ class DBManagement:
                                      models.Statistic.temperature <= temperature[1])
             if identifiers:
                 query = query.filter(models.Statistic.id_profile.in_(identifiers))
-            self._number_normal_temperature_profile_passages = query.filter(models.Statistic.temperature <= threshold) \
+            if devices:
+                query = query.filter(models.Statistic.id_device.in_(devices))
+            self._number_normal_temperature_profile_passages = query.filter(models.Statistic.temperature <= threshold,
+                                                                            models.Statistic.id_profile.isnot(None)) \
                 .count()
-        return self._number_normal_temperature_profile_passages
+            self._number_normal_temperature_stranger_passages = query.filter(models.Statistic.temperature <= threshold,
+                                                                             models.Statistic.id_profile.is_(None)) \
+                .count()
+        return self._number_normal_temperature_profile_passages, self._number_normal_temperature_stranger_passages
+
+    def add_statistics(self, *statistics: models.Statistic):
+        with models.get_session() as session:
+            session.add_all(statistics)
+        self._statistics = statistics
 
     def remove_statistics(self, *times: tuple):
         """
-        :param times: tuple[identifier, datetime]
+        :param times: tuple[profile_identifier, datetime]
         :return: None
         """
         path = os.path.dirname(os.path.abspath(__file__))
@@ -544,11 +581,11 @@ class DBManagement:
         self._statistics = None
 
     def remove_statistic_duplicates(self):
-        statistics = self.get_statistics_and_name()
+        statistics = self.get_statistics()
         removable_statistics = set()
-        for row_position, (comparable_statistic, _) in enumerate(statistics):
-            for (statistic, _) in statistics[row_position:]:
-                if comparable_statistic.id_profile == statistic.id_profile:
+        for row_position, comparable_statistic in enumerate(statistics):
+            for statistic in statistics[row_position:]:
+                if comparable_statistic.id_profile == statistic.id_profile and comparable_statistic is not None:
                     time_difference = (abs(statistic.time - comparable_statistic.time)).total_seconds()
                     if 0 < time_difference <= 60:
                         removable_statistics.add((statistic.id_profile, str(statistic.time)))
@@ -633,7 +670,7 @@ class DBManagement:
                                name: str = None,
                                identifiers: list = None):
         report = {}
-        for (statistic, name) in self.get_statistics_and_name(
+        for (statistic, name) in self.get_statistics_name_serial_number(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -676,7 +713,7 @@ class DBManagement:
                               name: str = None,
                               identifiers: list = None):
         report = pd.DataFrame(columns=['Name', 'Date', 'Time', 'Temperature', 'Mask', 'Similar'])
-        for (statistic, profile_name) in self.get_statistics_and_name(
+        for (statistic, profile_name) in self.get_statistics_name_serial_number(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -701,7 +738,7 @@ class DBManagement:
                                        identifiers: list = None):
         report = {}
         number_statistic = 0
-        for (statistic, name) in self.get_statistics_and_name(
+        for (statistic, name) in self.get_statistics_name_serial_number(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -749,7 +786,7 @@ class DBManagement:
                                       identifiers: list = None):
         report = pd.DataFrame(columns=['Name', 'Date', 'Came', 'Gone'])
         number_statistic = 0
-        for (statistic, profile_name) in self.get_statistics_and_name(
+        for (statistic, profile_name) in self.get_statistics_name_serial_number(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -786,7 +823,7 @@ class DBManagement:
                                             name: str = None,
                                             identifiers: list = None):
         report = {}
-        for (statistic, name) in self.get_statistics_and_name(
+        for (statistic, name) in self.get_statistics_name_serial_number(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -816,7 +853,7 @@ class DBManagement:
                                            name: str = None,
                                            identifiers: list = None):
         report = pd.DataFrame(columns=['Name', 'Date', 'Time', 'Temperature'])
-        for (statistic, name) in self.get_statistics_and_name(
+        for (statistic, name) in self.get_statistics_name_serial_number(
                 identifiers=identifiers,
                 time=time,
                 temperature=temperature,
@@ -830,72 +867,6 @@ class DBManagement:
                 'Temperature': float(statistic.temperature)
             }, ignore_index=True)
         report.to_csv(filename, sep=';', header=True, encoding='cp1251')
-
-    # STRANGER STATISTICS
-    def get_stranger_statistics(self,
-                                time: tuple = None,
-                                temperature: tuple = None,
-                                ):
-        """
-        :param time: (start, end)
-        :param temperature: (min, max)
-        :return: list[models.StrangerStatistic]
-        """
-        with models.get_session() as session:
-            query = session.query(models.StrangerStatistic)
-            if time:
-                query = query.filter(models.StrangerStatistic.time >= time[0],
-                                     models.StrangerStatistic.time <= time[1])
-            if temperature:
-                query = query.filter(models.StrangerStatistic.temperature >= temperature[0],
-                                     models.StrangerStatistic.temperature <= temperature[1])
-            self._stranger_statistics = query.all()
-        return self._stranger_statistics
-
-    def get_number_stranger_statistics(self,
-                                       time: tuple = None,
-                                       temperature: tuple = None
-                                       ):
-        with models.get_session() as session:
-            query = session.query(models.StrangerStatistic)
-            if time:
-                query = query.filter(models.StrangerStatistic.time >= time[0],
-                                     models.StrangerStatistic.time <= time[1])
-            if temperature:
-                query = query.filter(models.StrangerStatistic.temperature >= temperature[0],
-                                     models.StrangerStatistic.temperature <= temperature[1])
-            self._number_stranger_passages = query.count()
-        return self._number_stranger_passages
-
-    def get_number_normal_temperature_stranger_statistics(self,
-                                                          threshold: float,
-                                                          time: tuple = None,
-                                                          temperature: tuple = None,
-                                                          ):
-        with models.get_session() as session:
-            query = session.query(models.StrangerStatistic)
-            if time:
-                query = query.filter(models.StrangerStatistic.time >= time[0],
-                                     models.StrangerStatistic.time <= time[1])
-            if temperature:
-                query = query.filter(models.StrangerStatistic.temperature >= temperature[0],
-                                     models.StrangerStatistic.temperature <= temperature[1])
-            self._number_normal_temperature_stranger_passages = query \
-                .filter(models.StrangerStatistic.temperature <= threshold) \
-                .count()
-        return self._number_normal_temperature_stranger_passages
-
-    def add_stranger_statistics(self, *statistics: models.StrangerStatistic):
-        with models.get_session() as session:
-            session.add_all(statistics)
-        self._stranger_statistics = statistics
-
-    def remove_stranger_statistics(self, *times: str):
-        with models.get_session() as session:
-            session.query(models.StrangerStatistic) \
-                .filter(models.StrangerStatistic.time.in_(times)) \
-                .delete(synchronize_session=False)
-        self._stranger_statistics = None
 
 
 class DeviceManagement:

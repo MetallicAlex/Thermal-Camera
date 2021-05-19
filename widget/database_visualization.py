@@ -58,40 +58,33 @@ class DBVisualization(FigureCanvas):
             temperature: tuple = None,
             name: str = None,
             identifiers: list = None,
+            devices: list = None,
             title: str = 'All time passage of people'  # Passage of people for the current day
     ):
         self.ax.clear()
         # self.figure.set_facecolor('#272c36')
-        number_passages = [
-            self.database_management.get_number_statistics(
-                time=stat_time,
-                temperature=temperature,
-                name=name,
-                identifiers=identifiers
-            ),
-            self.database_management.get_number_stranger_statistics(
-                time=stat_time,
-                temperature=temperature
-            )
-        ]
-        number_all_persons = np.array(number_passages).sum()
-        if number_all_persons == 0:
-            data = [1, 1]
-            number_all_persons = 2
-        else:
-            data = number_passages
-        number_normal_temp_stats = self.database_management.get_number_normal_temperature_statistics(
-            threshold=threshold,
+        number_passages = self.database_management.get_number_statistics(
             time=stat_time,
             temperature=temperature,
             name=name,
-            identifiers=identifiers
+            identifiers=identifiers,
+            devices=devices
         )
-        number_normal_temp_stranger_stats = self.database_management.get_number_normal_temperature_stranger_statistics(
-            threshold=threshold,
-            time=stat_time,
-            temperature=temperature
-        )
+        number_all_persons = np.array(number_passages).sum()
+        if number_all_persons == 0:
+            data = (1, 1)
+            number_all_persons = 2
+        else:
+            data = number_passages
+        number_normal_temp_stats, number_normal_temp_stranger_stats = \
+            self.database_management.get_number_normal_temperature_statistics(
+                threshold=threshold,
+                time=stat_time,
+                temperature=temperature,
+                name=name,
+                identifiers=identifiers,
+                devices=devices
+            )
         number_temperatures = [
             number_normal_temp_stats,
             number_passages[0] - number_normal_temp_stats,
@@ -133,12 +126,12 @@ class DBVisualization(FigureCanvas):
             connectionstyle = 'angle,angleA=0,angleB={}'.format(ang)
             kw['arrowprops'].update({'connectionstyle': connectionstyle})
             self.ax.annotate(
-                             f'{np.round(100 * data[i] / number_all_persons, 2)}% '
-                             f'({number_passages[i]})\n'
-                             f'[N - {number_temperatures[j]}; H - {number_temperatures[j + 1]}]',
-                             xy=(x, y),
-                             xytext=(2 * np.sign(x), 1.5 * y),
-                             horizontalalignment='center', fontsize=16, **kw)
+                f'{np.round(100 * data[i] / number_all_persons, 2)}% '
+                f'({number_passages[i]})\n'
+                f'[N - {number_temperatures[j]}; H - {number_temperatures[j + 1]}]',
+                xy=(x, y),
+                xytext=(2 * np.sign(x), 1.5 * y),
+                horizontalalignment='center', fontsize=16, **kw)
             j += 2
         self.ax.set_title(title, color='#09376B', fontsize=20, weight='regular')
         self.ax.legend(

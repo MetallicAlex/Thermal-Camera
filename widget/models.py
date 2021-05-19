@@ -354,8 +354,11 @@ class Mask(Base):
 class Statistic(Base):
     __tablename__ = 'statistics'
 
+    id = Column('ID', Integer, primary_key=True, unique=True, autoincrement=True)
     id_profile = Column('IdProfile', Integer,
                         ForeignKey('profiles.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
+    id_device = Column('IdDevice', Integer,
+                       ForeignKey('devices.ID', onupdate='CASCADE', ondelete='SET NULL'), primary_key=True)
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
     mask = Column('Mask', Integer,
@@ -364,14 +367,16 @@ class Statistic(Base):
     face = Column('Face', String(128))
 
     def __init__(self,
-                 identifier: int,
                  time: str,
+                 id_profile: int = null(),
+                 id_device: int = null(),
                  temperature: float = 0.0,
                  similar: float = 0.0,
                  mask: int = 0,
                  face: str = null()
                  ):
-        self.id_profile = identifier
+        self.id_profile = id_profile
+        self.id_device = id_device
         self.time = time
         self.temperature = temperature
         self.mask = mask
@@ -379,31 +384,8 @@ class Statistic(Base):
         self.face = face
 
     def __repr__(self):
-        return f'[{self.time}] ID: {self.id_profile}, Similar: {self.similar},' \
+        return f'[ID: {self.id}] Profile: {self.id_profile}, Device: {self.id_device}, Similar: {self.similar},' \
                f' Temperature: {self.temperature}, Mask: {self.mask}, Face: {self.face}\n'
-
-
-class StrangerStatistic(Base):
-    __tablename__ = 'stranger_statistics'
-
-    time = Column('Time', DateTime, primary_key=True)
-    temperature = Column('Temperature', DECIMAL(4, 2))
-    mask = Column('StrangerMask', Integer,
-                  ForeignKey('masks.ID', onupdate='NO ACTION', ondelete='NO ACTION'), default=0)
-    face = Column('Face', String(64))
-
-    def __init__(self,
-                 time: str,
-                 temperature: float = 0.0,
-                 mask: int = 0,
-                 face: str = null()):
-        self.time = time
-        self.temperature = temperature
-        self.mask = mask
-        self.face = face
-
-    def __repr__(self):
-        return f'[{self.time}] Temperature: {self.temperature}, Mask: {self.mask}, Face: {self.face}\n'
 
 
 @contextmanager

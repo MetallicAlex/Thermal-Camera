@@ -1182,7 +1182,7 @@ QPushButton:pressed {
               <string notr="true"/>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="page_control">
               <widget class="QTableWidget" name="table_control">
@@ -1480,7 +1480,7 @@ QToolTip {
                 <number>0</number>
                </property>
                <property name="columnCount">
-                <number>6</number>
+                <number>7</number>
                </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
@@ -1512,6 +1512,14 @@ QToolTip {
                   <family>Segoe UI</family>
                   <pointsize>9</pointsize>
                  </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Устройство</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -6091,7 +6099,7 @@ QToolTip {
                 <number>0</number>
                </property>
                <property name="columnCount">
-                <number>6</number>
+                <number>7</number>
                </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
@@ -6123,6 +6131,14 @@ QToolTip {
                   <family>Segoe UI</family>
                   <pointsize>9</pointsize>
                  </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Устройство</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -6327,7 +6343,7 @@ QDoubleSpinBox QAbstractItemView {
                 <set>Qt::AlignCenter</set>
                </property>
                <property name="minimum">
-                <double>35.000000000000000</double>
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
                 <double>40.000000000000000</double>
@@ -6405,7 +6421,7 @@ QDoubleSpinBox QAbstractItemView {
                 <set>Qt::AlignCenter</set>
                </property>
                <property name="minimum">
-                <double>35.000000000000000</double>
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
                 <double>40.000000000000000</double>
