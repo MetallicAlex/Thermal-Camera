@@ -1182,7 +1182,7 @@ QPushButton:pressed {
               <string notr="true"/>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_control">
               <widget class="QTableWidget" name="table_control">
@@ -1434,7 +1434,8 @@ QTableWidget::horizontalHeader {
 QHeaderView::section:horizontal
 {
 	background-color: #91D1EE;
-	color: rgb(255, 255, 255);
+	color: #09376B;
+	font-weight: bold;
 	border: 1px solid #91D1EE;
 }
 QToolTip { 
@@ -1666,7 +1667,7 @@ QToolTip {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -1710,7 +1711,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">/* DoubleSpinBox */
 QDoubleSpinBox {
-	color: #FFFFFF;
+	color: #09376B;
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
@@ -2067,7 +2068,8 @@ QTableWidget::horizontalHeader {
 QHeaderView::section:horizontal
 {
 	background-color: #91D1EE;
-	color: rgb(255, 255, 255);
+	color: #09376B;
+	font-weight: bold;
 	border: 1px solid #91D1EE;
 }
 </string>
@@ -2242,7 +2244,7 @@ QHeaderView::section:horizontal
                 </property>
                </column>
               </widget>
-              <widget class="QPushButton" name="button_search_device">
+              <widget class="QPushButton" name="button_update_device_info">
                <property name="geometry">
                 <rect>
                  <x>20</x>
@@ -2275,11 +2277,11 @@ QPushButton:pressed {
 }</string>
                </property>
                <property name="text">
-                <string>Поиск</string>
+                <string>Обновить</string>
                </property>
                <property name="icon">
                 <iconset resource="../files.qrc">
-                 <normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</normaloff>:/16x16/data/resources/icons/16x16/cil-magnifying-glass.png</iconset>
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</normaloff>:/16x16/data/resources/icons/16x16/cil-reload.png</iconset>
                </property>
               </widget>
               <widget class="QPushButton" name="button_configure_device">
@@ -2321,7 +2323,7 @@ QPushButton:pressed {
               <widget class="QPushButton" name="button_delete_device">
                <property name="geometry">
                 <rect>
-                 <x>200</x>
+                 <x>995</x>
                  <y>15</y>
                  <width>150</width>
                  <height>30</height>
@@ -2338,15 +2340,15 @@ QPushButton:pressed {
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	border-radius: 10px;	
-	background-color: #0C5DB9;
+	background-color: #B9400C;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:hover {
-	background-color: #91D1EE;
+	background-color: #8A0000;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:pressed {	
-	background-color: #87B9E0;
+	background-color: #D04B4B;
 	color: rgb(255, 255, 255);
 }</string>
                </property>
@@ -2362,7 +2364,7 @@ QPushButton:pressed {
                <property name="geometry">
                 <rect>
                  <x>200</x>
-                 <y>530</y>
+                 <y>570</y>
                  <width>150</width>
                  <height>30</height>
                 </rect>
@@ -2421,7 +2423,7 @@ QPushButton:pressed {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2484,7 +2486,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2525,7 +2527,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2588,7 +2590,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2651,7 +2653,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -2720,7 +2722,7 @@ QLineEdit:focus {
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>530</y>
+                 <y>570</y>
                  <width>150</width>
                  <height>30</height>
                 </rect>
@@ -2744,7 +2746,7 @@ QLineEdit:focus {
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>570</y>
+                 <y>610</y>
                  <width>150</width>
                  <height>30</height>
                 </rect>
@@ -2768,7 +2770,7 @@ QLineEdit:focus {
                <property name="geometry">
                 <rect>
                  <x>200</x>
-                 <y>570</y>
+                 <y>610</y>
                  <width>150</width>
                  <height>30</height>
                 </rect>
@@ -2787,7 +2789,7 @@ QLineEdit:focus {
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>610</y>
+                 <y>650</y>
                  <width>150</width>
                  <height>30</height>
                 </rect>
@@ -2851,7 +2853,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -3028,7 +3030,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -3052,47 +3054,11 @@ QLineEdit:focus {
                 <set>Qt::AlignCenter</set>
                </property>
               </widget>
-              <widget class="QPushButton" name="button_cancel_new_devices">
-               <property name="geometry">
-                <rect>
-                 <x>383</x>
-                 <y>450</y>
-                 <width>150</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	border-radius: 10px;	
-	background-color: #B9400C;
-	color: rgb(255, 255, 255, 221);
-}
-QPushButton:hover {
-	background-color: #8A0000;
-	color: rgb(255, 255, 255, 221);
-}
-QPushButton:pressed {	
-	background-color: #D04B4B;
-	color: rgb(255, 255, 255);
-}</string>
-               </property>
-               <property name="text">
-                <string>Отмена</string>
-               </property>
-              </widget>
               <widget class="QPushButton" name="button_add_devices">
                <property name="geometry">
                 <rect>
-                 <x>578</x>
-                 <y>450</y>
+                 <x>190</x>
+                 <y>15</y>
                  <width>150</width>
                  <height>30</height>
                 </rect>
@@ -3122,6 +3088,283 @@ QPushButton:pressed {
                </property>
                <property name="text">
                 <string>Добавить</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../files.qrc">
+                 <normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</normaloff>:/16x16/data/resources/icons/16x16/cil-plus.png</iconset>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_ip_new_deivce">
+               <property name="geometry">
+                <rect>
+                 <x>440</x>
+                 <y>15</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string>999.999.999.999</string>
+               </property>
+               <property name="text">
+                <string>...</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_ip_new_device">
+               <property name="geometry">
+                <rect>
+                 <x>350</x>
+                 <y>15</y>
+                 <width>80</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>IP-адрес</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_device_password">
+               <property name="geometry">
+                <rect>
+                 <x>200</x>
+                 <y>530</y>
+                 <width>150</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="maxLength">
+                <number>32767</number>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::PasswordEchoOnEdit</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_device_password">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>530</y>
+                 <width>150</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Пароль</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_new_device_password">
+               <property name="geometry">
+                <rect>
+                 <x>680</x>
+                 <y>15</y>
+                 <width>150</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="maxLength">
+                <number>32767</number>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::PasswordEchoOnEdit</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_new_device_password">
+               <property name="geometry">
+                <rect>
+                 <x>580</x>
+                 <y>15</y>
+                 <width>90</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Пароль</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_new_device_port">
+               <property name="geometry">
+                <rect>
+                 <x>850</x>
+                 <y>15</y>
+                 <width>45</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Порт</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_new_device_port">
+               <property name="geometry">
+                <rect>
+                 <x>905</x>
+                 <y>15</y>
+                 <width>70</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string>7080</string>
+               </property>
+               <property name="maxLength">
+                <number>5</number>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::Normal</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="placeholderText">
+                <string>7080</string>
                </property>
               </widget>
              </widget>
@@ -3158,7 +3401,7 @@ QTabBar::tab:selected {
                 <enum>QTabWidget::West</enum>
                </property>
                <property name="currentIndex">
-                <number>0</number>
+                <number>2</number>
                </property>
                <widget class="QWidget" name="tab_profiles">
                 <attribute name="title">
@@ -3416,7 +3659,8 @@ QTableWidget::horizontalHeader {
 QHeaderView::section:horizontal
 {
 	background-color: #91D1EE;
-	color: rgb(255, 255, 255);
+	font-weight: bold;
+	color: #09376B;
 	border: 1px solid #91D1EE;
 }
 QToolTip { 
@@ -3619,15 +3863,15 @@ QPushButton:pressed {
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
 	border-radius: 10px;	
-	background-color: #0C5DB9;
+	background-color: #0CB53B;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:hover {
-	background-color: #91D1EE;
+	background-color: #009229;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:pressed {	
-	background-color: #87B9E0;
+	background-color: #00C838;
 	color: rgb(255, 255, 255);
 }</string>
                  </property>
@@ -3659,15 +3903,15 @@ QPushButton:pressed {
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
 	border-radius: 10px;	
-	background-color: #0C5DB9;
+	background-color: #B9400C;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:hover {
-	background-color: #91D1EE;
+	background-color: #8A0000;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:pressed {	
-	background-color: #87B9E0;
+	background-color: #D04B4B;
 	color: rgb(255, 255, 255);
 }</string>
                  </property>
@@ -3862,7 +4106,7 @@ QPushButton:pressed {
                  <property name="styleSheet">
                   <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -3954,7 +4198,7 @@ QLineEdit:focus {
                  <property name="styleSheet">
                   <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -3998,7 +4242,7 @@ QLineEdit:focus {
                  <property name="styleSheet">
                   <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -4066,7 +4310,7 @@ QLineEdit:focus {
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
-	color: #FFFFFF;
+	color: #09376B;
 	text-align:center;
 	padding: 5px;
 	padding-left: 10px;
@@ -4164,7 +4408,7 @@ QComboBox::drop-down {
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
-	color: #FFFFFF;
+	color: #09376B;
 	padding: 5px;
 	padding-left: 10px;
 }
@@ -4236,7 +4480,7 @@ QComboBox::drop-down {
                   <string notr="true">QPlainTextEdit {
 	background-color: #91D1EE;
 	border-radius: 10px;
-	color: #FFFFFF;
+	color: #09376B;
 }</string>
                  </property>
                 </widget>
@@ -4298,7 +4542,7 @@ QPushButton:pressed {
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">color: #FFFFFF;
+                  <string notr="true">color: #09376B;
 background-color: #91D1EE;
 border-radius: 10px;</string>
                  </property>
@@ -4627,7 +4871,8 @@ QTableWidget::horizontalHeader {
 QHeaderView::section:horizontal
 {
 	background-color: #91D1EE;
-	color: rgb(255, 255, 255);
+	font-weight: bold;
+	color: #09376B;
 	border: 1px solid #91D1EE;
 }
 </string>
@@ -4732,15 +4977,15 @@ QHeaderView::section:horizontal
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
 	border-radius: 10px;	
-	background-color: #0C5DB9;
+	background-color: #B9400C;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:hover {
-	background-color: #91D1EE;
+	background-color: #8A0000;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:pressed {	
-	background-color: #87B9E0;
+	background-color: #D04B4B;
 	color: rgb(255, 255, 255);
 }</string>
                  </property>
@@ -4772,15 +5017,15 @@ QPushButton:pressed {
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
 	border-radius: 10px;	
-	background-color: #0C5DB9;
+	background-color: #0CB53B;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:hover {
-	background-color: #91D1EE;
+	background-color: #009229;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:pressed {	
-	background-color: #87B9E0;
+	background-color: #00C838;
 	color: rgb(255, 255, 255);
 }</string>
                  </property>
@@ -4876,7 +5121,7 @@ QPushButton:pressed {
                  <property name="styleSheet">
                   <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -4944,7 +5189,7 @@ QLineEdit:focus {
                  <property name="styleSheet">
                   <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: rgb(255,255,255,221);
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -5033,7 +5278,7 @@ QPushButton:pressed {
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
-	color: #FFFFFF;
+	color: #09376B;
 	text-align:center;
 	padding: 5px;
 	padding-left: 10px;
@@ -5083,15 +5328,15 @@ QComboBox::drop-down {
                  <property name="styleSheet">
                   <string notr="true">QPushButton {
 	border-radius: 10px;	
-	background-color: #0C5DB9;
+	background-color: #B9400C;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:hover {
-	background-color: #91D1EE;
+	background-color: #8A0000;
 	color: rgb(255, 255, 255, 221);
 }
 QPushButton:pressed {	
-	background-color: #87B9E0;
+	background-color: #D04B4B;
 	color: rgb(255, 255, 255);
 }</string>
                  </property>
@@ -5355,7 +5600,8 @@ QTableWidget::horizontalHeader {
 QHeaderView::section:horizontal
 {
 	background-color: #91D1EE;
-	color: rgb(255, 255, 255);
+	font-weight: bold;
+	color: #09376B;
 	border: 1px solid #91D1EE;
 }
 </string>
@@ -5515,7 +5761,7 @@ QHeaderView::section:horizontal
                </property>
                <property name="styleSheet">
                 <string notr="true">QDateTimeEdit{
-	color: #FFFFFF;
+	color: #09376B;
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
@@ -5597,7 +5843,7 @@ QCalendarWidget QAbstractItemView:enabled {
                </property>
                <property name="styleSheet">
                 <string notr="true">QDateTimeEdit{
-	color: #FFFFFF;
+	color: #09376B;
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
@@ -6053,7 +6299,8 @@ QTableWidget::horizontalHeader {
 QHeaderView::section:horizontal
 {
 	background-color: #91D1EE;
-	color: rgb(255, 255, 255);
+	font-weight: bold;
+	color: #09376B;
 	border: 1px solid #91D1EE;
 }
 QToolTip { 
@@ -6229,7 +6476,7 @@ QToolTip {
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
 	background-color: #91D1EE;
-	color: #FFFFFF;
+	color: #09376B;
 	border-radius: 10px;
 	padding-left: 10px;
 }
@@ -6297,7 +6544,7 @@ QLineEdit:focus {
                <property name="styleSheet">
                 <string notr="true">/* DoubleSpinBox */
 QDoubleSpinBox {
-	color: #FFFFFF;
+	color: #09376B;
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
@@ -6375,7 +6622,7 @@ QDoubleSpinBox QAbstractItemView {
                <property name="styleSheet">
                 <string notr="true">/* DoubleSpinBox */
 QDoubleSpinBox {
-	color: #FFFFFF;
+	color: #09376B;
 	background-color: #91D1EE;
 	border-radius: 10px;
 	border: 2px solid #0C5DB9;
@@ -6528,21 +6775,25 @@ QDoubleSpinBox QAbstractItemView {
                   <height>16777215</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">QProgressBar
 {
-	border: solid grey;
 	border-radius: 15px;
 	color: #FFFFFF;
-	text-align: center
+	text-align: center;
 }
 QProgressBar::chunk 
 {
-	background-color: #91D1EE;
+	background-color: #87B9E0;
 }    </string>
                 </property>
                 <property name="value">
-                 <number>24</number>
+                 <number>50</number>
                 </property>
                </widget>
               </item>
@@ -6551,9 +6802,13 @@ QProgressBar::chunk
                 <property name="font">
                  <font>
                   <family>Segoe UI</family>
+                  <pointsize>10</pointsize>
                   <weight>50</weight>
                   <bold>false</bold>
                  </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: #FFFFFF;</string>
                 </property>
                 <property name="text">
                  <string>MetallicAlex</string>

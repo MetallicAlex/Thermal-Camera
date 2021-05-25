@@ -56,7 +56,7 @@ class DBManagement:
 
     def get_device_serial_number(self, identifier: int):
         with models.get_session() as session:
-            self._device_id = session.query(models.Device.serial_number) \
+            self._device_serial_number = session.query(models.Device.serial_number) \
                 .filter(models.Device.id == identifier) \
                 .scalar()
         return self._device_serial_number
@@ -931,24 +931,21 @@ class DeviceManagement:
         os.popen('chcp 437')
         with os.popen(f'arp -a -N {self.host}') as file:
             data = file.read()
-        interface = re.search('0x[a-f0-9]+', data).group()
-        interface = socket.if_indextoname(int(interface, 16)).split('_')[0]
-        if interface == 'ethernet':
-            for device in re.findall('([-.0-9]+)\s+([-0-9a-f]{17})\s+(\w+)', data):
-                if 'dynamic' in device and self.subnet == device[0][:self.host.rfind('.')]:
-                    mac_address = device[1].upper()
-                    if binding_devices is None or mac_address not in binding_devices:
-                        self.get_info(device_ip=device[0])
-            return 0
-        else:
-            return -1
+        result = -1
+        # interface = re.search('0x[a-f0-9]+', data).group()
+        # interface = socket.if_indextoname(int(interface, 16)).split('_')[0]
+        for device in re.findall('([-.0-9]+)\s+([-0-9a-f]{17})\s+(\w+)', data):
+            if 'dynamic' in device and self.subnet == device[0][:self.host.rfind('.')]:
+                mac_address = device[1].upper()
+                if binding_devices is None or mac_address not in binding_devices:
+                    self.get_device_basic(device_ip=device[0])
+        return result
 
-    def get_info(self, device_ip: str):
+    def get_device_basic(self, device_ip: str, password: str, port: int = 7080):
         try:
-            request = requests.get(f'http://{device_ip}:7080/ini.htm',
-                                   headers={'Authorization': 'Basic YWRtaW46MTIzNDU='})
+            request = requests.get(f'http://{device_ip}:{port}/ini.htm',
+                                   headers={'Authorization': f'Basic YWRtaW46{password}'})
             if request.status_code == 200:
-                print(request.text)
                 for information in request.text.split('<br>'):
                     information = information.split('=')
                     if information[0] == 'getdeviceserial':
@@ -965,7 +962,7 @@ class DeviceManagement:
                         mac_address = information[1].replace(':', '-')
                     elif information[0] == 'netip':
                         ip_address = information[1]
-                device = models.Device(
+                self.device = models.Device(
                     serial_number=serial_number,
                     name=name,
                     device_type=device_type,
@@ -974,10 +971,13 @@ class DeviceManagement:
                     mac_address=mac_address,
                     ip_address=ip_address
                 )
-                print(device)
-                self.add_device(device)
+                self.device.password = password
+                self.add_device(self.device)
+                return self.device
+            else:
+                return None
         except requests.exceptions.ConnectionError as e:
-            pass
+            return None
 
     def find_host_info(self):
         self.host_name = socket.gethostname()

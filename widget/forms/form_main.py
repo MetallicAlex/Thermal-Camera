@@ -1,6 +1,7 @@
+import base64
 import json
 import os
-import copy
+import re
 import multiprocessing
 import datetime
 import time
@@ -42,7 +43,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.blur_effect.setBlurRadius(15)
         self.blur_effect.setEnabled(False)
         self.setGraphicsEffect(self.blur_effect)
-        self._hide_buttons_search_device()
+        # self._hide_buttons_search_device()
         # APPLICATIONS
         # self.start_nginx()
         # DATA
@@ -140,11 +141,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_statistic.clicked.connect(self._button_statistic_clicked)
         self.button_settings.clicked.connect(self._button_settings_clicked)
         # PAGE DEVICE
-        self.button_search_device.clicked.connect(self._button_search_device_clicked)
+        self.button_update_device_info.clicked.connect(self._button_update_device_info_clicked)
         self.button_configure_device.clicked.connect(self._button_configure_device_clicked)
         self.button_delete_device.clicked.connect(self._button_delete_device_clicked)
-        self.button_cancel_new_devices.clicked.connect(self._button_cancel_new_devices_clicked)
-        self.button_add_devices.clicked.connect(self._button_add_new_devices_clicked)
+        self.button_add_devices.clicked.connect(self._button_add_new_device_clicked)
         self.table_devices.itemSelectionChanged.connect(self._device_selected_row)
         self.table_devices.horizontalHeader().sectionPressed.connect(self._checkbox_header_devices_pressed)
         self.horizontalSlider_volume.valueChanged.connect(self._horizontal_slider_volume_value_changed)
@@ -172,8 +172,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE STATISTIC
         self.button_statistics_filter.clicked.connect(self._button_statistics_filter_clicked)
         self.button_export_statistics_data.clicked.connect(self._button_export_statistics_data_clicked)
-        # self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(hour=0, minute=0))
-        # self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59))
         # DATA
         if self.device_management.host is not None:
             self.subscribe_platform = SubscribePlatform()
@@ -652,43 +650,43 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.blur_effect.setEnabled(False)
 
     # EVENTS-DEVICE
-    def _button_search_device_clicked(self, event):
-        self.is_new_devices_table = True
-        devices = self.database_management.get_devices()
-        self.device_management.clear_devices()
-        result = self.device_management.find_devices(binding_devices=devices)
-        if result == -1:
-            self.blur_effect.setEnabled(True)
-            messagebox = InformationMessageBox()
-            messagebox.label_info.setText('Ethernet не подключен.')
-            messagebox.exec_()
-            self.blur_effect.setEnabled(False)
-        elif result == 0 and len(self.device_management.devices) == 0:
-            self.blur_effect.setEnabled(True)
-            messagebox = InformationMessageBox()
-            messagebox.label_info.setText('Устройства не найдены.')
-            messagebox.exec_()
-            self.blur_effect.setEnabled(False)
-        else:
-            self._show_buttons_search_device()
-            self.table_devices.setRowCount(0)
-            for device in self.device_management.devices:
-                self._add_device_row(device)
+    def _button_update_device_info_clicked(self, event):
+        for device in self.devices:
+            self.publish_platform.set_device(device.serial_number, device.token)
+            self.publish_platform.get_device_info()
 
-    def _button_add_new_devices_clicked(self, event):
-        self._hide_buttons_search_device()
-        devices = [
-            device
-            for row_position, device in enumerate(self.device_management.devices)
-            if self.table_devices.cellWidget(row_position, 0).isChecked()
-        ]
-        self.table_devices.setRowCount(0)
-        self._load_devices_info_to_table()
-        self.is_new_devices_table = False
-        for device in devices:
-            self.devices.append(device)
-            self.publish_platform.set_device(device.id)
-            self.publish_platform.bind_device()
+    def _button_add_new_device_clicked(self, event):
+        text = ''
+        if not re.search('\d+.\d+.\d+.\d+', self.lineEdit_ip_new_deivce.text()):
+            text += 'Не введен IP-адрес.\n'
+        if self.lineEdit_new_device_password.text() == '':
+            text += 'Не введен пароль.'
+        if self.lineEdit_new_device_port.text() == '':
+            port = 7080
+        else:
+            port = int(self.lineEdit_new_device_port.text())
+        if text == '':
+            device = self.device_management.get_device_basic(
+                self.lineEdit_ip_new_deivce.text(),
+                base64.standard_b64encode(self.lineEdit_new_device_password.text().encode('utf-8')).decode('utf-8'),
+                port
+            )
+            if device is None:
+                text = 'Неправильно введен IP-адрес или пароль.'
+            else:
+                for device_from_db in self.devices:
+                    if device_from_db.serial_number == device.serial_number:
+                        text = 'Данное устройство уже подключено.'
+                if text == '':
+                    self.publish_platform.set_device(device.serial_number)
+                    self.publish_platform.bind_device()
+        if text != '':
+            self.blur_effect.setEnabled(True)
+            messagebox = InformationMessageBox()
+            messagebox.label_title.setText('Новое устройство')
+            messagebox.label_info.setText(text)
+            messagebox.exec_()
+            self.blur_effect.setEnabled(False)
 
     def _button_cancel_new_devices_clicked(self, event):
         self._hide_buttons_search_device()
@@ -711,11 +709,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             }
             if device.online:
                 self.publish_platform.set_device(device.serial_number, device.token)
-                if device.name != self.lineEdit_device_name.text():
+                print(device.password)
+                print(self.lineEdit_device_password.text())
+                if device.name != self.lineEdit_device_name.text()\
+                        or device.password != self.lineEdit_device_password.text():
                     self.device_configuration['basic_config']['name'] = copy.copy(device.name)
+                    self.device_configuration['basic_config']['password'] = copy.copy(device.password)
                     device.name = self.lineEdit_device_name.text()
+                    device.password = self.lineEdit_device_password.text()
                     self.table_devices.item(row_position, 2).setText(device.name)
-                    self.publish_platform.update_basic_configuration(name=device.name)
+                    self.publish_platform.update_basic_configuration(name=device.name, password=device.password)
                 if device.volume != self.horizontalSlider_volume.value() \
                         or device.brightness != self.horizontalSlider_brightness.value() \
                         or device.light_supplementary != self.toggle_light.isChecked():
@@ -797,11 +800,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _button_delete_device_clicked(self, event):
         remove_devices = []
         remove_rows = []
+        self.blur_effect.setEnabled(True)
         for row_position, device in enumerate(self.devices):
             if self.table_devices.cellWidget(row_position, 0).isChecked():
                 messagebox = WarningMessageBox()
-                messagebox.setWindowTitle(f'Удаление {device.serial_number}')
-                messagebox.label_title.setText(f'Удаление {device.serial_number}')
+                messagebox.setWindowTitle(f'Удаление {device.serial_number}: {device.ip_address}')
+                messagebox.label_title.setText(f'Удаление {device.serial_number}: {device.ip_address}')
                 if device.online:
                     text = 'Вы точно хотите удалить устройство?'
                     messagebox.label_info.setText(text)
@@ -822,6 +826,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                         remove_devices.append(device)
                         remove_rows.append(row_position)
                         self.database_management.remove_devices(device.id)
+        self.blur_effect.setEnabled(False)
         for device in remove_devices:
             self.devices.remove(device)
         for remove_row in sorted(remove_rows, reverse=True):
@@ -833,6 +838,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.lineEdit_device_name.setText(self.devices[row_position].name)
             self.lineEdit_ip_address.setText(self.devices[row_position].ip_address)
             if self.devices[row_position].online:
+                self.lineEdit_device_password.setText(
+                    base64.standard_b64decode(self.devices[row_position].password.encode('utf-8')).decode('utf-8')
+                )
                 self.lineEdit_subnet_mask.setText(self.devices[row_position].subnet_mask)
                 self.lineEdit_gateway.setText(self.devices[row_position].gateway)
                 self.lineEdit_ddns1.setText(self.devices[row_position].ddns1)
@@ -978,6 +986,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 item = QTableWidgetItem(data['datas']['network_cofnig']['ip_addr'])
                 item.setTextAlignment(Qt.AlignCenter)
                 self.table_devices.setItem(row_position, 8, item)
+                # BASIC CONFIG
+                self.devices[row_position].password = base64.standard_b64decode(
+                    data['datas']['basic_parameters']['dev_pwd'].encode('utf-8')
+                ).decode('utf-8')
                 # NETWORK CONFIG
                 self.devices[row_position].gateway = data['datas']['network_cofnig']['gateway']
                 self.devices[row_position].subnet_mask = data['datas']['network_cofnig']['net_mask']
@@ -1021,7 +1033,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             information = self.setting.lang['message'][text[0]]['failure']
             if text[0] == 'basic_config':
                 device.name = self.device_configuration['basic_config']['name']
-                self.lineEdit_device_name.text(self.device_configuration['basic_config']['name'])
+                self.lineEdit_device_name.setText(self.device_configuration['basic_config']['name'])
+                device.password = self.device_configuration['basic_config']['password']
+                self.lineEdit_device_password.setText(self.device_configuration['basic_config']['password'])
             elif text[0] == 'remote_config':
                 device.volume = self.device_configuration['remote_config']['volume']
                 self.horizontalSlider_volume.setValue(self.device_configuration['remote_config']['volume'])
@@ -1637,17 +1651,17 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_alarm_temperature.setText(self.setting.lang['alarm_temp'])
         self.label_notice.setText(self.setting.lang['notice'])
         self.label_email.setText(self.setting.lang['email'])
-        self.table_control.horizontalHeaderItem(0).setText(self.setting.lang['table_control']['datetime'])
-        self.table_control.horizontalHeaderItem(1).setText(self.setting.lang['table_control']['name'])
-        self.table_control.horizontalHeaderItem(2).setText(self.setting.lang['table_control']['photo'])
-        self.table_control.horizontalHeaderItem(3).setText(self.setting.lang['table_control']['temp'])
-        self.table_control.horizontalHeaderItem(4).setText(self.setting.lang['table_control']['mask'])
-        self.table_control.horizontalHeaderItem(5).setText(self.setting.lang['table_control']['similar'])
+        # self.table_control.horizontalHeaderItem(0).setText(self.setting.lang['table_control']['datetime'])
+        # self.table_control.horizontalHeaderItem(1).setText(self.setting.lang['table_control']['name'])
+        # self.table_control.horizontalHeaderItem(2).setText(self.setting.lang['table_control']['photo'])
+        # self.table_control.horizontalHeaderItem(3).setText(self.setting.lang['table_control']['temp'])
+        # self.table_control.horizontalHeaderItem(4).setText(self.setting.lang['table_control']['mask'])
+        # self.table_control.horizontalHeaderItem(5).setText(self.setting.lang['table_control']['similar'])
         # PAGE DEVICES
-        self.button_search_device.setText(self.setting.lang['btn_search_device'])
+        # self.button_search_device.setText(self.setting.lang['btn_search_device'])
         self.button_delete_device.setText(self.setting.lang['btn_delete_device'])
         self.button_configure_device.setText(self.setting.lang['btn_configure_device'])
-        self.button_cancel_new_devices.setText(self.setting.lang['btn_cancel_new_device'])
+        # self.button_cancel_new_devices.setText(self.setting.lang['btn_cancel_new_device'])
         self.button_add_devices.setText(self.setting.lang['btn_add_new_device'])
         self.label_device_name.setText(self.setting.lang['device_name'])
         self.label_volume.setText(f'{self.setting.lang["volume"]}: 0')
@@ -1727,7 +1741,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.toggle_notice.setGeometry(QtCore.QRect(160, 70, 60, 40))
         # PAGE DEVICE
         self.toggle_light = AnimatedToggle(self.page_device, checked_color='#309ED9')
-        self.toggle_light.setGeometry(QtCore.QRect(200, 610, 60, 40))
+        self.toggle_light.setGeometry(QtCore.QRect(200, 650, 60, 40))
         self.toggle_dhcp = AnimatedToggle(self.page_device, checked_color='#309ED9')
         self.toggle_dhcp.setGeometry(QtCore.QRect(555, 650, 60, 40))
         self.toggle_check_temperature = AnimatedToggle(self.page_device, checked_color='#309ED9')

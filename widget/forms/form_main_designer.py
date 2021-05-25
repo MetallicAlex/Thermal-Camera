@@ -808,7 +808,8 @@ class Ui_MainWindow(object):
 "QHeaderView::section:horizontal\n"
 "{\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: #09376B;\n"
+"    font-weight: bold;\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
 "QToolTip { \n"
@@ -907,7 +908,7 @@ class Ui_MainWindow(object):
         self.lineEdit_email.setFont(font)
         self.lineEdit_email.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -931,7 +932,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_alarm_temperature.setFont(font)
         self.doubleSpinBox_alarm_temperature.setStyleSheet("/* DoubleSpinBox */\n"
 "QDoubleSpinBox {\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
@@ -1108,7 +1109,8 @@ class Ui_MainWindow(object):
 "QHeaderView::section:horizontal\n"
 "{\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255);\n"
+"    color: #09376B;\n"
+"    font-weight: bold;\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
 "")
@@ -1186,15 +1188,15 @@ class Ui_MainWindow(object):
         self.table_devices.verticalHeader().setVisible(False)
         self.table_devices.verticalHeader().setHighlightSections(False)
         self.table_devices.verticalHeader().setStretchLastSection(False)
-        self.button_search_device = QtWidgets.QPushButton(self.page_device)
-        self.button_search_device.setGeometry(QtCore.QRect(20, 15, 150, 30))
+        self.button_update_device_info = QtWidgets.QPushButton(self.page_device)
+        self.button_update_device_info.setGeometry(QtCore.QRect(20, 15, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
-        self.button_search_device.setFont(font)
-        self.button_search_device.setStyleSheet("QPushButton {\n"
+        self.button_update_device_info.setFont(font)
+        self.button_update_device_info.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
 "    background-color: #0C5DB9;\n"
 "    color: rgb(255, 255, 255, 221);\n"
@@ -1208,9 +1210,9 @@ class Ui_MainWindow(object):
 "    color: rgb(255, 255, 255);\n"
 "}")
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_search_device.setIcon(icon8)
-        self.button_search_device.setObjectName("button_search_device")
+        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_update_device_info.setIcon(icon8)
+        self.button_update_device_info.setObjectName("button_update_device_info")
         self.button_configure_device = QtWidgets.QPushButton(self.page_device)
         self.button_configure_device.setGeometry(QtCore.QRect(20, 450, 150, 30))
         font = QtGui.QFont()
@@ -1234,7 +1236,7 @@ class Ui_MainWindow(object):
 "}")
         self.button_configure_device.setObjectName("button_configure_device")
         self.button_delete_device = QtWidgets.QPushButton(self.page_device)
-        self.button_delete_device.setGeometry(QtCore.QRect(200, 15, 150, 30))
+        self.button_delete_device.setGeometry(QtCore.QRect(995, 15, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1243,15 +1245,15 @@ class Ui_MainWindow(object):
         self.button_delete_device.setFont(font)
         self.button_delete_device.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
+"    background-color: #B9400C;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
+"    background-color: #8A0000;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
+"    background-color: #D04B4B;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
         icon9 = QtGui.QIcon()
@@ -1259,7 +1261,7 @@ class Ui_MainWindow(object):
         self.button_delete_device.setIcon(icon9)
         self.button_delete_device.setObjectName("button_delete_device")
         self.horizontalSlider_volume = QtWidgets.QSlider(self.page_device)
-        self.horizontalSlider_volume.setGeometry(QtCore.QRect(200, 530, 150, 30))
+        self.horizontalSlider_volume.setGeometry(QtCore.QRect(200, 570, 150, 30))
         self.horizontalSlider_volume.setMaximum(24)
         self.horizontalSlider_volume.setPageStep(2)
         self.horizontalSlider_volume.setOrientation(QtCore.Qt.Horizontal)
@@ -1284,7 +1286,7 @@ class Ui_MainWindow(object):
         self.lineEdit_ip_address.setFont(font)
         self.lineEdit_ip_address.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1314,7 +1316,7 @@ class Ui_MainWindow(object):
         self.lineEdit_subnet_mask.setFont(font)
         self.lineEdit_subnet_mask.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1336,7 +1338,7 @@ class Ui_MainWindow(object):
         self.lineEdit_gateway.setFont(font)
         self.lineEdit_gateway.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1366,7 +1368,7 @@ class Ui_MainWindow(object):
         self.lineEdit_ddns1.setFont(font)
         self.lineEdit_ddns1.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1396,7 +1398,7 @@ class Ui_MainWindow(object):
         self.lineEdit_ddns2.setFont(font)
         self.lineEdit_ddns2.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1425,7 +1427,7 @@ class Ui_MainWindow(object):
         self.label_dhcp.setStyleSheet("color: #09376B;")
         self.label_dhcp.setObjectName("label_dhcp")
         self.label_volume = QtWidgets.QLabel(self.page_device)
-        self.label_volume.setGeometry(QtCore.QRect(20, 530, 150, 30))
+        self.label_volume.setGeometry(QtCore.QRect(20, 570, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1435,7 +1437,7 @@ class Ui_MainWindow(object):
         self.label_volume.setStyleSheet("color: #09376B;")
         self.label_volume.setObjectName("label_volume")
         self.label_brightness = QtWidgets.QLabel(self.page_device)
-        self.label_brightness.setGeometry(QtCore.QRect(20, 570, 150, 30))
+        self.label_brightness.setGeometry(QtCore.QRect(20, 610, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1445,13 +1447,13 @@ class Ui_MainWindow(object):
         self.label_brightness.setStyleSheet("color: #09376B;")
         self.label_brightness.setObjectName("label_brightness")
         self.horizontalSlider_brightness = QtWidgets.QSlider(self.page_device)
-        self.horizontalSlider_brightness.setGeometry(QtCore.QRect(200, 570, 150, 30))
+        self.horizontalSlider_brightness.setGeometry(QtCore.QRect(200, 610, 150, 30))
         self.horizontalSlider_brightness.setMinimum(45)
         self.horizontalSlider_brightness.setMaximum(100)
         self.horizontalSlider_brightness.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider_brightness.setObjectName("horizontalSlider_brightness")
         self.label_light = QtWidgets.QLabel(self.page_device)
-        self.label_light.setGeometry(QtCore.QRect(20, 610, 150, 30))
+        self.label_light.setGeometry(QtCore.QRect(20, 650, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1480,7 +1482,7 @@ class Ui_MainWindow(object):
         self.lineEdit_device_name.setFont(font)
         self.lineEdit_device_name.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1553,7 +1555,7 @@ class Ui_MainWindow(object):
         self.lineEdit_record_time.setFont(font)
         self.lineEdit_record_time.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -1568,30 +1570,8 @@ class Ui_MainWindow(object):
         self.lineEdit_record_time.setMaxLength(8)
         self.lineEdit_record_time.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_record_time.setObjectName("lineEdit_record_time")
-        self.button_cancel_new_devices = QtWidgets.QPushButton(self.page_device)
-        self.button_cancel_new_devices.setGeometry(QtCore.QRect(383, 450, 150, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.button_cancel_new_devices.setFont(font)
-        self.button_cancel_new_devices.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #B9400C;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #8A0000;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #D04B4B;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
-        self.button_cancel_new_devices.setObjectName("button_cancel_new_devices")
         self.button_add_devices = QtWidgets.QPushButton(self.page_device)
-        self.button_add_devices.setGeometry(QtCore.QRect(578, 450, 150, 30))
+        self.button_add_devices.setGeometry(QtCore.QRect(190, 15, 150, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
@@ -1611,7 +1591,141 @@ class Ui_MainWindow(object):
 "    background-color: #00C838;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_add_devices.setIcon(icon10)
         self.button_add_devices.setObjectName("button_add_devices")
+        self.lineEdit_ip_new_deivce = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_ip_new_deivce.setGeometry(QtCore.QRect(440, 15, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_ip_new_deivce.setFont(font)
+        self.lineEdit_ip_new_deivce.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: #09376B;\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_ip_new_deivce.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_ip_new_deivce.setObjectName("lineEdit_ip_new_deivce")
+        self.label_ip_new_device = QtWidgets.QLabel(self.page_device)
+        self.label_ip_new_device.setGeometry(QtCore.QRect(350, 15, 80, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_ip_new_device.setFont(font)
+        self.label_ip_new_device.setStyleSheet("color: #09376B;")
+        self.label_ip_new_device.setObjectName("label_ip_new_device")
+        self.lineEdit_device_password = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_device_password.setGeometry(QtCore.QRect(200, 530, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_device_password.setFont(font)
+        self.lineEdit_device_password.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: #09376B;\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_device_password.setInputMask("")
+        self.lineEdit_device_password.setText("")
+        self.lineEdit_device_password.setMaxLength(32767)
+        self.lineEdit_device_password.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
+        self.lineEdit_device_password.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_device_password.setObjectName("lineEdit_device_password")
+        self.label_device_password = QtWidgets.QLabel(self.page_device)
+        self.label_device_password.setGeometry(QtCore.QRect(20, 530, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_device_password.setFont(font)
+        self.label_device_password.setStyleSheet("color: #09376B;")
+        self.label_device_password.setObjectName("label_device_password")
+        self.lineEdit_new_device_password = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_new_device_password.setGeometry(QtCore.QRect(680, 15, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_new_device_password.setFont(font)
+        self.lineEdit_new_device_password.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: #09376B;\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_new_device_password.setInputMask("")
+        self.lineEdit_new_device_password.setText("")
+        self.lineEdit_new_device_password.setMaxLength(32767)
+        self.lineEdit_new_device_password.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
+        self.lineEdit_new_device_password.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_new_device_password.setObjectName("lineEdit_new_device_password")
+        self.label_new_device_password = QtWidgets.QLabel(self.page_device)
+        self.label_new_device_password.setGeometry(QtCore.QRect(580, 15, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_new_device_password.setFont(font)
+        self.label_new_device_password.setStyleSheet("color: #09376B;")
+        self.label_new_device_password.setObjectName("label_new_device_password")
+        self.label_new_device_port = QtWidgets.QLabel(self.page_device)
+        self.label_new_device_port.setGeometry(QtCore.QRect(850, 15, 45, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_new_device_port.setFont(font)
+        self.label_new_device_port.setStyleSheet("color: #09376B;")
+        self.label_new_device_port.setObjectName("label_new_device_port")
+        self.lineEdit_new_device_port = QtWidgets.QLineEdit(self.page_device)
+        self.lineEdit_new_device_port.setGeometry(QtCore.QRect(905, 15, 70, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_new_device_port.setFont(font)
+        self.lineEdit_new_device_port.setStyleSheet("QLineEdit {\n"
+"    background-color: #91D1EE;\n"
+"    color: #09376B;\n"
+"    border-radius: 10px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QLineEdit:hover {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"    border: 2px solid #0C5DB9;\n"
+"}")
+        self.lineEdit_new_device_port.setInputMask("")
+        self.lineEdit_new_device_port.setMaxLength(5)
+        self.lineEdit_new_device_port.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_new_device_port.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_new_device_port.setObjectName("lineEdit_new_device_port")
         self.stackedWidget.addWidget(self.page_device)
         self.page_database = QtWidgets.QWidget()
         self.page_database.setObjectName("page_database")
@@ -1744,7 +1858,8 @@ class Ui_MainWindow(object):
 "QHeaderView::section:horizontal\n"
 "{\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255);\n"
+"    font-weight: bold;\n"
+"    color: #09376B;\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
 "QToolTip { \n"
@@ -1820,9 +1935,9 @@ class Ui_MainWindow(object):
 "    background-color: #87B9E0;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_import_photos.setIcon(icon10)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_import_photos.setIcon(icon11)
         self.button_import_photos.setObjectName("button_import_photos")
         self.button_add_profile = QtWidgets.QPushButton(self.tab_profiles)
         self.button_add_profile.setGeometry(QtCore.QRect(20, 15, 150, 30))
@@ -1834,20 +1949,18 @@ class Ui_MainWindow(object):
         self.button_add_profile.setFont(font)
         self.button_add_profile.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
+"    background-color: #0CB53B;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
+"    background-color: #009229;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
+"    background-color: #00C838;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
-        icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.button_add_profile.setIcon(icon11)
+        self.button_add_profile.setIcon(icon10)
         self.button_add_profile.setObjectName("button_add_profile")
         self.button_delete_profile = QtWidgets.QPushButton(self.tab_profiles)
         self.button_delete_profile.setGeometry(QtCore.QRect(530, 15, 150, 30))
@@ -1859,15 +1972,15 @@ class Ui_MainWindow(object):
         self.button_delete_profile.setFont(font)
         self.button_delete_profile.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
+"    background-color: #B9400C;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
+"    background-color: #8A0000;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
+"    background-color: #D04B4B;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
         self.button_delete_profile.setIcon(icon9)
@@ -1983,7 +2096,7 @@ class Ui_MainWindow(object):
         self.lineEdit_personnel_number.setFont(font)
         self.lineEdit_personnel_number.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2028,7 +2141,7 @@ class Ui_MainWindow(object):
         self.lineEdit_profile_name.setFont(font)
         self.lineEdit_profile_name.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2053,7 +2166,7 @@ class Ui_MainWindow(object):
         self.lineEdit_passport.setFont(font)
         self.lineEdit_passport.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2088,7 +2201,7 @@ class Ui_MainWindow(object):
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    text-align:center;\n"
 "    padding: 5px;\n"
 "    padding-left: 10px;\n"
@@ -2147,7 +2260,7 @@ class Ui_MainWindow(object):
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    padding: 5px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2194,7 +2307,7 @@ class Ui_MainWindow(object):
         self.plainTextEdit_information.setStyleSheet("QPlainTextEdit {\n"
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "}")
         self.plainTextEdit_information.setObjectName("plainTextEdit_information")
         self.button_load_photo = QtWidgets.QPushButton(self.tab_profiles)
@@ -2230,7 +2343,7 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setWeight(50)
         self.label_show_photo.setFont(font)
-        self.label_show_photo.setStyleSheet("color: #FFFFFF;\n"
+        self.label_show_photo.setStyleSheet("color: #09376B;\n"
 "background-color: #91D1EE;\n"
 "border-radius: 10px;")
         self.label_show_photo.setAlignment(QtCore.Qt.AlignCenter)
@@ -2378,7 +2491,8 @@ class Ui_MainWindow(object):
 "QHeaderView::section:horizontal\n"
 "{\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255);\n"
+"    font-weight: bold;\n"
+"    color: #09376B;\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
 "")
@@ -2420,15 +2534,15 @@ class Ui_MainWindow(object):
         self.button_delete_department.setFont(font)
         self.button_delete_department.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
+"    background-color: #B9400C;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
+"    background-color: #8A0000;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
+"    background-color: #D04B4B;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
         self.button_delete_department.setIcon(icon9)
@@ -2443,18 +2557,18 @@ class Ui_MainWindow(object):
         self.button_add_department.setFont(font)
         self.button_add_department.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
+"    background-color: #0CB53B;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
+"    background-color: #009229;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
+"    background-color: #00C838;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
-        self.button_add_department.setIcon(icon11)
+        self.button_add_department.setIcon(icon10)
         self.button_add_department.setObjectName("button_add_department")
         self.button_edit_department = QtWidgets.QPushButton(self.tab_departments)
         self.button_edit_department.setGeometry(QtCore.QRect(190, 15, 150, 30))
@@ -2499,7 +2613,7 @@ class Ui_MainWindow(object):
         self.lineEdit_department_name.setFont(font)
         self.lineEdit_department_name.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2534,7 +2648,7 @@ class Ui_MainWindow(object):
         self.lineEdit_department_location.setFont(font)
         self.lineEdit_department_location.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -2587,7 +2701,7 @@ class Ui_MainWindow(object):
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    text-align:center;\n"
 "    padding: 5px;\n"
 "    padding-left: 10px;\n"
@@ -2626,15 +2740,15 @@ class Ui_MainWindow(object):
         self.button_delete_device_profiles.setFont(font)
         self.button_delete_device_profiles.setStyleSheet("QPushButton {\n"
 "    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
+"    background-color: #B9400C;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
+"    background-color: #8A0000;\n"
 "    color: rgb(255, 255, 255, 221);\n"
 "}\n"
 "QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
+"    background-color: #D04B4B;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
         self.button_delete_device_profiles.setIcon(icon9)
@@ -2747,7 +2861,8 @@ class Ui_MainWindow(object):
 "QHeaderView::section:horizontal\n"
 "{\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255);\n"
+"    font-weight: bold;\n"
+"    color: #09376B;\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
 "")
@@ -2809,7 +2924,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.dateTimeEdit_start.setFont(font)
         self.dateTimeEdit_start.setStyleSheet("QDateTimeEdit{\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
@@ -2858,7 +2973,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.dateTimeEdit_end.setFont(font)
         self.dateTimeEdit_end.setStyleSheet("QDateTimeEdit{\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
@@ -2934,7 +3049,9 @@ class Ui_MainWindow(object):
 "    background-color: #87B9E0;\n"
 "    color: rgb(255, 255, 255);\n"
 "}")
-        self.button_statistics_filter.setIcon(icon8)
+        icon18 = QtGui.QIcon()
+        icon18.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_statistics_filter.setIcon(icon18)
         self.button_statistics_filter.setObjectName("button_statistics_filter")
         self.button_export_statistics_data = QtWidgets.QPushButton(self.page_statistic)
         self.button_export_statistics_data.setGeometry(QtCore.QRect(190, 15, 150, 30))
@@ -3074,7 +3191,8 @@ class Ui_MainWindow(object):
 "QHeaderView::section:horizontal\n"
 "{\n"
 "    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255);\n"
+"    font-weight: bold;\n"
+"    color: #09376B;\n"
 "    border: 1px solid #91D1EE;\n"
 "}\n"
 "QToolTip { \n"
@@ -3153,7 +3271,7 @@ class Ui_MainWindow(object):
         self.lineEdit_profile_name_filter.setFont(font)
         self.lineEdit_profile_name_filter.setStyleSheet("QLineEdit {\n"
 "    background-color: #91D1EE;\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    border-radius: 10px;\n"
 "    padding-left: 10px;\n"
 "}\n"
@@ -3188,7 +3306,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_min_temperature.setFont(font)
         self.doubleSpinBox_min_temperature.setStyleSheet("/* DoubleSpinBox */\n"
 "QDoubleSpinBox {\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
@@ -3245,7 +3363,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_max_temperature.setFont(font)
         self.doubleSpinBox_max_temperature.setStyleSheet("/* DoubleSpinBox */\n"
 "QDoubleSpinBox {\n"
-"    color: #FFFFFF;\n"
+"    color: #09376B;\n"
 "    background-color: #91D1EE;\n"
 "    border-radius: 10px;\n"
 "    border: 2px solid #0C5DB9;\n"
@@ -3326,26 +3444,30 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.progressBar = QtWidgets.QProgressBar(self.frame_statusbar)
         self.progressBar.setMaximumSize(QtCore.QSize(300, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.progressBar.setFont(font)
         self.progressBar.setStyleSheet("QProgressBar\n"
 "{\n"
-"    border: solid grey;\n"
 "    border-radius: 15px;\n"
 "    color: #FFFFFF;\n"
-"    text-align: center\n"
+"    text-align: center;\n"
 "}\n"
 "QProgressBar::chunk \n"
 "{\n"
-"    background-color: #91D1EE;\n"
+"    background-color: #87B9E0;\n"
 "}    ")
-        self.progressBar.setProperty("value", 24)
+        self.progressBar.setProperty("value", 50)
         self.progressBar.setObjectName("progressBar")
         self.horizontalLayout_4.addWidget(self.progressBar)
         self.label_statusbar = QtWidgets.QLabel(self.frame_statusbar)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         self.label_statusbar.setFont(font)
+        self.label_statusbar.setStyleSheet("color: #FFFFFF;")
         self.label_statusbar.setObjectName("label_statusbar")
         self.horizontalLayout_4.addWidget(self.label_statusbar)
         self.verticalLayout_2.addWidget(self.frame_statusbar)
@@ -3354,8 +3476,8 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -3404,7 +3526,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "MAC-адрес"))
         item = self.table_devices.horizontalHeaderItem(8)
         item.setText(_translate("MainWindow", "IP-адрес"))
-        self.button_search_device.setText(_translate("MainWindow", "Поиск"))
+        self.button_update_device_info.setText(_translate("MainWindow", "Обновить"))
         self.button_configure_device.setText(_translate("MainWindow", "Применить"))
         self.button_delete_device.setText(_translate("MainWindow", "Удалить"))
         self.label_ip_address.setText(_translate("MainWindow", "IP-адрес"))
@@ -3434,8 +3556,15 @@ class Ui_MainWindow(object):
         self.label_save_face.setText(_translate("MainWindow", "Сохранять фото"))
         self.label_record_time.setText(_translate("MainWindow", "Время хранения записи\n"
 "в часах (-1 - безлимитное)"))
-        self.button_cancel_new_devices.setText(_translate("MainWindow", "Отмена"))
         self.button_add_devices.setText(_translate("MainWindow", "Добавить"))
+        self.lineEdit_ip_new_deivce.setInputMask(_translate("MainWindow", "999.999.999.999"))
+        self.lineEdit_ip_new_deivce.setText(_translate("MainWindow", "..."))
+        self.label_ip_new_device.setText(_translate("MainWindow", "IP-адрес"))
+        self.label_device_password.setText(_translate("MainWindow", "Пароль"))
+        self.label_new_device_password.setText(_translate("MainWindow", "Пароль"))
+        self.label_new_device_port.setText(_translate("MainWindow", "Порт"))
+        self.lineEdit_new_device_port.setText(_translate("MainWindow", "7080"))
+        self.lineEdit_new_device_port.setPlaceholderText(_translate("MainWindow", "7080"))
         self.table_profiles.setSortingEnabled(False)
         item = self.table_profiles.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Таб. номер"))

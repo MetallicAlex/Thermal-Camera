@@ -43,6 +43,7 @@ class Device(Base):
     _ddns1 = '127.0.0.1'
     _ddns2 = '8.8.8.8'
     _dhcp = False
+    _password = None
 
     def __init__(self,
                  serial_number: str,
@@ -227,6 +228,15 @@ class Device(Base):
         if isinstance(value, bool):
             self._dhcp = value
 
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        if isinstance(value, str):
+            self._password = value
+
     def __repr__(self):
         return f'[ID: {self.id}, Ser.Number: {self.serial_number}, Name: {self.name}, Type: {self.device_type},' \
                f' Model: {self.model}, Firmware Version: {self.firmware_version},' \
@@ -356,9 +366,9 @@ class Statistic(Base):
 
     id = Column('ID', Integer, primary_key=True, unique=True, autoincrement=True)
     id_profile = Column('IdProfile', Integer,
-                        ForeignKey('profiles.ID', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
+                        ForeignKey('profiles.ID', onupdate='CASCADE', ondelete='CASCADE'))
     id_device = Column('IdDevice', Integer,
-                       ForeignKey('devices.ID', onupdate='CASCADE', ondelete='SET NULL'), primary_key=True)
+                       ForeignKey('devices.ID', onupdate='CASCADE', ondelete='SET NULL'))
     time = Column('Time', DateTime, primary_key=True)
     temperature = Column('Temperature', DECIMAL(4, 2))
     mask = Column('Mask', Integer,
@@ -384,7 +394,7 @@ class Statistic(Base):
         self.face = face
 
     def __repr__(self):
-        return f'[ID: {self.id}] Profile: {self.id_profile}, Device: {self.id_device}, Similar: {self.similar},' \
+        return f'[ID: {self.id}][Time: {self.time}] Profile: {self.id_profile}, Device: {self.id_device}, Similar: {self.similar},' \
                f' Temperature: {self.temperature}, Mask: {self.mask}, Face: {self.face}\n'
 
 

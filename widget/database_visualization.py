@@ -8,9 +8,11 @@
         - карта температур
         - карта схожести с данным человеком
 """
+import datetime
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -151,10 +153,73 @@ class DBVisualization(FigureCanvas):
         pass
 
     def create_line_graph_temperatures(self, statistics: list):
-        pass
+        statistics = self.database_management.get_statistics(identifiers=[1])
+        statistics.sort(key=lambda x: x.time)
+        temperatures = []
+        times = []
+        dates = []
+        for statistic in statistics:
+            temperatures.append(float(statistic.temperature))
+            time = statistic.time.time()
+            times.append(datetime.timedelta(hours=time.hour, minutes=time.minute, seconds=time.second).total_seconds())
+            dates.append(statistic.time.date())
+        dates = mdates.date2num(dates)
+        self.ax.clear()
+        # self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        # self.ax.xaxis_date()
+        self.ax.format_xdata = mdates.DateFormatter('%Y-%m-%d')
+        self.ax.set(
+            ylim=(
+                dates[0],
+                dates[-1]
+            ),
+            xlim=(
+                datetime.timedelta(hours=0, minutes=0, seconds=0).total_seconds(),
+                datetime.timedelta(hours=23, minutes=59, seconds=59).total_seconds()
+            )
+        )
+        hb = self.ax.hexbin(y=dates, x=times, C=temperatures, cmap='coolwarm', bins='log')
 
-    def create_map_temperatures(self, statistics: list):
-        pass
+    def create_map_temperatures(self):
+        statistics = self.database_management.get_statistics(identifiers=[1])
+        print(len(statistics))
+        statistics.sort(key=lambda x: x.time)
+        temperatures = []
+        times = []
+        dates = []
+        for statistic in statistics:
+            temperatures.append(float(statistic.temperature))
+            time = statistic.time.time()
+            times.append(datetime.timedelta(hours=time.hour, minutes=time.minute, seconds=time.second).total_seconds())
+            dates.append(statistic.time.date())
+        dates = mdates.date2num(dates)
+        print(len(times))
+        print(dates)
+        self.ax.clear()
+        # self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        # self.ax.xaxis_date()
+        self.ax.format_xdata = mdates.DateFormatter('%Y-%m-%d')
+        self.ax.set(
+            xlim=(
+                dates[0],
+                dates[-1]
+            ),
+            ylim=(
+                datetime.timedelta(hours=0, minutes=0, seconds=0).total_seconds(),
+                datetime.timedelta(hours=23, minutes=59, seconds=59).total_seconds()
+            )
+        )
+        hb = self.ax.scatter(x=dates, y=times, s=100, c=temperatures, cmap='coolwarm')
+        cb = self.figure.colorbar(hb, ax=self.ax)
+
+        self.ax.set_title('title', color='#09376B', fontsize=20, weight='regular')
+        # ax = df.plot.hexbin(x='x', y='y', C='temperature', gridsize=10,
+        #                     cmap='coolwarm', title=employee, grid=False,
+        #                     vmin=35.0, vmax=38.5)
+        # ax.set_xlabel("Date")
+        # ax.set_ylabel("Time")
+        # ax.xaxis.set_major_formatter(dates.DateFormatter('%Y-%m-%d'))
+        # ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: str(dt.timedelta(seconds=x))))
 
     def create_map_similar(self, statistics: list):
         pass
