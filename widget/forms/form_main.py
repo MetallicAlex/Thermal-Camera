@@ -838,9 +838,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.lineEdit_device_name.setText(self.devices[row_position].name)
             self.lineEdit_ip_address.setText(self.devices[row_position].ip_address)
             if self.devices[row_position].online:
-                self.lineEdit_device_password.setText(
-                    base64.standard_b64decode(self.devices[row_position].password.encode('utf-8')).decode('utf-8')
-                )
+                self.lineEdit_device_password.setText(self.devices[row_position].password)
                 self.lineEdit_subnet_mask.setText(self.devices[row_position].subnet_mask)
                 self.lineEdit_gateway.setText(self.devices[row_position].gateway)
                 self.lineEdit_ddns1.setText(self.devices[row_position].ddns1)
@@ -856,6 +854,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.toggle_save_face.setChecked(self.devices[row_position].save_jpeg)
                 self.lineEdit_record_time.setText(str(self.devices[row_position].record_save_time))
             else:
+                self.lineEdit_device_password.setText('')
                 self.lineEdit_subnet_mask.setText('')
                 self.lineEdit_gateway.setText('')
                 self.lineEdit_ddns1.setText('')
@@ -1249,7 +1248,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item = QTableWidgetItem(str(statistic.time))
         item.setTextAlignment(Qt.AlignCenter)
         self.table_control.setItem(0, 0, item)
-        item = QTableWidgetItem(self.database_management.get_device_serial_number(statistic.id_device))
+        if statistic.id_device:
+            item = QTableWidgetItem(self.database_management.get_device_serial_number(statistic.id_device))
+        else:
+            item = QTableWidgetItem('---')
         item.setTextAlignment(Qt.AlignCenter)
         self.table_control.setItem(0, 1, item)
         if statistic.id_profile:
