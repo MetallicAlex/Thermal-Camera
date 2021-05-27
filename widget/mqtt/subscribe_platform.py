@@ -116,7 +116,8 @@ class SubscribePlatform(QtCore.QObject):
             statistic.id_profile = int(self.data['datas']['user_id'])
         else:
             statistic.id_profile = None
-        if not self.is_duplicate_statistic(statistic) or statistic.id_profile:
+        print(statistic.id_profile)
+        if not self.is_duplicate_statistic(statistic) or statistic.id_profile is None:
             if 'imageFile' in self.data['datas']:
                 statistic.face = self.record_face_person()
             self._database_management.add_statistics(statistic)

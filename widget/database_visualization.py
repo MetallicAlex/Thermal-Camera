@@ -22,11 +22,10 @@ mpl.use('Qt5Agg')
 
 
 class DBVisualization(FigureCanvas):
-    def __init__(self, parent=None, width: float = 10, height: float = 10, dpi: int = 100):
+    def __init__(self, lang: dict, parent=None, width: float = 10, height: float = 10, dpi: int = 100):
         self.figure = Figure(figsize=(width, height), dpi=dpi)
-        # 55aaff
-        # 272c36
         self.database_management = DBManagement()
+        self._lang = lang
         self.ax = self.figure.add_subplot(111)
         super(DBVisualization, self).__init__(self.figure)
         self._theme = None
@@ -64,7 +63,6 @@ class DBVisualization(FigureCanvas):
             title: str = 'All time passage of people'  # Passage of people for the current day
     ):
         self.ax.clear()
-        # self.figure.set_facecolor('#272c36')
         number_passages = self.database_management.get_number_statistics(
             time=stat_time,
             temperature=temperature,
@@ -97,7 +95,6 @@ class DBVisualization(FigureCanvas):
             data_temperatures = [1, 1, 1, 1]
         else:
             data_temperatures = number_temperatures
-        print(number_temperatures, number_passages)
         colors_temperatures = ['#84F9BD', '#F0939D', '#84F9BD', '#F0939D']
         colors = ['#87B7E3', '#91D1EE']
         wedges, texts = self.ax.pie(
@@ -130,7 +127,8 @@ class DBVisualization(FigureCanvas):
             self.ax.annotate(
                 f'{np.round(100 * data[i] / number_all_persons, 2)}% '
                 f'({number_passages[i]})\n'
-                f'[N - {number_temperatures[j]}; H - {number_temperatures[j + 1]}]',
+                f'[{self._lang["pie"]["short_norm_temp"]} - {number_temperatures[j]};'
+                f' {self._lang["pie"]["short_heat_temp"]} - {number_temperatures[j + 1]}]',
                 xy=(x, y),
                 xytext=(2 * np.sign(x), 1.5 * y),
                 horizontalalignment='center', fontsize=16, **kw)
@@ -138,7 +136,12 @@ class DBVisualization(FigureCanvas):
         self.ax.set_title(title, color='#09376B', fontsize=20, weight='regular')
         self.ax.legend(
             [*wedges, *wedges2],
-            ['Profile Passage', 'Stranger Passage', 'Normal Temperature (N)', 'Heat Temperature (H)'],
+            [
+                self._lang['pie']['legend_profile'],
+                self._lang['pie']['legend_stranger'],
+                self._lang['pie']['legend_norm_temp'],
+                self._lang['pie']['legend_heat_temp']
+            ],
             loc='best',
             bbox_to_anchor=(0.1, 0.7),
             fontsize=14,
@@ -149,11 +152,45 @@ class DBVisualization(FigureCanvas):
     def create_pie_chart_number_persons(self, low: str = None, high: str = None):
         pass
 
-    def create_histogram_number_persons(self, low: str = None, high: str = None):
+    def create_histogram_temperatures(self, identifier: int, time: tuple = None, temperature: tuple = None):
         pass
 
-    def create_line_graph_temperatures(self, statistics: list):
-        statistics = self.database_management.get_statistics(identifiers=[1])
+    def create_line_graph_temperatures(self, identifier: int, time: tuple = None, temperature: tuple = None):
+        name = self.database_management.get_profile_name(identifier)
+        statistics = self.database_management.get_statistics(
+            identifiers=[identifier],
+            time=time,
+            temperature=temperature
+        )
+        statistics.sort(key=lambda x: x.time)
+        temperatures = []
+        times = []
+        for statistic in statistics:
+            temperatures.append(float(statistic.temperature))
+            times.append(statistic.time.timestamp())
+        self.ax.clear()
+        temperatures = np.array(temperatures)
+        times = np.array(times)
+        self.ax.plot(times, temperatures, '#87B7E3', linewidth=3, marker='o')
+        self.ax.grid(True, color='#09376B')
+        self.ax.spines['top'].set_visible(False)
+        self.ax.spines['right'].set_visible(False)
+        self.ax.spines['left'].set_visible(False)
+        self.ax.spines['bottom'].set_visible(False)
+        self.ax.set_ylabel(self._lang['chart1']['y'], color='#09376B', fontsize=20)
+        self.ax.set_title(name, color='#09376B', fontsize=24, weight='regular')
+        labels = [datetime.datetime.fromtimestamp(item).strftime('%m/%d %H:%M') for item in
+                  self.ax.get_xticks().tolist()]
+        self.ax.set_xticklabels(labels, color='#09376B')
+        self.ax.tick_params(colors='#09376B', which='both')
+
+    def create_map_temperatures(self, identifier: int, time: tuple = None, temperature: tuple = None):
+        name = self.database_management.get_profile_name(identifier)
+        statistics = self.database_management.get_statistics(
+            identifiers=[identifier],
+            time=time,
+            temperature=temperature
+        )
         statistics.sort(key=lambda x: x.time)
         temperatures = []
         times = []
@@ -161,65 +198,31 @@ class DBVisualization(FigureCanvas):
         for statistic in statistics:
             temperatures.append(float(statistic.temperature))
             time = statistic.time.time()
-            times.append(datetime.timedelta(hours=time.hour, minutes=time.minute, seconds=time.second).total_seconds())
+            times.append(datetime.timedelta(hours=time.hour, minutes=time.minute, seconds=0).total_seconds())
             dates.append(statistic.time.date())
         dates = mdates.date2num(dates)
         self.ax.clear()
-        # self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        # self.ax.xaxis_date()
-        self.ax.format_xdata = mdates.DateFormatter('%Y-%m-%d')
-        self.ax.set(
-            ylim=(
-                dates[0],
-                dates[-1]
-            ),
-            xlim=(
-                datetime.timedelta(hours=0, minutes=0, seconds=0).total_seconds(),
-                datetime.timedelta(hours=23, minutes=59, seconds=59).total_seconds()
-            )
-        )
-        hb = self.ax.hexbin(y=dates, x=times, C=temperatures, cmap='coolwarm', bins='log')
-
-    def create_map_temperatures(self):
-        statistics = self.database_management.get_statistics(identifiers=[1])
-        print(len(statistics))
-        statistics.sort(key=lambda x: x.time)
-        temperatures = []
-        times = []
-        dates = []
-        for statistic in statistics:
-            temperatures.append(float(statistic.temperature))
-            time = statistic.time.time()
-            times.append(datetime.timedelta(hours=time.hour, minutes=time.minute, seconds=time.second).total_seconds())
-            dates.append(statistic.time.date())
-        dates = mdates.date2num(dates)
-        print(len(times))
-        print(dates)
-        self.ax.clear()
-        # self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        # self.ax.xaxis_date()
-        self.ax.format_xdata = mdates.DateFormatter('%Y-%m-%d')
-        self.ax.set(
-            xlim=(
-                dates[0],
-                dates[-1]
-            ),
-            ylim=(
-                datetime.timedelta(hours=0, minutes=0, seconds=0).total_seconds(),
-                datetime.timedelta(hours=23, minutes=59, seconds=59).total_seconds()
-            )
-        )
-        hb = self.ax.scatter(x=dates, y=times, s=100, c=temperatures, cmap='coolwarm')
-        cb = self.figure.colorbar(hb, ax=self.ax)
-
-        self.ax.set_title('title', color='#09376B', fontsize=20, weight='regular')
-        # ax = df.plot.hexbin(x='x', y='y', C='temperature', gridsize=10,
-        #                     cmap='coolwarm', title=employee, grid=False,
-        #                     vmin=35.0, vmax=38.5)
-        # ax.set_xlabel("Date")
-        # ax.set_ylabel("Time")
-        # ax.xaxis.set_major_formatter(dates.DateFormatter('%Y-%m-%d'))
-        # ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: str(dt.timedelta(seconds=x))))
+        hb = self.ax.hexbin(x=dates, y=times, C=temperatures, cmap='viridis', gridsize=25)
+        cb = self.figure.colorbar(hb, ax=self.ax, pad=0)
+        cb.outline.set_visible(False)
+        cb.set_label(self._lang['chart2']['bar'], fontsize=20, color='#09376B')
+        cb.ax.tick_params(color='#09376B', labelcolor='#09376B')
+        self.ax.spines['top'].set_visible(False)
+        self.ax.spines['right'].set_visible(False)
+        self.ax.spines['left'].set_visible(False)
+        self.ax.spines['bottom'].set_visible(False)
+        labels = [
+            str(datetime.timedelta(seconds=item))
+            for item in self.ax.get_yticks().tolist()
+        ]
+        self.ax.set_yticklabels(labels, color='#09376B')
+        labels = [
+            mdates.num2date(item).strftime('%m-%d')
+            for item in self.ax.get_xticks().tolist()
+        ]
+        self.ax.set_xticklabels(labels, color='#09376B')
+        self.ax.tick_params(colors='#09376B', which='both')
+        self.ax.set_title(name, color='#09376B', fontsize=24)
 
     def create_map_similar(self, statistics: list):
         pass

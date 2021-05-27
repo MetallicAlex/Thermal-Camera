@@ -51,6 +51,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.is_table_device_profiles_loaded = False
         self.selected_profile = None
         self.selected_department = None
+        self.selected_name = None
         self.filter_params = {
             'start': None,
             'end': None,
@@ -73,6 +74,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image_filename = None
         self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
+        self.label_chart1.setScaledContents(True)
+        self.label_chart2.setScaledContents(True)
         self.style_unpressed_button = self.button_control.styleSheet()
         departments = [
             department.name
@@ -87,9 +90,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.setting.lang['gender']['female']
             ]
         )
-        self.database_visualization = DBVisualization(width=10, height=6)
+        self.database_visualization = DBVisualization(lang=self.setting.lang['charts'], width=10, height=6)
         self.database_visualization.create_pie_chart_temperatures(
-            title='Passage of people for the current day',
+            title=self.setting.lang['charts']['pie_title1'],
             threshold=self.doubleSpinBox_alarm_temperature.value(),
             stat_time=(
                 datetime.datetime.now().replace(hour=0, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S'),
@@ -103,6 +106,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             )
         )
         self.database_visualization.create_pie_chart_temperatures(
+            title=self.setting.lang['charts']['pie_title2'],
             threshold=self.doubleSpinBox_alarm_temperature.value()
         )
         self.database_visualization.save(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
@@ -111,8 +115,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
             )
         )
+        self.label_pie_number_person_day.setToolTip(
+            f'<br><img src="{self.app_path}/{self.setting.paths["temp"]}/pie_day.png"'
+        )
+        self.label_pie_number_person_all_time.setToolTip(
+            f'<br><img src="{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png"'
+        )
         self.label_pie_number_person_day.setScaledContents(True)
         self.label_pie_number_person_all_time.setScaledContents(True)
+        self.dateTimeEdit_start.setDateTime(datetime.datetime.now().replace(day=1, hour=0, minute=0, second=0))
         self.dateTimeEdit_end.setDateTime(datetime.datetime.now().replace(hour=23, minute=59, second=59))
         self.filter_params['start'] = self.dateTimeEdit_start.text()
         self.filter_params['end'] = self.dateTimeEdit_end.text()
@@ -130,7 +141,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentWidget(self.page_control)
         self._update_system_buttons(self.button_control)
         # SYSTEM BUTTONS, HEADER FRAME AND SIZEGRIP
-        self.button_close.clicked.connect(lambda: self.close())
+        self.button_close.clicked.connect(self._button_close_clicked)
         self.button_minimize.clicked.connect(lambda: self.showMinimized())
         self.frame_header.mouseMoveEvent = self._frame_header_move_window
         self.frame_header.mousePressEvent = self._frame_header_mouse_press
@@ -172,6 +183,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE STATISTIC
         self.button_statistics_filter.clicked.connect(self._button_statistics_filter_clicked)
         self.button_export_statistics_data.clicked.connect(self._button_export_statistics_data_clicked)
+        self.table_statistics.itemSelectionChanged.connect(self._statistic_selected_row)
         # DATA
         if self.device_management.host is not None:
             self.subscribe_platform = SubscribePlatform()
@@ -201,7 +213,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             event.accept()
 
     def _button_close_clicked(self, event):
-        pass
+        self.thread.quit()
+        self.close()
 
     def _horizontal_slider_volume_value_changed(self):
         self.label_volume.setText(f'{self.setting.lang["volume"]}: {self.horizontalSlider_volume.value()}')
@@ -389,10 +402,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             text = 'Не выбран профиль для изменения.'
         if text == '':
             if self.image_filename:
-                rng = np.random.default_rng()
-                image = '/static/images/' + np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
-                while os.path.exists(f'{self.app_path}/{self.setting.paths["nginx"]}/html{image}'):
+                if self.selected_profile.face:
+                    image = self.selected_profile.face
+                else:
+                    rng = np.random.default_rng()
                     image = '/static/images/' + np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                    while os.path.exists(f'{self.app_path}/{self.setting.paths["nginx"]}/html{image}'):
+                        image = '/static/images/'\
+                                + np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
                 pixmap = QPixmap(
                     QImage(self.image_filename)
                 )
@@ -711,7 +728,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.publish_platform.set_device(device.serial_number, device.token)
                 print(device.password)
                 print(self.lineEdit_device_password.text())
-                if device.name != self.lineEdit_device_name.text()\
+                if device.name != self.lineEdit_device_name.text() \
                         or device.password != self.lineEdit_device_password.text():
                     self.device_configuration['basic_config']['name'] = copy.copy(device.name)
                     self.device_configuration['basic_config']['password'] = copy.copy(device.password)
@@ -872,6 +889,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # EVENTS-STATISTICS
     def _button_statistics_filter_clicked(self, event):
         self.table_statistics.setSortingEnabled(False)
+        self.selected_name = None
         self.filter_params['start'] = self.dateTimeEdit_start.text()
         self.filter_params['end'] = self.dateTimeEdit_end.text()
         self.filter_params['min'] = self.doubleSpinBox_min_temperature.value()
@@ -902,6 +920,44 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             process.join()
         self.blur_effect.setEnabled(False)
         print(f'[EXPORT][STATISTIC] {time.time() - start}')
+
+    def _statistic_selected_row(self):
+        row_position = self.table_statistics.currentIndex().row()
+        if row_position > -1:
+            if self.selected_name != self.table_statistics.item(row_position, 2).text() \
+                    and self.table_statistics.item(row_position, 2).text() != '---':
+                identifier = self.database_management.get_statistic(
+                    time=self.table_statistics.item(row_position, 0).text(),
+                ).id_profile
+                process = multiprocessing.Process(
+                    target=MainForm._update_plots_statistics,
+                    args=(
+                        self.setting.lang['charts'],
+                        self.app_path,
+                        identifier,
+                        (self.filter_params['start'], self.filter_params['end']),
+                        (self.filter_params['min'], self.filter_params['max']),
+                    )
+                )
+                process.start()
+                process.join()
+                self.label_chart1.setPixmap(
+                    QPixmap(
+                        QImage(f'{self.app_path}/{self.setting.paths["temp"]}/chart1.png')
+                    )
+                )
+                self.label_chart2.setPixmap(
+                    QPixmap(
+                        QImage(f'{self.app_path}/{self.setting.paths["temp"]}/chart2.png')
+                    )
+                )
+                self.label_chart1.setToolTip(
+                    f'<br><img src="{self.app_path}/{self.setting.paths["temp"]}/chart1.png"'
+                )
+                self.label_chart2.setToolTip(
+                    f'<br><img src="{self.app_path}/{self.setting.paths["temp"]}/chart2.png"'
+                )
+                self.selected_name = self.table_statistics.item(row_position, 2).text()
 
     def _checkbox_header_profiles_pressed(self, index):
         if index == 0:
@@ -1502,6 +1558,32 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot(object)
     def _get_record(self, statistic: models.Statistic):
         self._add_statistic_row_to_control(statistic)
+        process = multiprocessing.Process(
+            target=MainForm._update_plots,
+            args=(
+                self.setting.lang['charts'],
+                self.app_path,
+                self.doubleSpinBox_alarm_temperature.value(),
+            )
+        )
+        process.start()
+        process.join()
+        self.label_pie_number_person_day.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_day.png')
+            )
+        )
+        self.label_pie_number_person_day.setToolTip(
+            f'<br><img src="{self.app_path}/{self.setting.paths["temp"]}/pie_day.png"'
+        )
+        self.label_pie_number_person_all_time.setPixmap(
+            QPixmap(
+                QImage(f'{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png')
+            )
+        )
+        self.label_pie_number_person_all_time.setToolTip(
+            f'<br><img src="{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png"'
+        )
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):
@@ -1541,15 +1623,35 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             )
 
     @staticmethod
-    def _update_plots(app_path: str):
-        db_visualisation = DBVisualization(width=9, height=4)
-        db_visualisation.create_pie_chart_temperatures()
+    def _update_plots(lang: dict, app_path: str, threshold: float):
+        db_visualisation = DBVisualization(width=10, height=6, lang=lang)
+        db_visualisation.create_pie_chart_temperatures(threshold=threshold, title=lang['pie_title2'])
         db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/pie_all_time.png')
         db_visualisation.create_pie_chart_temperatures(
-            title='Passage of people for the current day',
-            current_day=datetime.date.today().strftime('%Y-%m-%d')
+            title=lang['pie_title1'],
+            stat_time=(
+                datetime.datetime.today().replace(hour=0, minute=0, second=0),
+                datetime.datetime.today().replace(hour=23, minute=59, second=59)
+            ),
+            threshold=threshold
         )
         db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/pie_day.png')
+
+    @staticmethod
+    def _update_plots_statistics(lang: dict, app_path: str, identifier: int, stat_time: tuple, temperature: tuple):
+        db_visualisation = DBVisualization(width=10, height=6, lang=lang)
+        db_visualisation.create_line_graph_temperatures(
+            identifier=identifier,
+            time=stat_time,
+            temperature=temperature
+        )
+        db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/chart1.png')
+        db_visualisation.create_map_temperatures(
+            identifier=identifier,
+            time=stat_time,
+            temperature=temperature
+        )
+        db_visualisation.figure.savefig(f'{app_path}/widget/data/temp/chart2.png')
 
     def _set_header_column_icon(self, table: QtWidgets.QTableWidget, checked: bool):
         item = QtWidgets.QTableWidgetItem()

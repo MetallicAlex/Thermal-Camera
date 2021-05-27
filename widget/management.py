@@ -418,6 +418,17 @@ class DBManagement:
             session.execute('ALTER TABLE thermalcamera.profiles AUTO_INCREMENT = 1;')
 
     # STATISTICS
+    def get_statistic(self,
+                      time: str,
+                      temperature: float = None):
+        with models.get_session() as session:
+            query = session.query(models.Statistic)
+            query = query.filter(models.Statistic.time == time)
+            if temperature:
+                query = query.filter(models.Statistic.temperature == temperature)
+            self._statistics = query.scalar()
+        return self._statistics
+
     def get_statistics(self,
                        time: tuple = None,
                        temperature: tuple = None,
