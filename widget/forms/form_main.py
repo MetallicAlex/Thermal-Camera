@@ -1396,7 +1396,10 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setStyleSheet('background-color: #91D1EE;')
         item.setCheckState(Qt.Unchecked)
         self.table_device_profiles.setCellWidget(row_position, 0, item)
-        item = QTableWidgetItem(profile.personnel_number)
+        if profile.personnel_number:
+            item = QTableWidgetItem(profile.personnel_number)
+        else:
+            item = QTableWidgetItem('---')
         item.setTextAlignment(Qt.AlignCenter)
         self.table_device_profiles.setItem(row_position, 1, item)
         self.table_device_profiles.setItem(row_position, 2, QTableWidgetItem(profile.name))
@@ -1761,12 +1764,14 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def start_nginx(self):
         path = os.path.abspath('nginx')
         # print(path)
-        # subprocess.run([f"{path}\\start", "nginx"])
-        # os.system(f'{path}\\start nginx')
-        print(path)
+        # os.system(f'{path}\start.bat')
+        # # print(path)
+        # # subprocess.run([f"{path}\\start", "nginx"])
+        # # os.system(f'{path}\\start nginx')
+        # print(path)
         self.p = QtCore.QProcess()
         self.p.setWorkingDirectory(f'{path}')
-        self.p.start('nginx.exe')
+        self.p.start('start.bat')
 
     def quit_nginx(self):
         os.system('nginx\\nginx.exe -s quit')
