@@ -9,12 +9,12 @@ from widget.forms.messagebox_export import Ui_ExportMessageBox
 
 
 class WarningMessageBox(QtWidgets.QDialog, Ui_WarningMessageBox):
-    def __init__(self, parent=None):
+    def __init__(self, lang: dict, parent=None):
         super().__init__()
         self.setupUi(self)
         # DATA
         self.dialog_result = -1
-        self.department = None
+        self.lang = lang
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())
         self.button_yes.clicked.connect(self._button_yes_clicked)
@@ -38,6 +38,11 @@ class WarningMessageBox(QtWidgets.QDialog, Ui_WarningMessageBox):
     def _button_no_clicked(self, event):
         self.dialog_result = -1
         self.close()
+
+    def translate(self):
+        self.button_close.setToolTip(self.lang['btn_close'])
+        self.button_yes.setText(self.lang['btn_yes'])
+        self.button_no.setText(self.lang['btn_no'])
 
 
 class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
@@ -69,12 +74,14 @@ class InformationMessageBox(QtWidgets.QDialog, Ui_InforamtionMessageBox):
 
 
 class ExportMessageBox(QtWidgets.QDialog, Ui_ExportMessageBox):
-    def __init__(self, parent=None):
+    def __init__(self, lang: dict, parent=None):
         super().__init__()
         self.setupUi(self)
         # DATA
+        self.lang = lang
         self.dialog_result = -1
         self.filename = None
+        self.translate()
         # SYSTEM BUTTONS, HEADER FRAME, CHOOSE FILE
         self.button_close.clicked.connect(lambda: self.close())
         self.button_all.clicked.connect(self._button_all_clicked)
@@ -93,7 +100,7 @@ class ExportMessageBox(QtWidgets.QDialog, Ui_ExportMessageBox):
             event.accept()
 
     def _button_all_clicked(self, event):
-        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Экспорт всех данных по статистике',
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, self.lang['all'],
                                                                  '',
                                                                  'JSON File (*.json);;'
                                                                  'CSV File (*.csv);')
@@ -102,7 +109,7 @@ class ExportMessageBox(QtWidgets.QDialog, Ui_ExportMessageBox):
             self.close()
 
     def _button_passage_clicked(self, event):
-        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Экспорт время прохода по статистике',
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, self.lang['passage'],
                                                                  '',
                                                                  'JSON File (*.json);;'
                                                                  'CSV File (*.csv);')
@@ -111,10 +118,16 @@ class ExportMessageBox(QtWidgets.QDialog, Ui_ExportMessageBox):
             self.close()
 
     def _button_temperature_clicked(self, event):
-        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, 'Экспорт температуры по статистике',
+        self.filename, _ = QtWidgets.QFileDialog.getSaveFileName(self, self.lang['temperature'],
                                                                  '',
                                                                  'JSON File (*.json);;'
                                                                  'CSV File (*.csv);')
         if self.filename:
             self.dialog_result = 3
             self.close()
+
+    def translate(self):
+        self.button_close.setToolTip(self.lang['btn_close'])
+        self.button_all.setText(self.lang['btn_all'])
+        self.button_passage.setText(self.lang['btn_passage'])
+        self.button_temperature.setText(self.lang['btn_temperature'])

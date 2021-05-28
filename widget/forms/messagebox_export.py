@@ -124,10 +124,10 @@ class Ui_ExportMessageBox(object):
                                         "    background-color: transparent;\n"
                                         "}\n"
                                         "QPushButton:hover {\n"
-                                        "    background-color: rgb(52, 59, 72);\n"
+                                        "    background-color: #B9400C;\n"
                                         "}\n"
                                         "QPushButton:pressed {    \n"
-                                        "    background-color: rgb(85, 170, 255);\n"
+                                        "    background-color: #D04B4B;\n"
                                         "}")
         self.button_close.setText("")
         icon = QtGui.QIcon()

@@ -11,6 +11,7 @@
   "notice": "Уведомление",
   "email": "Почта",
   "table_control": {
+    "device": "Устройство",
     "datetime": "Дата и время",
     "name": "ФИО",
     "photo": "Фото",
@@ -18,16 +19,17 @@
     "mask": "Маска",
     "similar": "Схожесть"
   },
-  "btn_search_device": "Поиск",
+  "btn_search_device": "Обновить",
   "btn_delete_device": "Удалить",
   "btn_configure_device": "Применить",
-  "btn_cancel_new_device": "Отмена",
   "btn_add_new_device": "Добавить",
+  "password": "Пароль",
   "device_name": "Название",
   "volume": "Громкость:",
   "brightness": "Яркость:",
   "light": "Подсветка",
   "ip_address": "IP-адрес",
+  "port": "Порт",
   "subnet_mask": "Маска подсети",
   "gateway": "Шлюз",
   "ddns1": "DDNS-1",
@@ -51,6 +53,9 @@
     "mac_address": "MAC-адрес",
     "ip_address": "IP-адрес"
   },
+  "tab_profiles": "Профили",
+  "tab_departments": "Отделы",
+  "tab_db_device": "БД устройства",
   "btn_add_profile": "Добавить",
   "btn_edit_profile": "Изменить",
   "btn_delete_profile": "Удалить",
@@ -60,6 +65,16 @@
   "btn_import_data": "Импорт данных",
   "btn_import_photos": "Импорт фото",
   "btn_export_profiles_data": "Экспорт данных",
+  "pers_number": "Табельный номер",
+  "profile_name": "ФИО",
+  "passport": "Паспорт",
+  "department_text": "Отдел",
+  "location": "Местонахождение",
+  "gender_text": "Пол",
+  "visitor": "Посетитель",
+  "employee": "Сотрудник",
+  "info": "Дополнительная информация",
+  "show_photo": "Посмотреть фото",
   "gender": {
     "unknown": "неизвестен",
     "male": "мужской",
@@ -73,8 +88,32 @@
   "table_profiles": {
     "unknown": "---",
     "male": "м",
-    "female": "ж"
+    "female": "ж",
+    "pers_number": "Таб. номер",
+    "name": "ФИО",
+    "passport": "Пасспорт",
+    "user": "Пользователь",
+    "photo": "Фото",
+    "department": "Отдел",
+    "gender": "Пол",
+    "info": "Доп. информация"
   },
+  "btn_add_department": "Добавить",
+  "btn_edit_department": "Изменить",
+  "btn_delete_department": "Удалить",
+  "table_departments": {
+    "name": "Отдел",
+    "location": "Местонахождение"
+  },
+  "btn_device_db_view": "Посмотреть",
+  "btn_delete_device_profile": "Удалить",
+  "btn_filter": "Фильтр",
+  "btn_export_stats_data": "Экспорт данных",
+  "from": "От",
+  "to": "До",
+  "name": "ФИО",
+  "btn_apply_setting": "Применить",
+  "lang": "Язык",
   "image": "Посмотреть",
   "no_image": "Нет такого изображения.",
   "message": {
@@ -97,7 +136,90 @@
       "title": "Функциональная настройка",
       "failure": "Параметры не установлены.",
       "success": "Параметры успешно установлены."
+    },
+    "add_new_device": {
+      "title": "Новое устройство",
+      "not_ip": "Не введен IP-адрес.\n",
+      "not_password":"Не введен пароль.",
+      "not_correct": "Неправильно введен IP-адрес или пароль.",
+      "connected": "Данное устройство уже подключено."
+    },
+    "configure_device": {
+      "title": "Настройка устройства",
+      "info": "Не выделено устройство."
+    },
+    "delete_device": {
+      "delete": "Удаление",
+      "info_connect": "Вы точно хотите удалить устройство?",
+      "info_not_connect": "Устройство не подключено.\nЕсли удалите устройство, то нужно будет\nсбросить устройство к заводским настройкам.\nВы точно хотите удалить устройство?"
+    },
+    "add_profile": {
+      "title": "Добавление профиля",
+      "pers_number_exist": "Такой табельный номер уже существует.\n",
+      "pers_number_not": "Не введен табельный номер.\n",
+      "passport_exist": "Такой номер паспорта уже существует.\n",
+      "passport_not": "Не введен паспорт.\n",
+      "name_not": "Не введено ФИО.\n"
+    },
+    "edit_profile": {
+      "title": "Изменение профиля",
+      "pers_number_exist": "Такой табельный номер уже существует.\n",
+      "pers_number_not": "Не введен табельный номер.\n",
+      "passport_exist": "Такой номер паспорта уже существует.\n",
+      "passport_not": "Не введен паспорт.\n",
+      "name_not": "Не введено ФИО.\n",
+      "profile_not": "Не выбран профиль для изменения."
+    },
+    "delete_profile": {
+      "title": "Удаление профилей",
+      "info": "Вы точно хотите удалить профили?"
+    },
+    "add_department": {
+      "title": "Добавление отдела",
+      "name_not": "Не введено название отдела.",
+      "name_exist": "Такой отдел уже существует."
+    },
+    "edit_department": {
+      "title": "Изменение отдела",
+      "department_not": "Не выбран отдел для изменения."
+    },
+    "delete_department": {
+      "title": "Удаление отделов",
+      "info": "Вы точно хотите удалить отделы?"
+    },
+    "send_profiles": {
+      "title": "Отправка данных",
+      "device_not": "Нет подключенных устройств.",
+      "profile_not": "Не выбраны пользователи\nдля отправки на устройство."
+    },
+    "db_device_view":{
+      "title": "Просмотр БД устройства",
+      "info": "Нет подключенных устройств."
+    },
+    "delete_profiles_device": {
+      "title": "Удаление профилей устройства",
+      "load_not": "БД устройства не загружена.\nВыберите устройство\nи нажмите на кн. \"Посмотреть\"",
+      "connect_not": "Нет подключенных устройств.",
+      "info": "Вы точно хотите удалить профили?"
+    },
+    "res_remove": {
+      "title": "Результат удаления профилей с",
+      "success": "Кол-во удаленных профилей",
+      "failure": "Кол-во неудаленных профилей"
+    },
+    "res_add": {
+      "title": "Результат загрузки фото",
+      "success": "Кол-во успешных загрузок",
+      "failure": "Кол-во провальных загрузок"
     }
+  },
+  "dialog": {
+    "load_photo": "Выберите фото",
+    "example_data": "Сохранить пример данных",
+    "export_profiles_data": "Сохранить файл данных профилей",
+    "import_profiles_data": "Импорт данных профилей",
+    "import_photos": "Импорт фотографий",
+    "export_stats_data": "Экспорт статистики"
   },
   "charts": {
     "pie": {
@@ -116,5 +238,27 @@
     "chart2": {
       "bar": "Температура"
     }
+  },
+  "export": {
+    "btn_close": "Закрыть",
+    "btn_all": "Все данные",
+    "btn_passage": "Время прохода",
+    "btn_temperature": "Температура",
+    "all": "Экспорт всех данных по статистике",
+    "passage": "Экспорт время прохода по статистике",
+    "temperature": "Экспорт температуры по статистике"
+  },
+  "warning": {
+    "btn_close": "Закрыть",
+    "btn_yes": "Да",
+    "btn_no": "Нет"
+  },
+  "device_list": {
+    "title": "Список устройств",
+    "name": "Название",
+    "serial_number": "Серийный номер",
+    "btn_add": "Добавить",
+    "btn_cancel": "Отмена",
+    "btn_close": "Закрыть"
   }
 }

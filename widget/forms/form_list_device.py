@@ -10,11 +10,13 @@ from widget.forms.form_list_device_designer import Ui_ListDeviceForm
 
 
 class FormDeviceList(QtWidgets.QDialog, Ui_ListDeviceForm):
-    def __init__(self, devices: list):
+    def __init__(self, devices: list, lang: dict):
         super().__init__()
         self.setupUi(self)
         # DATA
         self.dialog_result = -1
+        self.lang = lang
+        self.translate()
         self.devices = devices
         for device in devices:
             self._add_device_row(device)
@@ -107,3 +109,11 @@ class FormDeviceList(QtWidgets.QDialog, Ui_ListDeviceForm):
         item = QTableWidgetItem(serial_number)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_devices.setItem(row_position, 2, item)
+
+    def translate(self):
+        self.label_title.setText(self.lang['title'])
+        self.table_devices.horizontalHeaderItem(1).setText(self.lang['name'])
+        self.table_devices.horizontalHeaderItem(2).setText(self.lang['serial_number'])
+        self.button_close.setToolTip(self.lang['btn_close'])
+        self.button_accept.setText(self.lang['btn_add'])
+        self.button_cancel.setText(self.lang['btn_cancel'])

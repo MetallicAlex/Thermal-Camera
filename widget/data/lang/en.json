@@ -1,129 +1,264 @@
 {
-  "form_main": {
-    "window_title": "Thermal Camera's Manager",
-    "label_title": "Thermal Camera's Manager",
-    "text_all_profiles": "All Profiles",
-    "btn_minimize": "Minimize",
-    "btn_close": "Close",
-    "btn_device": "Device Management",
-    "tool_device": "Device Management",
-    "btn_database": "Database Management",
-    "tool_database": "Database Management",
-    "btn_statistic": "Statistic",
-    "tool_statistic": "Statistic",
-    "btn_settings": "Settings",
-    "tool_settings": "Settings",
-    "page_device": {
-      "btn_search": "Search",
-      "tool_search": "Search New Devices",
-      "btn_configure": "Configure",
-      "tool_configure": "Configure Device",
-      "btn_delete": "Delete",
-      "tool_delete": "Delete Devices",
-      "table_devices": {
-        "name": "Device Name",
-        "model": "Model",
-        "serial_number": "Serial Number",
-        "mac_address": "MAC-Address",
-        "ip_address": "IP Address",
-        "state": "State",
-        "state_online": "Online",
-        "state_not_online": "Not Online"
-      }
+  "title": "ACMS",
+  "btn_close": "Close",
+  "btn_minimize": "Minimize",
+  "btn_control": "Control",
+  "btn_devices": "Devices",
+  "btn_database": "Database",
+  "btn_statistic": "Statistic",
+  "btn_settings": "Settings",
+  "alarm_temp": "Alarm temperature",
+  "notice": "Notice",
+  "email": "Email",
+  "table_control": {
+    "device": "Device",
+    "datetime": "Datetime",
+    "name": "Name",
+    "photo": "Photo",
+    "temp": "Temperature",
+    "mask": "Mask",
+    "similar": "Similar"
+  },
+  "btn_search_device": "Update",
+  "btn_delete_device": "Delete",
+  "btn_configure_device": "Apply",
+  "btn_add_new_device": "Add",
+  "password": "Password",
+  "device_name": "Name",
+  "volume": "Volume:",
+  "brightness": "Brightness:",
+  "light": "Light",
+  "ip_address": "IP-address",
+  "port": "Port",
+  "subnet_mask": "Subnet mask",
+  "gateway": "Gateway",
+  "ddns1": "DDNS-1",
+  "ddns2": "DDNS-2",
+  "dhcp": "DHCP",
+  "check_temp": "Temperature check",
+  "check_mask": "Mask check",
+  "strangers_passage": "Strangers passage",
+  "save_record": "Record save",
+  "save_face": "Photo save",
+  "record_time": "Record storage time\nin hours (-1 - unlimited)",
+  "table_devices": {
+    "state": "State",
+    "online": "Online",
+    "offline": "Offline",
+    "name": "Name",
+    "serial_number": "Serial number",
+    "type": "Type",
+    "model": "Model",
+    "firmware": "Firmware version",
+    "mac_address": "MAC-address",
+    "ip_address": "IP-address"
+  },
+  "tab_profiles": "Profiles",
+  "tab_departments": "Departments",
+  "tab_db_device": "Device database",
+  "btn_add_profile": "Add",
+  "btn_edit_profile": "Edit",
+  "btn_delete_profile": "Delete",
+  "btn_send_device": "Send",
+  "btn_load_photo": "Load photo",
+  "btn_example_data": "Sample data",
+  "btn_import_data": "Import data",
+  "btn_import_photos": "Import photos",
+  "btn_export_profiles_data": "Export data",
+  "pers_number": "Personnel number",
+  "profile_name": "F. name",
+  "passport": "Passport",
+  "department_text": "Department",
+  "location": "Location",
+  "gender_text": "Gender",
+  "visitor": "Visitor",
+  "employee": "Employee",
+  "info": "Information",
+  "show_photo": "Show photo",
+  "gender": {
+    "unknown": "unknown",
+    "male": "male",
+    "female": "female"
+  },
+  "mask": {
+    "unknown": "---",
+    "true": "Yes",
+    "false": "No"
+  },
+  "table_profiles": {
+    "unknown": "---",
+    "male": "m",
+    "female": "f",
+    "pers_number": "Pers. number",
+    "name": "Full name",
+    "passport": "Passport",
+    "user": "User",
+    "photo": "Photo",
+    "department": "Depart.",
+    "gender": "Gender",
+    "info": "Information"
+  },
+  "btn_add_department": "Add",
+  "btn_edit_department": "Edit",
+  "btn_delete_department": "Delete",
+  "table_departments": {
+    "name": "Department",
+    "location": "Location"
+  },
+  "btn_device_db_view": "View",
+  "btn_delete_device_profile": "Delete",
+  "btn_filter": "Filter",
+  "btn_export_stats_data": "Export data",
+  "from": "From",
+  "to": "To",
+  "name": "F. name",
+  "btn_apply_setting": "Apply",
+  "lang": "Language",
+  "image": "View",
+  "no_image": "There is no such image.",
+  "message": {
+    "basic_config": {
+      "title": "Device name and password",
+      "failure": "Device name and password\n not set.",
+      "success": "Device name and password\n set successfully."
     },
-    "page_database": {
-      "label_profile_db": "Profiles DB",
-      "btn_add_profile": "Add",
-      "tool_add_profile": "Add Profile",
-      "btn_edit_profile": "Edit",
-      "tool_edit_profile": "Edit Profile",
-      "btn_delete_profile": "Delete",
-      "tool_delete_profile": "Delete Profiles",
-      "btn_add_profile_images": "Add Profile Images",
-      "tool_add_profile_images": "Add Profile Images",
-      "btn_add_profiles_group": "Add Profiles Group",
-      "tool_add_profiles_group": "Add Profiles Group by Pattern",
-      "btn_create_pattern": "Create Pattern",
-      "tool_create_pattern": "Create Pattern for Add Profiles Group",
-      "btn_send_device": "Send to Device",
-      "tool_send_device": "Send to Device",
-      "btn_device_db_view": "Database View",
-      "tool_device_db_view": "Device Database View",
-      "table_profiles": {
-        "id": "ID",
-        "image": "Image",
-        "name": "Name",
-        "department": "Department",
-        "gender": "Gender",
-        "phone_number": "Phone Number",
-        "tool_image_false": "No Image",
-        "text_image_item": "Show",
-        "male": "male",
-        "female": "female",
-        "unknown": "unknown"
-      },
-      "label_department_db": "Departments DB",
-      "btn_add_department": "Add",
-      "tool_add_department": "Add Department",
-      "btn_delete_department": "Delete",
-      "tool_delete_department": "Delete Department",
-      "table_departments": {
-        "name": "Department"
-      }
+    "network_config": {
+      "title": "Network setting",
+      "failure": "Network parameters not set.",
+      "success": "Network parameters set successfully."
     },
-    "page_statistic": {
-      "label_start_time": "Start",
-      "tool_start_time": "Start",
-      "label_end_time": "End",
-      "tool_end_time": "End",
-      "label_min_temp": "Min",
-      "tool_min_temp": "Minimum",
-      "label_max_temp": "Max",
-      "tool_max_temp": "Maximum",
-      "radio_btn_time": "Time",
-      "tool_radio_btn_time": "Time",
-      "radio_btn_temp": "Temperature",
-      "tool_radio_btn_temp": "Temperature",
-      "btn_search": "Search",
-      "tool_search": "Search Statistic",
-      "btn_all_stats": "All Statistic",
-      "tool_all_stats": "All Time Statistics",
-      "btn_stranger_stats": "Strangers Statistic",
-      "tool_stranger_stats": "Strangers Statistic",
-      "btn_report": "Report",
-      "tool_report": "Create Report",
-      "btn_charts": "Charts",
-      "tool_charts": "Display Statistics",
-      "table_statistics": {
-        "id": "ID",
-        "name": "Name",
-        "datetime": "Datetime",
-        "temp": "Temperature",
-        "similar": "Similar",
-        "tool_image_false": "No Image"
-      }
+    "remote_config": {
+      "title": "Setting",
+      "failure": "Volume, brightness, light\nsetting not set.",
+      "success": "Volume, brightness, light\nsetting set successfully."
+    },
+    "temperature_config": {
+      "title": "Functional setting",
+      "failure": "Parameters not set.",
+      "success": "Parameters set successfully."
+    },
+    "add_new_device": {
+      "title": "New device",
+      "not_ip": "IP-address not entered.\n",
+      "not_password":"Password not entered.",
+      "not_correct": "Incorrect IP-address or password entered.",
+      "connected": "This device is already connected."
+    },
+    "configure_device": {
+      "title": "Device setting",
+      "info": "Device not selected."
+    },
+    "delete_device": {
+      "delete": "Delete",
+      "info_connect": "Are you sure you want to delete the device?",
+      "info_not_connect": "Device not connected.\nIf you remove the device, you will need to\nreset device to factory settings.\nAre you sure you want to delete the device?"
+    },
+    "add_profile": {
+      "title": "Adding profile",
+      "pers_number_exist": "This personnel number already exists.\n",
+      "pers_number_not": "Personnel number not entered.\n",
+      "passport_exist": "This passport number already exists.\n",
+      "passport_not": "Passport not entered.\n",
+      "name_not": "Full name not entered.\n"
+    },
+    "edit_profile": {
+      "title": "Edit profile",
+      "pers_number_exist": "This personnel number already exists.\n",
+      "pers_number_not": "Personnel number not entered.\n",
+      "passport_exist": "This passport number already exists.\n",
+      "passport_not": "Passport not entered.\n",
+      "name_not": "Full name not entered.\n",
+      "profile_not": "No profile selected to change."
+    },
+    "delete_profile": {
+      "title": "Deleting profiles",
+      "info": "Are you sure you want to delete profiles??"
+    },
+    "add_department": {
+      "title": "Adding department",
+      "name_not": "Department name not entered.",
+      "name_exist": "Such a department already exists."
+    },
+    "edit_department": {
+      "title": "Edit department",
+      "department_not": "No department selected to change."
+    },
+    "delete_department": {
+      "title": "Deleting departments",
+      "info": "Are you sure you want to delete departments?"
+    },
+    "send_profiles": {
+      "title": "Sending profiles",
+      "device_not": "No connected devices.",
+      "profile_not": "No users selected\nto send to device."
+    },
+    "db_device_view":{
+      "title": "Viewing device database",
+      "info": "No connected devices."
+    },
+    "delete_profiles_device": {
+      "title": "Deleting device profiles",
+      "load_not": "The device database is not loaded.\nSelect device\nand click on the book. \"View\"",
+      "connect_not": "No connected devices.",
+      "info": "Are you sure you want to delete profiles?"
+    },
+    "res_remove": {
+      "title": "The result of deleting profiles from",
+      "success": "Number of deleted profiles",
+      "failure": "Number of undeleted profiles"
+    },
+    "res_add": {
+      "title": "Photo upload result",
+      "success": "Number of successful downloads",
+      "failure": "Number of failed downloads"
     }
   },
-  "form_profile": {
-    "window_title_add": "Add Profile",
-    "window_title_edit": "Edit Profile",
-    "label_title_add": "Add Profile",
-    "label_title_edit": "Edit Profile",
-    "btn_close": "Close",
-    "btn_choose_file": "Choose Image",
-    "table": {
-      "id": "ID *",
-      "text_id": "Enter Identifier",
-      "name": "Name *",
-      "text_name": "Enter Name",
-      "department": "Not Selected",
-      "gender": {
-        "male": "Male",
-        "female": "Female",
-        "unknown": "Not Selected"
-      },
-      "phone_number": "Phone Number",
-      "text_phone_number": "+3753312345678"
+  "dialog": {
+    "load_photo": "Select photo",
+    "example_data": "Save sample data",
+    "export_profiles_data": "Save profile data file",
+    "import_profiles_data": "Import profile data",
+    "import_photos": "Import photos",
+    "export_stats_data": "Export statistics"
+  },
+  "charts": {
+    "pie": {
+      "legend_profile": "Profile passages",
+      "legend_stranger": "Strangers passages",
+      "legend_norm_temp": "Normal temperature (N)",
+      "legend_heat_temp": "Heat temperature (H)",
+      "short_norm_temp": "N",
+      "short_heat_temp": "H"
+    },
+    "pie_title1": "Number of passages for the current day",
+    "pie_title2": "Number of passages all the time",
+    "chart1": {
+      "y": "Temperature"
+    },
+    "chart2": {
+      "bar": "Temperature"
     }
+  },
+  "export": {
+    "btn_close": "Close",
+    "btn_all": "All data",
+    "btn_passage": "Time of passage",
+    "btn_temperature": "Temperature",
+    "all": "Export of all statistics data",
+    "passage": "Export passage time by statistics",
+    "temperature": "Temperature export by statistics"
+  },
+  "warning": {
+    "btn_close": "Close",
+    "btn_yes": "Yes",
+    "btn_no": "No"
+  },
+  "device_list": {
+    "title": "Device list",
+    "name": "Name",
+    "serial_number": "Serial number",
+    "btn_add": "Add",
+    "btn_cancel": "Cancel",
+    "btn_close": "Close"
   }
 }

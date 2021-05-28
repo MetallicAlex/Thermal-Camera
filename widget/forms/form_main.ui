@@ -1182,7 +1182,7 @@ QPushButton:pressed {
               <string notr="true"/>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="page_control">
               <widget class="QTableWidget" name="table_control">
@@ -3401,7 +3401,7 @@ QTabBar::tab:selected {
                 <enum>QTabWidget::West</enum>
                </property>
                <property name="currentIndex">
-                <number>2</number>
+                <number>0</number>
                </property>
                <widget class="QWidget" name="tab_profiles">
                 <attribute name="title">
@@ -6725,7 +6725,128 @@ QDoubleSpinBox QAbstractItemView {
                </property>
               </widget>
              </widget>
-             <widget class="QWidget" name="page_settings"/>
+             <widget class="QWidget" name="page_settings">
+              <widget class="QComboBox" name="comboBox_langs">
+               <property name="geometry">
+                <rect>
+                 <x>120</x>
+                 <y>90</y>
+                 <width>240</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QComboBox{
+	background-color: #91D1EE;
+	border-radius: 10px;
+	border: 2px solid #0C5DB9;
+	color: #09376B;
+	text-align:center;
+	padding: 5px;
+	padding-left: 10px;
+}
+QComboBox:hover{
+	border: 2px solid #0C5DB9;
+}
+QComboBox QAbstractItemView {
+	color: #FFFFFF;
+	background-color: #0C5DB9;
+	padding: 10px;
+	selection-background-color: #91D1EE;
+}
+QComboBox::drop-down {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px;
+	background-color: #0C5DB9; 
+	border-left-width: 3px;
+	border-left-color: #0C5DB9;
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;	
+	background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);
+	background-position: center;
+	background-repeat: no-reperat;
+ }</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Русский</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>English</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QLabel" name="label_lang">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>90</y>
+                 <width>90</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Язык</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="button_apply_setting">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>15</y>
+                 <width>150</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	border-radius: 10px;	
+	background-color: #0C5DB9;
+	color: rgb(255, 255, 255, 221);
+}
+QPushButton:hover {
+	background-color: #91D1EE;
+	color: rgb(255, 255, 255, 221);
+}
+QPushButton:pressed {	
+	background-color: #87B9E0;
+	color: rgb(255, 255, 255);
+}</string>
+               </property>
+               <property name="text">
+                <string>Применить</string>
+               </property>
+              </widget>
+             </widget>
             </widget>
            </item>
            <item>

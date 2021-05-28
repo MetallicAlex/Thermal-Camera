@@ -5,21 +5,15 @@ import re
 import multiprocessing
 import datetime
 import time
-from operator import attrgetter
-import natsort
 import copy
-from typing import Union
 import numpy as np
-from sqlalchemy import null
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QTableWidget, QCheckBox, QProgressBar
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QCheckBox
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 
 from widget.forms.form_main_designer import Ui_MainWindow
-from widget.forms.form_device_database_view import FormDeviceDBView
-from widget.forms.form_stranger_table import FormStrangerTable
 from widget.forms.form_list_device import FormDeviceList
 from widget.forms.messagebox import ExportMessageBox, WarningMessageBox, InformationMessageBox
 from widget.forms.toggle_button import AnimatedToggle
@@ -38,7 +32,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self._create_toggle_buttons()
-        # self._create_shadows()
         self.blur_effect = QtWidgets.QGraphicsBlurEffect()
         self.blur_effect.setBlurRadius(15)
         self.blur_effect.setEnabled(False)
@@ -68,12 +61,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.database_management = DBManagement()
         self.database_management.setting = self.setting
         self.devices = self.database_management.get_devices()
-        self.theme = self._get_theme('dark theme')
         self.number_device_profiles = 0
         self.last_page = False
         self.image_filename = None
         self.publish_platform = PublishPlatform(self.device_management.host, client_name='PP1')
         # SETTINGS
+        if self.setting.data['lang'] == 'ru':
+            self.comboBox_langs.setCurrentText('Русский')
+        elif self.setting.data['lang'] == 'en':
+            self.comboBox_langs.setCurrentText('English')
         self.label_chart1.setScaledContents(True)
         self.label_chart2.setScaledContents(True)
         self.style_unpressed_button = self.button_control.styleSheet()
@@ -168,6 +164,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_send_device.clicked.connect(self._button_send_device_clicked)
         self.button_example_data.clicked.connect(self._button_create_pattern_clicked)
         self.button_export_profiles_data.clicked.connect(self._button_export_profiles_data)
+        self.button_import_data.clicked.connect(self._button_import_profiles_data_clicked)
+        self.button_import_photos.clicked.connect(self._button_import_photos_clicked)
         self.button_add_department.clicked.connect(self._button_add_department_clicked)
         self.button_edit_department.clicked.connect(self._button_edit_department_clicked)
         self.button_delete_department.clicked.connect(self._button_delete_department_clicked)
@@ -184,6 +182,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_statistics_filter.clicked.connect(self._button_statistics_filter_clicked)
         self.button_export_statistics_data.clicked.connect(self._button_export_statistics_data_clicked)
         self.table_statistics.itemSelectionChanged.connect(self._statistic_selected_row)
+        # PAGE SETTINGS
+        self.button_apply_setting.clicked.connect(self._button_apply_setting_clicked)
         # DATA
         if self.device_management.host is not None:
             self.subscribe_platform = SubscribePlatform()
@@ -279,7 +279,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.plainTextEdit_information.setPlainText('')
         else:
             self.plainTextEdit_information.setPlainText(self.table_profiles.item(row_position, 8).text())
-        if self.table_profiles.item(row_position, 4).text() == 'Сотрудник':
+        if self.table_profiles.item(row_position, 4).text() == self.setting.lang['employee']:
             self.selected_profile = self.database_management.get_profile(
                 personnel_number=self.table_profiles.item(row_position, 1).text()
             )
@@ -300,21 +300,21 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         information = None
         if not self.toggle_visitor.isChecked():
             if self.database_management.is_personnel_number_duplicate(self.lineEdit_personnel_number.text()):
-                text = 'Такой табельный номер уже существует.\n'
+                text = self.setting.lang['message']['add_profile']['pers_number_exist']
             elif self.lineEdit_personnel_number.text() == '':
-                text = 'Не введен табельный номер.\n'
+                text = self.setting.lang['message']['add_profile']['pers_number_not']
             else:
                 personnel_number = self.lineEdit_personnel_number.text()
         else:
             if self.lineEdit_passport.text() == '':
-                text = 'Не введен паспорт.\n'
+                text = self.setting.lang['message']['add_profile']['passport_not']
         if self.lineEdit_passport.text() != '' \
                 and self.database_management.is_passport_duplicate(self.lineEdit_passport.text()):
-            text += 'Такой номер паспорта уже существует.\n'
+            text += self.setting.lang['message']['add_profile']['passport_exist']
         else:
             passport = self.lineEdit_passport.text()
         if self.lineEdit_profile_name.text() == '':
-            text += 'Не введено ФИО.\n'
+            text += self.setting.lang['message']['add_profile']['name_not']
         else:
             profile_name = self.lineEdit_profile_name.text()
         if self.comboBox_department.currentText() != '---':
@@ -358,7 +358,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Добавление профиля')
+            messagebox.label_title.setText(self.setting.lang['message']['add_profile']['title'])
             messagebox.label_info.setText(text)
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
@@ -375,22 +375,22 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             if not self.toggle_visitor.isChecked():
                 if self.database_management.is_personnel_number_duplicate(self.lineEdit_personnel_number.text()) \
                         and self.selected_profile.personnel_number != self.lineEdit_personnel_number.text():
-                    text = 'Такой табельный номер уже существует.\n'
+                    text = self.setting.lang['message']['edit_profile']['pers_number_exist']
                 elif self.lineEdit_personnel_number.text() == '':
-                    text = 'Не введен табельный номер.\n'
+                    text = self.setting.lang['message']['edit_profile']['pers_number_not']
                 else:
                     personnel_number = self.lineEdit_personnel_number.text()
             else:
                 if self.lineEdit_passport.text() == '':
-                    text = 'Не введен паспорт.\n'
+                    text = self.setting.lang['message']['edit_profile']['passport_not']
             if self.lineEdit_passport.text() != '' \
                     and self.database_management.is_passport_duplicate(self.lineEdit_passport.text()) \
                     and self.selected_profile.passport != self.lineEdit_passport.text():
-                text += 'Такой номер паспорта уже существует.\n'
+                text += self.setting.lang['message']['edit_profile']['passport_exist']
             elif self.lineEdit_passport.text() != '':
                 passport = self.lineEdit_passport.text()
             if self.lineEdit_profile_name.text() == '':
-                text += 'Не введено ФИО.\n'
+                text += self.setting.lang['message']['edit_profile']['name_not']
             else:
                 profile_name = self.lineEdit_profile_name.text()
             if self.comboBox_department.currentText() != '---':
@@ -399,7 +399,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             if self.plainTextEdit_information.toPlainText() != '':
                 information = self.plainTextEdit_information.toPlainText()
         else:
-            text = 'Не выбран профиль для изменения.'
+            text = self.setting.lang['message']['edit_profile']['profile_not']
         if text == '':
             if self.image_filename:
                 if self.selected_profile.face:
@@ -439,16 +439,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Изменение профиля')
+            messagebox.label_title.setText(self.setting.lang['message']['edit_profile']['title'])
             messagebox.label_info.setText(text)
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
 
     def _button_delete_profile_clicked(self, event):
         self.blur_effect.setEnabled(True)
-        messagebox = WarningMessageBox()
-        messagebox.label_title.setText('Удаление профилей')
-        messagebox.label_info.setText('Вы точно хотите удалить профили?')
+        messagebox = WarningMessageBox(self.setting.lang['warning'])
+        messagebox.label_title.setText(self.setting.lang['message']['delete_profile']['title'])
+        messagebox.label_info.setText(self.setting.lang['message']['delete_profile']['info'])
         messagebox.exec_()
         self.blur_effect.setEnabled(False)
         if messagebox.dialog_result == 0:
@@ -458,11 +458,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.table_profiles.cellWidget(row_position, 0).isChecked():
                     id_profiles.append(profiles[row_position].id)
                     self.table_profiles.removeRow(row_position)
-            self.database_management.remove_profiles(*id_profiles)
+            if len(id_profiles) > 0:
+                self.database_management.remove_profiles(*id_profiles)
 
     def _button_load_photo_clicked(self, event):
         self.image_filename, _ = QtWidgets.QFileDialog.getOpenFileName(
-            self, 'Выберите фото', '',
+            self, self.setting.lang['dialog']['load_photo'], '',
             'Image File (*.bmp | *.jpg | *.jpeg | *.jfif | *.png);;'
         )
         if self.image_filename:
@@ -483,13 +484,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.table_profiles.horizontalHeaderItem(0).checkState() == Qt.Unchecked and len(profile_identifiers) <= 0:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Отправка данных')
-            messagebox.label_info.setText('Не выбраны пользователи\nдля отправки на устройство.')
+            messagebox.label_title.setText(self.setting.lang['message']['send_profiles']['title'])
+            messagebox.label_info.setText(self.setting.lang['message']['send_profiles']['profile_not'])
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
         elif len(devices) > 0:
             self.blur_effect.setEnabled(True)
-            form_device_list = FormDeviceList(devices)
+            form_device_list = FormDeviceList(devices, self.setting.lang['device_list'])
             form_device_list.exec_()
             self.blur_effect.setEnabled(False)
             if form_device_list.dialog_result == 0:
@@ -499,32 +500,34 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Отправка данных')
-            messagebox.label_info.setText('Нет подключенных устройств')
+            messagebox.label_title.setText(self.setting.lang['message']['send_profiles']['title'])
+            messagebox.label_info.setText(self.setting.lang['message']['send_profiles']['device_not'])
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
 
     def _button_create_pattern_clicked(self, event):
-        filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить пример данных', '', 'CSV File (*.csv)')
+        filename, _ = QFileDialog.getSaveFileName(self, self.setting.lang['dialog']['example_data'],
+                                                  '', 'CSV File (*.csv)')
         if filename:
             self.database_management.create_profiles_pattern(filename)
 
     def _button_export_profiles_data(self, event):
-        filename, _ = QFileDialog.getSaveFileName(self, 'Сохранить файл данных профиля', '',
-                                                  'JSON File (*.json);;'
+        filename, _ = QFileDialog.getSaveFileName(self, self.setting.lang['dialog']['export_profiles_data'], '',
+                                                  'JSON File (*.json);'
                                                   'CSV File (*.csv);'
                                                   )
         if filename:
             self.database_management.export_profiles_data(filename)
 
     def _button_import_profiles_data_clicked(self, event):
-        filename, _ = QFileDialog.getOpenFileName(self, 'Open Profiles Group', '', 'CSV File (*.csv)')
+        filename, _ = QFileDialog.getOpenFileName(self, self.setting.lang['dialog']['import_profiles_data'], '', 'CSV File (*.csv)')
         if filename:
             self.database_management.import_profiles_data(filename)
             self._load_profiles_to_table()
 
     def _button_import_photos_clicked(self, event):
-        filename, _ = QFileDialog.getOpenFileName(self, 'Open Profile Images', '', 'ZIP File (*.zip)')
+        filename, _ = QFileDialog.getOpenFileName(self, self.setting.lang['dialog']['import_photos'],
+                                                  '', 'ZIP File (*.zip)')
         if filename:
             self.database_management.import_photos(filename)
             self._load_profiles_to_table()
@@ -546,9 +549,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.lineEdit_department_location.text() != '':
                     department.location = self.lineEdit_department_location.text()
             else:
-                text = 'Такой отдел уже существует.'
+                text = self.setting.lang['message']['add_department']['name_exist']
         else:
-            text = 'Не введено название отдела.'
+            text = self.setting.lang['message']['add_department']['name_not']
         if text == '':
             self.database_management.add_departments(department)
             self._add_update_department_row(self.table_departments.rowCount(), department)
@@ -556,15 +559,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Добавление отдела')
+            messagebox.label_title.setText(self.setting.lang['message']['add_department']['title'])
             messagebox.label_info.setText(text)
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
 
     def _button_edit_department_clicked(self, event):
         text = ''
-        name = self.selected_department.name
         if self.selected_department is not None:
+            name = self.selected_department.name
             if self.lineEdit_department_name.text() != '':
                 self.selected_department.name = self.lineEdit_department_name.text()
             else:
@@ -574,7 +577,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.selected_department.location = None
         else:
-            text = 'Не выбран профиль для изменения.'
+            text = self.setting.lang['message']['edit_department']['department_not']
         if text == '':
             self.database_management.update_department(self.selected_department.id, self.selected_department)
             self._add_update_department_row(self.table_departments.selectedIndexes()[0].row(), self.selected_department)
@@ -590,16 +593,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Изменение отдела')
+            messagebox.label_title.setText(self.setting.lang['message']['edit_department']['title'])
             messagebox.label_info.setText(text)
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
 
     def _button_delete_department_clicked(self, event):
         self.blur_effect.setEnabled(True)
-        messagebox = WarningMessageBox()
-        messagebox.label_title.setText('Удаление отделов')
-        messagebox.label_info.setText('Вы точно хотите удалить отделы?')
+        messagebox = WarningMessageBox(self.setting.lang['warning'])
+        messagebox.label_title.setText(self.setting.lang['message']['delete_department']['title'])
+        messagebox.label_info.setText(self.setting.lang['message']['delete_department']['info'])
         messagebox.exec_()
         if messagebox.dialog_result == 0:
             departments = self.database_management.get_departments()
@@ -614,7 +617,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                             item = QTableWidgetItem('---')
                             item.setTextAlignment(Qt.AlignCenter)
                             self.table_profiles.setItem(row, 6, item)
-            self.database_management.remove_departments(*id_departments)
+            if len(id_departments) > 0:
+                self.database_management.remove_departments(*id_departments)
         self.blur_effect.setEnabled(False)
 
     def _button_device_database_view_clicked(self, event):
@@ -627,26 +631,24 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Просмотр БД устройства')
-            messagebox.label_info.setText('Нет подключенных устройств.')
+            messagebox.label_title.setText(self.setting.lang['message']['db_device_view']['title'])
+            messagebox.label_info.setText(self.setting.lang['message']['db_device_view']['info'])
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
 
     def _button_delete_device_profiles(self, event):
         text = ''
         if not self.is_table_device_profiles_loaded:
-            text = 'БД устройства не загружена.\n' \
-                   'Выберите устройство\n' \
-                   'и нажмите на кн. "Посмотреть"'
+            text = self.setting.lang['message']['delete_profiles_device']['load_not']
         elif self.comboBox_databases.currentText() == '':
-            text = 'Нет подключенных устройств.'
+            text = self.setting.lang['message']['delete_profiles_device']['connect_not']
         if text == '':
             for device in self.devices:
                 if device.serial_number == self.comboBox_databases.currentText():
                     self.blur_effect.setEnabled(True)
-                    messagebox = WarningMessageBox()
-                    messagebox.label_title.setText('Удаление профилей устройства')
-                    messagebox.label_info.setText('Вы точно хотите удалить профили?')
+                    messagebox = WarningMessageBox(self.setting.lang['warning'])
+                    messagebox.label_title.setText(self.setting.lang['message']['delete_profiles_device']['title'])
+                    messagebox.label_info.setText(self.setting.lang['message']['delete_profiles_device']['info'])
                     messagebox.exec_()
                     self.blur_effect.setEnabled(False)
                     if messagebox.dialog_result == 0:
@@ -661,7 +663,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Удаление профилей устройства')
+            messagebox.label_title.setText(self.setting.lang['message']['delete_profiles_device']['title'])
             messagebox.label_info.setText(text)
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
@@ -675,9 +677,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _button_add_new_device_clicked(self, event):
         text = ''
         if not re.search('\d+.\d+.\d+.\d+', self.lineEdit_ip_new_deivce.text()):
-            text += 'Не введен IP-адрес.\n'
+            text += self.setting.lang['message']['add_new_device']['not_ip']
         if self.lineEdit_new_device_password.text() == '':
-            text += 'Не введен пароль.'
+            text += self.setting.lang['message']['add_new_device']['not_password']
         if self.lineEdit_new_device_port.text() == '':
             port = 7080
         else:
@@ -689,18 +691,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 port
             )
             if device is None:
-                text = 'Неправильно введен IP-адрес или пароль.'
+                text = self.setting.lang['message']['add_new_device']['not_correct']
             else:
                 for device_from_db in self.devices:
                     if device_from_db.serial_number == device.serial_number:
-                        text = 'Данное устройство уже подключено.'
+                        text = self.setting.lang['message']['add_new_device']['connected']
                 if text == '':
                     self.publish_platform.set_device(device.serial_number)
                     self.publish_platform.bind_device()
         if text != '':
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Новое устройство')
+            messagebox.label_title.setText(self.setting.lang['message']['add_new_device']['title'])
             messagebox.label_info.setText(text)
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
@@ -809,8 +811,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.blur_effect.setEnabled(True)
             messagebox = InformationMessageBox()
-            messagebox.label_title.setText('Настройка устройства')
-            messagebox.label_info.setText('Не выделено устройство.')
+            messagebox.label_title.setText(self.setting.lang['message']['configure_device']['title'])
+            messagebox.label_info.setText(self.setting.lang['message']['configure_device']['info'])
             messagebox.exec_()
             self.blur_effect.setEnabled(False)
 
@@ -820,11 +822,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.blur_effect.setEnabled(True)
         for row_position, device in enumerate(self.devices):
             if self.table_devices.cellWidget(row_position, 0).isChecked():
-                messagebox = WarningMessageBox()
-                messagebox.setWindowTitle(f'Удаление {device.serial_number}: {device.ip_address}')
-                messagebox.label_title.setText(f'Удаление {device.serial_number}: {device.ip_address}')
+                messagebox = WarningMessageBox(self.setting.lang['warning'])
+                messagebox.setWindowTitle(f'{self.setting.lang["message"]["delete_device"]["delete"]}'
+                                          f' {device.serial_number}: {device.ip_address}')
+                messagebox.label_title.setText(f'{self.setting.lang["message"]["delete_device"]["delete"]}'
+                                               f' {device.serial_number}: {device.ip_address}')
                 if device.online:
-                    text = 'Вы точно хотите удалить устройство?'
+                    text = self.setting.lang['message']['delete_device']['info_connect']
                     messagebox.label_info.setText(text)
                     messagebox.exec_()
                     if messagebox.dialog_result == 0:
@@ -834,9 +838,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                         remove_rows.append(row_position)
                         self.database_management.remove_devices(device.id)
                 else:
-                    text = 'Устройство не подключено.\n' \
-                           'Если удалите устройство, то нужно будет\nсбросить устройство к заводским настройкам.\n' \
-                           'Вы точно хотите удалить устройство?'
+                    text = self.setting.lang['message']['delete_device']['info_not_connect']
                     messagebox.label_info.setText(text)
                     messagebox.exec_()
                     if messagebox.dialog_result == 0:
@@ -907,8 +909,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_export_statistics_data_clicked(self, event):
         self.blur_effect.setEnabled(True)
-        messagebox = ExportMessageBox()
-        messagebox.label_title.setText('Экспорт статистики')
+        messagebox = ExportMessageBox(self.setting.lang['export'])
+        messagebox.label_title.setText(self.setting.lang['dialog']['export_stats_data'])
         messagebox.exec_()
         start = time.time()
         if messagebox.dialog_result != -1:
@@ -1071,9 +1073,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _get_remove_profiles_information(self, result: tuple):
         self.blur_effect.setEnabled(True)
         messagebox = InformationMessageBox()
-        messagebox.label_title.setText(f'Результат удаления профилей с {result[3]}')
-        messagebox.label_info.setText(f'Кол-во удаленных профилей: {result[0]}\n'
-                                      f'Кол-во не удаленных профилей: {result[1]}\n'
+        messagebox.label_title.setText(f'{self.setting.lang["message"]["res_remove"]["title"]} {result[3]}')
+        messagebox.label_info.setText(f'{self.setting.lang["message"]["res_remove"]["success"]}: {result[0]}\n'
+                                      f'{self.setting.lang["message"]["res_remove"]["failure"]}: {result[1]}\n'
                                       f'{result[2]}')
         messagebox.exec_()
         self.blur_effect.setEnabled(False)
@@ -1360,7 +1362,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setTextAlignment(Qt.AlignCenter)
         self.table_statistics.setItem(row_position, 4, item)
         mask = self.database_management.get_mask(statistic.mask)
-        item = QTableWidgetItem(mask.mask)
+        item = QTableWidgetItem(self.setting.lang['mask'][mask.mask])
         item.setTextAlignment(Qt.AlignCenter)
         self.table_statistics.setItem(row_position, 5, item)
         item = QTableWidgetItem(f'{int(statistic.similar * 100)} %')
@@ -1406,9 +1408,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setToolTip(image)
         self.table_profiles.setItem(row_position, 3, item)
         if profile.visitor:
-            user = 'Посетитель'
+            user = self.setting.lang['visitor']
         else:
-            user = 'Сотрудник'
+            user = self.setting.lang['employee']
         item = QTableWidgetItem(user)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_profiles.setItem(row_position, 4, item)
@@ -1463,13 +1465,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         if os.path.isfile(f'nginx/html{profile.face}'):
             image = f'<br><img src="nginx/html{profile.face}" width="360" alt="lorem"'
         else:
-            image = self.setting.lang['form_main']['page_database']['table_profiles']['tool_image_false']
+            image = self.setting.lang['no_image']
         item.setToolTip(image)
         self.table_device_profiles.setItem(row_position, 3, item)
         if profile.visitor:
-            user = 'Посетитель'
+            user = self.setting.lang['visitor']
         else:
-            user = 'Сотрудник'
+            user = self.setting.lang['employee']
         item = QTableWidgetItem(user)
         item.setTextAlignment(Qt.AlignCenter)
         self.table_device_profiles.setItem(row_position, 4, item)
@@ -1510,9 +1512,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     def _get_loading_photos_result(self, result: tuple):
         self.blur_effect.setEnabled(True)
         messagebox = InformationMessageBox()
-        messagebox.label_title.setText('Результат загрузки фото')
-        messagebox.label_info.setText(f'Кол-во успешных загрузок: {result[0]}\n'
-                                      f'Кол-во провальных загрузок: {result[1]}\n'
+        messagebox.label_title.setText(self.setting.lang['message']['res_add']['title'])
+        messagebox.label_info.setText(f'{self.setting.lang["message"]["res_add"]["success"]}: {result[0]}\n'
+                                      f'{self.setting.lang["message"]["res_add"]["failure"]}: {result[1]}\n'
                                       f'{result[2]}')
         messagebox.exec_()
         self.blur_effect.setEnabled(False)
@@ -1667,6 +1669,15 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         item.setIcon(icon)
         table.setHorizontalHeaderItem(0, item)
 
+    # SETTING-EVENTS
+    def _button_apply_setting_clicked(self):
+        if self.comboBox_langs.currentText() == 'Русский':
+            self.setting.data['lang'] = 'ru'
+        elif self.comboBox_langs.currentText() == 'English':
+            self.setting.data['lang'] = 'en'
+        self.setting.save()
+        self.translate_ui()
+
     def _hide_buttons_search_device(self):
         self.button_cancel_new_devices.hide()
         self.button_add_devices.hide()
@@ -1758,23 +1769,27 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_alarm_temperature.setText(self.setting.lang['alarm_temp'])
         self.label_notice.setText(self.setting.lang['notice'])
         self.label_email.setText(self.setting.lang['email'])
-        # self.table_control.horizontalHeaderItem(0).setText(self.setting.lang['table_control']['datetime'])
-        # self.table_control.horizontalHeaderItem(1).setText(self.setting.lang['table_control']['name'])
-        # self.table_control.horizontalHeaderItem(2).setText(self.setting.lang['table_control']['photo'])
-        # self.table_control.horizontalHeaderItem(3).setText(self.setting.lang['table_control']['temp'])
-        # self.table_control.horizontalHeaderItem(4).setText(self.setting.lang['table_control']['mask'])
-        # self.table_control.horizontalHeaderItem(5).setText(self.setting.lang['table_control']['similar'])
+        self.table_control.horizontalHeaderItem(0).setText(self.setting.lang['table_control']['datetime'])
+        self.table_control.horizontalHeaderItem(1).setText(self.setting.lang['table_control']['device'])
+        self.table_control.horizontalHeaderItem(2).setText(self.setting.lang['table_control']['name'])
+        self.table_control.horizontalHeaderItem(3).setText(self.setting.lang['table_control']['photo'])
+        self.table_control.horizontalHeaderItem(4).setText(self.setting.lang['table_control']['temp'])
+        self.table_control.horizontalHeaderItem(5).setText(self.setting.lang['table_control']['mask'])
+        self.table_control.horizontalHeaderItem(6).setText(self.setting.lang['table_control']['similar'])
         # PAGE DEVICES
-        # self.button_search_device.setText(self.setting.lang['btn_search_device'])
+        self.button_update_device_info.setText(self.setting.lang['btn_search_device'])
         self.button_delete_device.setText(self.setting.lang['btn_delete_device'])
         self.button_configure_device.setText(self.setting.lang['btn_configure_device'])
-        # self.button_cancel_new_devices.setText(self.setting.lang['btn_cancel_new_device'])
         self.button_add_devices.setText(self.setting.lang['btn_add_new_device'])
         self.label_device_name.setText(self.setting.lang['device_name'])
         self.label_volume.setText(f'{self.setting.lang["volume"]}: 0')
         self.label_brightness.setText(f'{self.setting.lang["brightness"]}: 45')
         self.label_light.setText(self.setting.lang['light'])
         self.label_ip_address.setText(self.setting.lang['ip_address'])
+        self.label_ip_new_device.setText(self.setting.lang['ip_address'])
+        self.label_new_device_port.setText(self.setting.lang['port'])
+        self.label_device_password.setText(self.setting.lang['password'])
+        self.label_new_device_password.setText(self.setting.lang['password'])
         self.label_subnet_mask.setText(self.setting.lang['subnet_mask'])
         self.label_gateway.setText(self.setting.lang['gateway'])
         self.label_ddns1.setText(self.setting.lang['ddns1'])
@@ -1794,7 +1809,74 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_devices.horizontalHeaderItem(6).setText(self.setting.lang['table_devices']['firmware'])
         self.table_devices.horizontalHeaderItem(7).setText(self.setting.lang['table_devices']['mac_address'])
         self.table_devices.horizontalHeaderItem(8).setText(self.setting.lang['table_devices']['ip_address'])
-        self.label_statusbar.setText("MetallicAlex")
+        # PAGE DATABASE
+        self.tabWidget.setTabText(0, self.setting.lang['tab_profiles'])
+        self.tabWidget.setTabText(1, self.setting.lang['tab_departments'])
+        self.tabWidget.setTabText(2, self.setting.lang['tab_db_device'])
+        # PAGE DATABASE - PROFILES
+        self.button_add_profile.setText(self.setting.lang['btn_add_profile'])
+        self.button_edit_profile.setText(self.setting.lang['btn_edit_profile'])
+        self.button_delete_profile.setText(self.setting.lang['btn_delete_profile'])
+        self.button_send_device.setText(self.setting.lang['btn_send_device'])
+        self.button_example_data.setText(self.setting.lang['btn_example_data'])
+        self.button_import_data.setText(self.setting.lang['btn_import_data'])
+        self.button_import_photos.setText(self.setting.lang['btn_import_photos'])
+        self.button_export_profiles_data.setText(self.setting.lang['btn_export_profiles_data'])
+        self.button_load_photo.setText(self.setting.lang['btn_load_photo'])
+        self.label_personnel_number.setText(self.setting.lang['pers_number'])
+        self.label_profile_name.setText(self.setting.lang['profile_name'])
+        self.label_passport.setText(self.setting.lang['passport'])
+        self.label_department.setText(self.setting.lang['department_text'])
+        self.label_gender.setText(self.setting.lang['gender_text'])
+        self.label_visitor.setText(self.setting.lang['visitor'])
+        self.label_information.setText(self.setting.lang['info'])
+        self.label_show_photo.setText(self.setting.lang['show_photo'])
+        self.table_profiles.horizontalHeaderItem(1).setText(self.setting.lang['table_profiles']['pers_number'])
+        self.table_profiles.horizontalHeaderItem(2).setText(self.setting.lang['table_profiles']['name'])
+        self.table_profiles.horizontalHeaderItem(3).setText(self.setting.lang['table_profiles']['photo'])
+        self.table_profiles.horizontalHeaderItem(4).setText(self.setting.lang['table_profiles']['user'])
+        self.table_profiles.horizontalHeaderItem(5).setText(self.setting.lang['table_profiles']['passport'])
+        self.table_profiles.horizontalHeaderItem(6).setText(self.setting.lang['table_profiles']['department'])
+        self.table_profiles.horizontalHeaderItem(7).setText(self.setting.lang['table_profiles']['gender'])
+        self.table_profiles.horizontalHeaderItem(8).setText(self.setting.lang['table_profiles']['info'])
+        # PAGE DATABASE - DEPARTMENT
+        self.button_add_department.setText(self.setting.lang['btn_add_department'])
+        self.button_edit_department.setText(self.setting.lang['btn_edit_department'])
+        self.button_delete_department.setText(self.setting.lang['btn_delete_department'])
+        self.label_department_location.setText(self.setting.lang['location'])
+        self.label_department_name.setText(self.setting.lang['department_text'])
+        self.table_departments.horizontalHeaderItem(1).setText(self.setting.lang['table_departments']['name'])
+        self.table_departments.horizontalHeaderItem(2).setText(self.setting.lang['table_departments']['location'])
+        # PAGE DATABASE - DB DEVICE
+        self.button_device_database_view.setText(self.setting.lang['btn_device_db_view'])
+        self.button_delete_device_profiles.setText(self.setting.lang['btn_delete_device_profile'])
+        self.table_device_profiles.horizontalHeaderItem(1).setText(self.setting.lang['table_profiles']['pers_number'])
+        self.table_device_profiles.horizontalHeaderItem(2).setText(self.setting.lang['table_profiles']['name'])
+        self.table_device_profiles.horizontalHeaderItem(3).setText(self.setting.lang['table_profiles']['photo'])
+        self.table_device_profiles.horizontalHeaderItem(4).setText(self.setting.lang['table_profiles']['user'])
+        self.table_device_profiles.horizontalHeaderItem(5).setText(self.setting.lang['table_profiles']['passport'])
+        self.table_device_profiles.horizontalHeaderItem(6).setText(self.setting.lang['table_profiles']['department'])
+        self.table_device_profiles.horizontalHeaderItem(7).setText(self.setting.lang['table_profiles']['gender'])
+        self.table_device_profiles.horizontalHeaderItem(8).setText(self.setting.lang['table_profiles']['info'])
+        # PAGE STATISTIC
+        self.button_statistics_filter.setText(self.setting.lang['btn_filter'])
+        self.button_export_statistics_data.setText(self.setting.lang['btn_export_stats_data'])
+        self.label_start_time.setText(self.setting.lang['from'])
+        self.label_end_time.setText(self.setting.lang['to'])
+        self.label_min_temperature.setText(self.setting.lang['from'])
+        self.label_max_temperature.setText(self.setting.lang['to'])
+        self.label_profile_name_filter.setText(self.setting.lang['name'])
+        self.table_statistics.horizontalHeaderItem(0).setText(self.setting.lang['table_control']['datetime'])
+        self.table_statistics.horizontalHeaderItem(1).setText(self.setting.lang['table_control']['device'])
+        self.table_statistics.horizontalHeaderItem(2).setText(self.setting.lang['table_control']['name'])
+        self.table_statistics.horizontalHeaderItem(3).setText(self.setting.lang['table_control']['photo'])
+        self.table_statistics.horizontalHeaderItem(4).setText(self.setting.lang['table_control']['temp'])
+        self.table_statistics.horizontalHeaderItem(5).setText(self.setting.lang['table_control']['mask'])
+        self.table_statistics.horizontalHeaderItem(6).setText(self.setting.lang['table_control']['similar'])
+        # PAGE SETTINGS
+        self.button_apply_setting.setText(self.setting.lang['btn_apply_setting'])
+        self.label_lang.setText(self.setting.lang['lang'])
+        self.label_statusbar.setText('')
         self.table_statistics.setSortingEnabled(True)
 
     def _create_shadows(self):

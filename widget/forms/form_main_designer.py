@@ -871,7 +871,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_control.setHorizontalHeaderItem(6, item)
-        self.table_control.horizontalHeader().setVisible(True)
+        self.table_control.horizontalHeader().setVisible(False)
         self.table_control.horizontalHeader().setCascadingSectionResizes(True)
         self.table_control.horizontalHeader().setDefaultSectionSize(200)
         self.table_control.horizontalHeader().setStretchLastSection(True)
@@ -1181,7 +1181,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_devices.setHorizontalHeaderItem(8, item)
-        self.table_devices.horizontalHeader().setVisible(True)
+        self.table_devices.horizontalHeader().setVisible(False)
         self.table_devices.horizontalHeader().setCascadingSectionResizes(True)
         self.table_devices.horizontalHeader().setDefaultSectionSize(200)
         self.table_devices.horizontalHeader().setStretchLastSection(True)
@@ -1907,7 +1907,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_profiles.setHorizontalHeaderItem(8, item)
-        self.table_profiles.horizontalHeader().setVisible(True)
+        self.table_profiles.horizontalHeader().setVisible(False)
         self.table_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_profiles.horizontalHeader().setStretchLastSection(True)
@@ -2517,7 +2517,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_departments.setHorizontalHeaderItem(2, item)
-        self.table_departments.horizontalHeader().setVisible(True)
+        self.table_departments.horizontalHeader().setVisible(False)
         self.table_departments.horizontalHeader().setCascadingSectionResizes(True)
         self.table_departments.horizontalHeader().setDefaultSectionSize(200)
         self.table_departments.horizontalHeader().setStretchLastSection(True)
@@ -2906,7 +2906,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.table_device_profiles.setHorizontalHeaderItem(8, item)
-        self.table_device_profiles.horizontalHeader().setVisible(True)
+        self.table_device_profiles.horizontalHeader().setVisible(False)
         self.table_device_profiles.horizontalHeader().setCascadingSectionResizes(True)
         self.table_device_profiles.horizontalHeader().setDefaultSectionSize(200)
         self.table_device_profiles.horizontalHeader().setStretchLastSection(True)
@@ -3254,7 +3254,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         item.setFont(font)
         self.table_statistics.setHorizontalHeaderItem(6, item)
-        self.table_statistics.horizontalHeader().setVisible(True)
+        self.table_statistics.horizontalHeader().setVisible(False)
         self.table_statistics.horizontalHeader().setCascadingSectionResizes(True)
         self.table_statistics.horizontalHeader().setDefaultSectionSize(200)
         self.table_statistics.horizontalHeader().setStretchLastSection(True)
@@ -3429,6 +3429,79 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_statistic)
         self.page_settings = QtWidgets.QWidget()
         self.page_settings.setObjectName("page_settings")
+        self.comboBox_langs = QtWidgets.QComboBox(self.page_settings)
+        self.comboBox_langs.setGeometry(QtCore.QRect(120, 90, 240, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.comboBox_langs.setFont(font)
+        self.comboBox_langs.setStyleSheet("QComboBox{\n"
+"    background-color: #91D1EE;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid #0C5DB9;\n"
+"    color: #09376B;\n"
+"    text-align:center;\n"
+"    padding: 5px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QComboBox:hover{\n"
+"    border: 2px solid #0C5DB9;\n"
+"}\n"
+"QComboBox QAbstractItemView {\n"
+"    color: #FFFFFF;\n"
+"    background-color: #0C5DB9;\n"
+"    padding: 10px;\n"
+"    selection-background-color: #91D1EE;\n"
+"}\n"
+"QComboBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 25px;\n"
+"    background-color: #0C5DB9; \n"
+"    border-left-width: 3px;\n"
+"    border-left-color: #0C5DB9;\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;    \n"
+"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+" }")
+        self.comboBox_langs.setObjectName("comboBox_langs")
+        self.comboBox_langs.addItem("")
+        self.comboBox_langs.addItem("")
+        self.label_lang = QtWidgets.QLabel(self.page_settings)
+        self.label_lang.setGeometry(QtCore.QRect(20, 90, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_lang.setFont(font)
+        self.label_lang.setStyleSheet("color: #09376B;")
+        self.label_lang.setObjectName("label_lang")
+        self.button_apply_setting = QtWidgets.QPushButton(self.page_settings)
+        self.button_apply_setting.setGeometry(QtCore.QRect(20, 15, 150, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.button_apply_setting.setFont(font)
+        self.button_apply_setting.setStyleSheet("QPushButton {\n"
+"    border-radius: 10px;    \n"
+"    background-color: #0C5DB9;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #91D1EE;\n"
+"    color: rgb(255, 255, 255, 221);\n"
+"}\n"
+"QPushButton:pressed {    \n"
+"    background-color: #87B9E0;\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
+        self.button_apply_setting.setObjectName("button_apply_setting")
         self.stackedWidget.addWidget(self.page_settings)
         self.verticalLayout_2.addWidget(self.stackedWidget)
         self.frame_statusbar = QtWidgets.QFrame(self.frame_contains)
@@ -3476,8 +3549,8 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
-        self.tabWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -3654,6 +3727,10 @@ class Ui_MainWindow(object):
         self.label_profile_name_filter.setText(_translate("MainWindow", "ФИО"))
         self.label_min_temperature.setText(_translate("MainWindow", "От"))
         self.label_max_temperature.setText(_translate("MainWindow", "До"))
+        self.comboBox_langs.setItemText(0, _translate("MainWindow", "Русский"))
+        self.comboBox_langs.setItemText(1, _translate("MainWindow", "English"))
+        self.label_lang.setText(_translate("MainWindow", "Язык"))
+        self.button_apply_setting.setText(_translate("MainWindow", "Применить"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
 import files_rc
 
