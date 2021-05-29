@@ -77,7 +77,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             department.name
             for department in self.database_management.get_departments()
         ]
-        self.comboBox_gender.addItems([])
         self.comboBox_department.addItems(['---', *departments])
         self.comboBox_gender.addItems(
             [
@@ -248,47 +247,57 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
     # EVENTS-DATABASE
     def _profile_selected_row(self):
         self.image_filename = None
-        row_position = self.table_profiles.selectedIndexes()[0].row()
-        if self.table_profiles.item(row_position, 1).text() == '---':
+        row_position = self.table_profiles.currentIndex().row()
+        if row_position > -1:
+            if self.table_profiles.item(row_position, 1).text() == '---':
+                self.lineEdit_personnel_number.setText('')
+            else:
+                self.lineEdit_personnel_number.setText(self.table_profiles.item(row_position, 1).text())
+            if self.table_profiles.item(row_position, 2).text() == '---':
+                self.lineEdit_profile_name.setText('')
+            else:
+                self.lineEdit_profile_name.setText(self.table_profiles.item(row_position, 2).text())
+            self.label_show_photo.setToolTip(self.table_profiles.item(row_position, 3).toolTip())
+            if self.table_profiles.item(row_position, 5).text() == '---':
+                self.lineEdit_passport.setText('')
+            else:
+                self.lineEdit_passport.setText(self.table_profiles.item(row_position, 5).text())
+            if self.table_profiles.item(row_position, 6).text() == '---':
+                self.comboBox_department.setCurrentText('---')
+            else:
+                self.comboBox_department.setCurrentText(self.table_profiles.item(row_position, 6).text())
+            if self.table_profiles.item(row_position, 7).text()[0] \
+                    == self.setting.lang['table_profiles']['unknown'][0]:
+                self.comboBox_gender.setCurrentIndex(0)
+            elif self.table_profiles.item(row_position, 7).text()[0] \
+                    == self.setting.lang['table_profiles']['male'][0]:
+                self.comboBox_gender.setCurrentIndex(1)
+            elif self.table_profiles.item(row_position, 7).text()[0] \
+                    == self.setting.lang['table_profiles']['female'][0]:
+                self.comboBox_gender.setCurrentIndex(2)
+            if self.table_profiles.item(row_position, 8).text() == '---':
+                self.plainTextEdit_information.setPlainText('')
+            else:
+                self.plainTextEdit_information.setPlainText(self.table_profiles.item(row_position, 8).text())
+            if self.table_profiles.item(row_position, 4).text() == self.setting.lang['employee']:
+                self.selected_profile = self.database_management.get_profile(
+                    personnel_number=self.table_profiles.item(row_position, 1).text()
+                )
+                self.toggle_visitor.setChecked(False)
+            else:
+                self.selected_profile = self.database_management.get_profile(
+                    passport=self.table_profiles.item(row_position, 5).text()
+                )
+                self.toggle_visitor.setChecked(True)
+        else:
             self.lineEdit_personnel_number.setText('')
-        else:
-            self.lineEdit_personnel_number.setText(self.table_profiles.item(row_position, 1).text())
-        if self.table_profiles.item(row_position, 2).text() == '---':
             self.lineEdit_profile_name.setText('')
-        else:
-            self.lineEdit_profile_name.setText(self.table_profiles.item(row_position, 2).text())
-        self.label_show_photo.setToolTip(self.table_profiles.item(row_position, 3).toolTip())
-        if self.table_profiles.item(row_position, 5).text() == '---':
             self.lineEdit_passport.setText('')
-        else:
-            self.lineEdit_passport.setText(self.table_profiles.item(row_position, 5).text())
-        if self.table_profiles.item(row_position, 6).text() == '---':
             self.comboBox_department.setCurrentText('---')
-        else:
-            self.comboBox_department.setCurrentText(self.table_profiles.item(row_position, 6).text())
-        if self.table_profiles.item(row_position, 7).text()[0] \
-                == self.setting.lang['table_profiles']['unknown'][0]:
             self.comboBox_gender.setCurrentIndex(0)
-        elif self.table_profiles.item(row_position, 7).text()[0] \
-                == self.setting.lang['table_profiles']['male'][0]:
-            self.comboBox_gender.setCurrentIndex(1)
-        elif self.table_profiles.item(row_position, 7).text()[0] \
-                == self.setting.lang['table_profiles']['female'][0]:
-            self.comboBox_gender.setCurrentIndex(2)
-        if self.table_profiles.item(row_position, 8).text() == '---':
-            self.plainTextEdit_information.setPlainText('')
-        else:
-            self.plainTextEdit_information.setPlainText(self.table_profiles.item(row_position, 8).text())
-        if self.table_profiles.item(row_position, 4).text() == self.setting.lang['employee']:
-            self.selected_profile = self.database_management.get_profile(
-                personnel_number=self.table_profiles.item(row_position, 1).text()
-            )
             self.toggle_visitor.setChecked(False)
-        else:
-            self.selected_profile = self.database_management.get_profile(
-                passport=self.table_profiles.item(row_position, 5).text()
-            )
-            self.toggle_visitor.setChecked(True)
+            self.plainTextEdit_information.setPlainText('')
+
 
     def _button_add_profile_clicked(self, event):
         text = ''
@@ -520,10 +529,18 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.database_management.export_profiles_data(filename)
 
     def _button_import_profiles_data_clicked(self, event):
-        filename, _ = QFileDialog.getOpenFileName(self, self.setting.lang['dialog']['import_profiles_data'], '', 'CSV File (*.csv)')
+        filename, _ = QFileDialog.getOpenFileName(self, self.setting.lang['dialog']['import_profiles_data'], '',
+                                                  'CSV File (*.csv)')
         if filename:
             self.database_management.import_profiles_data(filename)
             self._load_profiles_to_table()
+            self._load_departments_to_table()
+            self.comboBox_department.clear()
+            departments = [
+                department.name
+                for department in self.database_management.get_departments()
+            ]
+            self.comboBox_department.addItems(['---', *departments])
 
     def _button_import_photos_clicked(self, event):
         filename, _ = QFileDialog.getOpenFileName(self, self.setting.lang['dialog']['import_photos'],
@@ -533,12 +550,16 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self._load_profiles_to_table()
 
     def _department_selected_row(self):
-        row_position = self.table_departments.selectedIndexes()[0].row()
-        self.selected_department = self.database_management.get_department_by_name(
-            self.table_departments.item(row_position, 1).text()
-        )
-        self.lineEdit_department_name.setText(self.selected_department.name)
-        self.lineEdit_department_location.setText(self.selected_department.location)
+        row_position = self.table_departments.currentIndex().row()
+        if row_position > -1:
+            self.selected_department = self.database_management.get_department_by_name(
+                self.table_departments.item(row_position, 1).text()
+            )
+            self.lineEdit_department_name.setText(self.selected_department.name)
+            self.lineEdit_department_location.setText(self.selected_department.location)
+        else:
+            self.lineEdit_department_name.setText('')
+            self.lineEdit_department_location.setText('')
 
     def _button_add_department_clicked(self, event):
         text = ''
@@ -853,26 +874,44 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _device_selected_row(self):
         if not self.is_new_devices_table:
-            row_position = self.table_devices.selectedIndexes()[0].row()
-            self.lineEdit_device_name.setText(self.devices[row_position].name)
-            self.lineEdit_ip_address.setText(self.devices[row_position].ip_address)
-            if self.devices[row_position].online:
-                self.lineEdit_device_password.setText(self.devices[row_position].password)
-                self.lineEdit_subnet_mask.setText(self.devices[row_position].subnet_mask)
-                self.lineEdit_gateway.setText(self.devices[row_position].gateway)
-                self.lineEdit_ddns1.setText(self.devices[row_position].ddns1)
-                self.lineEdit_ddns2.setText(self.devices[row_position].ddns2)
-                self.toggle_dhcp.setChecked(self.devices[row_position].dhcp)
-                self.horizontalSlider_volume.setValue(self.devices[row_position].volume)
-                self.horizontalSlider_brightness.setValue(self.devices[row_position].brightness)
-                self.toggle_light.setChecked(self.devices[row_position].light_supplementary)
-                self.toggle_check_mask.setChecked(self.devices[row_position].mask_detection)
-                self.toggle_check_temperature.setChecked(self.devices[row_position].temperature_check)
-                self.toggle_strangers_passage.setChecked(self.devices[row_position].stranger_passage)
-                self.toggle_save_record.setChecked(self.devices[row_position].record_save)
-                self.toggle_save_face.setChecked(self.devices[row_position].save_jpeg)
-                self.lineEdit_record_time.setText(str(self.devices[row_position].record_save_time))
+            row_position = self.table_devices.currentIndex().row()
+            if row_position > -1:
+                self.lineEdit_device_name.setText(self.devices[row_position].name)
+                self.lineEdit_ip_address.setText(self.devices[row_position].ip_address)
+                if self.devices[row_position].online:
+                    self.lineEdit_device_password.setText(self.devices[row_position].password)
+                    self.lineEdit_subnet_mask.setText(self.devices[row_position].subnet_mask)
+                    self.lineEdit_gateway.setText(self.devices[row_position].gateway)
+                    self.lineEdit_ddns1.setText(self.devices[row_position].ddns1)
+                    self.lineEdit_ddns2.setText(self.devices[row_position].ddns2)
+                    self.toggle_dhcp.setChecked(self.devices[row_position].dhcp)
+                    self.horizontalSlider_volume.setValue(self.devices[row_position].volume)
+                    self.horizontalSlider_brightness.setValue(self.devices[row_position].brightness)
+                    self.toggle_light.setChecked(self.devices[row_position].light_supplementary)
+                    self.toggle_check_mask.setChecked(self.devices[row_position].mask_detection)
+                    self.toggle_check_temperature.setChecked(self.devices[row_position].temperature_check)
+                    self.toggle_strangers_passage.setChecked(self.devices[row_position].stranger_passage)
+                    self.toggle_save_record.setChecked(self.devices[row_position].record_save)
+                    self.toggle_save_face.setChecked(self.devices[row_position].save_jpeg)
+                    self.lineEdit_record_time.setText(str(self.devices[row_position].record_save_time))
+                else:
+                    self.lineEdit_device_password.setText('')
+                    self.lineEdit_subnet_mask.setText('')
+                    self.lineEdit_gateway.setText('')
+                    self.lineEdit_ddns1.setText('')
+                    self.lineEdit_ddns2.setText('')
+                    self.horizontalSlider_volume.setValue(0)
+                    self.horizontalSlider_brightness.setValue(45)
+                    self.toggle_light.setChecked(False)
+                    self.toggle_check_mask.setChecked(False)
+                    self.toggle_check_temperature.setChecked(False)
+                    self.toggle_strangers_passage.setChecked(False)
+                    self.toggle_save_record.setChecked(False)
+                    self.toggle_save_face.setChecked(False)
+                    self.lineEdit_record_time.setText('')
             else:
+                self.lineEdit_device_name.setText('')
+                self.lineEdit_ip_address.setText('')
                 self.lineEdit_device_password.setText('')
                 self.lineEdit_subnet_mask.setText('')
                 self.lineEdit_gateway.setText('')
@@ -1225,9 +1264,12 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_profiles.setRowCount(0)
         profiles = self.database_management.get_profiles()
         print(f'[DATABASE][PROFILES] {time.time() - start}')
+        self.progressBar.setValue(0)
+        self.progressBar.setMaximum(len(profiles))
         start = time.time()
         for row_position, profile in enumerate(profiles):
             self._add_update_profile_row(row_position, profile)
+            self.progressBar.setValue(self.progressBar.value() + 1)
         self.table_profiles.resizeColumnToContents(0)
         self.table_profiles.resizeColumnToContents(1)
         self.table_profiles.resizeColumnToContents(2)
@@ -1241,6 +1283,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _load_departments_to_table(self):
         start = time.time()
+        self.table_departments.setRowCount(0)
         for row_position, department in enumerate(self.database_management.get_departments()):
             self._add_update_department_row(row_position, department)
         self.table_departments.resizeColumnToContents(0)

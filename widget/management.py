@@ -3,8 +3,6 @@ import re
 import json
 import socket
 import smtplib, ssl
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 import requests
 import zipfile
 import numpy as np
@@ -116,10 +114,14 @@ class DBManagement:
             return genders
 
     @staticmethod
-    def get_gender(identifier: int):
+    def get_gender(identifier: Union[int, str]):
         with models.get_session() as session:
-            genders = session.query(models.Gender).filter(models.Gender.id == identifier).scalar()
-            return genders
+            if isinstance(identifier, int):
+                query = session.query(models.Gender).filter(models.Gender.id == identifier)
+            elif isinstance(identifier, str):
+                query = session.query(models.Gender).filter(models.Gender.value == identifier)
+            gender = query.scalar()
+            return gender
 
     # DEPARTMENTS
     def is_department_duplicate(self, department: Union[models.Department, str]):
@@ -263,89 +265,98 @@ class DBManagement:
         self._pattern.to_csv(filename, sep=';', index=False)
 
     def import_profiles_data(self, filename):
-        self._pattern = pd.read_csv(filename, sep=';')
+        self._pattern = pd.read_csv(filename, sep=';', encoding='1251')
         self._pattern = self._pattern.where(pd.notnull(self._pattern), None)
-        profiles = set()
-        current_profiles = set()
+        profiles = []
         for index, row in self._pattern.iterrows():
-            if bool(row['Visitor']) and row['Passport'] == '':
-                continue
+            profile = None
+            if row['Visitor']:
+                if row['Passport'] is None:
+                    continue
+                else:
+                    profile = self.get_profile(passport=row['Passport'])
             else:
-                profile = self.get_profile(passport=row['Passport'])
-                if profile:
-                    current_profiles.add(profile)
-            if row['Personnel Number'] == '':
-                continue
+                if row['Personnel Number'] is None:
+                    continue
+                else:
+                    profile = self.get_profile(personnel_number=row['Personnel Number'])
+            if profile:
+                is_new_profile = False
             else:
-                profile = self.get_profile(personnel_number=row['Personnel Number'])
-                if profile:
-                    current_profiles.add(profile)
-            profile = models.Profile()
-            if row['Personnel Number'] != '':
+                is_new_profile = True
+                profile = models.Profile()
+            if row['Personnel Number']:
                 profile.personnel_number = row['Personnel Number']
-            if row['Name'] != '':
+            if row['Name']:
                 profile.name = row['Name']
-            if row['Passport'] != '':
+            if row['Passport']:
                 profile.passport = row['Passport']
             profile.visitor = row['Visitor']
-            if row['Department'] != '':
+            if row['Department']:
                 department = self.get_department_by_name(row['Department'])
                 if department is None:
                     department = models.Department(name=row['Department'])
                     self.add_departments(department)
                 profile.id_department = department.id
-            if row['Gender'] != '':
-                profile.gender = int(row['Gender'])
-            if row['Information'] != '':
+            if row['Gender']:
+                profile.gender = self.get_gender(row['Gender']).id
+            if row['Information']:
                 profile.information = row['Information']
-            profiles.add(profile)
-        insert_profiles = list(profiles - current_profiles)
-        # update_profiles = list(profiles & current_profiles)
-        update_profiles = []
-        for current_profile in current_profiles:
-            for profile in profiles:
-                if current_profile == profile:
-                    profile = profile.to_dict()
-                    profile['id'] = current_profile.id
-                    update_profiles.append(profile)
-        self.add_profiles(*insert_profiles)
-        for profile in update_profiles:
-            if 'face' in profile:
-                del profile['face']
-            self.update_profile(profile['id'], profile)
+            if not is_new_profile:
+                self.update_profile(profile.id, profile)
+            else:
+                profiles.append(profile)
+        if len(profiles) > 0:
+            self.add_profiles(*profiles)
 
     def import_photos(self, filename):
         if zipfile.is_zipfile(filename):
-            file = zipfile.ZipFile(filename)
-            application_path = f'{self.setting.paths["nginx"]}/html/static/images'
-            # application_path = f'{os.path.dirname(os.path.abspath(__file__))}/nginx/html/static/images'
+            file_zip = zipfile.ZipFile(filename)
+            # application_path = f'{self.setting.paths["nginx"]}/html/static/images'
+            application_path = f'{os.path.dirname(os.path.abspath(__file__))}/nginx/html/static/images'
             profiles = []
-            for name in file.namelist():
-                file.extract(name, application_path)
+            for file in file_zip.infolist():
+                name = file.filename
+                if file.flag_bits & 0x800:
+                    name = name.decode('utf-8')
+                else:
+                    name = name.encode('cp437').decode('cp866')
+                profile = None
+                file_zip.extract(file.filename, application_path)
                 data = name.split(sep='_')
-                if data[2] == '0':
+                if data[2][0] == '0':
                     profile = self.get_profile(personnel_number=data[0])
-                elif data[2] == '1':
+                elif data[2][0] == '1':
                     profile = self.get_profile(passport=data[0])
                 if profile:
                     if data[1] != '':
                         profile.name = data[1]
                     rng = np.random.default_rng()
-                    image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
-                    while os.path.exists(f'{application_path}/{image}'):
+                    if profile.face is None:
                         image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
-                    os.rename(f'{application_path}/{name}', f'{application_path}/{image}')
+                        while os.path.exists(f'{application_path}/{image}'):
+                            image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
+                    else:
+                        image = profile.face.split('/')[-1]
+                        os.remove(f'{application_path}/{image}')
+                    os.rename(f'{application_path}/{file.filename}', f'{application_path}/{image}')
                     profile.face = f'/static/images/{image}'
                     self.update_profile(profile.id, profile)
                 else:
                     profile = models.Profile()
                     if data[1] != '':
                         profile.name = data[1]
+                    if data[2][0] == '0':
+                        profile.visitor = False
+                        profile.personnel_number = data[0]
+                    else:
+                        profile.visitor = True
+                        profile.passport = data[0]
                     rng = np.random.default_rng()
                     image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
                     while os.path.exists(f'{application_path}/{image}'):
                         image = np.array2string(rng.integers(10, size=16), separator='')[1:-1] + '.jpg'
-                    os.rename(f'{application_path}/{name}', f'{application_path}/{image}')
+                    os.rename(f'{application_path}/{file.filename}', f'{application_path}/{image}')
                     profile.face = f'/static/images/{image}'
                     profiles.append(profile)
             self.add_profiles(*profiles)
@@ -401,7 +412,7 @@ class DBManagement:
         self._profiles = new_profile
 
     def remove_profiles(self, *identifiers: int):
-        profiles = self.get_profiles(identifiers)
+        profiles = self.get_profiles(*identifiers)
         path = os.path.dirname(os.path.abspath(__file__))
         for profile in profiles:
             if os.path.exists(f'{path}\\nginx\\html{profile.face}'):
