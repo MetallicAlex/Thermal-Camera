@@ -1,12 +1,16 @@
+import enum
 from contextlib import contextmanager
 from typing import Union
+from datetime import datetime
+import json
 
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import null
+from sqlalchemy.ext import mutable
+from sqlalchemy import null, func, TypeDecorator
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.attributes import InstrumentedAttribute
-from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, DateTime, Boolean, Text, Enum
 
 engine = sqlalchemy.create_engine('mysql+pymysql://root:admin@localhost/thermalcamera')
 Base = declarative_base()
@@ -396,6 +400,63 @@ class Statistic(Base):
     def __repr__(self):
         return f'[ID: {self.id}][Time: {self.time}] Profile: {self.id_profile}, Device: {self.id_device}, Similar: {self.similar},' \
                f' Temperature: {self.temperature}, Mask: {self.mask}, Face: {self.face}\n'
+
+
+class JsonEncodedDict(TypeDecorator):
+    """Enables JSON storage by encoding and decoding on the fly."""
+    impl = Text
+
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return '{}'
+        else:
+            return json.dumps(value)
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return {}
+        else:
+            return json.loads(value)
+
+
+mutable.MutableDict.associate_with(JsonEncodedDict)
+
+
+class EmailMessage(Base):
+    __tablename__ = 'notification'
+
+    class Status(enum.Enum):
+        IN_PROCESS = 0
+        SUCCESS = 1
+        FAILURE = 2
+
+    id = Column('ID', Integer, primary_key=True, unique=True, autoincrement=True)
+    to_recipients = Column('toRecipients', String(255))
+    sender = Column('sender', String(255), nullable=True)
+    subject = Column('subject', String(255))
+    text = Column('text', Text)
+    images = Column('images', String(512), nullable=True)
+    files = Column('files', String(512), nullable=True)
+    created_at = Column('createdAt', DateTime, default=func.now())
+    status = Column('status', Enum(Status), default=Status.IN_PROCESS)
+    payload = Column('payload', JsonEncodedDict, nullable=True)
+
+
+class SMTPConfig(Base):
+    __tablename__ = 'smtp_config'
+
+    id = Column('ID', Integer, primary_key=True, unique=True, autoincrement=True)
+    created_at = Column('createdAt', DateTime, default=datetime.utcnow)
+    modified_at = Column('modifiedAt', DateTime, default=func.now(), onupdate=func.now())
+
+    host = Column('host', String(32))
+    port = Column('port', Integer)
+    user = Column('user', String(64))
+    password = Column('password', String(255))
+    default_sender = Column('default_sender', String(255), nullable=True)
+    use_tls = Column('use_tls', Boolean, default=True)
+    use_ehlo = Column('use_ehlo', Boolean, default=True)
+    use_ssl = Column('use_ssl', Boolean, default=False)
 
 
 @contextmanager

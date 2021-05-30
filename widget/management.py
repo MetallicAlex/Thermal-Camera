@@ -38,6 +38,13 @@ class DBManagement:
         if isinstance(value, Setting):
             self._setting = value
 
+    # SMTP CONFIG
+    @staticmethod
+    def get_smtp_config(self, sender: str):
+        with models.get_session() as session:
+            config = session.query(models.SMTPConfig).filter(models.SMTPConfig.default_sender).scalar()
+        return config
+
     # DEVICES
     def get_devices(self):
         with models.get_session() as session:
@@ -1005,52 +1012,3 @@ class DeviceManagement:
         self.host_name = socket.gethostname()
         self.host = socket.gethostbyname(self.host_name)
         self.subnet = self.host[:self.host.rfind('.')]
-
-
-class Notice:
-
-    def __init__(self):
-        self._sender_email = None
-        self._receiver_email = None
-        self._pattern = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
-
-    @property
-    def sender(self):
-        return self._sender_email
-
-    @sender.setter
-    def sender(self, value: str):
-        if re.search(self._pattern, value):
-            self._sender_email = value
-
-    @property
-    def receiver(self):
-        return self._receiver_email
-
-    @receiver.setter
-    def receiver(self, value: str):
-        if re.search(self._pattern, value):
-            self._receiver_email = value
-
-    def send(self):
-        smtp_server = "smtp.gmail.com"
-        port = 587  # For starttls
-        sender_email = "alexburov99@gmail.com"
-        sender = 'alexburov99@gmail.com'
-        receivers = ['metallica010499@gmail.com']
-
-        message = """From: From Person <from@fromdomain.com>
-        To: To Person <to@todomain.com>
-        Subject: SMTP e-mail test
-
-        This is a test e-mail message.
-        """
-
-        try:
-            smtpObj = smtplib.SMTP("smtp.gmail.com")
-            smtpObj.sendmail(sender, receivers, message)
-            print
-            "Successfully sent email"
-        except smtplib.SMTPException:
-            print
-            "Error: unable to send email"

@@ -2,7 +2,8 @@
 .idea/
 tests/
 *.jpg
-documentations/
+documentations/company/
+documentations/report/course-project/
 others/
 static/
 *.sql
