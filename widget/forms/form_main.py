@@ -23,6 +23,7 @@ from widget.database_visualization import DBVisualization
 from widget.mqtt.subscribe_platform import SubscribePlatform
 from widget.mqtt.publish_platform import PublishPlatform
 from widget.setting import Setting
+from widget.email_utils import send_email
 
 
 # MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
@@ -32,6 +33,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self._create_toggle_buttons()
+        self.setWindowIcon(QtGui.QIcon('byAlex.png'))
         self.blur_effect = QtWidgets.QGraphicsBlurEffect()
         self.blur_effect.setBlurRadius(15)
         self.blur_effect.setEnabled(False)
@@ -70,6 +72,28 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.comboBox_langs.setCurrentText('Русский')
         elif self.setting.data['lang'] == 'en':
             self.comboBox_langs.setCurrentText('English')
+        self.lineEdit_sender.setText(self.setting.data['sender'])
+        self.lineEdit_receiver.setText(self.setting.data['receiver'])
+        self.lineEdit_subject.setText(self.setting.data['subject'])
+        config = self.database_management.get_smtp_config(self.setting.data['sender'])
+        if config:
+            self.lineEdit_server.setText(config.host)
+            self.lineEdit_login.setText(config.user)
+            self.lineEdit_port.setText(str(config.port))
+            self.lineEdit_password.setText(config.password)
+            self.toggle_ehlo.setChecked(config.use_ehlo)
+            self.toggle_tls.setChecked(config.use_tls)
+            self.toggle_ssl.setChecked(config.use_ssl)
+            self.config = config
+        else:
+            self.lineEdit_server.setText('')
+            self.lineEdit_login.setText('')
+            self.lineEdit_port.setText('')
+            self.lineEdit_password.setText('')
+            self.toggle_ehlo.setChecked(False)
+            self.toggle_tls.setChecked(False)
+            self.toggle_ssl.setChecked(False)
+            self.config = None
         self.label_chart1.setScaledContents(True)
         self.label_chart2.setScaledContents(True)
         self.style_unpressed_button = self.button_control.styleSheet()
@@ -297,7 +321,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.comboBox_gender.setCurrentIndex(0)
             self.toggle_visitor.setChecked(False)
             self.plainTextEdit_information.setPlainText('')
-
 
     def _button_add_profile_clicked(self, event):
         text = ''
@@ -1629,6 +1652,25 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_pie_number_person_all_time.setToolTip(
             f'<br><img src="{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png"'
         )
+        if self.toggle_notice.isChecked() and self.config is not None:
+            if statistic.id_profile:
+                user = f'{self.setting.lang["profile"]}:' \
+                       f' {self.database_management.get_profile_name(statistic.id_profile)}'
+            else:
+                user = self.setting.lang['stranger']
+            image = None
+            if statistic.face:
+                image = [f'{self.app_path}/{self.setting.paths["snapshot"]}/{statistic.face}']
+            text = f'{statistic.time}\n' \
+                   f'{user}\n' \
+                   f'{self.setting.lang["temp"]}: {statistic.temperature}'
+            send_email(
+                subject=self.lineEdit_subject.text(),
+                text=text,
+                to_recipients=[self.lineEdit_receiver.text()],
+                config=self.config,
+                images=image
+            )
 
     # OTHERS
     def _update_system_buttons(self, button=QtWidgets.QPushButton):
@@ -1718,6 +1760,26 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
             self.setting.data['lang'] = 'ru'
         elif self.comboBox_langs.currentText() == 'English':
             self.setting.data['lang'] = 'en'
+        config = self.database_management.get_smtp_config(self.lineEdit_sender.text())
+        if config is None:
+            config = models.SMTPConfig()
+        config.host = self.lineEdit_server.text()
+        if self.lineEdit_port.text().isnumeric():
+            config.port = int(self.lineEdit_port.text())
+        config.user = self.lineEdit_login.text()
+        config.password = self.lineEdit_password.text()
+        config.default_sender = self.lineEdit_sender.text()
+        config.use_tls = self.toggle_tls.isChecked()
+        config.use_ehlo = self.toggle_ehlo.isChecked()
+        config.use_ssl = self.toggle_ssl.isChecked()
+        if config.id:
+            self.database_management.update_config(config.id, config)
+        else:
+            self.database_management.add_smtp_config(config)
+        self.config = config
+        self.setting.data['sender'] = self.lineEdit_sender.text()
+        self.setting.data['receiver'] = self.lineEdit_receiver.text()
+        self.setting.data['subject'] = self.lineEdit_subject.text()
         self.setting.save()
         self.translate_ui()
 
@@ -1811,7 +1873,6 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE CONTROL
         self.label_alarm_temperature.setText(self.setting.lang['alarm_temp'])
         self.label_notice.setText(self.setting.lang['notice'])
-        self.label_email.setText(self.setting.lang['email'])
         self.table_control.horizontalHeaderItem(0).setText(self.setting.lang['table_control']['datetime'])
         self.table_control.horizontalHeaderItem(1).setText(self.setting.lang['table_control']['device'])
         self.table_control.horizontalHeaderItem(2).setText(self.setting.lang['table_control']['name'])
@@ -1919,6 +1980,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         # PAGE SETTINGS
         self.button_apply_setting.setText(self.setting.lang['btn_apply_setting'])
         self.label_lang.setText(self.setting.lang['lang'])
+        self.label_server.setText(self.setting.lang['server'])
+        self.label_sender.setText(self.setting.lang['sender'])
+        self.label_login.setText(self.setting.lang['login'])
+        self.label_port.setText(self.setting.lang['port'])
+        self.label_password.setText(self.setting.lang['password'])
+        self.label_subject.setText(self.setting.lang['subject'])
+        self.label_receiver.setText(self.setting.lang['receiver'])
         self.label_statusbar.setText('')
         self.table_statistics.setSortingEnabled(True)
 
@@ -1986,6 +2054,13 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.toggle_save_record.setGeometry(QtCore.QRect(990, 560, 60, 40))
         self.toggle_save_face = AnimatedToggle(self.page_device, checked_color='#309ED9')
         self.toggle_save_face.setGeometry(QtCore.QRect(990, 600, 60, 40))
+        # PAGE SETTINGS
+        self.toggle_ehlo = AnimatedToggle(self.page_settings, checked_color='#309ED9')
+        self.toggle_ehlo.setGeometry(QtCore.QRect(160, 430, 60, 40))
+        self.toggle_tls = AnimatedToggle(self.page_settings, checked_color='#309ED9')
+        self.toggle_tls.setGeometry(QtCore.QRect(160, 470, 60, 40))
+        self.toggle_ssl = AnimatedToggle(self.page_settings, checked_color='#309ED9')
+        self.toggle_ssl.setGeometry(QtCore.QRect(160, 510, 60, 40))
 
     # NGINX
     def start_nginx(self):

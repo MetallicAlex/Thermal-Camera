@@ -1,5 +1,8 @@
 {
     "lang": "ru",
+    "sender": "alexburov99@yandex.by",
+    "receiver": "test@gmail.com",
+    "subject": "S02T",
     "theme": "dark",
     "paths": {
         "nginx": "widget/nginx",

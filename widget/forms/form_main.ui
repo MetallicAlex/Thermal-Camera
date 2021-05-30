@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -483,6 +486,36 @@ QCalendarWidget QToolButton {
              <property name="lineWidth">
               <number>0</number>
              </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap resource="../files.qrc">:/icon/data/resources/icons/byAlex.ico</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>
@@ -1182,16 +1215,16 @@ QPushButton:pressed {
               <string notr="true"/>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="page_control">
               <widget class="QTableWidget" name="table_control">
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>170</y>
+                 <y>109</y>
                  <width>596</width>
-                 <height>510</height>
+                 <height>571</height>
                 </rect>
                </property>
                <property name="palette">
@@ -1647,50 +1680,6 @@ QToolTip {
                 <string>Температура тревоги</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineEdit_email">
-               <property name="geometry">
-                <rect>
-                 <x>160</x>
-                 <y>120</y>
-                 <width>450</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QLineEdit {
-	background-color: #91D1EE;
-	color: #09376B;
-	border-radius: 10px;
-	padding-left: 10px;
-}
-QLineEdit:hover {
-	border: 2px solid #0C5DB9;
-}
-QLineEdit:focus {
-	border: 2px solid #0C5DB9;
-}</string>
-               </property>
-               <property name="inputMask">
-                <string/>
-               </property>
-               <property name="text">
-                <string>alexburov99@gmail.com</string>
-               </property>
-               <property name="maxLength">
-                <number>32</number>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
               <widget class="QDoubleSpinBox" name="doubleSpinBox_alarm_temperature">
                <property name="geometry">
                 <rect>
@@ -1791,30 +1780,6 @@ QDoubleSpinBox QAbstractItemView {
                </property>
                <property name="text">
                 <string>Уведомление</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_email">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>120</y>
-                 <width>120</width>
-                 <height>30</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: #09376B;</string>
-               </property>
-               <property name="text">
-                <string>Почта</string>
                </property>
               </widget>
              </widget>
@@ -6844,6 +6809,559 @@ QPushButton:pressed {
                </property>
                <property name="text">
                 <string>Применить</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_password">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>270</y>
+                 <width>450</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="maxLength">
+                <number>32767</number>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::PasswordEchoOnEdit</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_password">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>270</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Пароль</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_sender">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>190</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Отправитель</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_sender">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>190</y>
+                 <width>450</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string>alexburov99@yandex.by</string>
+               </property>
+               <property name="maxLength">
+                <number>32</number>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_receiver">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>390</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Получатель</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_receiver">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>390</y>
+                 <width>450</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string>metallica010499@gmail.com</string>
+               </property>
+               <property name="maxLength">
+                <number>32</number>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_port">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>310</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Порт</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_port">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>310</y>
+                 <width>70</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string>587</string>
+               </property>
+               <property name="maxLength">
+                <number>5</number>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::Normal</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="placeholderText">
+                <string>7080</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_server">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>150</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>SMTP-сервер</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_server">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>150</y>
+                 <width>450</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string>smtp.yandex.ru</string>
+               </property>
+               <property name="maxLength">
+                <number>32</number>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_ehlo">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>430</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>EHLO</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_tls">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>470</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>TLS</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_ssl">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>510</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>SSL</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_subject">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>350</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Тема</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_subject">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>350</y>
+                 <width>450</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string>S02T</string>
+               </property>
+               <property name="maxLength">
+                <number>32</number>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_login">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>230</y>
+                 <width>120</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: #09376B;</string>
+               </property>
+               <property name="text">
+                <string>Логин</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_login">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>230</y>
+                 <width>450</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+	background-color: #91D1EE;
+	color: #09376B;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+QLineEdit:hover {
+	border: 2px solid #0C5DB9;
+}
+QLineEdit:focus {
+	border: 2px solid #0C5DB9;
+}</string>
+               </property>
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="text">
+                <string>alexburov99</string>
+               </property>
+               <property name="maxLength">
+                <number>32</number>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </widget>

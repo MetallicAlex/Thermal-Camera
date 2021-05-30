@@ -1,5 +1,5 @@
 {
-  "title": "СУКД",
+  "title": "Система Контроля Доступа",
   "btn_close": "Закрыть",
   "btn_minimize": "Свернуть",
   "btn_control": "Контроль",
@@ -114,6 +114,14 @@
   "name": "ФИО",
   "btn_apply_setting": "Применить",
   "lang": "Язык",
+  "server": "SMTP-сервер",
+  "sender": "Отправитель",
+  "receiver": "Получатель",
+  "login": "Логин",
+  "subject": "Тема",
+  "profile": "Профиль",
+  "stranger": "Незнакомец",
+  "temp": "Temperature",
   "image": "Посмотреть",
   "no_image": "Нет такого изображения.",
   "message": {

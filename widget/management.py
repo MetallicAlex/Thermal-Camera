@@ -40,10 +40,36 @@ class DBManagement:
 
     # SMTP CONFIG
     @staticmethod
-    def get_smtp_config(self, sender: str):
+    def get_smtp_config(sender: str):
         with models.get_session() as session:
-            config = session.query(models.SMTPConfig).filter(models.SMTPConfig.default_sender).scalar()
+            config = session.query(models.SMTPConfig).filter(models.SMTPConfig.default_sender == sender).scalar()
         return config
+
+    @staticmethod
+    def add_smtp_config(config: models.SMTPConfig):
+        with models.get_session() as session:
+            session.add(config)
+
+    @staticmethod
+    def update_config(identifier: int, config: models.SMTPConfig):
+        with models.get_session() as session:
+            session.query(models.SMTPConfig) \
+                .filter(models.SMTPConfig.id == identifier) \
+                .update(
+                {
+                    models.SMTPConfig.id: config.id,
+                    models.SMTPConfig.created_at: config.created_at,
+                    models.SMTPConfig.modified_at: config.modified_at,
+                    models.SMTPConfig.host: config.host,
+                    models.SMTPConfig.port: config.port,
+                    models.SMTPConfig.user: config.user,
+                    models.SMTPConfig.password: config.password,
+                    models.SMTPConfig.default_sender: config.default_sender,
+                    models.SMTPConfig.use_tls: config.use_tls,
+                    models.SMTPConfig.use_ehlo: config.use_ehlo,
+                    models.SMTPConfig.use_ssl: config.use_ssl
+                }
+            )
 
     # DEVICES
     def get_devices(self):

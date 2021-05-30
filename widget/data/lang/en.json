@@ -1,5 +1,5 @@
 {
-  "title": "ACMS",
+  "title": "Access Control System",
   "btn_close": "Close",
   "btn_minimize": "Minimize",
   "btn_control": "Control",
@@ -114,6 +114,14 @@
   "name": "F. name",
   "btn_apply_setting": "Apply",
   "lang": "Language",
+  "server": "SMTP-server",
+  "sender": "Sender",
+  "receiver": "Receiver",
+  "login": "Login",
+  "subject": "Subject",
+  "profile": "Profile",
+  "stranger": "Stranger",
+  "temp": "Temperature",
   "image": "View",
   "no_image": "There is no such image.",
   "message": {

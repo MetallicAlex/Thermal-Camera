@@ -14,332 +14,334 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
+        MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.resize(1366, 768)
         MainWindow.setMinimumSize(QtCore.QSize(1366, 768))
+        MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         MainWindow.setToolTipDuration(-1)
         MainWindow.setStyleSheet("QToolTip { \n"
-"    background-color: black; \n"
-"    color: white; \n"
-"    border: black solid 1px\n"
-"}")
+                                 "    background-color: black; \n"
+                                 "    color: white; \n"
+                                 "    border: black solid 1px\n"
+                                 "}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setMinimumSize(QtCore.QSize(1366, 768))
         self.centralwidget.setToolTipDuration(-1)
         self.centralwidget.setStyleSheet("background: transparent;\n"
-"color: rgba(255, 255, 255, 221);")
+                                         "color: rgba(255, 255, 255, 221);")
         self.centralwidget.setObjectName("centralwidget")
         self.frame_main = QtWidgets.QFrame(self.centralwidget)
         self.frame_main.setGeometry(QtCore.QRect(0, 0, 1366, 768))
         self.frame_main.setMinimumSize(QtCore.QSize(1366, 768))
         self.frame_main.setStyleSheet("/* LINE EDIT */\n"
-"QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"\n"
-"/* SCROLL BARS */\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: rgb(52, 59, 72);\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"    border-radius: 0px;\n"
-"}\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #87B9E0;\n"
-"    min-width: 25px;\n"
-"    border-radius: 7px\n"
-"}\n"
-"QScrollBar::add-line:horizontal {\n"
-"    border: none;\n"
-"    background: #0C5DB9;\n"
-"    width: 20px;\n"
-"    border-top-right-radius: 7px;\n"
-"    border-bottom-right-radius: 7px;\n"
-"    subcontrol-position: right;\n"
-"    subcontrol-origin: margin;\n"
-"}\n"
-"QScrollBar::sub-line:horizontal {\n"
-"    border: none;\n"
-"    background: #0C5DB9;\n"
-"    width: 20px;\n"
-"    border-top-left-radius: 7px;\n"
-"    border-bottom-left-radius: 7px;\n"
-"    subcontrol-position: left;\n"
-"    subcontrol-origin: margin;\n"
-"}\n"
-"QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal\n"
-"{\n"
-"     background: none;\n"
-"}\n"
-"QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal\n"
-"{\n"
-"     background: none;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: rgb(52, 59, 72);\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"    border-radius: 0px;\n"
-" }\n"
-" QScrollBar::handle:vertical {    \n"
-"    background: #87B9E0;\n"
-"    min-height: 25px;\n"
-"    border-radius: 7px\n"
-" }\n"
-" QScrollBar::add-line:vertical {\n"
-"     border: none;\n"
-"    background: #0C5DB9;\n"
-"     height: 20px;\n"
-"    border-bottom-left-radius: 7px;\n"
-"    border-bottom-right-radius: 7px;\n"
-"     subcontrol-position: bottom;\n"
-"     subcontrol-origin: margin;\n"
-" }\n"
-" QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: #0C5DB9;\n"
-"     height: 20px;\n"
-"    border-top-left-radius: 7px;\n"
-"    border-top-right-radius: 7px;\n"
-"     subcontrol-position: top;\n"
-"     subcontrol-origin: margin;\n"
-" }\n"
-" QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {\n"
-"     background: none;\n"
-" }\n"
-"\n"
-" QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
-"     background: none;\n"
-" }\n"
-"\n"
-"/* CHECKBOX */\n"
-"QCheckbox {\n"
-"    background: #91D1EE;\n"
-"}\n"
-"QCheckBox::indicator {\n"
-"    border: 3px solid rgb(255,255,255,221);\n"
-"    width: 15px;\n"
-"    height: 15px;\n"
-"    border-radius: 10px;\n"
-"    background: #91D1EE;\n"
-"}\n"
-"QCheckBox::indicator:hover {\n"
-"    border: 3px solid rgb(255,255,255,221);\n"
-"}\n"
-"QCheckBox::indicator:checked {\n"
-"    background: 1px solid #91D1EE;\n"
-"    border: 1px solid rgb(255,255,255,221);\n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);\n"
-"}\n"
-"\n"
-"/* RADIO BUTTON */\n"
-"QRadioButton::indicator {\n"
-"    border: 3px solid rgb(52, 59, 72);\n"
-"    width: 15px;\n"
-"    height: 15px;\n"
-"    border-radius: 10px;\n"
-"    background: rgb(44, 49, 60);\n"
-"}\n"
-"QRadioButton::indicator:hover {\n"
-"    border: 3px solid rgb(58, 66, 81);\n"
-"}\n"
-"QRadioButton::indicator:checked {\n"
-"    background: 3px solid rgb(94, 106, 130);\n"
-"    border: 3px solid rgb(52, 59, 72);    \n"
-"}\n"
-"\n"
-"/* COMBOBOX */\n"
-"QComboBox{\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: rgba(39, 44, 54, 150);\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QComboBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}\n"
-"\n"
-"/* SLIDERS */\n"
-"QSlider::groove:horizontal {\n"
-"    border-radius: 2px;\n"
-"    height: 5px;\n"
-"    margin: 0px;\n"
-"    background-color: #91D1EE;\n"
-"}\n"
-"QSlider::handle:horizontal {\n"
-"    background-color: #0C5DB9;\n"
-"    border: 0px solid #91D1EE;\n"
-"    height: 20px;\n"
-"    width: 20px;\n"
-"    margin: -8px 0px;\n"
-"    border-radius: 10px;\n"
-"    padding: -8px 0px;\n"
-"}\n"
-"QSlider::handle:horizontal:hover {\n"
-"    background-color: #87B9E0;\n"
-"}\n"
-"QSlider::handle:horizontal:pressed {\n"
-"    background-color: #87B9E0;\n"
-"}\n"
-"\n"
-"QSlider::groove:vertical {\n"
-"    border-radius: 9px;\n"
-"    width: 18px;\n"
-"    margin: 0px;\n"
-"    background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QSlider::groove:vertical:hover {\n"
-"    background-color: rgb(55, 62, 76);\n"
-"}\n"
-"QSlider::handle:vertical {\n"
-"    background-color: rgb(85, 170, 255);\n"
-"    border: none;\n"
-"    height: 18px;\n"
-"    width: 18px;\n"
-"    margin: 0px;\n"
-"    border-radius: 9px;\n"
-"}\n"
-"QSlider::handle:vertical:hover {\n"
-"    background-color: rgb(105, 180, 255);\n"
-"}\n"
-"QSlider::handle:vertical:pressed {\n"
-"    background-color: rgb(65, 130, 195);\n"
-"}\n"
-"\n"
-"/* DateTimeEdit */\n"
-"QDateTimeEdit {\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QDateTimeEdit :hover{\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QDateTimeEdit::drop-down {\n"
-"    background-color: #0C5DB9;\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDateTimeEdit QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: #0C5DB9;\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}\n"
-"QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255,255,255,221);\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"/* DoubleSpinBox */\n"
-"QDoubleSpinBox {\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(27, 29, 35);\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QDoubleSpinBox :hover{\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QDoubleSpinBox::up-arrow {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: rgba(39, 44, 54, 150);\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDoubleSpinBox::down-arrow {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: rgba(39, 44, 54, 150);\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDoubleSpinBox::up-button {\n"
-"    background-color: transparent;\n"
-" }\n"
-"QDoubleSpinBox::down-button {\n"
-"    background-color: transparent;\n"
-" }\n"
-"QDoubleSpinBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}\n"
-"\n"
-"/* Calendar Widget */\n"
-"QCalendarWidget QToolButton {\n"
-"    height: 40px;\n"
-"    width: 120px;\n"
-"    color: #FFFFFF;\n"
-"    font-size: 16px;\n"
-"    font: \"Segoe UI\";\n"
-"    icon-size:20px, 20px;\n"
-"    background-color: #0C5DB9;\n"
-"}\n"
-"")
+                                      "QLineEdit {\n"
+                                      "    background-color: #91D1EE;\n"
+                                      "    color: rgb(255,255,255,221);\n"
+                                      "    border-radius: 10px;\n"
+                                      "    padding-left: 10px;\n"
+                                      "}\n"
+                                      "QLineEdit:hover {\n"
+                                      "    border: 2px solid #0C5DB9;\n"
+                                      "}\n"
+                                      "QLineEdit:focus {\n"
+                                      "    border: 2px solid #0C5DB9;\n"
+                                      "}\n"
+                                      "\n"
+                                      "/* SCROLL BARS */\n"
+                                      "QScrollBar:horizontal {\n"
+                                      "    border: none;\n"
+                                      "    background: rgb(52, 59, 72);\n"
+                                      "    height: 14px;\n"
+                                      "    margin: 0px 21px 0 21px;\n"
+                                      "    border-radius: 0px;\n"
+                                      "}\n"
+                                      "QScrollBar::handle:horizontal {\n"
+                                      "    background: #87B9E0;\n"
+                                      "    min-width: 25px;\n"
+                                      "    border-radius: 7px\n"
+                                      "}\n"
+                                      "QScrollBar::add-line:horizontal {\n"
+                                      "    border: none;\n"
+                                      "    background: #0C5DB9;\n"
+                                      "    width: 20px;\n"
+                                      "    border-top-right-radius: 7px;\n"
+                                      "    border-bottom-right-radius: 7px;\n"
+                                      "    subcontrol-position: right;\n"
+                                      "    subcontrol-origin: margin;\n"
+                                      "}\n"
+                                      "QScrollBar::sub-line:horizontal {\n"
+                                      "    border: none;\n"
+                                      "    background: #0C5DB9;\n"
+                                      "    width: 20px;\n"
+                                      "    border-top-left-radius: 7px;\n"
+                                      "    border-bottom-left-radius: 7px;\n"
+                                      "    subcontrol-position: left;\n"
+                                      "    subcontrol-origin: margin;\n"
+                                      "}\n"
+                                      "QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal\n"
+                                      "{\n"
+                                      "     background: none;\n"
+                                      "}\n"
+                                      "QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal\n"
+                                      "{\n"
+                                      "     background: none;\n"
+                                      "}\n"
+                                      " QScrollBar:vertical {\n"
+                                      "    border: none;\n"
+                                      "    background: rgb(52, 59, 72);\n"
+                                      "    width: 14px;\n"
+                                      "    margin: 21px 0 21px 0;\n"
+                                      "    border-radius: 0px;\n"
+                                      " }\n"
+                                      " QScrollBar::handle:vertical {    \n"
+                                      "    background: #87B9E0;\n"
+                                      "    min-height: 25px;\n"
+                                      "    border-radius: 7px\n"
+                                      " }\n"
+                                      " QScrollBar::add-line:vertical {\n"
+                                      "     border: none;\n"
+                                      "    background: #0C5DB9;\n"
+                                      "     height: 20px;\n"
+                                      "    border-bottom-left-radius: 7px;\n"
+                                      "    border-bottom-right-radius: 7px;\n"
+                                      "     subcontrol-position: bottom;\n"
+                                      "     subcontrol-origin: margin;\n"
+                                      " }\n"
+                                      " QScrollBar::sub-line:vertical {\n"
+                                      "    border: none;\n"
+                                      "    background: #0C5DB9;\n"
+                                      "     height: 20px;\n"
+                                      "    border-top-left-radius: 7px;\n"
+                                      "    border-top-right-radius: 7px;\n"
+                                      "     subcontrol-position: top;\n"
+                                      "     subcontrol-origin: margin;\n"
+                                      " }\n"
+                                      " QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {\n"
+                                      "     background: none;\n"
+                                      " }\n"
+                                      "\n"
+                                      " QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+                                      "     background: none;\n"
+                                      " }\n"
+                                      "\n"
+                                      "/* CHECKBOX */\n"
+                                      "QCheckbox {\n"
+                                      "    background: #91D1EE;\n"
+                                      "}\n"
+                                      "QCheckBox::indicator {\n"
+                                      "    border: 3px solid rgb(255,255,255,221);\n"
+                                      "    width: 15px;\n"
+                                      "    height: 15px;\n"
+                                      "    border-radius: 10px;\n"
+                                      "    background: #91D1EE;\n"
+                                      "}\n"
+                                      "QCheckBox::indicator:hover {\n"
+                                      "    border: 3px solid rgb(255,255,255,221);\n"
+                                      "}\n"
+                                      "QCheckBox::indicator:checked {\n"
+                                      "    background: 1px solid #91D1EE;\n"
+                                      "    border: 1px solid rgb(255,255,255,221);\n"
+                                      "    background-image: url(:/16x16/data/resources/icons/16x16/cil-check-alt.png);\n"
+                                      "}\n"
+                                      "\n"
+                                      "/* RADIO BUTTON */\n"
+                                      "QRadioButton::indicator {\n"
+                                      "    border: 3px solid rgb(52, 59, 72);\n"
+                                      "    width: 15px;\n"
+                                      "    height: 15px;\n"
+                                      "    border-radius: 10px;\n"
+                                      "    background: rgb(44, 49, 60);\n"
+                                      "}\n"
+                                      "QRadioButton::indicator:hover {\n"
+                                      "    border: 3px solid rgb(58, 66, 81);\n"
+                                      "}\n"
+                                      "QRadioButton::indicator:checked {\n"
+                                      "    background: 3px solid rgb(94, 106, 130);\n"
+                                      "    border: 3px solid rgb(52, 59, 72);    \n"
+                                      "}\n"
+                                      "\n"
+                                      "/* COMBOBOX */\n"
+                                      "QComboBox{\n"
+                                      "    background-color: rgb(27, 29, 35);\n"
+                                      "    border-radius: 5px;\n"
+                                      "    border: 2px solid rgb(27, 29, 35);\n"
+                                      "    padding: 5px;\n"
+                                      "    padding-left: 10px;\n"
+                                      "}\n"
+                                      "QComboBox:hover{\n"
+                                      "    border: 2px solid rgb(64, 71, 88);\n"
+                                      "}\n"
+                                      "QComboBox::drop-down {\n"
+                                      "    subcontrol-origin: padding;\n"
+                                      "    subcontrol-position: top right;\n"
+                                      "    width: 25px; \n"
+                                      "    border-left-width: 3px;\n"
+                                      "    border-left-color: rgba(39, 44, 54, 150);\n"
+                                      "    border-left-style: solid;\n"
+                                      "    border-top-right-radius: 3px;\n"
+                                      "    border-bottom-right-radius: 3px;    \n"
+                                      "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                      "    background-position: center;\n"
+                                      "    background-repeat: no-reperat;\n"
+                                      " }\n"
+                                      "QComboBox QAbstractItemView {\n"
+                                      "    color: rgb(85, 170, 255);    \n"
+                                      "    background-color: rgb(27, 29, 35);\n"
+                                      "    padding: 10px;\n"
+                                      "    selection-background-color: rgb(39, 44, 54);\n"
+                                      "}\n"
+                                      "\n"
+                                      "/* SLIDERS */\n"
+                                      "QSlider::groove:horizontal {\n"
+                                      "    border-radius: 2px;\n"
+                                      "    height: 5px;\n"
+                                      "    margin: 0px;\n"
+                                      "    background-color: #91D1EE;\n"
+                                      "}\n"
+                                      "QSlider::handle:horizontal {\n"
+                                      "    background-color: #0C5DB9;\n"
+                                      "    border: 0px solid #91D1EE;\n"
+                                      "    height: 20px;\n"
+                                      "    width: 20px;\n"
+                                      "    margin: -8px 0px;\n"
+                                      "    border-radius: 10px;\n"
+                                      "    padding: -8px 0px;\n"
+                                      "}\n"
+                                      "QSlider::handle:horizontal:hover {\n"
+                                      "    background-color: #87B9E0;\n"
+                                      "}\n"
+                                      "QSlider::handle:horizontal:pressed {\n"
+                                      "    background-color: #87B9E0;\n"
+                                      "}\n"
+                                      "\n"
+                                      "QSlider::groove:vertical {\n"
+                                      "    border-radius: 9px;\n"
+                                      "    width: 18px;\n"
+                                      "    margin: 0px;\n"
+                                      "    background-color: rgb(52, 59, 72);\n"
+                                      "}\n"
+                                      "QSlider::groove:vertical:hover {\n"
+                                      "    background-color: rgb(55, 62, 76);\n"
+                                      "}\n"
+                                      "QSlider::handle:vertical {\n"
+                                      "    background-color: rgb(85, 170, 255);\n"
+                                      "    border: none;\n"
+                                      "    height: 18px;\n"
+                                      "    width: 18px;\n"
+                                      "    margin: 0px;\n"
+                                      "    border-radius: 9px;\n"
+                                      "}\n"
+                                      "QSlider::handle:vertical:hover {\n"
+                                      "    background-color: rgb(105, 180, 255);\n"
+                                      "}\n"
+                                      "QSlider::handle:vertical:pressed {\n"
+                                      "    background-color: rgb(65, 130, 195);\n"
+                                      "}\n"
+                                      "\n"
+                                      "/* DateTimeEdit */\n"
+                                      "QDateTimeEdit {\n"
+                                      "    background-color: rgb(27, 29, 35);\n"
+                                      "    border-radius: 5px;\n"
+                                      "    border: 2px solid rgb(27, 29, 35);\n"
+                                      "    padding: 5px;\n"
+                                      "    padding-left: 10px;\n"
+                                      "}\n"
+                                      "QDateTimeEdit :hover{\n"
+                                      "    border: 2px solid rgb(64, 71, 88);\n"
+                                      "}\n"
+                                      "QDateTimeEdit::drop-down {\n"
+                                      "    background-color: #0C5DB9;\n"
+                                      "    subcontrol-origin: padding;\n"
+                                      "    subcontrol-position: top right;\n"
+                                      "    width: 25px; \n"
+                                      "    border-left-width: 3px;\n"
+                                      "    border-left-color: #0C5DB9;\n"
+                                      "    border-left-style: solid;\n"
+                                      "    border-top-right-radius: 3px;\n"
+                                      "    border-bottom-right-radius: 3px;    \n"
+                                      "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                      "    background-position: center;\n"
+                                      "    background-repeat: no-reperat;\n"
+                                      " }\n"
+                                      "QDateTimeEdit QAbstractItemView {\n"
+                                      "    color: rgb(85, 170, 255);    \n"
+                                      "    background-color: #0C5DB9;\n"
+                                      "    padding: 10px;\n"
+                                      "    selection-background-color: rgb(39, 44, 54);\n"
+                                      "}\n"
+                                      "QLineEdit {\n"
+                                      "    background-color: #91D1EE;\n"
+                                      "    color: rgb(255,255,255,221);\n"
+                                      "    border-radius: 10px;\n"
+                                      "    padding-left: 10px;\n"
+                                      "}\n"
+                                      "QLineEdit:hover {\n"
+                                      "    border: 2px solid #0C5DB9;\n"
+                                      "}\n"
+                                      "QLineEdit:focus {\n"
+                                      "    border: 2px solid #0C5DB9;\n"
+                                      "}\n"
+                                      "/* DoubleSpinBox */\n"
+                                      "QDoubleSpinBox {\n"
+                                      "    background-color: #91D1EE;\n"
+                                      "    border-radius: 5px;\n"
+                                      "    border: 2px solid rgb(27, 29, 35);\n"
+                                      "    padding: 5px;\n"
+                                      "    padding-left: 10px;\n"
+                                      "}\n"
+                                      "QDoubleSpinBox :hover{\n"
+                                      "    border: 2px solid rgb(64, 71, 88);\n"
+                                      "}\n"
+                                      "QDoubleSpinBox::up-arrow {\n"
+                                      "    subcontrol-origin: padding;\n"
+                                      "    subcontrol-position: top right;\n"
+                                      "    width: 25px; \n"
+                                      "    border-left-width: 3px;\n"
+                                      "    border-left-color: rgba(39, 44, 54, 150);\n"
+                                      "    border-left-style: solid;\n"
+                                      "    border-top-right-radius: 3px;\n"
+                                      "    border-bottom-right-radius: 3px;    \n"
+                                      "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
+                                      "    background-position: center;\n"
+                                      "    background-repeat: no-reperat;\n"
+                                      " }\n"
+                                      "QDoubleSpinBox::down-arrow {\n"
+                                      "    subcontrol-origin: padding;\n"
+                                      "    subcontrol-position: top right;\n"
+                                      "    width: 25px; \n"
+                                      "    border-left-width: 3px;\n"
+                                      "    border-left-color: rgba(39, 44, 54, 150);\n"
+                                      "    border-left-style: solid;\n"
+                                      "    border-top-right-radius: 3px;\n"
+                                      "    border-bottom-right-radius: 3px;    \n"
+                                      "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                      "    background-position: center;\n"
+                                      "    background-repeat: no-reperat;\n"
+                                      " }\n"
+                                      "QDoubleSpinBox::up-button {\n"
+                                      "    background-color: transparent;\n"
+                                      " }\n"
+                                      "QDoubleSpinBox::down-button {\n"
+                                      "    background-color: transparent;\n"
+                                      " }\n"
+                                      "QDoubleSpinBox QAbstractItemView {\n"
+                                      "    color: rgb(85, 170, 255);    \n"
+                                      "    background-color: rgb(27, 29, 35);\n"
+                                      "    padding: 10px;\n"
+                                      "    selection-background-color: rgb(39, 44, 54);\n"
+                                      "}\n"
+                                      "\n"
+                                      "/* Calendar Widget */\n"
+                                      "QCalendarWidget QToolButton {\n"
+                                      "    height: 40px;\n"
+                                      "    width: 120px;\n"
+                                      "    color: #FFFFFF;\n"
+                                      "    font-size: 16px;\n"
+                                      "    font: \"Segoe UI\";\n"
+                                      "    icon-size:20px, 20px;\n"
+                                      "    background-color: #0C5DB9;\n"
+                                      "}\n"
+                                      "")
         self.frame_main.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_main.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_main.setObjectName("frame_main")
@@ -375,6 +377,16 @@ class Ui_MainWindow(object):
         self.frame_icon.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_icon.setLineWidth(0)
         self.frame_icon.setObjectName("frame_icon")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_icon)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.label = QtWidgets.QLabel(self.frame_icon)
+        self.label.setText("")
+        self.label.setPixmap(QtGui.QPixmap(":/icon/data/resources/icons/byAlex.ico"))
+        self.label.setScaledContents(True)
+        self.label.setObjectName("label")
+        self.horizontalLayout_6.addWidget(self.label)
         self.horizontalLayout_3.addWidget(self.frame_icon)
         self.label_title = QtWidgets.QLabel(self.frame_title)
         palette = QtGui.QPalette()
@@ -440,7 +452,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label_title.setFont(font)
         self.label_title.setStyleSheet("background: transparent;\n"
-"color: rgb(255, 255, 255, 221);")
+                                       "color: rgb(255, 255, 255, 221);")
         self.label_title.setObjectName("label_title")
         self.horizontalLayout_3.addWidget(self.label_title)
         self.horizontalLayout_2.addWidget(self.frame_title)
@@ -467,18 +479,19 @@ class Ui_MainWindow(object):
         self.button_minimize.setMinimumSize(QtCore.QSize(40, 0))
         self.button_minimize.setMaximumSize(QtCore.QSize(40, 16777215))
         self.button_minimize.setStyleSheet("QPushButton {    \n"
-"    border: none;\n"
-"    background-color: transparent;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #2B8CDC;\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"}")
+                                           "    border: none;\n"
+                                           "    background-color: transparent;\n"
+                                           "}\n"
+                                           "QPushButton:hover {\n"
+                                           "    background-color: #2B8CDC;\n"
+                                           "}\n"
+                                           "QPushButton:pressed {    \n"
+                                           "    background-color: #87B9E0;\n"
+                                           "}")
         self.button_minimize.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-window-minimize.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-window-minimize.png"), QtGui.QIcon.Normal,
+                       QtGui.QIcon.Off)
         self.button_minimize.setIcon(icon)
         self.button_minimize.setObjectName("button_minimize")
         self.horizontalLayout_5.addWidget(self.button_minimize)
@@ -491,18 +504,19 @@ class Ui_MainWindow(object):
         self.button_close.setMinimumSize(QtCore.QSize(40, 0))
         self.button_close.setMaximumSize(QtCore.QSize(40, 16777215))
         self.button_close.setStyleSheet("QPushButton {    \n"
-"    border: none;\n"
-"    background-color: transparent;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #B9400C;\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #D04B4B;\n"
-"}")
+                                        "    border: none;\n"
+                                        "    background-color: transparent;\n"
+                                        "}\n"
+                                        "QPushButton:hover {\n"
+                                        "    background-color: #B9400C;\n"
+                                        "}\n"
+                                        "QPushButton:pressed {    \n"
+                                        "    background-color: #D04B4B;\n"
+                                        "}")
         self.button_close.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/20x20/data/resources/icons/20x20/cil-x.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_close.setIcon(icon1)
         self.button_close.setObjectName("button_close")
         self.horizontalLayout_5.addWidget(self.button_close)
@@ -544,22 +558,23 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.button_database.setFont(font)
         self.button_database.setStyleSheet("QPushButton {\n"
-"    background-position: left;\n"
-"    background-repeat: no-reperat;\n"
-"    background-origin: content;\n"
-"    text-align: left;\n"
-"    padding-left: 15px;\n"
-"    border: none;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #87B9E0;\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #91D1EE;\n"
-"}")
+                                           "    background-position: left;\n"
+                                           "    background-repeat: no-reperat;\n"
+                                           "    background-origin: content;\n"
+                                           "    text-align: left;\n"
+                                           "    padding-left: 15px;\n"
+                                           "    border: none;\n"
+                                           "    color: rgb(255, 255, 255, 221);\n"
+                                           "}\n"
+                                           "QPushButton:hover {\n"
+                                           "    background-color: #87B9E0;\n"
+                                           "}\n"
+                                           "QPushButton:pressed {    \n"
+                                           "    background-color: #91D1EE;\n"
+                                           "}")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-people.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-people.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_database.setIcon(icon2)
         self.button_database.setIconSize(QtCore.QSize(24, 24))
         self.button_database.setFlat(True)
@@ -576,22 +591,23 @@ class Ui_MainWindow(object):
         self.button_device.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.button_device.setAutoFillBackground(False)
         self.button_device.setStyleSheet("QPushButton {\n"
-"    background-position: left;\n"
-"    background-repeat: no-reperat;\n"
-"    background-origin: content;\n"
-"    text-align: left;\n"
-"    padding-left: 15px;\n"
-"    border: none;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #87B9E0;\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #91D1EE;\n"
-"}")
+                                         "    background-position: left;\n"
+                                         "    background-repeat: no-reperat;\n"
+                                         "    background-origin: content;\n"
+                                         "    text-align: left;\n"
+                                         "    padding-left: 15px;\n"
+                                         "    border: none;\n"
+                                         "    color: rgb(255, 255, 255, 221);\n"
+                                         "}\n"
+                                         "QPushButton:hover {\n"
+                                         "    background-color: #87B9E0;\n"
+                                         "}\n"
+                                         "QPushButton:pressed {    \n"
+                                         "    background-color: #91D1EE;\n"
+                                         "}")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-screen-desktop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-screen-desktop.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_device.setIcon(icon3)
         self.button_device.setIconSize(QtCore.QSize(24, 24))
         self.button_device.setFlat(True)
@@ -605,22 +621,23 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.button_statistic.setFont(font)
         self.button_statistic.setStyleSheet("QPushButton {\n"
-"    background-position: left;\n"
-"    background-repeat: no-reperat;\n"
-"    background-origin: content;\n"
-"    text-align: left;\n"
-"    padding-left: 15px;\n"
-"    border: none;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #87B9E0;\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #91D1EE;\n"
-"}")
+                                            "    background-position: left;\n"
+                                            "    background-repeat: no-reperat;\n"
+                                            "    background-origin: content;\n"
+                                            "    text-align: left;\n"
+                                            "    padding-left: 15px;\n"
+                                            "    border: none;\n"
+                                            "    color: rgb(255, 255, 255, 221);\n"
+                                            "}\n"
+                                            "QPushButton:hover {\n"
+                                            "    background-color: #87B9E0;\n"
+                                            "}\n"
+                                            "QPushButton:pressed {    \n"
+                                            "    background-color: #91D1EE;\n"
+                                            "}")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-chart-line.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-chart-line.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_statistic.setIcon(icon4)
         self.button_statistic.setIconSize(QtCore.QSize(24, 24))
         self.button_statistic.setFlat(True)
@@ -634,22 +651,23 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.button_settings.setFont(font)
         self.button_settings.setStyleSheet("QPushButton {\n"
-"    background-position: left;\n"
-"    background-repeat: no-reperat;\n"
-"    background-origin: content;\n"
-"    text-align: left;\n"
-"    padding-left: 15px;\n"
-"    border: none;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #87B9E0;\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #91D1EE;\n"
-"}")
+                                           "    background-position: left;\n"
+                                           "    background-repeat: no-reperat;\n"
+                                           "    background-origin: content;\n"
+                                           "    text-align: left;\n"
+                                           "    padding-left: 15px;\n"
+                                           "    border: none;\n"
+                                           "    color: rgb(255, 255, 255, 221);\n"
+                                           "}\n"
+                                           "QPushButton:hover {\n"
+                                           "    background-color: #87B9E0;\n"
+                                           "}\n"
+                                           "QPushButton:pressed {    \n"
+                                           "    background-color: #91D1EE;\n"
+                                           "}")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-settings.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_settings.setIcon(icon5)
         self.button_settings.setIconSize(QtCore.QSize(24, 24))
         self.button_settings.setFlat(True)
@@ -666,22 +684,23 @@ class Ui_MainWindow(object):
         self.button_control.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.button_control.setAutoFillBackground(False)
         self.button_control.setStyleSheet("QPushButton {\n"
-"    background-position: left;\n"
-"    background-repeat: no-reperat;\n"
-"    background-origin: content;\n"
-"    text-align: left;\n"
-"    border: none;\n"
-"    padding-left: 15px;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #87B9E0;\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #91D1EE;\n"
-"}")
+                                          "    background-position: left;\n"
+                                          "    background-repeat: no-reperat;\n"
+                                          "    background-origin: content;\n"
+                                          "    text-align: left;\n"
+                                          "    border: none;\n"
+                                          "    padding-left: 15px;\n"
+                                          "    color: rgb(255, 255, 255, 221);\n"
+                                          "}\n"
+                                          "QPushButton:hover {\n"
+                                          "    background-color: #87B9E0;\n"
+                                          "}\n"
+                                          "QPushButton:pressed {    \n"
+                                          "    background-color: #91D1EE;\n"
+                                          "}")
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-video.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-video.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_control.setIcon(icon6)
         self.button_control.setIconSize(QtCore.QSize(24, 24))
         self.button_control.setFlat(True)
@@ -702,7 +721,7 @@ class Ui_MainWindow(object):
         self.page_control = QtWidgets.QWidget()
         self.page_control.setObjectName("page_control")
         self.table_control = QtWidgets.QTableWidget(self.page_control)
-        self.table_control.setGeometry(QtCore.QRect(20, 170, 596, 510))
+        self.table_control.setGeometry(QtCore.QRect(20, 109, 596, 571))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(9, 55, 107))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -769,54 +788,54 @@ class Ui_MainWindow(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
         self.table_control.setPalette(palette)
         self.table_control.setStyleSheet("QTableWidget {    \n"
-"    background-color: #FFFFFF;\n"
-"    alternate-background-color: #E4F2FD;\n"
-"    gridline-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"}\n"
-"QTableWidget::item{\n"
-"    gridline-color: #91D1EE;\n"
-"}\n"
-"QTableWidget::item:selected{\n"
-"    background-color: #2894D4;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"    border-radius: 0px;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"    border-radius: 0px;\n"
-" }\n"
-"QHeaderView::section{\n"
-"    Background-color: #91D1EE;\n"
-"    max-width: 30px;\n"
-"    border: 1px solid #91D1EE;\n"
-"    border-style: none;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QTableWidget::horizontalHeader {    \n"
-"    background-color: #FFFFFF;\n"
-"}\n"
-"QHeaderView::section:horizontal\n"
-"{\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    font-weight: bold;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QToolTip { \n"
-"    background-color: #0C5DB9;\n"
-"    color: #FFFFFF; \n"
-"    border: #FFFFFF solid 1px;\n"
-"}")
+                                         "    background-color: #FFFFFF;\n"
+                                         "    alternate-background-color: #E4F2FD;\n"
+                                         "    gridline-color: #91D1EE;\n"
+                                         "    color: #09376B;\n"
+                                         "}\n"
+                                         "QTableWidget::item{\n"
+                                         "    gridline-color: #91D1EE;\n"
+                                         "}\n"
+                                         "QTableWidget::item:selected{\n"
+                                         "    background-color: #2894D4;\n"
+                                         "    color: #FFFFFF;\n"
+                                         "}\n"
+                                         "QScrollBar:horizontal {\n"
+                                         "    border: none;\n"
+                                         "    background: #EFF7FD;\n"
+                                         "    height: 14px;\n"
+                                         "    margin: 0px 21px 0 21px;\n"
+                                         "    border-radius: 0px;\n"
+                                         "}\n"
+                                         " QScrollBar:vertical {\n"
+                                         "    border: none;\n"
+                                         "    background: #EFF7FD;\n"
+                                         "    width: 14px;\n"
+                                         "    margin: 21px 0 21px 0;\n"
+                                         "    border-radius: 0px;\n"
+                                         " }\n"
+                                         "QHeaderView::section{\n"
+                                         "    Background-color: #91D1EE;\n"
+                                         "    max-width: 30px;\n"
+                                         "    border: 1px solid #91D1EE;\n"
+                                         "    border-style: none;\n"
+                                         "    border: 1px solid #91D1EE;\n"
+                                         "}\n"
+                                         "QTableWidget::horizontalHeader {    \n"
+                                         "    background-color: #FFFFFF;\n"
+                                         "}\n"
+                                         "QHeaderView::section:horizontal\n"
+                                         "{\n"
+                                         "    background-color: #91D1EE;\n"
+                                         "    color: #09376B;\n"
+                                         "    font-weight: bold;\n"
+                                         "    border: 1px solid #91D1EE;\n"
+                                         "}\n"
+                                         "QToolTip { \n"
+                                         "    background-color: #0C5DB9;\n"
+                                         "    color: #FFFFFF; \n"
+                                         "    border: #FFFFFF solid 1px;\n"
+                                         "}")
         self.table_control.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_control.setFrameShadow(QtWidgets.QFrame.Plain)
         self.table_control.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -898,30 +917,6 @@ class Ui_MainWindow(object):
         self.label_alarm_temperature.setFont(font)
         self.label_alarm_temperature.setStyleSheet("color: #09376B;")
         self.label_alarm_temperature.setObjectName("label_alarm_temperature")
-        self.lineEdit_email = QtWidgets.QLineEdit(self.page_control)
-        self.lineEdit_email.setGeometry(QtCore.QRect(160, 120, 450, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.lineEdit_email.setFont(font)
-        self.lineEdit_email.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
-        self.lineEdit_email.setInputMask("")
-        self.lineEdit_email.setMaxLength(32)
-        self.lineEdit_email.setAlignment(QtCore.Qt.AlignCenter)
-        self.lineEdit_email.setObjectName("lineEdit_email")
         self.doubleSpinBox_alarm_temperature = QtWidgets.QDoubleSpinBox(self.page_control)
         self.doubleSpinBox_alarm_temperature.setGeometry(QtCore.QRect(210, 20, 120, 30))
         font = QtGui.QFont()
@@ -931,48 +926,48 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.doubleSpinBox_alarm_temperature.setFont(font)
         self.doubleSpinBox_alarm_temperature.setStyleSheet("/* DoubleSpinBox */\n"
-"QDoubleSpinBox {\n"
-"    color: #09376B;\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"\n"
-"}\n"
-"QDoubleSpinBox :hover{\n"
-"    border: 2px solid #91D1EE;\n"
-"}\n"
-"QDoubleSpinBox::up-arrow {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 10px;\n"
-"    background-color: #0C5DB9;\n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDoubleSpinBox::down-arrow {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-bottom-right-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDoubleSpinBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}")
+                                                           "QDoubleSpinBox {\n"
+                                                           "    color: #09376B;\n"
+                                                           "    background-color: #91D1EE;\n"
+                                                           "    border-radius: 10px;\n"
+                                                           "    border: 2px solid #0C5DB9;\n"
+                                                           "\n"
+                                                           "}\n"
+                                                           "QDoubleSpinBox :hover{\n"
+                                                           "    border: 2px solid #91D1EE;\n"
+                                                           "}\n"
+                                                           "QDoubleSpinBox::up-arrow {\n"
+                                                           "    subcontrol-origin: padding;\n"
+                                                           "    subcontrol-position: top right;\n"
+                                                           "    width: 25px; \n"
+                                                           "    border-left-width: 3px;\n"
+                                                           "    border-left-color: #0C5DB9;\n"
+                                                           "    border-left-style: solid;\n"
+                                                           "    border-top-right-radius: 10px;\n"
+                                                           "    background-color: #0C5DB9;\n"
+                                                           "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
+                                                           "    background-position: center;\n"
+                                                           "    background-repeat: no-reperat;\n"
+                                                           " }\n"
+                                                           "QDoubleSpinBox::down-arrow {\n"
+                                                           "    subcontrol-origin: padding;\n"
+                                                           "    subcontrol-position: top right;\n"
+                                                           "    width: 25px; \n"
+                                                           "    border-left-width: 3px;\n"
+                                                           "    border-left-color: #0C5DB9;\n"
+                                                           "    border-left-style: solid;\n"
+                                                           "    border-bottom-right-radius: 10px;    \n"
+                                                           "    background-color: #0C5DB9;\n"
+                                                           "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                                           "    background-position: center;\n"
+                                                           "    background-repeat: no-reperat;\n"
+                                                           " }\n"
+                                                           "QDoubleSpinBox QAbstractItemView {\n"
+                                                           "    color: rgb(85, 170, 255);    \n"
+                                                           "    background-color: rgb(27, 29, 35);\n"
+                                                           "    padding: 10px;\n"
+                                                           "    selection-background-color: rgb(39, 44, 54);\n"
+                                                           "}")
         self.doubleSpinBox_alarm_temperature.setAlignment(QtCore.Qt.AlignCenter)
         self.doubleSpinBox_alarm_temperature.setMinimum(35.0)
         self.doubleSpinBox_alarm_temperature.setMaximum(40.0)
@@ -989,16 +984,6 @@ class Ui_MainWindow(object):
         self.label_notice.setFont(font)
         self.label_notice.setStyleSheet("color: #09376B;")
         self.label_notice.setObjectName("label_notice")
-        self.label_email = QtWidgets.QLabel(self.page_control)
-        self.label_email.setGeometry(QtCore.QRect(20, 120, 120, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.label_email.setFont(font)
-        self.label_email.setStyleSheet("color: #09376B;")
-        self.label_email.setObjectName("label_email")
         self.stackedWidget.addWidget(self.page_control)
         self.page_device = QtWidgets.QWidget()
         self.page_device.setObjectName("page_device")
@@ -1070,50 +1055,50 @@ class Ui_MainWindow(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
         self.table_devices.setPalette(palette)
         self.table_devices.setStyleSheet("QTableWidget {    \n"
-"    background-color: #FFFFFF;\n"
-"    alternate-background-color: #E4F2FD;\n"
-"    gridline-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"}\n"
-"QTableWidget::item{\n"
-"    gridline-color: #91D1EE;\n"
-"}\n"
-"QTableWidget::item:selected{\n"
-"    background-color: #2894D4;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"    border-radius: 0px;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"    border-radius: 0px;\n"
-" }\n"
-"QHeaderView::section{\n"
-"    Background-color: #91D1EE;\n"
-"    max-width: 30px;\n"
-"    border: 1px solid #91D1EE;\n"
-"    border-style: none;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QTableWidget::horizontalHeader {    \n"
-"    background-color: #FFFFFF;\n"
-"}\n"
-"QHeaderView::section:horizontal\n"
-"{\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    font-weight: bold;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"")
+                                         "    background-color: #FFFFFF;\n"
+                                         "    alternate-background-color: #E4F2FD;\n"
+                                         "    gridline-color: #91D1EE;\n"
+                                         "    color: #09376B;\n"
+                                         "}\n"
+                                         "QTableWidget::item{\n"
+                                         "    gridline-color: #91D1EE;\n"
+                                         "}\n"
+                                         "QTableWidget::item:selected{\n"
+                                         "    background-color: #2894D4;\n"
+                                         "    color: #FFFFFF;\n"
+                                         "}\n"
+                                         "QScrollBar:horizontal {\n"
+                                         "    border: none;\n"
+                                         "    background: #EFF7FD;\n"
+                                         "    height: 14px;\n"
+                                         "    margin: 0px 21px 0 21px;\n"
+                                         "    border-radius: 0px;\n"
+                                         "}\n"
+                                         " QScrollBar:vertical {\n"
+                                         "    border: none;\n"
+                                         "    background: #EFF7FD;\n"
+                                         "    width: 14px;\n"
+                                         "    margin: 21px 0 21px 0;\n"
+                                         "    border-radius: 0px;\n"
+                                         " }\n"
+                                         "QHeaderView::section{\n"
+                                         "    Background-color: #91D1EE;\n"
+                                         "    max-width: 30px;\n"
+                                         "    border: 1px solid #91D1EE;\n"
+                                         "    border-style: none;\n"
+                                         "    border: 1px solid #91D1EE;\n"
+                                         "}\n"
+                                         "QTableWidget::horizontalHeader {    \n"
+                                         "    background-color: #FFFFFF;\n"
+                                         "}\n"
+                                         "QHeaderView::section:horizontal\n"
+                                         "{\n"
+                                         "    background-color: #91D1EE;\n"
+                                         "    color: #09376B;\n"
+                                         "    font-weight: bold;\n"
+                                         "    border: 1px solid #91D1EE;\n"
+                                         "}\n"
+                                         "")
         self.table_devices.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_devices.setFrameShadow(QtWidgets.QFrame.Plain)
         self.table_devices.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -1128,9 +1113,10 @@ class Ui_MainWindow(object):
         self.table_devices.setColumnCount(9)
         self.table_devices.setObjectName("table_devices")
         item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignVCenter)
+        item.setTextAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignVCenter)
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap(":/24x24/data/resources/icons/24x24/cil-uncheck-circle.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         item.setIcon(icon7)
         self.table_devices.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -1197,20 +1183,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_update_device_info.setFont(font)
         self.button_update_device_info.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                     "    border-radius: 10px;    \n"
+                                                     "    background-color: #0C5DB9;\n"
+                                                     "    color: rgb(255, 255, 255, 221);\n"
+                                                     "}\n"
+                                                     "QPushButton:hover {\n"
+                                                     "    background-color: #91D1EE;\n"
+                                                     "    color: rgb(255, 255, 255, 221);\n"
+                                                     "}\n"
+                                                     "QPushButton:pressed {    \n"
+                                                     "    background-color: #87B9E0;\n"
+                                                     "    color: rgb(255, 255, 255);\n"
+                                                     "}")
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-reload.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_update_device_info.setIcon(icon8)
         self.button_update_device_info.setObjectName("button_update_device_info")
         self.button_configure_device = QtWidgets.QPushButton(self.page_device)
@@ -1222,18 +1209,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_configure_device.setFont(font)
         self.button_configure_device.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                   "    border-radius: 10px;    \n"
+                                                   "    background-color: #0C5DB9;\n"
+                                                   "    color: rgb(255, 255, 255, 221);\n"
+                                                   "}\n"
+                                                   "QPushButton:hover {\n"
+                                                   "    background-color: #91D1EE;\n"
+                                                   "    color: rgb(255, 255, 255, 221);\n"
+                                                   "}\n"
+                                                   "QPushButton:pressed {    \n"
+                                                   "    background-color: #87B9E0;\n"
+                                                   "    color: rgb(255, 255, 255);\n"
+                                                   "}")
         self.button_configure_device.setObjectName("button_configure_device")
         self.button_delete_device = QtWidgets.QPushButton(self.page_device)
         self.button_delete_device.setGeometry(QtCore.QRect(995, 15, 150, 30))
@@ -1244,20 +1231,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_delete_device.setFont(font)
         self.button_delete_device.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #B9400C;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #8A0000;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #D04B4B;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                "    border-radius: 10px;    \n"
+                                                "    background-color: #B9400C;\n"
+                                                "    color: rgb(255, 255, 255, 221);\n"
+                                                "}\n"
+                                                "QPushButton:hover {\n"
+                                                "    background-color: #8A0000;\n"
+                                                "    color: rgb(255, 255, 255, 221);\n"
+                                                "}\n"
+                                                "QPushButton:pressed {    \n"
+                                                "    background-color: #D04B4B;\n"
+                                                "    color: rgb(255, 255, 255);\n"
+                                                "}")
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon9.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-remove.png"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.button_delete_device.setIcon(icon9)
         self.button_delete_device.setObjectName("button_delete_device")
         self.horizontalSlider_volume = QtWidgets.QSlider(self.page_device)
@@ -1285,17 +1273,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_ip_address.setFont(font)
         self.lineEdit_ip_address.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                               "    background-color: #91D1EE;\n"
+                                               "    color: #09376B;\n"
+                                               "    border-radius: 10px;\n"
+                                               "    padding-left: 10px;\n"
+                                               "}\n"
+                                               "QLineEdit:hover {\n"
+                                               "    border: 2px solid #0C5DB9;\n"
+                                               "}\n"
+                                               "QLineEdit:focus {\n"
+                                               "    border: 2px solid #0C5DB9;\n"
+                                               "}")
         self.lineEdit_ip_address.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_ip_address.setObjectName("lineEdit_ip_address")
         self.label_subnet_mask = QtWidgets.QLabel(self.page_device)
@@ -1315,17 +1303,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_subnet_mask.setFont(font)
         self.lineEdit_subnet_mask.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                "    background-color: #91D1EE;\n"
+                                                "    color: #09376B;\n"
+                                                "    border-radius: 10px;\n"
+                                                "    padding-left: 10px;\n"
+                                                "}\n"
+                                                "QLineEdit:hover {\n"
+                                                "    border: 2px solid #0C5DB9;\n"
+                                                "}\n"
+                                                "QLineEdit:focus {\n"
+                                                "    border: 2px solid #0C5DB9;\n"
+                                                "}")
         self.lineEdit_subnet_mask.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_subnet_mask.setObjectName("lineEdit_subnet_mask")
         self.lineEdit_gateway = QtWidgets.QLineEdit(self.page_device)
@@ -1337,17 +1325,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_gateway.setFont(font)
         self.lineEdit_gateway.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                            "    background-color: #91D1EE;\n"
+                                            "    color: #09376B;\n"
+                                            "    border-radius: 10px;\n"
+                                            "    padding-left: 10px;\n"
+                                            "}\n"
+                                            "QLineEdit:hover {\n"
+                                            "    border: 2px solid #0C5DB9;\n"
+                                            "}\n"
+                                            "QLineEdit:focus {\n"
+                                            "    border: 2px solid #0C5DB9;\n"
+                                            "}")
         self.lineEdit_gateway.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_gateway.setObjectName("lineEdit_gateway")
         self.label_gateway = QtWidgets.QLabel(self.page_device)
@@ -1367,17 +1355,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_ddns1.setFont(font)
         self.lineEdit_ddns1.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                          "    background-color: #91D1EE;\n"
+                                          "    color: #09376B;\n"
+                                          "    border-radius: 10px;\n"
+                                          "    padding-left: 10px;\n"
+                                          "}\n"
+                                          "QLineEdit:hover {\n"
+                                          "    border: 2px solid #0C5DB9;\n"
+                                          "}\n"
+                                          "QLineEdit:focus {\n"
+                                          "    border: 2px solid #0C5DB9;\n"
+                                          "}")
         self.lineEdit_ddns1.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_ddns1.setObjectName("lineEdit_ddns1")
         self.label_ddns1 = QtWidgets.QLabel(self.page_device)
@@ -1397,17 +1385,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_ddns2.setFont(font)
         self.lineEdit_ddns2.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                          "    background-color: #91D1EE;\n"
+                                          "    color: #09376B;\n"
+                                          "    border-radius: 10px;\n"
+                                          "    padding-left: 10px;\n"
+                                          "}\n"
+                                          "QLineEdit:hover {\n"
+                                          "    border: 2px solid #0C5DB9;\n"
+                                          "}\n"
+                                          "QLineEdit:focus {\n"
+                                          "    border: 2px solid #0C5DB9;\n"
+                                          "}")
         self.lineEdit_ddns2.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_ddns2.setObjectName("lineEdit_ddns2")
         self.label_ddns2 = QtWidgets.QLabel(self.page_device)
@@ -1481,17 +1469,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_device_name.setFont(font)
         self.lineEdit_device_name.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                "    background-color: #91D1EE;\n"
+                                                "    color: #09376B;\n"
+                                                "    border-radius: 10px;\n"
+                                                "    padding-left: 10px;\n"
+                                                "}\n"
+                                                "QLineEdit:hover {\n"
+                                                "    border: 2px solid #0C5DB9;\n"
+                                                "}\n"
+                                                "QLineEdit:focus {\n"
+                                                "    border: 2px solid #0C5DB9;\n"
+                                                "}")
         self.lineEdit_device_name.setInputMask("")
         self.lineEdit_device_name.setText("")
         self.lineEdit_device_name.setMaxLength(32)
@@ -1554,17 +1542,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_record_time.setFont(font)
         self.lineEdit_record_time.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                "    background-color: #91D1EE;\n"
+                                                "    color: #09376B;\n"
+                                                "    border-radius: 10px;\n"
+                                                "    padding-left: 10px;\n"
+                                                "}\n"
+                                                "QLineEdit:hover {\n"
+                                                "    border: 2px solid #0C5DB9;\n"
+                                                "}\n"
+                                                "QLineEdit:focus {\n"
+                                                "    border: 2px solid #0C5DB9;\n"
+                                                "}")
         self.lineEdit_record_time.setInputMask("")
         self.lineEdit_record_time.setText("")
         self.lineEdit_record_time.setMaxLength(8)
@@ -1579,20 +1567,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_add_devices.setFont(font)
         self.button_add_devices.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0CB53B;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #009229;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #00C838;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                              "    border-radius: 10px;    \n"
+                                              "    background-color: #0CB53B;\n"
+                                              "    color: rgb(255, 255, 255, 221);\n"
+                                              "}\n"
+                                              "QPushButton:hover {\n"
+                                              "    background-color: #009229;\n"
+                                              "    color: rgb(255, 255, 255, 221);\n"
+                                              "}\n"
+                                              "QPushButton:pressed {    \n"
+                                              "    background-color: #00C838;\n"
+                                              "    color: rgb(255, 255, 255);\n"
+                                              "}")
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-plus.png"), QtGui.QIcon.Normal,
+                         QtGui.QIcon.Off)
         self.button_add_devices.setIcon(icon10)
         self.button_add_devices.setObjectName("button_add_devices")
         self.lineEdit_ip_new_deivce = QtWidgets.QLineEdit(self.page_device)
@@ -1604,17 +1593,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_ip_new_deivce.setFont(font)
         self.lineEdit_ip_new_deivce.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                  "    background-color: #91D1EE;\n"
+                                                  "    color: #09376B;\n"
+                                                  "    border-radius: 10px;\n"
+                                                  "    padding-left: 10px;\n"
+                                                  "}\n"
+                                                  "QLineEdit:hover {\n"
+                                                  "    border: 2px solid #0C5DB9;\n"
+                                                  "}\n"
+                                                  "QLineEdit:focus {\n"
+                                                  "    border: 2px solid #0C5DB9;\n"
+                                                  "}")
         self.lineEdit_ip_new_deivce.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_ip_new_deivce.setObjectName("lineEdit_ip_new_deivce")
         self.label_ip_new_device = QtWidgets.QLabel(self.page_device)
@@ -1634,17 +1623,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_device_password.setFont(font)
         self.lineEdit_device_password.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                    "    background-color: #91D1EE;\n"
+                                                    "    color: #09376B;\n"
+                                                    "    border-radius: 10px;\n"
+                                                    "    padding-left: 10px;\n"
+                                                    "}\n"
+                                                    "QLineEdit:hover {\n"
+                                                    "    border: 2px solid #0C5DB9;\n"
+                                                    "}\n"
+                                                    "QLineEdit:focus {\n"
+                                                    "    border: 2px solid #0C5DB9;\n"
+                                                    "}")
         self.lineEdit_device_password.setInputMask("")
         self.lineEdit_device_password.setText("")
         self.lineEdit_device_password.setMaxLength(32767)
@@ -1668,17 +1657,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_new_device_password.setFont(font)
         self.lineEdit_new_device_password.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                        "    background-color: #91D1EE;\n"
+                                                        "    color: #09376B;\n"
+                                                        "    border-radius: 10px;\n"
+                                                        "    padding-left: 10px;\n"
+                                                        "}\n"
+                                                        "QLineEdit:hover {\n"
+                                                        "    border: 2px solid #0C5DB9;\n"
+                                                        "}\n"
+                                                        "QLineEdit:focus {\n"
+                                                        "    border: 2px solid #0C5DB9;\n"
+                                                        "}")
         self.lineEdit_new_device_password.setInputMask("")
         self.lineEdit_new_device_password.setText("")
         self.lineEdit_new_device_password.setMaxLength(32767)
@@ -1710,17 +1699,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_new_device_port.setFont(font)
         self.lineEdit_new_device_port.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                    "    background-color: #91D1EE;\n"
+                                                    "    color: #09376B;\n"
+                                                    "    border-radius: 10px;\n"
+                                                    "    padding-left: 10px;\n"
+                                                    "}\n"
+                                                    "QLineEdit:hover {\n"
+                                                    "    border: 2px solid #0C5DB9;\n"
+                                                    "}\n"
+                                                    "QLineEdit:focus {\n"
+                                                    "    border: 2px solid #0C5DB9;\n"
+                                                    "}")
         self.lineEdit_new_device_port.setInputMask("")
         self.lineEdit_new_device_port.setMaxLength(5)
         self.lineEdit_new_device_port.setEchoMode(QtWidgets.QLineEdit.Normal)
@@ -1738,14 +1727,14 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.tabWidget.setFont(font)
         self.tabWidget.setStyleSheet("QTabBar::tab {\n"
-"    background: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"    min-height: 40px;\n"
-"    padding: 5px;\n"
-"}\n"
-"QTabBar::tab:selected {\n"
-"    background: #2596BE;\n"
-"}")
+                                     "    background: #0C5DB9;\n"
+                                     "    color: rgb(255, 255, 255, 221);\n"
+                                     "    min-height: 40px;\n"
+                                     "    padding: 5px;\n"
+                                     "}\n"
+                                     "QTabBar::tab:selected {\n"
+                                     "    background: #2596BE;\n"
+                                     "}")
         self.tabWidget.setTabPosition(QtWidgets.QTabWidget.West)
         self.tabWidget.setObjectName("tabWidget")
         self.tab_profiles = QtWidgets.QWidget()
@@ -1819,54 +1808,54 @@ class Ui_MainWindow(object):
         self.table_profiles.setPalette(palette)
         self.table_profiles.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.table_profiles.setStyleSheet("QTableWidget {    \n"
-"    background-color: #FFFFFF;\n"
-"    alternate-background-color: #E4F2FD;\n"
-"    gridline-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"}\n"
-"QTableWidget::item{\n"
-"    gridline-color: #91D1EE;\n"
-"}\n"
-"QTableWidget::item:selected{\n"
-"    background-color: #2894D4;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"    border-radius: 0px;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"    border-radius: 0px;\n"
-" }\n"
-"QHeaderView::section{\n"
-"    Background-color: #91D1EE;\n"
-"    max-width: 30px;\n"
-"    border: 1px solid #91D1EE;\n"
-"    border-style: none;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QTableWidget::horizontalHeader {    \n"
-"    background-color: #FFFFFF;\n"
-"}\n"
-"QHeaderView::section:horizontal\n"
-"{\n"
-"    background-color: #91D1EE;\n"
-"    font-weight: bold;\n"
-"    color: #09376B;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QToolTip { \n"
-"    background-color: #0C5DB9;\n"
-"    color: #FFFFFF; \n"
-"    border: #FFFFFF solid 1px;\n"
-"}")
+                                          "    background-color: #FFFFFF;\n"
+                                          "    alternate-background-color: #E4F2FD;\n"
+                                          "    gridline-color: #91D1EE;\n"
+                                          "    color: #09376B;\n"
+                                          "}\n"
+                                          "QTableWidget::item{\n"
+                                          "    gridline-color: #91D1EE;\n"
+                                          "}\n"
+                                          "QTableWidget::item:selected{\n"
+                                          "    background-color: #2894D4;\n"
+                                          "    color: #FFFFFF;\n"
+                                          "}\n"
+                                          "QScrollBar:horizontal {\n"
+                                          "    border: none;\n"
+                                          "    background: #EFF7FD;\n"
+                                          "    height: 14px;\n"
+                                          "    margin: 0px 21px 0 21px;\n"
+                                          "    border-radius: 0px;\n"
+                                          "}\n"
+                                          " QScrollBar:vertical {\n"
+                                          "    border: none;\n"
+                                          "    background: #EFF7FD;\n"
+                                          "    width: 14px;\n"
+                                          "    margin: 21px 0 21px 0;\n"
+                                          "    border-radius: 0px;\n"
+                                          " }\n"
+                                          "QHeaderView::section{\n"
+                                          "    Background-color: #91D1EE;\n"
+                                          "    max-width: 30px;\n"
+                                          "    border: 1px solid #91D1EE;\n"
+                                          "    border-style: none;\n"
+                                          "    border: 1px solid #91D1EE;\n"
+                                          "}\n"
+                                          "QTableWidget::horizontalHeader {    \n"
+                                          "    background-color: #FFFFFF;\n"
+                                          "}\n"
+                                          "QHeaderView::section:horizontal\n"
+                                          "{\n"
+                                          "    background-color: #91D1EE;\n"
+                                          "    font-weight: bold;\n"
+                                          "    color: #09376B;\n"
+                                          "    border: 1px solid #91D1EE;\n"
+                                          "}\n"
+                                          "QToolTip { \n"
+                                          "    background-color: #0C5DB9;\n"
+                                          "    color: #FFFFFF; \n"
+                                          "    border: #FFFFFF solid 1px;\n"
+                                          "}")
         self.table_profiles.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_profiles.setLineWidth(0)
         self.table_profiles.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -1923,20 +1912,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_import_photos.setFont(font)
         self.button_import_photos.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                "    border-radius: 10px;    \n"
+                                                "    background-color: #0C5DB9;\n"
+                                                "    color: rgb(255, 255, 255, 221);\n"
+                                                "}\n"
+                                                "QPushButton:hover {\n"
+                                                "    background-color: #91D1EE;\n"
+                                                "    color: rgb(255, 255, 255, 221);\n"
+                                                "}\n"
+                                                "QPushButton:pressed {    \n"
+                                                "    background-color: #87B9E0;\n"
+                                                "    color: rgb(255, 255, 255);\n"
+                                                "}")
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image-plus.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon11.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image-plus.png"), QtGui.QIcon.Normal,
+                         QtGui.QIcon.Off)
         self.button_import_photos.setIcon(icon11)
         self.button_import_photos.setObjectName("button_import_photos")
         self.button_add_profile = QtWidgets.QPushButton(self.tab_profiles)
@@ -1948,18 +1938,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_add_profile.setFont(font)
         self.button_add_profile.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0CB53B;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #009229;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #00C838;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                              "    border-radius: 10px;    \n"
+                                              "    background-color: #0CB53B;\n"
+                                              "    color: rgb(255, 255, 255, 221);\n"
+                                              "}\n"
+                                              "QPushButton:hover {\n"
+                                              "    background-color: #009229;\n"
+                                              "    color: rgb(255, 255, 255, 221);\n"
+                                              "}\n"
+                                              "QPushButton:pressed {    \n"
+                                              "    background-color: #00C838;\n"
+                                              "    color: rgb(255, 255, 255);\n"
+                                              "}")
         self.button_add_profile.setIcon(icon10)
         self.button_add_profile.setObjectName("button_add_profile")
         self.button_delete_profile = QtWidgets.QPushButton(self.tab_profiles)
@@ -1971,18 +1961,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_delete_profile.setFont(font)
         self.button_delete_profile.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #B9400C;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #8A0000;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #D04B4B;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                 "    border-radius: 10px;    \n"
+                                                 "    background-color: #B9400C;\n"
+                                                 "    color: rgb(255, 255, 255, 221);\n"
+                                                 "}\n"
+                                                 "QPushButton:hover {\n"
+                                                 "    background-color: #8A0000;\n"
+                                                 "    color: rgb(255, 255, 255, 221);\n"
+                                                 "}\n"
+                                                 "QPushButton:pressed {    \n"
+                                                 "    background-color: #D04B4B;\n"
+                                                 "    color: rgb(255, 255, 255);\n"
+                                                 "}")
         self.button_delete_profile.setIcon(icon9)
         self.button_delete_profile.setObjectName("button_delete_profile")
         self.button_send_device = QtWidgets.QPushButton(self.tab_profiles)
@@ -1994,20 +1984,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_send_device.setFont(font)
         self.button_send_device.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                              "    border-radius: 10px;    \n"
+                                              "    background-color: #0C5DB9;\n"
+                                              "    color: rgb(255, 255, 255, 221);\n"
+                                              "}\n"
+                                              "QPushButton:hover {\n"
+                                              "    background-color: #91D1EE;\n"
+                                              "    color: rgb(255, 255, 255, 221);\n"
+                                              "}\n"
+                                              "QPushButton:pressed {    \n"
+                                              "    background-color: #87B9E0;\n"
+                                              "    color: rgb(255, 255, 255);\n"
+                                              "}")
         icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-paper-plane.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon12.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-paper-plane.png"), QtGui.QIcon.Normal,
+                         QtGui.QIcon.Off)
         self.button_send_device.setIcon(icon12)
         self.button_send_device.setObjectName("button_send_device")
         self.button_import_data = QtWidgets.QPushButton(self.tab_profiles)
@@ -2019,20 +2010,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_import_data.setFont(font)
         self.button_import_data.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                              "    border-radius: 10px;    \n"
+                                              "    background-color: #0C5DB9;\n"
+                                              "    color: rgb(255, 255, 255, 221);\n"
+                                              "}\n"
+                                              "QPushButton:hover {\n"
+                                              "    background-color: #91D1EE;\n"
+                                              "    color: rgb(255, 255, 255, 221);\n"
+                                              "}\n"
+                                              "QPushButton:pressed {    \n"
+                                              "    background-color: #87B9E0;\n"
+                                              "    color: rgb(255, 255, 255);\n"
+                                              "}")
         icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-notes.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon13.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-notes.png"), QtGui.QIcon.Normal,
+                         QtGui.QIcon.Off)
         self.button_import_data.setIcon(icon13)
         self.button_import_data.setObjectName("button_import_data")
         self.button_example_data = QtWidgets.QPushButton(self.tab_profiles)
@@ -2044,20 +2036,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_example_data.setFont(font)
         self.button_example_data.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                               "    border-radius: 10px;    \n"
+                                               "    background-color: #0C5DB9;\n"
+                                               "    color: rgb(255, 255, 255, 221);\n"
+                                               "}\n"
+                                               "QPushButton:hover {\n"
+                                               "    background-color: #91D1EE;\n"
+                                               "    color: rgb(255, 255, 255, 221);\n"
+                                               "}\n"
+                                               "QPushButton:pressed {    \n"
+                                               "    background-color: #87B9E0;\n"
+                                               "    color: rgb(255, 255, 255);\n"
+                                               "}")
         icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-library-add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon14.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-library-add.png"), QtGui.QIcon.Normal,
+                         QtGui.QIcon.Off)
         self.button_example_data.setIcon(icon14)
         self.button_example_data.setObjectName("button_example_data")
         self.button_edit_profile = QtWidgets.QPushButton(self.tab_profiles)
@@ -2070,20 +2063,21 @@ class Ui_MainWindow(object):
         self.button_edit_profile.setFont(font)
         self.button_edit_profile.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.button_edit_profile.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                               "    border-radius: 10px;    \n"
+                                               "    background-color: #0C5DB9;\n"
+                                               "    color: rgb(255, 255, 255, 221);\n"
+                                               "}\n"
+                                               "QPushButton:hover {\n"
+                                               "    background-color: #91D1EE;\n"
+                                               "    color: rgb(255, 255, 255, 221);\n"
+                                               "}\n"
+                                               "QPushButton:pressed {    \n"
+                                               "    background-color: #87B9E0;\n"
+                                               "    color: rgb(255, 255, 255);\n"
+                                               "}")
         icon15 = QtGui.QIcon()
-        icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon15.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-pencil.png"), QtGui.QIcon.Normal,
+                         QtGui.QIcon.Off)
         self.button_edit_profile.setIcon(icon15)
         self.button_edit_profile.setObjectName("button_edit_profile")
         self.lineEdit_personnel_number = QtWidgets.QLineEdit(self.tab_profiles)
@@ -2095,17 +2089,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_personnel_number.setFont(font)
         self.lineEdit_personnel_number.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                     "    background-color: #91D1EE;\n"
+                                                     "    color: #09376B;\n"
+                                                     "    border-radius: 10px;\n"
+                                                     "    padding-left: 10px;\n"
+                                                     "}\n"
+                                                     "QLineEdit:hover {\n"
+                                                     "    border: 2px solid #0C5DB9;\n"
+                                                     "}\n"
+                                                     "QLineEdit:focus {\n"
+                                                     "    border: 2px solid #0C5DB9;\n"
+                                                     "}")
         self.lineEdit_personnel_number.setInputMask("")
         self.lineEdit_personnel_number.setText("")
         self.lineEdit_personnel_number.setMaxLength(32)
@@ -2140,17 +2134,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_profile_name.setFont(font)
         self.lineEdit_profile_name.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                 "    background-color: #91D1EE;\n"
+                                                 "    color: #09376B;\n"
+                                                 "    border-radius: 10px;\n"
+                                                 "    padding-left: 10px;\n"
+                                                 "}\n"
+                                                 "QLineEdit:hover {\n"
+                                                 "    border: 2px solid #0C5DB9;\n"
+                                                 "}\n"
+                                                 "QLineEdit:focus {\n"
+                                                 "    border: 2px solid #0C5DB9;\n"
+                                                 "}")
         self.lineEdit_profile_name.setInputMask("")
         self.lineEdit_profile_name.setText("")
         self.lineEdit_profile_name.setMaxLength(64)
@@ -2165,17 +2159,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_passport.setFont(font)
         self.lineEdit_passport.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                             "    background-color: #91D1EE;\n"
+                                             "    color: #09376B;\n"
+                                             "    border-radius: 10px;\n"
+                                             "    padding-left: 10px;\n"
+                                             "}\n"
+                                             "QLineEdit:hover {\n"
+                                             "    border: 2px solid #0C5DB9;\n"
+                                             "}\n"
+                                             "QLineEdit:focus {\n"
+                                             "    border: 2px solid #0C5DB9;\n"
+                                             "}")
         self.lineEdit_passport.setInputMask("")
         self.lineEdit_passport.setText("")
         self.lineEdit_passport.setMaxLength(32)
@@ -2198,37 +2192,37 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.comboBox_department.setFont(font)
         self.comboBox_department.setStyleSheet("QComboBox{\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"    color: #09376B;\n"
-"    text-align:center;\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QComboBox QAbstractItemView {\n"
-"    color: #FFFFFF;\n"
-"    background-color: #0C5DB9;\n"
-"    padding: 10px;\n"
-"    selection-background-color: #91D1EE;\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px;\n"
-"    background-color: #0C5DB9; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }")
+                                               "    background-color: #91D1EE;\n"
+                                               "    border-radius: 10px;\n"
+                                               "    border: 2px solid #0C5DB9;\n"
+                                               "    color: #09376B;\n"
+                                               "    text-align:center;\n"
+                                               "    padding: 5px;\n"
+                                               "    padding-left: 10px;\n"
+                                               "}\n"
+                                               "QComboBox:hover{\n"
+                                               "    border: 2px solid #0C5DB9;\n"
+                                               "}\n"
+                                               "QComboBox QAbstractItemView {\n"
+                                               "    color: #FFFFFF;\n"
+                                               "    background-color: #0C5DB9;\n"
+                                               "    padding: 10px;\n"
+                                               "    selection-background-color: #91D1EE;\n"
+                                               "}\n"
+                                               "QComboBox::drop-down {\n"
+                                               "    subcontrol-origin: padding;\n"
+                                               "    subcontrol-position: top right;\n"
+                                               "    width: 25px;\n"
+                                               "    background-color: #0C5DB9; \n"
+                                               "    border-left-width: 3px;\n"
+                                               "    border-left-color: #0C5DB9;\n"
+                                               "    border-left-style: solid;\n"
+                                               "    border-top-right-radius: 3px;\n"
+                                               "    border-bottom-right-radius: 3px;    \n"
+                                               "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                               "    background-position: center;\n"
+                                               "    background-repeat: no-reperat;\n"
+                                               " }")
         self.comboBox_department.setObjectName("comboBox_department")
         self.label_department = QtWidgets.QLabel(self.tab_profiles)
         self.label_department.setGeometry(QtCore.QRect(20, 180, 150, 30))
@@ -2257,36 +2251,36 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.comboBox_gender.setFont(font)
         self.comboBox_gender.setStyleSheet("QComboBox{\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"    color: #09376B;\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QComboBox QAbstractItemView {\n"
-"    color: #FFFFFF;\n"
-"    background-color: #0C5DB9;\n"
-"    padding: 10px;\n"
-"    selection-background-color: #91D1EE;\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px;\n"
-"    background-color: #0C5DB9; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }")
+                                           "    background-color: #91D1EE;\n"
+                                           "    border-radius: 10px;\n"
+                                           "    border: 2px solid #0C5DB9;\n"
+                                           "    color: #09376B;\n"
+                                           "    padding: 5px;\n"
+                                           "    padding-left: 10px;\n"
+                                           "}\n"
+                                           "QComboBox:hover{\n"
+                                           "    border: 2px solid #0C5DB9;\n"
+                                           "}\n"
+                                           "QComboBox QAbstractItemView {\n"
+                                           "    color: #FFFFFF;\n"
+                                           "    background-color: #0C5DB9;\n"
+                                           "    padding: 10px;\n"
+                                           "    selection-background-color: #91D1EE;\n"
+                                           "}\n"
+                                           "QComboBox::drop-down {\n"
+                                           "    subcontrol-origin: padding;\n"
+                                           "    subcontrol-position: top right;\n"
+                                           "    width: 25px;\n"
+                                           "    background-color: #0C5DB9; \n"
+                                           "    border-left-width: 3px;\n"
+                                           "    border-left-color: #0C5DB9;\n"
+                                           "    border-left-style: solid;\n"
+                                           "    border-top-right-radius: 3px;\n"
+                                           "    border-bottom-right-radius: 3px;    \n"
+                                           "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                           "    background-position: center;\n"
+                                           "    background-repeat: no-reperat;\n"
+                                           " }")
         self.comboBox_gender.setObjectName("comboBox_gender")
         self.label_information = QtWidgets.QLabel(self.tab_profiles)
         self.label_information.setGeometry(QtCore.QRect(440, 100, 300, 30))
@@ -2305,10 +2299,10 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.plainTextEdit_information.setFont(font)
         self.plainTextEdit_information.setStyleSheet("QPlainTextEdit {\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    color: #09376B;\n"
-"}")
+                                                     "    background-color: #91D1EE;\n"
+                                                     "    border-radius: 10px;\n"
+                                                     "    color: #09376B;\n"
+                                                     "}")
         self.plainTextEdit_information.setObjectName("plainTextEdit_information")
         self.button_load_photo = QtWidgets.QPushButton(self.tab_profiles)
         self.button_load_photo.setGeometry(QtCore.QRect(770, 60, 150, 30))
@@ -2319,20 +2313,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_load_photo.setFont(font)
         self.button_load_photo.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                             "    border-radius: 10px;    \n"
+                                             "    background-color: #0C5DB9;\n"
+                                             "    color: rgb(255, 255, 255, 221);\n"
+                                             "}\n"
+                                             "QPushButton:hover {\n"
+                                             "    background-color: #91D1EE;\n"
+                                             "    color: rgb(255, 255, 255, 221);\n"
+                                             "}\n"
+                                             "QPushButton:pressed {    \n"
+                                             "    background-color: #87B9E0;\n"
+                                             "    color: rgb(255, 255, 255);\n"
+                                             "}")
         icon16 = QtGui.QIcon()
-        icon16.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon16.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-image1.png"), QtGui.QIcon.Normal,
+                         QtGui.QIcon.Off)
         self.button_load_photo.setIcon(icon16)
         self.button_load_photo.setObjectName("button_load_photo")
         self.label_show_photo = QtWidgets.QLabel(self.tab_profiles)
@@ -2344,8 +2339,8 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_show_photo.setFont(font)
         self.label_show_photo.setStyleSheet("color: #09376B;\n"
-"background-color: #91D1EE;\n"
-"border-radius: 10px;")
+                                            "background-color: #91D1EE;\n"
+                                            "border-radius: 10px;")
         self.label_show_photo.setAlignment(QtCore.Qt.AlignCenter)
         self.label_show_photo.setObjectName("label_show_photo")
         self.label_visitor = QtWidgets.QLabel(self.tab_profiles)
@@ -2367,18 +2362,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_export_profiles_data.setFont(font)
         self.button_export_profiles_data.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                       "    border-radius: 10px;    \n"
+                                                       "    background-color: #0C5DB9;\n"
+                                                       "    color: rgb(255, 255, 255, 221);\n"
+                                                       "}\n"
+                                                       "QPushButton:hover {\n"
+                                                       "    background-color: #91D1EE;\n"
+                                                       "    color: rgb(255, 255, 255, 221);\n"
+                                                       "}\n"
+                                                       "QPushButton:pressed {    \n"
+                                                       "    background-color: #87B9E0;\n"
+                                                       "    color: rgb(255, 255, 255);\n"
+                                                       "}")
         self.button_export_profiles_data.setIcon(icon13)
         self.button_export_profiles_data.setObjectName("button_export_profiles_data")
         self.tabWidget.addTab(self.tab_profiles, "")
@@ -2452,50 +2447,50 @@ class Ui_MainWindow(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
         self.table_departments.setPalette(palette)
         self.table_departments.setStyleSheet("QTableWidget {    \n"
-"    background-color: #FFFFFF;\n"
-"    alternate-background-color: #E4F2FD;\n"
-"    gridline-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"}\n"
-"QTableWidget::item{\n"
-"    gridline-color: #91D1EE;\n"
-"}\n"
-"QTableWidget::item:selected{\n"
-"    background-color: #2894D4;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"    border-radius: 0px;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"    border-radius: 0px;\n"
-" }\n"
-"QHeaderView::section{\n"
-"    Background-color: #91D1EE;\n"
-"    max-width: 30px;\n"
-"    border: 1px solid #91D1EE;\n"
-"    border-style: none;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QTableWidget::horizontalHeader {    \n"
-"    background-color: #FFFFFF;\n"
-"}\n"
-"QHeaderView::section:horizontal\n"
-"{\n"
-"    background-color: #91D1EE;\n"
-"    font-weight: bold;\n"
-"    color: #09376B;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"")
+                                             "    background-color: #FFFFFF;\n"
+                                             "    alternate-background-color: #E4F2FD;\n"
+                                             "    gridline-color: #91D1EE;\n"
+                                             "    color: #09376B;\n"
+                                             "}\n"
+                                             "QTableWidget::item{\n"
+                                             "    gridline-color: #91D1EE;\n"
+                                             "}\n"
+                                             "QTableWidget::item:selected{\n"
+                                             "    background-color: #2894D4;\n"
+                                             "    color: #FFFFFF;\n"
+                                             "}\n"
+                                             "QScrollBar:horizontal {\n"
+                                             "    border: none;\n"
+                                             "    background: #EFF7FD;\n"
+                                             "    height: 14px;\n"
+                                             "    margin: 0px 21px 0 21px;\n"
+                                             "    border-radius: 0px;\n"
+                                             "}\n"
+                                             " QScrollBar:vertical {\n"
+                                             "    border: none;\n"
+                                             "    background: #EFF7FD;\n"
+                                             "    width: 14px;\n"
+                                             "    margin: 21px 0 21px 0;\n"
+                                             "    border-radius: 0px;\n"
+                                             " }\n"
+                                             "QHeaderView::section{\n"
+                                             "    Background-color: #91D1EE;\n"
+                                             "    max-width: 30px;\n"
+                                             "    border: 1px solid #91D1EE;\n"
+                                             "    border-style: none;\n"
+                                             "    border: 1px solid #91D1EE;\n"
+                                             "}\n"
+                                             "QTableWidget::horizontalHeader {    \n"
+                                             "    background-color: #FFFFFF;\n"
+                                             "}\n"
+                                             "QHeaderView::section:horizontal\n"
+                                             "{\n"
+                                             "    background-color: #91D1EE;\n"
+                                             "    font-weight: bold;\n"
+                                             "    color: #09376B;\n"
+                                             "    border: 1px solid #91D1EE;\n"
+                                             "}\n"
+                                             "")
         self.table_departments.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_departments.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.table_departments.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
@@ -2533,18 +2528,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_delete_department.setFont(font)
         self.button_delete_department.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #B9400C;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #8A0000;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #D04B4B;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                    "    border-radius: 10px;    \n"
+                                                    "    background-color: #B9400C;\n"
+                                                    "    color: rgb(255, 255, 255, 221);\n"
+                                                    "}\n"
+                                                    "QPushButton:hover {\n"
+                                                    "    background-color: #8A0000;\n"
+                                                    "    color: rgb(255, 255, 255, 221);\n"
+                                                    "}\n"
+                                                    "QPushButton:pressed {    \n"
+                                                    "    background-color: #D04B4B;\n"
+                                                    "    color: rgb(255, 255, 255);\n"
+                                                    "}")
         self.button_delete_department.setIcon(icon9)
         self.button_delete_department.setObjectName("button_delete_department")
         self.button_add_department = QtWidgets.QPushButton(self.tab_departments)
@@ -2556,18 +2551,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_add_department.setFont(font)
         self.button_add_department.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0CB53B;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #009229;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #00C838;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                 "    border-radius: 10px;    \n"
+                                                 "    background-color: #0CB53B;\n"
+                                                 "    color: rgb(255, 255, 255, 221);\n"
+                                                 "}\n"
+                                                 "QPushButton:hover {\n"
+                                                 "    background-color: #009229;\n"
+                                                 "    color: rgb(255, 255, 255, 221);\n"
+                                                 "}\n"
+                                                 "QPushButton:pressed {    \n"
+                                                 "    background-color: #00C838;\n"
+                                                 "    color: rgb(255, 255, 255);\n"
+                                                 "}")
         self.button_add_department.setIcon(icon10)
         self.button_add_department.setObjectName("button_add_department")
         self.button_edit_department = QtWidgets.QPushButton(self.tab_departments)
@@ -2579,18 +2574,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_edit_department.setFont(font)
         self.button_edit_department.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                  "    border-radius: 10px;    \n"
+                                                  "    background-color: #0C5DB9;\n"
+                                                  "    color: rgb(255, 255, 255, 221);\n"
+                                                  "}\n"
+                                                  "QPushButton:hover {\n"
+                                                  "    background-color: #91D1EE;\n"
+                                                  "    color: rgb(255, 255, 255, 221);\n"
+                                                  "}\n"
+                                                  "QPushButton:pressed {    \n"
+                                                  "    background-color: #87B9E0;\n"
+                                                  "    color: rgb(255, 255, 255);\n"
+                                                  "}")
         self.button_edit_department.setIcon(icon15)
         self.button_edit_department.setObjectName("button_edit_department")
         self.label_department_name = QtWidgets.QLabel(self.tab_departments)
@@ -2612,17 +2607,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_department_name.setFont(font)
         self.lineEdit_department_name.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                    "    background-color: #91D1EE;\n"
+                                                    "    color: #09376B;\n"
+                                                    "    border-radius: 10px;\n"
+                                                    "    padding-left: 10px;\n"
+                                                    "}\n"
+                                                    "QLineEdit:hover {\n"
+                                                    "    border: 2px solid #0C5DB9;\n"
+                                                    "}\n"
+                                                    "QLineEdit:focus {\n"
+                                                    "    border: 2px solid #0C5DB9;\n"
+                                                    "}")
         self.lineEdit_department_name.setInputMask("")
         self.lineEdit_department_name.setText("")
         self.lineEdit_department_name.setMaxLength(32)
@@ -2647,17 +2642,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_department_location.setFont(font)
         self.lineEdit_department_location.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                        "    background-color: #91D1EE;\n"
+                                                        "    color: #09376B;\n"
+                                                        "    border-radius: 10px;\n"
+                                                        "    padding-left: 10px;\n"
+                                                        "}\n"
+                                                        "QLineEdit:hover {\n"
+                                                        "    border: 2px solid #0C5DB9;\n"
+                                                        "}\n"
+                                                        "QLineEdit:focus {\n"
+                                                        "    border: 2px solid #0C5DB9;\n"
+                                                        "}")
         self.lineEdit_department_location.setInputMask("")
         self.lineEdit_department_location.setText("")
         self.lineEdit_department_location.setMaxLength(64)
@@ -2675,20 +2670,21 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_device_database_view.setFont(font)
         self.button_device_database_view.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                       "    border-radius: 10px;    \n"
+                                                       "    background-color: #0C5DB9;\n"
+                                                       "    color: rgb(255, 255, 255, 221);\n"
+                                                       "}\n"
+                                                       "QPushButton:hover {\n"
+                                                       "    background-color: #91D1EE;\n"
+                                                       "    color: rgb(255, 255, 255, 221);\n"
+                                                       "}\n"
+                                                       "QPushButton:pressed {    \n"
+                                                       "    background-color: #87B9E0;\n"
+                                                       "    color: rgb(255, 255, 255);\n"
+                                                       "}")
         icon17 = QtGui.QIcon()
-        icon17.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-user.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon17.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-user.png"), QtGui.QIcon.Normal,
+                         QtGui.QIcon.Off)
         self.button_device_database_view.setIcon(icon17)
         self.button_device_database_view.setObjectName("button_device_database_view")
         self.comboBox_databases = QtWidgets.QComboBox(self.tab_device_database)
@@ -2698,37 +2694,37 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.comboBox_databases.setFont(font)
         self.comboBox_databases.setStyleSheet("QComboBox{\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"    color: #09376B;\n"
-"    text-align:center;\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QComboBox QAbstractItemView {\n"
-"    color: #FFFFFF;\n"
-"    background-color: #0C5DB9;\n"
-"    padding: 10px;\n"
-"    selection-background-color: #91D1EE;\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px;\n"
-"    background-color: #0C5DB9; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }")
+                                              "    background-color: #91D1EE;\n"
+                                              "    border-radius: 10px;\n"
+                                              "    border: 2px solid #0C5DB9;\n"
+                                              "    color: #09376B;\n"
+                                              "    text-align:center;\n"
+                                              "    padding: 5px;\n"
+                                              "    padding-left: 10px;\n"
+                                              "}\n"
+                                              "QComboBox:hover{\n"
+                                              "    border: 2px solid #0C5DB9;\n"
+                                              "}\n"
+                                              "QComboBox QAbstractItemView {\n"
+                                              "    color: #FFFFFF;\n"
+                                              "    background-color: #0C5DB9;\n"
+                                              "    padding: 10px;\n"
+                                              "    selection-background-color: #91D1EE;\n"
+                                              "}\n"
+                                              "QComboBox::drop-down {\n"
+                                              "    subcontrol-origin: padding;\n"
+                                              "    subcontrol-position: top right;\n"
+                                              "    width: 25px;\n"
+                                              "    background-color: #0C5DB9; \n"
+                                              "    border-left-width: 3px;\n"
+                                              "    border-left-color: #0C5DB9;\n"
+                                              "    border-left-style: solid;\n"
+                                              "    border-top-right-radius: 3px;\n"
+                                              "    border-bottom-right-radius: 3px;    \n"
+                                              "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                              "    background-position: center;\n"
+                                              "    background-repeat: no-reperat;\n"
+                                              " }")
         self.comboBox_databases.setObjectName("comboBox_databases")
         self.button_delete_device_profiles = QtWidgets.QPushButton(self.tab_device_database)
         self.button_delete_device_profiles.setGeometry(QtCore.QRect(430, 15, 150, 30))
@@ -2739,18 +2735,18 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_delete_device_profiles.setFont(font)
         self.button_delete_device_profiles.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #B9400C;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #8A0000;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #D04B4B;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                         "    border-radius: 10px;    \n"
+                                                         "    background-color: #B9400C;\n"
+                                                         "    color: rgb(255, 255, 255, 221);\n"
+                                                         "}\n"
+                                                         "QPushButton:hover {\n"
+                                                         "    background-color: #8A0000;\n"
+                                                         "    color: rgb(255, 255, 255, 221);\n"
+                                                         "}\n"
+                                                         "QPushButton:pressed {    \n"
+                                                         "    background-color: #D04B4B;\n"
+                                                         "    color: rgb(255, 255, 255);\n"
+                                                         "}")
         self.button_delete_device_profiles.setIcon(icon9)
         self.button_delete_device_profiles.setObjectName("button_delete_device_profiles")
         self.table_device_profiles = QtWidgets.QTableWidget(self.tab_device_database)
@@ -2822,50 +2818,50 @@ class Ui_MainWindow(object):
         self.table_device_profiles.setPalette(palette)
         self.table_device_profiles.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.table_device_profiles.setStyleSheet("QTableWidget {    \n"
-"    background-color: #FFFFFF;\n"
-"    alternate-background-color: #E4F2FD;\n"
-"    gridline-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"}\n"
-"QTableWidget::item{\n"
-"    gridline-color: #91D1EE;\n"
-"}\n"
-"QTableWidget::item:selected{\n"
-"    background-color: #2894D4;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"    border-radius: 0px;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"    border-radius: 0px;\n"
-" }\n"
-"QHeaderView::section{\n"
-"    Background-color: #91D1EE;\n"
-"    max-width: 30px;\n"
-"    border: 1px solid #91D1EE;\n"
-"    border-style: none;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QTableWidget::horizontalHeader {    \n"
-"    background-color: #FFFFFF;\n"
-"}\n"
-"QHeaderView::section:horizontal\n"
-"{\n"
-"    background-color: #91D1EE;\n"
-"    font-weight: bold;\n"
-"    color: #09376B;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"")
+                                                 "    background-color: #FFFFFF;\n"
+                                                 "    alternate-background-color: #E4F2FD;\n"
+                                                 "    gridline-color: #91D1EE;\n"
+                                                 "    color: #09376B;\n"
+                                                 "}\n"
+                                                 "QTableWidget::item{\n"
+                                                 "    gridline-color: #91D1EE;\n"
+                                                 "}\n"
+                                                 "QTableWidget::item:selected{\n"
+                                                 "    background-color: #2894D4;\n"
+                                                 "    color: #FFFFFF;\n"
+                                                 "}\n"
+                                                 "QScrollBar:horizontal {\n"
+                                                 "    border: none;\n"
+                                                 "    background: #EFF7FD;\n"
+                                                 "    height: 14px;\n"
+                                                 "    margin: 0px 21px 0 21px;\n"
+                                                 "    border-radius: 0px;\n"
+                                                 "}\n"
+                                                 " QScrollBar:vertical {\n"
+                                                 "    border: none;\n"
+                                                 "    background: #EFF7FD;\n"
+                                                 "    width: 14px;\n"
+                                                 "    margin: 21px 0 21px 0;\n"
+                                                 "    border-radius: 0px;\n"
+                                                 " }\n"
+                                                 "QHeaderView::section{\n"
+                                                 "    Background-color: #91D1EE;\n"
+                                                 "    max-width: 30px;\n"
+                                                 "    border: 1px solid #91D1EE;\n"
+                                                 "    border-style: none;\n"
+                                                 "    border: 1px solid #91D1EE;\n"
+                                                 "}\n"
+                                                 "QTableWidget::horizontalHeader {    \n"
+                                                 "    background-color: #FFFFFF;\n"
+                                                 "}\n"
+                                                 "QHeaderView::section:horizontal\n"
+                                                 "{\n"
+                                                 "    background-color: #91D1EE;\n"
+                                                 "    font-weight: bold;\n"
+                                                 "    color: #09376B;\n"
+                                                 "    border: 1px solid #91D1EE;\n"
+                                                 "}\n"
+                                                 "")
         self.table_device_profiles.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_device_profiles.setLineWidth(0)
         self.table_device_profiles.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -2924,43 +2920,43 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.dateTimeEdit_start.setFont(font)
         self.dateTimeEdit_start.setStyleSheet("QDateTimeEdit{\n"
-"    color: #09376B;\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QDateTimeEdit:hover{\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QDateTimeEdit QAbstractItemView {\n"
-"    color: #FFFFFF;\n"
-"    background-color: #0C5DB9;\n"
-"    padding: 10px;\n"
-"    selection-background-color: #91D1EE;\n"
-"}\n"
-"  /* header row */\n"
-"QCalendarWidget  QWidget\n"
-"{\n"
-"    background-color: #0C5DB9;\n"
-"    alternate-background-color: #0C5DB9;\n"
-"}\n"
-"  /*normal days */\n"
-"QCalendarWidget QAbstractItemView:enabled {\n"
-"    font-size:12px;\n"
-"    font: \"Segoe UI\";\n"
-"    color: #FFFFFF;\n"
-"    background-color: #0C5DB9;\n"
-"    selection-background-color:  #91D1EE;\n"
-"    selection-color: #FFFFFF;\n"
-"}\n"
-"#qt_calendar_prevmonth{\n"
-"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);\n"
-"}\n"
-"#qt_calendar_nextmonth{\n"
-"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);\n"
-"}")
+                                              "    color: #09376B;\n"
+                                              "    background-color: #91D1EE;\n"
+                                              "    border-radius: 10px;\n"
+                                              "    border: 2px solid #0C5DB9;\n"
+                                              "    padding: 5px;\n"
+                                              "    padding-left: 10px;\n"
+                                              "}\n"
+                                              "QDateTimeEdit:hover{\n"
+                                              "    border: 2px solid #0C5DB9;\n"
+                                              "}\n"
+                                              "QDateTimeEdit QAbstractItemView {\n"
+                                              "    color: #FFFFFF;\n"
+                                              "    background-color: #0C5DB9;\n"
+                                              "    padding: 10px;\n"
+                                              "    selection-background-color: #91D1EE;\n"
+                                              "}\n"
+                                              "  /* header row */\n"
+                                              "QCalendarWidget  QWidget\n"
+                                              "{\n"
+                                              "    background-color: #0C5DB9;\n"
+                                              "    alternate-background-color: #0C5DB9;\n"
+                                              "}\n"
+                                              "  /*normal days */\n"
+                                              "QCalendarWidget QAbstractItemView:enabled {\n"
+                                              "    font-size:12px;\n"
+                                              "    font: \"Segoe UI\";\n"
+                                              "    color: #FFFFFF;\n"
+                                              "    background-color: #0C5DB9;\n"
+                                              "    selection-background-color:  #91D1EE;\n"
+                                              "    selection-color: #FFFFFF;\n"
+                                              "}\n"
+                                              "#qt_calendar_prevmonth{\n"
+                                              "    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);\n"
+                                              "}\n"
+                                              "#qt_calendar_nextmonth{\n"
+                                              "    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);\n"
+                                              "}")
         self.dateTimeEdit_start.setAlignment(QtCore.Qt.AlignCenter)
         self.dateTimeEdit_start.setDateTime(QtCore.QDateTime(QtCore.QDate(2020, 1, 1), QtCore.QTime(0, 0, 0)))
         self.dateTimeEdit_start.setMinimumDate(QtCore.QDate(2020, 1, 1))
@@ -2973,43 +2969,43 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.dateTimeEdit_end.setFont(font)
         self.dateTimeEdit_end.setStyleSheet("QDateTimeEdit{\n"
-"    color: #09376B;\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QDateTimeEdit:hover{\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QDateTimeEdit QAbstractItemView {\n"
-"    color: #FFFFFF;\n"
-"    background-color: #0C5DB9;\n"
-"    padding: 10px;\n"
-"    selection-background-color: #91D1EE;\n"
-"}\n"
-"  /* header row */\n"
-"QCalendarWidget  QWidget\n"
-"{\n"
-"    background-color: #0C5DB9;\n"
-"    alternate-background-color: #0C5DB9;\n"
-"}\n"
-"  /*normal days */\n"
-"QCalendarWidget QAbstractItemView:enabled {\n"
-"    font-size:12px;\n"
-"    font: \"Segoe UI\";\n"
-"    color: #FFFFFF;\n"
-"    background-color: #0C5DB9;\n"
-"    selection-background-color:  #91D1EE;\n"
-"    selection-color: #FFFFFF;\n"
-"}\n"
-"#qt_calendar_prevmonth{\n"
-"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);\n"
-"}\n"
-"#qt_calendar_nextmonth{\n"
-"    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);\n"
-"}")
+                                            "    color: #09376B;\n"
+                                            "    background-color: #91D1EE;\n"
+                                            "    border-radius: 10px;\n"
+                                            "    border: 2px solid #0C5DB9;\n"
+                                            "    padding: 5px;\n"
+                                            "    padding-left: 10px;\n"
+                                            "}\n"
+                                            "QDateTimeEdit:hover{\n"
+                                            "    border: 2px solid #0C5DB9;\n"
+                                            "}\n"
+                                            "QDateTimeEdit QAbstractItemView {\n"
+                                            "    color: #FFFFFF;\n"
+                                            "    background-color: #0C5DB9;\n"
+                                            "    padding: 10px;\n"
+                                            "    selection-background-color: #91D1EE;\n"
+                                            "}\n"
+                                            "  /* header row */\n"
+                                            "QCalendarWidget  QWidget\n"
+                                            "{\n"
+                                            "    background-color: #0C5DB9;\n"
+                                            "    alternate-background-color: #0C5DB9;\n"
+                                            "}\n"
+                                            "  /*normal days */\n"
+                                            "QCalendarWidget QAbstractItemView:enabled {\n"
+                                            "    font-size:12px;\n"
+                                            "    font: \"Segoe UI\";\n"
+                                            "    color: #FFFFFF;\n"
+                                            "    background-color: #0C5DB9;\n"
+                                            "    selection-background-color:  #91D1EE;\n"
+                                            "    selection-color: #FFFFFF;\n"
+                                            "}\n"
+                                            "#qt_calendar_prevmonth{\n"
+                                            "    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-left.png);\n"
+                                            "}\n"
+                                            "#qt_calendar_nextmonth{\n"
+                                            "    qproperty-icon: url(:/16x16/data/resources/icons/16x16/cil-arrow-right.png);\n"
+                                            "}")
         self.dateTimeEdit_end.setAlignment(QtCore.Qt.AlignCenter)
         self.dateTimeEdit_end.setMinimumDate(QtCore.QDate(2020, 1, 1))
         self.dateTimeEdit_end.setCalendarPopup(True)
@@ -3037,20 +3033,21 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.button_statistics_filter.setFont(font)
         self.button_statistics_filter.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                    "    border-radius: 10px;    \n"
+                                                    "    background-color: #0C5DB9;\n"
+                                                    "    color: rgb(255, 255, 255, 221);\n"
+                                                    "}\n"
+                                                    "QPushButton:hover {\n"
+                                                    "    background-color: #91D1EE;\n"
+                                                    "    color: rgb(255, 255, 255, 221);\n"
+                                                    "}\n"
+                                                    "QPushButton:pressed {    \n"
+                                                    "    background-color: #87B9E0;\n"
+                                                    "    color: rgb(255, 255, 255);\n"
+                                                    "}")
         icon18 = QtGui.QIcon()
-        icon18.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon18.addPixmap(QtGui.QPixmap(":/16x16/data/resources/icons/16x16/cil-magnifying-glass.png"),
+                         QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_statistics_filter.setIcon(icon18)
         self.button_statistics_filter.setObjectName("button_statistics_filter")
         self.button_export_statistics_data = QtWidgets.QPushButton(self.page_statistic)
@@ -3060,18 +3057,18 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.button_export_statistics_data.setFont(font)
         self.button_export_statistics_data.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                         "    border-radius: 10px;    \n"
+                                                         "    background-color: #0C5DB9;\n"
+                                                         "    color: rgb(255, 255, 255, 221);\n"
+                                                         "}\n"
+                                                         "QPushButton:hover {\n"
+                                                         "    background-color: #91D1EE;\n"
+                                                         "    color: rgb(255, 255, 255, 221);\n"
+                                                         "}\n"
+                                                         "QPushButton:pressed {    \n"
+                                                         "    background-color: #87B9E0;\n"
+                                                         "    color: rgb(255, 255, 255);\n"
+                                                         "}")
         self.button_export_statistics_data.setIcon(icon13)
         self.button_export_statistics_data.setObjectName("button_export_statistics_data")
         self.label_chart1 = QtWidgets.QLabel(self.page_statistic)
@@ -3152,54 +3149,54 @@ class Ui_MainWindow(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
         self.table_statistics.setPalette(palette)
         self.table_statistics.setStyleSheet("QTableWidget {    \n"
-"    background-color: #FFFFFF;\n"
-"    alternate-background-color: #E4F2FD;\n"
-"    gridline-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"}\n"
-"QTableWidget::item{\n"
-"    gridline-color: #91D1EE;\n"
-"}\n"
-"QTableWidget::item:selected{\n"
-"    background-color: #2894D4;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"    border-radius: 0px;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #EFF7FD;\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"    border-radius: 0px;\n"
-" }\n"
-"QHeaderView::section{\n"
-"    Background-color: #91D1EE;\n"
-"    max-width: 30px;\n"
-"    border: 1px solid #91D1EE;\n"
-"    border-style: none;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QTableWidget::horizontalHeader {    \n"
-"    background-color: #FFFFFF;\n"
-"}\n"
-"QHeaderView::section:horizontal\n"
-"{\n"
-"    background-color: #91D1EE;\n"
-"    font-weight: bold;\n"
-"    color: #09376B;\n"
-"    border: 1px solid #91D1EE;\n"
-"}\n"
-"QToolTip { \n"
-"    background-color: #0C5DB9;\n"
-"    color: #FFFFFF; \n"
-"    border: #FFFFFF solid 1px;\n"
-"}")
+                                            "    background-color: #FFFFFF;\n"
+                                            "    alternate-background-color: #E4F2FD;\n"
+                                            "    gridline-color: #91D1EE;\n"
+                                            "    color: #09376B;\n"
+                                            "}\n"
+                                            "QTableWidget::item{\n"
+                                            "    gridline-color: #91D1EE;\n"
+                                            "}\n"
+                                            "QTableWidget::item:selected{\n"
+                                            "    background-color: #2894D4;\n"
+                                            "    color: #FFFFFF;\n"
+                                            "}\n"
+                                            "QScrollBar:horizontal {\n"
+                                            "    border: none;\n"
+                                            "    background: #EFF7FD;\n"
+                                            "    height: 14px;\n"
+                                            "    margin: 0px 21px 0 21px;\n"
+                                            "    border-radius: 0px;\n"
+                                            "}\n"
+                                            " QScrollBar:vertical {\n"
+                                            "    border: none;\n"
+                                            "    background: #EFF7FD;\n"
+                                            "    width: 14px;\n"
+                                            "    margin: 21px 0 21px 0;\n"
+                                            "    border-radius: 0px;\n"
+                                            " }\n"
+                                            "QHeaderView::section{\n"
+                                            "    Background-color: #91D1EE;\n"
+                                            "    max-width: 30px;\n"
+                                            "    border: 1px solid #91D1EE;\n"
+                                            "    border-style: none;\n"
+                                            "    border: 1px solid #91D1EE;\n"
+                                            "}\n"
+                                            "QTableWidget::horizontalHeader {    \n"
+                                            "    background-color: #FFFFFF;\n"
+                                            "}\n"
+                                            "QHeaderView::section:horizontal\n"
+                                            "{\n"
+                                            "    background-color: #91D1EE;\n"
+                                            "    font-weight: bold;\n"
+                                            "    color: #09376B;\n"
+                                            "    border: 1px solid #91D1EE;\n"
+                                            "}\n"
+                                            "QToolTip { \n"
+                                            "    background-color: #0C5DB9;\n"
+                                            "    color: #FFFFFF; \n"
+                                            "    border: #FFFFFF solid 1px;\n"
+                                            "}")
         self.table_statistics.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.table_statistics.setFrameShadow(QtWidgets.QFrame.Plain)
         self.table_statistics.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -3270,17 +3267,17 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.lineEdit_profile_name_filter.setFont(font)
         self.lineEdit_profile_name_filter.setStyleSheet("QLineEdit {\n"
-"    background-color: #91D1EE;\n"
-"    color: #09376B;\n"
-"    border-radius: 10px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QLineEdit:hover {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #0C5DB9;\n"
-"}")
+                                                        "    background-color: #91D1EE;\n"
+                                                        "    color: #09376B;\n"
+                                                        "    border-radius: 10px;\n"
+                                                        "    padding-left: 10px;\n"
+                                                        "}\n"
+                                                        "QLineEdit:hover {\n"
+                                                        "    border: 2px solid #0C5DB9;\n"
+                                                        "}\n"
+                                                        "QLineEdit:focus {\n"
+                                                        "    border: 2px solid #0C5DB9;\n"
+                                                        "}")
         self.lineEdit_profile_name_filter.setInputMask("")
         self.lineEdit_profile_name_filter.setText("")
         self.lineEdit_profile_name_filter.setMaxLength(64)
@@ -3305,48 +3302,48 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.doubleSpinBox_min_temperature.setFont(font)
         self.doubleSpinBox_min_temperature.setStyleSheet("/* DoubleSpinBox */\n"
-"QDoubleSpinBox {\n"
-"    color: #09376B;\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"\n"
-"}\n"
-"QDoubleSpinBox :hover{\n"
-"    border: 2px solid #91D1EE;\n"
-"}\n"
-"QDoubleSpinBox::up-arrow {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 10px;\n"
-"    background-color: #0C5DB9;\n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDoubleSpinBox::down-arrow {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-bottom-right-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDoubleSpinBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}")
+                                                         "QDoubleSpinBox {\n"
+                                                         "    color: #09376B;\n"
+                                                         "    background-color: #91D1EE;\n"
+                                                         "    border-radius: 10px;\n"
+                                                         "    border: 2px solid #0C5DB9;\n"
+                                                         "\n"
+                                                         "}\n"
+                                                         "QDoubleSpinBox :hover{\n"
+                                                         "    border: 2px solid #91D1EE;\n"
+                                                         "}\n"
+                                                         "QDoubleSpinBox::up-arrow {\n"
+                                                         "    subcontrol-origin: padding;\n"
+                                                         "    subcontrol-position: top right;\n"
+                                                         "    width: 25px; \n"
+                                                         "    border-left-width: 3px;\n"
+                                                         "    border-left-color: #0C5DB9;\n"
+                                                         "    border-left-style: solid;\n"
+                                                         "    border-top-right-radius: 10px;\n"
+                                                         "    background-color: #0C5DB9;\n"
+                                                         "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
+                                                         "    background-position: center;\n"
+                                                         "    background-repeat: no-reperat;\n"
+                                                         " }\n"
+                                                         "QDoubleSpinBox::down-arrow {\n"
+                                                         "    subcontrol-origin: padding;\n"
+                                                         "    subcontrol-position: top right;\n"
+                                                         "    width: 25px; \n"
+                                                         "    border-left-width: 3px;\n"
+                                                         "    border-left-color: #0C5DB9;\n"
+                                                         "    border-left-style: solid;\n"
+                                                         "    border-bottom-right-radius: 10px;    \n"
+                                                         "    background-color: #0C5DB9;\n"
+                                                         "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                                         "    background-position: center;\n"
+                                                         "    background-repeat: no-reperat;\n"
+                                                         " }\n"
+                                                         "QDoubleSpinBox QAbstractItemView {\n"
+                                                         "    color: rgb(85, 170, 255);    \n"
+                                                         "    background-color: rgb(27, 29, 35);\n"
+                                                         "    padding: 10px;\n"
+                                                         "    selection-background-color: rgb(39, 44, 54);\n"
+                                                         "}")
         self.doubleSpinBox_min_temperature.setAlignment(QtCore.Qt.AlignCenter)
         self.doubleSpinBox_min_temperature.setMinimum(0.0)
         self.doubleSpinBox_min_temperature.setMaximum(40.0)
@@ -3362,48 +3359,48 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.doubleSpinBox_max_temperature.setFont(font)
         self.doubleSpinBox_max_temperature.setStyleSheet("/* DoubleSpinBox */\n"
-"QDoubleSpinBox {\n"
-"    color: #09376B;\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"\n"
-"}\n"
-"QDoubleSpinBox :hover{\n"
-"    border: 2px solid #91D1EE;\n"
-"}\n"
-"QDoubleSpinBox::up-arrow {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 10px;\n"
-"    background-color: #0C5DB9;\n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDoubleSpinBox::down-arrow {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-bottom-right-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QDoubleSpinBox QAbstractItemView {\n"
-"    color: rgb(85, 170, 255);    \n"
-"    background-color: rgb(27, 29, 35);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}")
+                                                         "QDoubleSpinBox {\n"
+                                                         "    color: #09376B;\n"
+                                                         "    background-color: #91D1EE;\n"
+                                                         "    border-radius: 10px;\n"
+                                                         "    border: 2px solid #0C5DB9;\n"
+                                                         "\n"
+                                                         "}\n"
+                                                         "QDoubleSpinBox :hover{\n"
+                                                         "    border: 2px solid #91D1EE;\n"
+                                                         "}\n"
+                                                         "QDoubleSpinBox::up-arrow {\n"
+                                                         "    subcontrol-origin: padding;\n"
+                                                         "    subcontrol-position: top right;\n"
+                                                         "    width: 25px; \n"
+                                                         "    border-left-width: 3px;\n"
+                                                         "    border-left-color: #0C5DB9;\n"
+                                                         "    border-left-style: solid;\n"
+                                                         "    border-top-right-radius: 10px;\n"
+                                                         "    background-color: #0C5DB9;\n"
+                                                         "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-top.png);\n"
+                                                         "    background-position: center;\n"
+                                                         "    background-repeat: no-reperat;\n"
+                                                         " }\n"
+                                                         "QDoubleSpinBox::down-arrow {\n"
+                                                         "    subcontrol-origin: padding;\n"
+                                                         "    subcontrol-position: top right;\n"
+                                                         "    width: 25px; \n"
+                                                         "    border-left-width: 3px;\n"
+                                                         "    border-left-color: #0C5DB9;\n"
+                                                         "    border-left-style: solid;\n"
+                                                         "    border-bottom-right-radius: 10px;    \n"
+                                                         "    background-color: #0C5DB9;\n"
+                                                         "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                                         "    background-position: center;\n"
+                                                         "    background-repeat: no-reperat;\n"
+                                                         " }\n"
+                                                         "QDoubleSpinBox QAbstractItemView {\n"
+                                                         "    color: rgb(85, 170, 255);    \n"
+                                                         "    background-color: rgb(27, 29, 35);\n"
+                                                         "    padding: 10px;\n"
+                                                         "    selection-background-color: rgb(39, 44, 54);\n"
+                                                         "}")
         self.doubleSpinBox_max_temperature.setAlignment(QtCore.Qt.AlignCenter)
         self.doubleSpinBox_max_temperature.setMinimum(0.0)
         self.doubleSpinBox_max_temperature.setMaximum(40.0)
@@ -3436,37 +3433,37 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.comboBox_langs.setFont(font)
         self.comboBox_langs.setStyleSheet("QComboBox{\n"
-"    background-color: #91D1EE;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid #0C5DB9;\n"
-"    color: #09376B;\n"
-"    text-align:center;\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid #0C5DB9;\n"
-"}\n"
-"QComboBox QAbstractItemView {\n"
-"    color: #FFFFFF;\n"
-"    background-color: #0C5DB9;\n"
-"    padding: 10px;\n"
-"    selection-background-color: #91D1EE;\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px;\n"
-"    background-color: #0C5DB9; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: #0C5DB9;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }")
+                                          "    background-color: #91D1EE;\n"
+                                          "    border-radius: 10px;\n"
+                                          "    border: 2px solid #0C5DB9;\n"
+                                          "    color: #09376B;\n"
+                                          "    text-align:center;\n"
+                                          "    padding: 5px;\n"
+                                          "    padding-left: 10px;\n"
+                                          "}\n"
+                                          "QComboBox:hover{\n"
+                                          "    border: 2px solid #0C5DB9;\n"
+                                          "}\n"
+                                          "QComboBox QAbstractItemView {\n"
+                                          "    color: #FFFFFF;\n"
+                                          "    background-color: #0C5DB9;\n"
+                                          "    padding: 10px;\n"
+                                          "    selection-background-color: #91D1EE;\n"
+                                          "}\n"
+                                          "QComboBox::drop-down {\n"
+                                          "    subcontrol-origin: padding;\n"
+                                          "    subcontrol-position: top right;\n"
+                                          "    width: 25px;\n"
+                                          "    background-color: #0C5DB9; \n"
+                                          "    border-left-width: 3px;\n"
+                                          "    border-left-color: #0C5DB9;\n"
+                                          "    border-left-style: solid;\n"
+                                          "    border-top-right-radius: 3px;\n"
+                                          "    border-bottom-right-radius: 3px;    \n"
+                                          "    background-image: url(:/16x16/data/resources/icons/16x16/cil-arrow-bottom.png);\n"
+                                          "    background-position: center;\n"
+                                          "    background-repeat: no-reperat;\n"
+                                          " }")
         self.comboBox_langs.setObjectName("comboBox_langs")
         self.comboBox_langs.addItem("")
         self.comboBox_langs.addItem("")
@@ -3489,19 +3486,286 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.button_apply_setting.setFont(font)
         self.button_apply_setting.setStyleSheet("QPushButton {\n"
-"    border-radius: 10px;    \n"
-"    background-color: #0C5DB9;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #91D1EE;\n"
-"    color: rgb(255, 255, 255, 221);\n"
-"}\n"
-"QPushButton:pressed {    \n"
-"    background-color: #87B9E0;\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                "    border-radius: 10px;    \n"
+                                                "    background-color: #0C5DB9;\n"
+                                                "    color: rgb(255, 255, 255, 221);\n"
+                                                "}\n"
+                                                "QPushButton:hover {\n"
+                                                "    background-color: #91D1EE;\n"
+                                                "    color: rgb(255, 255, 255, 221);\n"
+                                                "}\n"
+                                                "QPushButton:pressed {    \n"
+                                                "    background-color: #87B9E0;\n"
+                                                "    color: rgb(255, 255, 255);\n"
+                                                "}")
         self.button_apply_setting.setObjectName("button_apply_setting")
+        self.lineEdit_password = QtWidgets.QLineEdit(self.page_settings)
+        self.lineEdit_password.setGeometry(QtCore.QRect(160, 270, 450, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_password.setFont(font)
+        self.lineEdit_password.setStyleSheet("QLineEdit {\n"
+                                             "    background-color: #91D1EE;\n"
+                                             "    color: #09376B;\n"
+                                             "    border-radius: 10px;\n"
+                                             "    padding-left: 10px;\n"
+                                             "}\n"
+                                             "QLineEdit:hover {\n"
+                                             "    border: 2px solid #0C5DB9;\n"
+                                             "}\n"
+                                             "QLineEdit:focus {\n"
+                                             "    border: 2px solid #0C5DB9;\n"
+                                             "}")
+        self.lineEdit_password.setInputMask("")
+        self.lineEdit_password.setText("")
+        self.lineEdit_password.setMaxLength(32767)
+        self.lineEdit_password.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
+        self.lineEdit_password.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_password.setObjectName("lineEdit_password")
+        self.label_password = QtWidgets.QLabel(self.page_settings)
+        self.label_password.setGeometry(QtCore.QRect(20, 270, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_password.setFont(font)
+        self.label_password.setStyleSheet("color: #09376B;")
+        self.label_password.setObjectName("label_password")
+        self.label_sender = QtWidgets.QLabel(self.page_settings)
+        self.label_sender.setGeometry(QtCore.QRect(20, 190, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_sender.setFont(font)
+        self.label_sender.setStyleSheet("color: #09376B;")
+        self.label_sender.setObjectName("label_sender")
+        self.lineEdit_sender = QtWidgets.QLineEdit(self.page_settings)
+        self.lineEdit_sender.setGeometry(QtCore.QRect(160, 190, 450, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_sender.setFont(font)
+        self.lineEdit_sender.setStyleSheet("QLineEdit {\n"
+                                           "    background-color: #91D1EE;\n"
+                                           "    color: #09376B;\n"
+                                           "    border-radius: 10px;\n"
+                                           "    padding-left: 10px;\n"
+                                           "}\n"
+                                           "QLineEdit:hover {\n"
+                                           "    border: 2px solid #0C5DB9;\n"
+                                           "}\n"
+                                           "QLineEdit:focus {\n"
+                                           "    border: 2px solid #0C5DB9;\n"
+                                           "}")
+        self.lineEdit_sender.setInputMask("")
+        self.lineEdit_sender.setMaxLength(32)
+        self.lineEdit_sender.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_sender.setObjectName("lineEdit_sender")
+        self.label_receiver = QtWidgets.QLabel(self.page_settings)
+        self.label_receiver.setGeometry(QtCore.QRect(20, 390, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_receiver.setFont(font)
+        self.label_receiver.setStyleSheet("color: #09376B;")
+        self.label_receiver.setObjectName("label_receiver")
+        self.lineEdit_receiver = QtWidgets.QLineEdit(self.page_settings)
+        self.lineEdit_receiver.setGeometry(QtCore.QRect(160, 390, 450, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_receiver.setFont(font)
+        self.lineEdit_receiver.setStyleSheet("QLineEdit {\n"
+                                             "    background-color: #91D1EE;\n"
+                                             "    color: #09376B;\n"
+                                             "    border-radius: 10px;\n"
+                                             "    padding-left: 10px;\n"
+                                             "}\n"
+                                             "QLineEdit:hover {\n"
+                                             "    border: 2px solid #0C5DB9;\n"
+                                             "}\n"
+                                             "QLineEdit:focus {\n"
+                                             "    border: 2px solid #0C5DB9;\n"
+                                             "}")
+        self.lineEdit_receiver.setInputMask("")
+        self.lineEdit_receiver.setMaxLength(32)
+        self.lineEdit_receiver.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_receiver.setObjectName("lineEdit_receiver")
+        self.label_port = QtWidgets.QLabel(self.page_settings)
+        self.label_port.setGeometry(QtCore.QRect(20, 310, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        self.label_port.setFont(font)
+        self.label_port.setStyleSheet("color: #09376B;")
+        self.label_port.setObjectName("label_port")
+        self.lineEdit_port = QtWidgets.QLineEdit(self.page_settings)
+        self.lineEdit_port.setGeometry(QtCore.QRect(160, 310, 70, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_port.setFont(font)
+        self.lineEdit_port.setStyleSheet("QLineEdit {\n"
+                                         "    background-color: #91D1EE;\n"
+                                         "    color: #09376B;\n"
+                                         "    border-radius: 10px;\n"
+                                         "    padding-left: 10px;\n"
+                                         "}\n"
+                                         "QLineEdit:hover {\n"
+                                         "    border: 2px solid #0C5DB9;\n"
+                                         "}\n"
+                                         "QLineEdit:focus {\n"
+                                         "    border: 2px solid #0C5DB9;\n"
+                                         "}")
+        self.lineEdit_port.setInputMask("")
+        self.lineEdit_port.setMaxLength(5)
+        self.lineEdit_port.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_port.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_port.setObjectName("lineEdit_port")
+        self.label_server = QtWidgets.QLabel(self.page_settings)
+        self.label_server.setGeometry(QtCore.QRect(20, 150, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_server.setFont(font)
+        self.label_server.setStyleSheet("color: #09376B;")
+        self.label_server.setObjectName("label_server")
+        self.lineEdit_server = QtWidgets.QLineEdit(self.page_settings)
+        self.lineEdit_server.setGeometry(QtCore.QRect(160, 150, 450, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_server.setFont(font)
+        self.lineEdit_server.setStyleSheet("QLineEdit {\n"
+                                           "    background-color: #91D1EE;\n"
+                                           "    color: #09376B;\n"
+                                           "    border-radius: 10px;\n"
+                                           "    padding-left: 10px;\n"
+                                           "}\n"
+                                           "QLineEdit:hover {\n"
+                                           "    border: 2px solid #0C5DB9;\n"
+                                           "}\n"
+                                           "QLineEdit:focus {\n"
+                                           "    border: 2px solid #0C5DB9;\n"
+                                           "}")
+        self.lineEdit_server.setInputMask("")
+        self.lineEdit_server.setMaxLength(32)
+        self.lineEdit_server.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_server.setObjectName("lineEdit_server")
+        self.label_ehlo = QtWidgets.QLabel(self.page_settings)
+        self.label_ehlo.setGeometry(QtCore.QRect(20, 430, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_ehlo.setFont(font)
+        self.label_ehlo.setStyleSheet("color: #09376B;")
+        self.label_ehlo.setObjectName("label_ehlo")
+        self.label_tls = QtWidgets.QLabel(self.page_settings)
+        self.label_tls.setGeometry(QtCore.QRect(20, 470, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_tls.setFont(font)
+        self.label_tls.setStyleSheet("color: #09376B;")
+        self.label_tls.setObjectName("label_tls")
+        self.label_ssl = QtWidgets.QLabel(self.page_settings)
+        self.label_ssl.setGeometry(QtCore.QRect(20, 510, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_ssl.setFont(font)
+        self.label_ssl.setStyleSheet("color: #09376B;")
+        self.label_ssl.setObjectName("label_ssl")
+        self.label_subject = QtWidgets.QLabel(self.page_settings)
+        self.label_subject.setGeometry(QtCore.QRect(20, 350, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_subject.setFont(font)
+        self.label_subject.setStyleSheet("color: #09376B;")
+        self.label_subject.setObjectName("label_subject")
+        self.lineEdit_subject = QtWidgets.QLineEdit(self.page_settings)
+        self.lineEdit_subject.setGeometry(QtCore.QRect(160, 350, 450, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_subject.setFont(font)
+        self.lineEdit_subject.setStyleSheet("QLineEdit {\n"
+                                            "    background-color: #91D1EE;\n"
+                                            "    color: #09376B;\n"
+                                            "    border-radius: 10px;\n"
+                                            "    padding-left: 10px;\n"
+                                            "}\n"
+                                            "QLineEdit:hover {\n"
+                                            "    border: 2px solid #0C5DB9;\n"
+                                            "}\n"
+                                            "QLineEdit:focus {\n"
+                                            "    border: 2px solid #0C5DB9;\n"
+                                            "}")
+        self.lineEdit_subject.setInputMask("")
+        self.lineEdit_subject.setMaxLength(32)
+        self.lineEdit_subject.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_subject.setObjectName("lineEdit_subject")
+        self.label_login = QtWidgets.QLabel(self.page_settings)
+        self.label_login.setGeometry(QtCore.QRect(20, 230, 120, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_login.setFont(font)
+        self.label_login.setStyleSheet("color: #09376B;")
+        self.label_login.setObjectName("label_login")
+        self.lineEdit_login = QtWidgets.QLineEdit(self.page_settings)
+        self.lineEdit_login.setGeometry(QtCore.QRect(160, 230, 450, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lineEdit_login.setFont(font)
+        self.lineEdit_login.setStyleSheet("QLineEdit {\n"
+                                          "    background-color: #91D1EE;\n"
+                                          "    color: #09376B;\n"
+                                          "    border-radius: 10px;\n"
+                                          "    padding-left: 10px;\n"
+                                          "}\n"
+                                          "QLineEdit:hover {\n"
+                                          "    border: 2px solid #0C5DB9;\n"
+                                          "}\n"
+                                          "QLineEdit:focus {\n"
+                                          "    border: 2px solid #0C5DB9;\n"
+                                          "}")
+        self.lineEdit_login.setInputMask("")
+        self.lineEdit_login.setMaxLength(32)
+        self.lineEdit_login.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_login.setObjectName("lineEdit_login")
         self.stackedWidget.addWidget(self.page_settings)
         self.verticalLayout_2.addWidget(self.stackedWidget)
         self.frame_statusbar = QtWidgets.QFrame(self.frame_contains)
@@ -3521,15 +3785,15 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.progressBar.setFont(font)
         self.progressBar.setStyleSheet("QProgressBar\n"
-"{\n"
-"    border-radius: 15px;\n"
-"    color: #FFFFFF;\n"
-"    text-align: center;\n"
-"}\n"
-"QProgressBar::chunk \n"
-"{\n"
-"    background-color: #87B9E0;\n"
-"}    ")
+                                       "{\n"
+                                       "    border-radius: 15px;\n"
+                                       "    color: #FFFFFF;\n"
+                                       "    text-align: center;\n"
+                                       "}\n"
+                                       "QProgressBar::chunk \n"
+                                       "{\n"
+                                       "    background-color: #87B9E0;\n"
+                                       "}    ")
         self.progressBar.setProperty("value", 50)
         self.progressBar.setObjectName("progressBar")
         self.horizontalLayout_4.addWidget(self.progressBar)
@@ -3549,7 +3813,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(4)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -3580,9 +3844,7 @@ class Ui_MainWindow(object):
         item = self.table_control.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "Схожесть"))
         self.label_alarm_temperature.setText(_translate("MainWindow", "Температура тревоги"))
-        self.lineEdit_email.setText(_translate("MainWindow", "alexburov99@gmail.com"))
         self.label_notice.setText(_translate("MainWindow", "Уведомление"))
-        self.label_email.setText(_translate("MainWindow", "Почта"))
         item = self.table_devices.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Состояние"))
         item = self.table_devices.horizontalHeaderItem(2)
@@ -3628,7 +3890,7 @@ class Ui_MainWindow(object):
         self.label_strangers_passage.setText(_translate("MainWindow", "Проход незнакомцев"))
         self.label_save_face.setText(_translate("MainWindow", "Сохранять фото"))
         self.label_record_time.setText(_translate("MainWindow", "Время хранения записи\n"
-"в часах (-1 - безлимитное)"))
+                                                                "в часах (-1 - безлимитное)"))
         self.button_add_devices.setText(_translate("MainWindow", "Добавить"))
         self.lineEdit_ip_new_deivce.setInputMask(_translate("MainWindow", "999.999.999.999"))
         self.lineEdit_ip_new_deivce.setText(_translate("MainWindow", "..."))
@@ -3702,7 +3964,8 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Пол"))
         item = self.table_device_profiles.horizontalHeaderItem(8)
         item.setText(_translate("MainWindow", "Доп. информация"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_device_database), _translate("MainWindow", "БД Устройства"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_device_database),
+                                  _translate("MainWindow", "БД Устройства"))
         self.dateTimeEdit_start.setDisplayFormat(_translate("MainWindow", "yyyy-MM-dd HH:mm"))
         self.dateTimeEdit_end.setDisplayFormat(_translate("MainWindow", "yyyy-MM-dd HH:mm"))
         self.label_start_time.setText(_translate("MainWindow", "От"))
@@ -3731,12 +3994,31 @@ class Ui_MainWindow(object):
         self.comboBox_langs.setItemText(1, _translate("MainWindow", "English"))
         self.label_lang.setText(_translate("MainWindow", "Язык"))
         self.button_apply_setting.setText(_translate("MainWindow", "Применить"))
+        self.label_password.setText(_translate("MainWindow", "Пароль"))
+        self.label_sender.setText(_translate("MainWindow", "Отправитель"))
+        self.lineEdit_sender.setText(_translate("MainWindow", "alexburov99@yandex.by"))
+        self.label_receiver.setText(_translate("MainWindow", "Получатель"))
+        self.lineEdit_receiver.setText(_translate("MainWindow", "metallica010499@gmail.com"))
+        self.label_port.setText(_translate("MainWindow", "Порт"))
+        self.lineEdit_port.setText(_translate("MainWindow", "587"))
+        self.lineEdit_port.setPlaceholderText(_translate("MainWindow", "7080"))
+        self.label_server.setText(_translate("MainWindow", "SMTP-сервер"))
+        self.lineEdit_server.setText(_translate("MainWindow", "smtp.yandex.ru"))
+        self.label_ehlo.setText(_translate("MainWindow", "EHLO"))
+        self.label_tls.setText(_translate("MainWindow", "TLS"))
+        self.label_ssl.setText(_translate("MainWindow", "SSL"))
+        self.label_subject.setText(_translate("MainWindow", "Тема"))
+        self.lineEdit_subject.setText(_translate("MainWindow", "S02T"))
+        self.label_login.setText(_translate("MainWindow", "Логин"))
+        self.lineEdit_login.setText(_translate("MainWindow", "alexburov99"))
         self.label_statusbar.setText(_translate("MainWindow", "MetallicAlex"))
-import files_rc
 
+
+import files_rc
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

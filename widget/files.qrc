@@ -446,4 +446,7 @@
     <file>data/resources/fonts/Roboto-Thin.ttf</file>
     <file>data/resources/fonts/Roboto-ThinItalic.ttf</file>
   </qresource>
+  <qresource prefix="icon">
+    <file>data/resources/icons/byAlex.ico</file>
+  </qresource>
 </RCC>
