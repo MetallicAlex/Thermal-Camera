@@ -1652,7 +1652,9 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_pie_number_person_all_time.setToolTip(
             f'<br><img src="{self.app_path}/{self.setting.paths["temp"]}/pie_all_time.png"'
         )
-        if self.toggle_notice.isChecked() and self.config is not None:
+        if self.toggle_notice.isChecked()\
+                and self.config is not None\
+                and float(statistic.temperature) >= self.doubleSpinBox_alarm_temperature.value():
             if statistic.id_profile:
                 user = f'{self.setting.lang["profile"]}:' \
                        f' {self.database_management.get_profile_name(statistic.id_profile)}'
