@@ -365,6 +365,7 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
                 )
                 pixmap.save(f'{self.app_path}/{self.setting.paths["nginx"]}/html{image}', 'jpg')
             profile = models.Profile()
+            profile.visitor = self.toggle_visitor.isChecked()
             profile.name = profile_name
             profile.gender = gender
             if personnel_number:
@@ -545,8 +546,8 @@ class MainForm(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def _button_export_profiles_data(self, event):
         filename, _ = QFileDialog.getSaveFileName(self, self.setting.lang['dialog']['export_profiles_data'], '',
-                                                  'JSON File (*.json);'
-                                                  'CSV File (*.csv);'
+                                                  'JSON File (*.json);;'
+                                                  'CSV File (*.csv)'
                                                   )
         if filename:
             self.database_management.export_profiles_data(filename)

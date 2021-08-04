@@ -1001,6 +1001,7 @@ class DeviceManagement:
             request = requests.get(f'http://{device_ip}:{port}/ini.htm',
                                    headers={'Authorization': f'Basic YWRtaW46{password}'})
             if request.status_code == 200:
+                model = None
                 for information in request.text.split('<br>'):
                     information = information.split('=')
                     if information[0] == 'getdeviceserial':
